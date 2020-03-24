@@ -70,9 +70,9 @@
         +
 ### PERFORM ACTION:
 #### makeBooking
-- **Description:** make a booking by a given userId, city, sportCenterId, courtId, date, startTime, endTime
+- **Description:** make a booking by a given userId, sportCenterId, courtId, date, startTime, endTime
 - **Security/Caller:** userId
-- **Request:** makeBooking(userId, city, sportCenterId, courtId, date, startTime, endTime)
+- **Request:** makeBooking(userId, sportCenterId, courtId, date, startTime, endTime)
 - **Response:**
     + **Success:**
         + SuccessCode
@@ -88,9 +88,9 @@
     + **Error:**
         +
 #### changeBookingState
-- **Description:** change a booking state by a given bookingId and sportCenterId
+- **Description:** change a booking state by a given bookingId, sportCenterId, and newState
 - **Security/Caller:** sportCenterId
-- **Request:** changeBookingState(bookingId, sportCenterId)
+- **Request:** changeBookingState(bookingId, sportCenterId, newState)
 - **Response:**
     + **Success:**
         + SuccessCode
