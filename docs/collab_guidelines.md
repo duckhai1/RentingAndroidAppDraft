@@ -1,6 +1,9 @@
 # Collaboration guidelines
 
+
 ## Folder structure
+
+*Files and folders name should follow cammelCase convention for clarity and consistent*
 
 + `docs` contains all the general documentations for the entire project
 + `exercices` contains solutions for each day
