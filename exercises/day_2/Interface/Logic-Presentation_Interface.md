@@ -6,8 +6,8 @@
  
 ### GET INFORMATION:
 - getUserInfo(userId): display all user info (id, first/last name, phonenum, birthday, ...)
-- getSportCenterInfo(sportCenterId) : display all sport center info (id, name, phonenum, ...)
-- getUserBooking(userId): get all bookings of the user
+- getSportCenterInfo(sportCenterId): display all sport center info (id, name, phonenum, ...)
+- getUserBooking(userId): get all booking of the user
 - getSportCenterBooking(sportCenterId, date): get all booking of a given sport center for that day
 - getAllAvailableSlot(date, city): get all slot available for a given date, city
 
