@@ -1,3 +1,8 @@
+#### Agreement Presentation-Logic
+- Every cityId, sportCenterId, courtId, bookingId is unique globally
+- Each booking will have 4 statusId code: Pending(0), Confirmed(1), Unpaid(2), Paid(3) 
+- Every list or array will be ordered in either Alphabetical order or Numerical order. Booking list will be ordered by time order of startTime
+
 ## LOGIC-PRESENTATION INTERFACES
 ### LOGIN-LOGOUT:
 #### login
