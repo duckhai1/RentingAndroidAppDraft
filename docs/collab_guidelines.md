@@ -22,4 +22,5 @@ The `master` branch will contain all the latest tested and deployable code; to m
 + **Pull requests (PRs)** should be reviewed by [@letung3105](https://github.com/letung3105) and [@duckhai1](https://github.com/duckhai1)
 + The branch for each new changes should contains the **unique identifier of the backlog/todo items** containing the reasons for those changes
 
-## Testing (TODO)
+## Testing
+(TODO)
