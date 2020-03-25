@@ -1,6 +1,6 @@
 #### Agreement Presentation-Logic
 - Every cityId, sportCenterId, courtId, bookingId is unique globally
-- Each booking will have 4 statusId code: Pending(0), Confirmed(1), Unpaid(2), Paid(3) 
+- Each booking will have 4 state code: Pending(0), Confirmed(1), Unpaid(2), Paid(3) 
 - Every list or array will be ordered in either Alphabetical order or Numerical order. Booking list will be ordered by time order of startTime
 
 ## LOGIC-PRESENTATION INTERFACES
@@ -16,8 +16,8 @@
         + errorCode(-1)
         
 ### logout
-- **Description:** logout by a given userId
-- **Security/Caller:** userId
+- **Description:** logout by a given userId or staffId
+- **Security/Caller:** userId/ staffId
 - **Request:** logout(userId)
 - **Response:**
     + **Success:**
@@ -28,12 +28,12 @@
 ### DISPLAY INFORMATION:
 #### getCityList:
 - **Description**: get all city name and ID
-- **Caller**: callerId
+- **Caller**: userId
 - **Request**: getCityList()
 - **Response**: 
     + **Success**: 
         + SuccessCode(0)
-        + array of City, where City is a array of (cityId, cityName)
+        + City array (where Cit structure contains these attributes: (cityId, cityName)
     + **Error**: 
         + errorCode(-1)
     
@@ -46,20 +46,9 @@
         + SuccessCode(0)
         + slotArray (where Slot structure contains these attributes: sportCenterId, courtId, startTime, endTime)
     + **Error:** 
-        + errorCode(-1)
+        + errorCode(-1)        
         
 #### getUserBooking
-- **Description:** get all booking of the user by a given userId and date
-- **Security/Caller:** userId
-- **Request:** getUserBooking(userId, date)
-- **Response:**
-    + **Success:** 
-        + SuccessCode(0)
-        + userBookingArray (where userBooking structure contains these attributes: bookingId, courtId, startTime, endTime, statusId)
-    + **Error:**
-        + errorCode(-1)
-        
-#### getUserBookingInCity
 - **Description:** get all booking of the user by a given userId in particular cityId and date
 - **Security/Caller:** userId
 - **Request:** getUserBookingInCity(userId, cityId, date)
@@ -72,7 +61,7 @@
         
 #### getSportCenterBooking
 - **Description:** get all booking in the sportCenter by a given sportCenterId and date
-- **Security/Caller:** userId
+- **Security/Caller:** staffId
 - **Request:** getSportCenterBooking(sportCenterId, date)
 - **Response:**
     + **Success:**
@@ -94,7 +83,7 @@
         
 #### getSportCenterInfo
 - **Description:** get all information of the sportCenter by a given sportCenterId
-- **Security/Caller:** userId
+- **Security/Caller:** staffId
 - **Request:** getSportCenterInfo(sportCenterId)
 - **Response:**
     + **Success:**
@@ -110,7 +99,7 @@
 - **Response**: 
     + **Success**: 
         + SuccessCode(0)
-        + array of (startTime, endTime, bookingUser, statusId)
+        + booking (where booking structure contains these attributes userId, sportCenterId, courtId, date startTime, endTime, statusId)
     - **Error**: 
         + errorCode(-1)
 
@@ -137,7 +126,7 @@
         
 #### changeBookingState
 - **Description:** change a booking state by a given bookingId
-- **Security/Caller:** userId
+- **Security/Caller:** staffId
 - **Request:** changeBookingState(bookingId, statusId)
 - **Response:**
     + **Success:**
@@ -146,20 +135,19 @@
         + errorCode(-1)
         
 ### MODIFY INFORMATION:
-#### updateUserInfo
+#### updateUserInfo (updateFirstName, updateLastName, updateBirthday, updatePhoneNumber)
 - **Description:** update information of a user base on the corresponding parameter and a given userId
 - **Security/Caller:** userId
-- **Request:** updateUserInfo(userId, firstName/ lastName/ birthday/ phoneNumber)
+- **Request:** updateFirstName(userId, firstName)/ updateLastName(userId, lastName)/ updateBirthday(userId, birthday)/ updatePhoneNum(userId, phoneNum)
 - **Response:**
     + **Success:**
         + SuccessCode(0)
     + **Error:**
         + errorCode(-1)
-        
-#### updateSportCenterInfo
+#### updateSportCenterInfo (updateName, updateCity, updatePhoneNumber)
 - **Description:** update information of a sport center base on the corresponding parameter and a given sportCenterId
-- **Security/Caller:** userId
-- **Request:** updateSportCenterInfo(SportCenterId, name/ city/ phoneNumber/ courtIdArray)
+- **Security/Caller:** staffId
+- **Request:** updateName(sportCenterId, name)/ updateCity(sportCenterId, city)/ updatePhoneNumber(sportCenterId, phoneNum)
 - **Response:**
     + **Success:**
         + SuccessCode(0)
@@ -169,7 +157,7 @@
 ### FURTHER UPDATE / ADDITIONAL FEATURES:
 #### contact
 - **Description:** contact a sportCenter/user by a given senderId, receiverId and a message
-- **Security/Caller:** userId
+- **Security/Caller:** userId/ staffId
 - **Request:** contact(sportCenterId / userId (**senderId**), msg, sportCenterId / userId (**reveiverId**))
 - **Response:**
     + **Success:**
@@ -179,7 +167,7 @@
         
 #### report
 - **Description:** report a user or a sportCenter by a given reporterId and reporteeId and a message
-- **Security/Caller:** userId
+- **Security/Caller:** userId/ staffId
 - **Request:** report(sportCenterId / userId (**reporterId**), msg, sportCenterId / userId (**reporteeId**))
 - **Response:**
     + **Success:**

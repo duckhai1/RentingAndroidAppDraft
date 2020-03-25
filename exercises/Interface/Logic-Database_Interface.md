@@ -1,3 +1,8 @@
+#### Agreement Presentation-Database
+- Every cityId, sportCenterId, courtId, bookingId is unique globally
+- Each booking will have 4 state code: Pending(0), Confirmed(1), Unpaid(2), Paid(3) 
+- Every list or array will be ordered in either Alphabetical order or Numerical order. Booking list will be ordered by time order of startTime
+
 ## LOGIC-DATABASE INTERFACES
 ### LOGIN-LOGOUT:
 #### login
@@ -12,8 +17,8 @@
         
 #### logout
 - **Description:** User logout from a server
-- **Security/Caller:** userId
-- **Request:** logout(userId)
+- **Security/Caller:** userId/ staffId
+- **Request:** logout(userId/staffId)
 - **Response:**
     + **Success:**
         + SuccessCode(0)
@@ -45,8 +50,8 @@
          
 #### getSportCenterBooking
 - **Description:** request database for all booking of a sportCenter by a given date
-- **Security/Caller:** userId
-- **Request:** getSportCenterBooking(sportCenterId, date)
+- **Security/Caller:** staffId
+- **Request:** getSportCenterBooking(staffId, date)
 - **Response:**
     + **Success:**
         + SuccessCode(0)
@@ -66,8 +71,8 @@
         + errorCode(-1)
         
 #### getSportCenterInfo
-- **Description:** request database for all information of sportCenter by a given sportCetnterId
-- **Security/Caller:** userId
+- **Description:** request database for all information of sportCenter by a given sportCenterId
+- **Security/Caller:** staffId
 - **Request:** getSportCenterInfo(sportCenterId)
 - **Response:**
     + **Success:**
@@ -98,9 +103,9 @@
         + errorCode(-1)
         
 #### changeBookingState
-- **Description:** update to database a new booking state by a given bookingId and sportCenterId
-- **Security/Caller:** userId
-- **Request:** changeBookingState(bookingId, sportCenterId, statusId)
+- **Description:** update to database a new booking state by a given bookingId and a state
+- **Security/Caller:** staffId
+- **Request:** changeBookingState(bookingId, state)
 - **Response:**
     + **Success:**
         + SuccessCode(0)
@@ -108,20 +113,20 @@
         + errorCode(-1)
         
 ### MODIFY INFORMATION
-#### updateUserInfo
+#### updateUserInfo (updateFirstName, updateLastName, updateBirthday, updatePhoneNumber)
 - **Description:** update to database a new piece information base on the corresponding parameter and userId
 - **Security/Caller:** userId
-- **Request:** updateUserInfo(userId, firstName/ lastName/ birthday/ phoneNumber)
+- **Request:** updateFirstName(userId, firstName)/ updateLastName(userId, lastName)/ updateBirthday(userId, birthday)/ updatePhoneNum(userId, phoneNum)
 - **Response:**
     + **Success:**
         + SuccessCode(0)
     + **Error:**
         + errorCode(-1)
-        
-#### updateSportCenterInfo
+
+#### updateSportCenterInfo (updateName, updateCity, updatePhoneNumber)
 - **Description:** update to database a new piece information base on the corresponding parameter and sportCenterId
-- **Security/Caller:** userId
-- **Request:** updateSportCenterInfo(SportCenterId, address, name/ city/ phoneNumber)
+- **Security/Caller:** staffId
+- **Request:** updateName(sportCenterId, name)/ updateCity(sportCenterId, city)/ updatePhoneNumber(sportCenterId, phoneNum)
 - **Response:**
     + **Success:**
         + SuccessCode(0)
@@ -131,7 +136,7 @@
 ### FURTHER UPDATE / ADDITIONAL FEATURES:
 #### contact
 - **Description:** update to database a new message by a given senderId, receiverId and a message
-- **Security/Caller:** userId
+- **Security/Caller:** userId/staffId
 - **Request:** contact(sportCenterId / userId (**senderId**), msg, sportCenterId / userId (**reveiverId**))
 - **Response:**
     + **Success:**
@@ -141,7 +146,7 @@
         
 #### report
 - **Description:** update to database a new report by a given reporterId and reporteeId and a message
-- **Security/Caller:** userId
+- **Security/Caller:** userId/staffId
 - **Request:** report(sportCenterId / userId (**reporterId**), msg, sportCenterId / userId (**reporteeId**))
 - **Response:**
     + **Success:**
