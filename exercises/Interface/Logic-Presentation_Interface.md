@@ -1,6 +1,10 @@
 #### Agreement Presentation-Logic
 - Every cityId, sportCenterId, courtId, bookingId is unique globally
-- Each booking will have 4 state code: Pending(0), Confirmed(1), Unpaid(2), Paid(3) 
+- Each booking will have 4 state code: 
+    - Upcoming(0): upcoming booking 
+    - Unpaid(1): Passed booking but unpaid
+    - Paid(2): Paid booking
+    - Cancelled(3): Cancelled booking
 - Every list or array will be ordered in either Alphabetical order or Numerical order. Booking list will be ordered by time order of startTime
 
 ## LOGIC-PRESENTATION INTERFACES
@@ -8,7 +12,7 @@
 #### login
 - **Description:** login by a given userName and password
 - **Security/Caller:** anonymous
-- **Request:** login(userName, password)
+- **Request:** loginStaff(staffName, password) / loginUser(userName, password)
 - **Response:**
     + **Success:**
         + SuccessCode(0)
@@ -55,7 +59,7 @@
 - **Response:**
     + **Success:** 
         + SuccessCode(0)
-        + userBookingArray (where userBooking structure contains these attributes: bookingId, courtId, startTime, endTime, statusId)
+        + userBookingArray (where userBooking structure contains these attributes: bookingId, courtId, startTime, endTime, state)
     + **Error:**
         + errorCode(-1)    
         
@@ -66,7 +70,7 @@
 - **Response:**
     + **Success:**
         + SuccessCode(0)
-        + sportCenterBookingArray (where sportCenterBooking structure contains these attributes: bookingId, userId, courtId, date, startTime, endTime, statusId)
+        + sportCenterBookingArray (where sportCenterBooking structure contains these attributes: bookingId, userId, courtId, date, startTime, endTime, state)
     + **Error:**
         + errorCode(-1)
 
@@ -99,7 +103,7 @@
 - **Response**: 
     + **Success**: 
         + SuccessCode(0)
-        + booking (where booking structure contains these attributes userId, sportCenterId, courtId, date startTime, endTime, statusId)
+        + booking (where booking structure contains these attributes userId, sportCenterId, courtId, date startTime, endTime, state)
     - **Error**: 
         + errorCode(-1)
 
@@ -127,7 +131,7 @@
 #### changeBookingState
 - **Description:** change a booking state by a given bookingId
 - **Security/Caller:** staffId
-- **Request:** changeBookingState(bookingId, statusId)
+- **Request:** changeBookingState(bookingId, state)
 - **Response:**
     + **Success:**
         + SuccessCode(0)

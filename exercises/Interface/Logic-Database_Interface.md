@@ -1,6 +1,9 @@
 #### Agreement Presentation-Database
 - Every cityId, sportCenterId, courtId, bookingId is unique globally
-- Each booking will have 4 state code: Pending(0), Confirmed(1), Unpaid(2), Paid(3) 
+- Each booking will have 3 state code: 
+    - Pending(0): Already Booking but unpaid
+    - Paid(1): Paid booking
+    - Cancelled(2): Cancelled booking
 - Every list or array will be ordered in either Alphabetical order or Numerical order. Booking list will be ordered by time order of startTime
 
 ## LOGIC-DATABASE INTERFACES
@@ -8,7 +11,7 @@
 #### login
 - **Description:** request database for a given userName and hashed password, check whether it is correct or not
 - **Security/Caller:** anonymous
-- **Request:** login(userName, password)
+- **Request:** loginStaff(staffName, password) / loginUser(userName, password)
 - **Response:** 
     + **Success:**
         + SuccessCode(0)
