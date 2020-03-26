@@ -13,9 +13,9 @@ Notes
 - **Request:** loginUser(username, password)
 - **Response:**
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
     + *Error:*
-        + errorCode(-1)
+        + errorCode
 - **Tests:**
 	+ **`testLoginUser`**: test if the user is authenticated under expected preconditions
 		+ _Preconditions_:
@@ -51,9 +51,9 @@ Notes
 - **Request:** logoutUser(userId)
 - **Response:**
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
     + *Error:*
-        + errorCode(-1)
+        + errorCode
 - **Tests:**
 	+ **`testLogoutUser`**: test if the user is unauthenticated under expected preconditions
 		+ _Preconditions_:
@@ -83,9 +83,9 @@ Notes
 - **Request:** loginStaff(username, password)
 - **Response:**
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
     + *Error:*
-        + errorCode(-1)
+        + errorCode
 - **Tests:**
 	+ **`testLoginStaff`**: test if the staff is authenticated under expected preconditions
 		+ _Preconditions_:
@@ -121,9 +121,9 @@ Notes
 - **Request:** logoutStaff(staffId)
 - **Response:**
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
     + *Error:*
-        + errorCode(-1)
+        + errorCode
 - **Tests:**
 	+ **`testLogoutStaff`**: test if the staff is unauthenticated under expected preconditions
 		+ _Preconditions_:
@@ -153,10 +153,10 @@ Notes
 - **Request**: getCityList()
 - **Response**:
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
         + City array (where City structure contains these attributes: (cityId, cityName)
     + *Error:*
-        + errorCode(-1)
+        + errorCode
 - **Tests:**
 	+ **`testGetCityList`**: test if data in the response is valid under expected preconditions
         + _Preconditions_:
@@ -178,10 +178,10 @@ Notes
 - **Request:** getAvailableSlots(date, cityId)
 - **Response:**
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
         + slotArray (where Slot structure contains these attributes: sportCenterId, courtId, startTime, endTime)
     + *Error:*
-        + errorCode(-1)
+        + errorCode
 - **Tests:**
 	+ **`testGetAvailableSlots`**: test if data in the response is valid under expected preconditions
         + _Preconditions_:
@@ -218,10 +218,10 @@ Notes
 - **Request:** getUserBookingInCity(userId, cityId, date)
 - **Response:**
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
         + userBookingArray (where userBooking structure contains these attributes: bookingId, courtId, startTime, endTime, state)
     + *Error:*
-        + errorCode(-1)
+        + errorCode
 - **Tests:**
 	+ **`testGetUserBooking`**: test if data in the response is valid under expected preconditions
         + _Preconditions_:
@@ -263,10 +263,10 @@ Notes
 - **Request:** getSportCenterBooking(sportCenterId, date)
 - **Response:**
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
         + sportCenterBookingArray (where sportCenterBooking structure contains these attributes: bookingId, userId, courtId, date, startTime, endTime, state)
     + *Error:*
-        + errorCode(-1)
+        + errorCode
 - **Tests:**
     + **`testGetSportCenterBooking`**: test if data in the response is valid under expected preconditions
         + _Preconditions_:
@@ -302,10 +302,10 @@ Notes
 - **Request:** getUserInfo(userId)
 - **Response:**
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
         + userInfo (where userInfo structure contains these attributes: firstName, lastName, dateOfBirth, phoneNum)
     + *Error:*
-        + errorCode(-1)
+        + errorCode
 - **Tests:**
 	+ **`testGetUserInfo`**: test if data in the response is valid under expected preconditions
         + _Preconditions_:
@@ -334,10 +334,10 @@ Notes
 - **Request:** getSportCenterInfo(sportCenterId)
 - **Response:**
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
         + sportCenterInfo (where sportCenterInfo structure contains these attributes: name, city, address, phoneNum, courtIdArray)
     + *Error:*
-        + errorCode(-1)
+        + errorCode
 - **Tests:**
 	+ **`testGetSportCenterInfo`**: test if data in the response is valid under expected preconditions
         + _Preconditions_:
@@ -366,10 +366,10 @@ Notes
 - **Request**: getBookingInfo(bookingId)
 - **Response**:
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
         + booking (where booking structure contains these attributes userId, sportCenterId, courtId, date startTime, endTime, state)
     - *Error:*
-        + errorCode(-1)
+        + errorCode
 - **Tests:**
 	+ **`testGetBookingInfo`**: test if the data in the the response is valid under expected preconditions
         + _Preconditions_:
@@ -398,9 +398,9 @@ Notes
 - **Request:** makeBooking(userId, courtId, date, startTime, endTime)
 - **Response:**
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
     + *Error:*
-        + errorCode(-1)
+        + errorCode
 - **Tests:**
 	+ **`testMakeBooking`**: test if the booking is made under expected preconditions
 		+ _Preconditions_:
@@ -497,9 +497,9 @@ Notes
 - **Request:** cancelBooking(bookingId)
 - **Response:**
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
     + *Error:*
-        + errorCode(-1)
+        + errorCode
 - **Tests:**
     + **`testCancelBooking`**: test if the cancellation is accepted under expected preconditions
         + _Preconditions_:
@@ -542,9 +542,9 @@ Notes
 - **Request:** changeBookingState(bookingId, state)
 - **Response:**
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
     + *Error:*
-        + errorCode(-1)
+        + errorCode
 + **Tests:**
     + **`testChangeBookingState`**: test if the booking state in the database is changed under expected preconditions
         + _Preconditions_:
@@ -581,9 +581,9 @@ updateUserInfo (`updateFirstName`, `updateLastName`, `updateBirthday`, `updatePh
 - **Request:** updateFirstName(userId, firstName)/ updateLastName(userId, lastName)/ updateBirthday(userId, birthday)/ updatePhoneNum(userId, phoneNum)
 - **Response:**
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
     + *Error:*
-        + errorCode(-1)
+        + errorCode
 - **Tests:**
     + **`testUpdateUserInfo`**: test if the user's information in the database is changed according to the new information under expected preconditions
         + _Preconditions_:
@@ -642,9 +642,9 @@ updateSportCenterInfo (`updateName`, `updateCity`, `updatePhoneNumber`)
 - **Request:** updateName(sportCenterId, name)/ updateCity(sportCenterId, cityId)/ updatePhoneNumber(sportCenterId, phoneNum)
 - **Response:**
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
     + *Error:*
-        + errorCode(-1)
+        + errorCode
 - **Tests:**
     + **`testUpdateSportCenterInfo`**: test if the sport center's information in the database is changed according to the new information under expected preconditions
         + _Preconditions_:
@@ -696,9 +696,9 @@ updateSportCenterInfo (`updateName`, `updateCity`, `updatePhoneNumber`)
 - **Request:** contact(sportCenterId/userId (**senderId**), msg, sportCenterId/userId (**reveiverId**))
 - **Response:**
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
     + *Error:*
-        + errorCode(-1)
+        + errorCode
 + **Tests:**
     + **`testContact`**: test if the message can be sent under expected preconditions
         + _Preconditions_:
@@ -737,9 +737,9 @@ updateSportCenterInfo (`updateName`, `updateCity`, `updatePhoneNumber`)
 - **Request:** report(sportCenterId/userId (**reporterId**), msg, sportCenterId/userId (**reporteeId**))
 - **Response:**
     + *Success:*
-        + SuccessCode(0)
+        + SuccessCode
     + *Error:*
-        + errorCode(-1)
+        + errorCode
 + **Tests:**
     + **`testReport`**: test if the message can be sent under expected preconditions
         + _Preconditions_:
