@@ -15,9 +15,9 @@
 - **Request:** loginStaff(staffName, password) / loginUser(userName, password)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
 ### logout
 - **Description:** logout by a given userId or staffId
@@ -25,9 +25,9 @@
 - **Request:** logout(userId)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
 ### DISPLAY INFORMATION:
 #### getCityList:
@@ -36,10 +36,10 @@
 - **Request**: getCityList()
 - **Response**: 
     + **Success**: 
-        + SuccessCode(0)
+        + SuccessCode
         + City array (where Cit structure contains these attributes: (cityId, cityName)
     + **Error**: 
-        + errorCode(-1)
+        + errorCode
     
 #### getAvailableSlots
 - **Description:** get all available slot for a given day and cityId
@@ -47,10 +47,10 @@
 - **Request:** getAvailableSlots(day, cityId)
 - **Response:**
     + **Success:** 
-        + SuccessCode(0)
+        + SuccessCode
         + slotArray (where Slot structure contains these attributes: sportCenterId, courtId, startTime, endTime)
     + **Error:** 
-        + errorCode(-1)        
+        + errorCode        
         
 #### getUserBooking
 - **Description:** get all booking of the user by a given userId in particular cityId and date
@@ -58,10 +58,10 @@
 - **Request:** getUserBookingInCity(userId, cityId, date)
 - **Response:**
     + **Success:** 
-        + SuccessCode(0)
+        + SuccessCode
         + userBookingArray (where userBooking structure contains these attributes: bookingId, courtId, startTime, endTime, state)
     + **Error:**
-        + errorCode(-1)    
+        + errorCode    
         
 #### getSportCenterBooking
 - **Description:** get all booking in the sportCenter by a given sportCenterId and date
@@ -69,10 +69,10 @@
 - **Request:** getSportCenterBooking(sportCenterId, date)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
         + sportCenterBookingArray (where sportCenterBooking structure contains these attributes: bookingId, userId, courtId, date, startTime, endTime, state)
     + **Error:**
-        + errorCode(-1)
+        + errorCode
 
 #### getUserInfo
 - **Description:** get all information of the user by a given userId
@@ -80,10 +80,10 @@
 - **Request:** getUserInfo(userId)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
         + userInfo (where userInfo structure contains these attributes: firstName, lastName, dateOfBirth, phoneNum)
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
 #### getSportCenterInfo
 - **Description:** get all information of the sportCenter by a given sportCenterId
@@ -91,10 +91,10 @@
 - **Request:** getSportCenterInfo(sportCenterId)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
         + sportCenterInfo (where sportCenterInfo structure contains these attributes: name, city, address, phoneNum, courtIdArray)
     + **Error:**
-        + errorCode(-1)
+        + errorCode
 
 #### getBookingInfo:
 - **Description**: display all information of booking by given bookingId
@@ -102,10 +102,10 @@
 - **Request**: getBookingInfo(bookingId)
 - **Response**: 
     + **Success**: 
-        + SuccessCode(0)
+        + SuccessCode
         + booking (where booking structure contains these attributes userId, sportCenterId, courtId, date startTime, endTime, state)
     - **Error**: 
-        + errorCode(-1)
+        + errorCode
 
 ### PERFORM ACTION:
 #### makeBooking
@@ -114,9 +114,9 @@
 - **Request:** makeBooking(userId, courtId, date, startTime, endTime)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
 #### cancelBooking
 - **Description:** cancel a booking by a given bookingId and sportCenterId
@@ -124,9 +124,9 @@
 - **Request:** cancelBooking(bookingId)
 - **Response:** 
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
 #### changeBookingState
 - **Description:** change a booking state by a given bookingId
@@ -134,9 +134,9 @@
 - **Request:** changeBookingState(bookingId, state)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
 ### MODIFY INFORMATION:
 #### updateUserInfo (updateFirstName, updateLastName, updateBirthday, updatePhoneNumber)
@@ -145,18 +145,18 @@
 - **Request:** updateFirstName(userId, firstName)/ updateLastName(userId, lastName)/ updateBirthday(userId, birthday)/ updatePhoneNum(userId, phoneNum)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
 #### updateSportCenterInfo (updateName, updateCity, updatePhoneNumber)
 - **Description:** update information of a sport center base on the corresponding parameter and a given sportCenterId
 - **Security/Caller:** staffId
 - **Request:** updateName(sportCenterId, name)/ updateCity(sportCenterId, city)/ updatePhoneNumber(sportCenterId, phoneNum)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
 ### FURTHER UPDATE / ADDITIONAL FEATURES:
 #### contact
@@ -165,9 +165,9 @@
 - **Request:** contact(sportCenterId / userId (**senderId**), msg, sportCenterId / userId (**reveiverId**))
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
 #### report
 - **Description:** report a user or a sportCenter by a given reporterId and reporteeId and a message
@@ -175,8 +175,8 @@
 - **Request:** report(sportCenterId / userId (**reporterId**), msg, sportCenterId / userId (**reporteeId**))
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
  
         
