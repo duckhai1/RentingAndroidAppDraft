@@ -14,7 +14,7 @@
         + _Preconditions_:
             + The staff is logged in
             + Valid parameters are provided
-        + _Expected outcome_:
+        + _Test conditions_:
             + The response indicates the request is success
             + The response contains the list of all the bookings, made by the user with the sport centre, in structured format
             + Each booking contains correct information about itself
@@ -22,19 +22,19 @@
         + _Preconditions_:
             + The staff is not logged in
             + Valid parameters are provided
-        + _Expected outcome_:
+        + _Test conditions_:
             + The response contains an error code along with a message indicate the request is unauthorized
     + **`testGetSportCenterBookingInvalidId`**: test if the server behaves as expected when an invalid `sportCenterId` is provided
         + _Preconditions_:
             + The staff is logged in
             + Invalid `sportCenterId` is provided (`sportCenterId` is not contained in the database, or `sportCenterId` is in invalid format)
-        + _Expected outcome_:
+        + _Test conditions_:
             + The response contains an error code along with an error message indicate an invalid `sportCenterId` was provided
     + **`testGetSportCenterBookingInvalidDate`**: test if the server behaves as expected when an invalid `date` is provided
         + _Preconditions_:
             + The staff is logged in
             + Invalid `date` is provided (`date` is in invalid format)
-        + _Expected outcome_:
+        + _Test conditions_:
             + The response contains an error code along with an error message indicate an invalid `date` was provided
 
 
@@ -61,13 +61,13 @@
         + _Preconditions_:
             + The staff is not logged in
             + Valid parameters are provided
-        + _Expected outcome_:
+        + _Test conditions_:
             + The response contains an error code along with a message indicate the request is unauthorized
     + **`testGetSportCenterInfoInvalidSportCenterId`**: test if the server behaves as expected when an invalid `sportCenterId` is provided
         + _Preconditions_:
             + The staff is logged in
             + Invalid `sportCenterId` is provided (`sportCenterId` is not contained in the database, or `sportCenterId` is in invalid format)
-        + _Expected outcome_:
+        + _Test conditions_:
             + The response contains an error code along with an error message indicate an invalid `sportCenterId` is provided
 
 
@@ -87,41 +87,41 @@ updateSportCenterInfo (`updateName`, `updateCity`, `updatePhoneNumber`)
         + _Preconditions_:
             + The user is logged in
             + Valid parameters are provided
-        + _Expected outcome_:
+        + _Test conditions_:
             + The response indicates the request is success
             + The user's information in the data is changed according the newly provided information
     + **`testUpdateSportCenterInfoUnauthorized`**: test if the server behaves as expected when receives unauthorized request
         + _Preconditions_:
             + The staff is not logged in
             + Valid parameters are provided
-        + _Expected outcome_:
+        + _Test conditions_:
             + The response contains an error code along with a message indicate the request is unauthorized
     + **`testUpdateSportCenterInfoInvalidId`**: test if the the server behaves as expected when an invalid `sportCenterId` is provided
         + _Preconditions_:
             + The user is logged in
             + Invalid `sportCenterId` is provided (`sportCenterId` is not contained in the database, or `sportCenterId` is in invalid format)
-        + _Expected outcome_:
+        + _Test conditions_:
             + The response contains an error code along with an error message indicate an invalid `sportCenterId` was provided
             + The information about the user in the database is not changed
     + **`testUpdateSportCenterInfoInvalidName`**: test if the the server behaves as expected when an invalid `name` is provided
         + _Preconditions_:
             + The user is logged in
             + Invalid `name` is provided (`name` is in invalid format)
-        + _Expected outcome_:
+        + _Test conditions_:
             + The response contains an error code along with an error message indicate an invalid `name` was provided
             + The information about the user in the database is not changed
     + **`testUpdateSportCenterInfoInvalidCity`**: test if the the server behaves as expected when an invalid `cityId` is provided
         + _Preconditions_:
             + The user is logged in
             + Invalid `cityId` is provided (`cityId` is not contained in the database, or `cityId` is in invalid format)
-        + _Expected outcome_:
+        + _Test conditions_:
             + The response contains an error code along with an error message indicate an invalid `cityId` was provided
             + The information about the user in the database is not changed
     + **`testUpdateSportCenterInfoInvalidPhoneNumber`**: test if the the server behaves as expected when an invalid `phoneNumber` is provided
         + _Preconditions_:
             + The user is logged in
             + Invalid `phoneNumber` is provided (`phoneNumber` is in invalid format)
-        + _Expected outcome_:
+        + _Test conditions_:
             + The response contains an error code along with an error message indicate an invalid `phoneNumber` was provided
             + The information about the user in the database is not changed
 

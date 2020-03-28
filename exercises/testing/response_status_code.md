@@ -7,7 +7,7 @@
 
 #### **Success code**
 - 200: The request has fullfilled and processing
-- 201: The request has fullfilled and resulting in return content 
+- 201: The request has fullfilled and resulting in return content
 - 202: The request has fullfilled and resulting in create new content
 - 203: The request has fullfilled and resulting in change the existing data
 
@@ -15,7 +15,7 @@
 *(Furture expand)*
 
 #### **Client error code**
-- 400: General client error 
+- 400: General client error
 - 401: Login error due to username and password are not matched in server
 - 402: The server could not understand the request due to invalid parameter provided
 - 403: The request is unauthorized
