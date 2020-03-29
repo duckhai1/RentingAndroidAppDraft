@@ -3,155 +3,150 @@ Query/Changing user's information
 
 `getUserInfo`
 ---
-- **Description:** get all information of the user by a given userId
+- **Description:** get all information user that sent the request
 - **Security/Caller:** `userId`
-- **Request:** `getUserInfo(userId)`
+- **Request:** `getUserInfo()`
 - **Response:**
     + *Success:*
         + `successCode`
-        + `userInfo` (containing the attributes: `firstName`, `lastName`, `dateOfBirth`, `phoneNumber`)
+        + `user` `(firstName, lastName, birthDay, phoneNumber)`
     + *Error:*
-        + `errorCode`
+        + ``errorCode``
 - **Tests:**
-    + **`testGetUserInfo`**: test if data in the response is valid under expected preconditions
+    + **`testGetUserInfo`**: test if the request is accepted and the data in the response is valid when `caller` is valid and all the parameters are valid
         + _Preconditions_:
-            + The user is logged in
-            + Valid parameters are provided
-        + _Test conditions:
-            + The response contains successCode `200`
-			+ `firstName`
-				+ *Only contains lower-case and upper-case alphabetic characters
-				+ *Contains correct user's first name*
-			+ `lastName`
-				+ *Only contains lower-case and upper-case alphabetic characters*
-    + **`testGetUserInfoUnauthorized`**: test if the server behaves as expected when receives unauthorized request
+           + `userId` exists in the data-tier
+        + _Test conditions_:
+            + `succesCode` is equal to *201 - SUCCESS WITH DATA*
+            + `user` is a tuple `(firstName, lastName, birthDay, phoneNumber)` which exists in the data-tier, where:
+                + `firstName` and `lastName` contains only lower-case and upper-case alphabetic characters and spaces but not with leading and trailing spaces
+                + `birthDay` is formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given **AND** `date` comes after the date when the interface is called
+                + `phoneNumber` contains only numberic characters
+    + **`testGetUserInfoUnauthorized`**:  test if the request is rejected when `caller` is invalid
         + _Preconditions_:
-            + The user is not logged in
-            + Valid parameters are provided
+           + `userId` doest not exist in the data-tier
         + _Pass conditions_:
-            + The response contains an error code along with a message indicate the request is unauthorized
-    + **`testGetUserInfoInvalidUserId`**: test if the server behaves as expected when an invalid `userId `is provided
-        + _Preconditions_:
-            + The user is logged in
-            + Invalid `userId` is provided (`userId` is not contained in the database, or `userId` is in invalid format)
-        + _Pass conditions_:
-            + The response contains an error code along with an error message indicate an invalid `userId` provided
+            + `errorCode` is equal to *- UNAUTHORIZED*
 
 updateUserInfo (`updateFirstName`, `updateLastName`, `updateBirthday`, `updatePhoneNumber`)
 ---
-- **Description:** update information of a user base on the corresponding parameter and a given userId
-- **Security/Caller:** userId
-- **Request:** updateFirstName(userId, firstName)/ updateLastName(userId, lastName)/ updateBirthday(userId, birthday)/ updatePhoneNum(userId, phoneNum)
+- **Description:** update the user's information, whose id is equal to the provided provided `userId`
+- **Security/Caller:** `userId`
+- **Request:** `updateUserFirstName(firstName)` / `updateUserLastName(lastName)` / `updateUserBirthday(birthday)` / `updateUserPhoneNum(phoneNum)`
 - **Response:**
     + *Success:*
-        + SuccessCode
+        + `successCode`
     + *Error:*
-        + errorCode
+        + `errorCode`
 - **Tests:**
-    + **`testUpdateUserInfo`**: test if the user's information in the database is changed according to the new information under expected preconditions
+    + **`testUpdateUserInfoUnauthorized`**: test if the request is rejected when the `caller` is invalid
         + _Preconditions_:
-            + The user is logged in
-            + Valid parameters are provided
+            + `userId` does no exist in the data-tier
         + _Pass conditions_:
-            + The response indicates the request is success
-            + The user's information in the data is changed according the newly provided information
-    + **`testUpdateUserInfoUnauthorized`**: test if the server behaves as expected when receives unauthorized request
+            + ``errorCode`` is equal to *- UNAUTHORIZED*
+    + **`testUpdateUserFirstName`**: test if the request is accepted and the user's first name in the data-tier is changed according to the provided information when the `caller` is valid
         + _Preconditions_:
-            + The user is not logged in
-            + Valid parameters are provided
+            + `userId` exists in the data-tier
+            + `firstName` contains only alphabetic characters and spaces
         + _Pass conditions_:
-            + The response contains an error code along with a message indicate the request is unauthorized
-    + **`testUpdateUserInfoInvalidId`**: test if the the server behaves as expected when an invalid `userId` is provided
+            + `successCode` is equal to *203 - UPDATED*
+    + **`testUpdateUserFirstNameInvalid`**: test if the request is rejected when the `caller` is valid and `firstName` is invalid
         + _Preconditions_:
-            + The user is logged in
-            + Invalid `userId` is provided (`userId` is not contained in the database, or `userId` is in invalid format)
+            + `userId` exists in the data-tier
+            + `firstName` does not contain only alphanumeric characters and spaces
         + _Pass conditions_:
-            + The response contains an error code along with an error message indicate an invalid `userId` was provided
-            + The information about the user in the database is not changed
-    + **`testUpdateUserInfoInvalidFirstname`**: test if the the server behaves as expected when an invalid `firstName` is provided
+            + ``errorCode`` is equal to *- INVALID FIRST NAME*
+
+    + **`testUpdateUserLastName`**: test if the request is accepted and the user's last name in the data-tier is changed according to the provided information when the `caller` is valid
         + _Preconditions_:
-            + The user is logged in
-            + Invalid `firstName` is provided (`firstName` is in invalid format)
+            + `userId` exists in the data-tier
+            + `lastName` contains only alphabetic characters and spaces
         + _Pass conditions_:
-            + The response contains an error code along with an error message indicate an invalid `firstName` was provided
-            + The information about the user in the database is not changed
-    + **`testUpdateUserInfoInvalidLastname`**: test if the the server behaves as expected when an invalid `lastName` is provided
+            + `successCode` is equal to *203 - UPDATED*
+    + **`testUpdateUserLastNameInvalid`**: test if the request is rejected when the `caller` is valid and `lastName` is invalid
         + _Preconditions_:
-            + The user is logged in
-            + Invalid `lastName` is provided (`lastName` is in invalid format)
+            + `userId` exists in the data-tier
+            + `lastName` does not contain only alphebetic characters and spaces
         + _Pass conditions_:
-            + The response contains an error code along with an error message indicate an invalid `lastName` was provided
-            + The information about the user in the database is not changed
-    + **`testUpdateUserInfoInvalidBirthday`**: test if the the server behaves as expected when an invalid `birthDay` is provided
+            + ``errorCode`` is equal to *- INVALID LAST NAME*
+    + **`testUpdateUserBirthDay`**: test if the request is accepted and the user's birth day in the data-tier is changed according to the provided information when the `caller` is valid
         + _Preconditions_:
-            + The user is logged in
-            + Invalid `birthDay` is provided (`birthday` is in the future, or `birthday` is in invalid format)
+            + `userId` exists in the data-tier
+            + `birthDay` is formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given
         + _Pass conditions_:
-            + The response contains an error code along with an error message indicate an invalid `birthDay` was provided
-            + The information about the user in the database is not changed
-    + **`testUpdateUserInfoInvalidPhoneNumber`**: test if the the server behaves as expected when an invalid `phoneNumber` is provided
+            + `successCode` is equal to *203 - UPDATED*
+    + **`testUpdateUserBirthDayInvalid`**: test if the request is rejected when the `caller` is valid and `birthDay` is invalid
         + _Preconditions_:
-            + The user is logged in
-            + Invalid `phoneNumber` is provided (`phoneNumber` is in invalid format)
+            + `userId` exists in the data-tier
+            + `birthDay` is not formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given
         + _Pass conditions_:
-            + The response contains an error code along with an error message indicate an invalid `phoneNumber` was provided
-            + The information about the user in the database is not changed
+            + ``errorCode`` is equal to *- INVALID BIRTH DAY*
+    + **`testUpdateUserPhoneNumber`**: test if the request is accepted and the user's phone number in the data-tier is changed according to the provided information when the `caller` is valid
+        + _Preconditions_:
+            + `userId` exists in the data-tier
+            + `phoneNumber` contains only numeric characters
+        + _Pass conditions_:
+            + `successCode` is equal to *203 - UPDATED*
+    + **`testUpdateUserPhoneNumberInvalid`**: test if the request is rejected when the `caller` is valid and `phoneNumber` is invalid
+        + _Preconditions_:
+            + `userId` exists in the data-tier
+            + `phoneNumber` does not contain only numeric characters
+        + _Pass conditions_:
+            + ``errorCode`` is equal to *- INVALID PHONE NUMER*
+
 
 `getUserBooking`
 ---
-- **Description:** get all booking of the user by a given userId in particular cityId and date
-- **Security/Caller:** userId
-- **Request:** getUserBookingInCity(userId, cityId, date)
+- **Description:** get all the bookings that the user have made for a given city and date
+- **Security/Caller:** `userId`
+- **Request:** `getUserBooking(cityId, date)`
 - **Response:**
     + *Success:*
-        + SuccessCode
-        + userBookingArray (where userBooking structure contains these attributes: bookingId, courtId, startTime, endTime, state)
+        + `successCode`
+        + `Bookings[0..*]`
     + *Error:*
-        + errorCode
+        + `errorCode`
 - **Tests:**
-    + **`testGetUserBooking`**: test if data in the response is valid under expected preconditions
-        + _Preconditions_:
-            + The user is logged in
-            + Valid parameters are provided
+    + **`testGetUserBooking`**:  test if the request is accepted and the data in the response is valid when `caller` is valid and all the parameters are valid
+            + `userId` exists in the data-tier
+            + `cityId` exists in the data-tier
+            + `date` is formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given
         + _Pass conditions_:
-            + The response indicates the request is success
-            + The response contains the list of all the bookings, made by the user, in structured format
-            + Each booking contains correct information about itself
-    + **`testGetUserBookingUnauthorized`**: test if the server behaves as expected when receives unauthorized request
-        + _Preconditions_:
-            + The user is not logged in
-            + Valid parameters are provided
+            + `successCode` is equal to *200 - SUCCESS*
+            + Number of elements in `Bookings` is equal to the number of bookings for the given sport centre in the data-tier
+            + Each element in `Bookings` is a tuple `(bookingId, userId, courtId, date, startTime, endTime, state)` which exists in the data-tier
+    + **`testGetUserBookingUnauthorized`**: test if the request is rejected when `caller` is invalid
+      + _Preconditions_:
+            + `userId` does not exist in the data-tier
         + _Pass conditions_:
-            + The response contains an error code along with a message indicate the request is unauthorized
-    + **`testGetUserBookingInvalidUserId`**: test if the server behaves as expected when an invalid `userId` is provided
+            + ``errorCode`` is equal to *- UNAUTHORIZED*
+    + **`testGetUserBookingInvalidCityId`**: test if the request is rejected when `caller` is valid and `cityId` is invalid
         + _Preconditions_:
-            + The user is logged in
-            + Invalid `userId` is provided (`userId` is not contained in the database, or `userId` is in invalid format)
+            + `userId` exists in the data-tier
+            + `cityId` does not exist in the data-tier
         + _Pass conditions_:
-            + The response contains an error code along with an error message indicate an invalid `userId` was provided
-    + **`testGetUserBookingInvalidCityId`**: test if the server behaves as expected when an invalid `cityId` is provided
+            + ``errorCode`` is equal to *- INVALID CITY ID*
+    + **`testGetUserBookingInvalidDate`**: test if the request is rejected when `caller` is valid and `date` is invalid
         + _Preconditions_:
-            + The user is logged in
-            + Invalid `cityId` is provided (`cityId` is not contained in the database, or `cityId` is in invalid format)
+            + `userId` exists in the data-tier
+            + `date` is not formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given
         + _Pass conditions_:
-            + The response contains an error code along with an error message indicate an invalid `cityId` was provided
-    + **`testGetUserBookingInvalidDate`**: test if the server behaves as expected when an invalid `date` is provided
-        + _Preconditions_:
-            + The user is logged in
-            + Invalid `date` is provided (`date` is in invalid format)
-        + _Pass conditions_:
-            + The response contains an error code along with an error message indicate an invalid `date` was provided
+            + ``errorCode`` is equal to *- INVALID DATE*
 
-`loginUser` (NO SPECS. YET)
+
+These interfaces have not been clearly specified
+---
+
+`loginUser`
 ---
 - **Description:** authenticate the user by the given username and password
 - **Security/Caller:** anonymous
 - **Request:** loginUser(username, password)
 - **Response:**
     + *Success:*
-        + SuccessCode
+        + `successCode`
     + *Error:*
-        + errorCode
+        + `errorCode`
 - **Tests:**
     + **`testLoginUser`**: test if the user is authenticated under expected preconditions
         + _Preconditions_:
@@ -180,16 +175,16 @@ updateUserInfo (`updateFirstName`, `updateLastName`, `updateBirthday`, `updatePh
             + The response contains an error code along with an error message indicate an invalid `password` was provided
             + The user is not authenticated
 
-`logoutUser` (NO SPECS. YET)
+`logoutUser`
 ---
 - **Description:** unauthenticate the user
 - **Security/Caller:** userId
 - **Request:** logoutUser(userId)
 - **Response:**
     + *Success:*
-        + SuccessCode
+        + `successCode`
     + *Error:*
-        + errorCode
+        + `errorCode`
 - **Tests:**
     + **`testLogoutUser`**: test if the user is unauthenticated under expected preconditions
         + _Preconditions_:

@@ -1,129 +1,137 @@
-`getSportCenterBooking`
+`getSportCentreBooking`
 ---
-- **Description:** get all booking in the sportCenter by a given sportCenterId and date
-- **Security/Caller:** staffId
-- **Request:** getSportCenterBooking(sportCenterId, date)
+- **Description:** get all bookings that have been made with the sport centre for a given date
+- **Security/Caller:** `staffId`
+- **Request:** `getSportCentreBooking(sportCentreId, date)`
 - **Response:**
     + *Success:*
-        + SuccessCode
-        + sportCenterBookingArray (where sportCenterBooking structure contains these attributes: bookingId, userId, courtId, date, startTime, endTime, state)
+        + `successCode`
+        + `Bookings[0..*]` (each element in `Bookings` is a structure contains )
     + *Error:*
-        + errorCode
+        + `errorCode`
 - **Tests:**
-    + **`testGetSportCenterBooking`**: test if data in the response is valid under expected preconditions
+    + **`testGetSportCentreBooking`**:  test if the request is accepted and the data in the response is valid when `caller` is valid and all the parameters are valid
+            + `staffId` exists in the data-tier
+            + `sportCentreId` exists in the data-tier
+            + `date` is formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given
+        + _Pass conditions_:
+            + `successCode` is equal to *200 - SUCCESS*
+            + Number of elements in `Bookings` is equal to the number of bookings for the given sport centre in the data-tier
+            + Each element in `Bookings`, is a tuple `(bookingId, userId, courtId, date, startTime, endTime, state)` which exists in the data-tier
+    + **`testGetSportCentreBookingUnauthorized`**: test if the request is rejected when `caller` is invalid
+      + _Preconditions_:
+            + `staffId` does not exist in the data-tier
+        + _Pass conditions_:
+            + ``errorCode`` is equal to *- UNAUTHORIZED*
+    + **`testGetSportCentreBookingInvalidId`**: test if the request is rejected when `caller` is valid and `sportCentreId` is invalid
         + _Preconditions_:
-            + The staff is logged in
-            + Valid parameters are provided
-        + _Test conditions_:
-            + The response indicates the request is success
-            + The response contains the list of all the bookings, made by the user with the sport centre, in structured format
-            + Each booking contains correct information about itself
-    + **`testGetSportCenterBookingUnauthorized`**: test if the server behaves as expected when receives unauthorized request
+            + `staffId` exists in the data-tier
+            + `sportCentreId` does not exist in the data-tier
+        + _Pass conditions_:
+            + ``errorCode`` is equal to *- INVALID SPORT CENTRE ID*
+    + **`testGetSportCentreBookingInvalidDate`**: test if the request is rejected when `caller` is valid and `date` is invalid
         + _Preconditions_:
-            + The staff is not logged in
-            + Valid parameters are provided
-        + _Test conditions_:
-            + The response contains an error code along with a message indicate the request is unauthorized
-    + **`testGetSportCenterBookingInvalidId`**: test if the server behaves as expected when an invalid `sportCenterId` is provided
-        + _Preconditions_:
-            + The staff is logged in
-            + Invalid `sportCenterId` is provided (`sportCenterId` is not contained in the database, or `sportCenterId` is in invalid format)
-        + _Test conditions_:
-            + The response contains an error code along with an error message indicate an invalid `sportCenterId` was provided
-    + **`testGetSportCenterBookingInvalidDate`**: test if the server behaves as expected when an invalid `date` is provided
-        + _Preconditions_:
-            + The staff is logged in
-            + Invalid `date` is provided (`date` is in invalid format)
-        + _Test conditions_:
-            + The response contains an error code along with an error message indicate an invalid `date` was provided
+            + `staffId` exists in the data-tier
+            + `date` is not formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given
+        + _Pass conditions_:
+            + ``errorCode`` is equal to *- INVALID DATE*
 
 
-`getSportCenterInfo`
+`getSportCentreInfo`
 ---
-- **Description:** get all information of the sportCenter by a given sportCenterId
-- **Security/Caller:** staffId
-- **Request:** getSportCenterInfo(sportCenterId)
+- **Description:** get all information about a sport centre
+- **Security/Caller:** `staffId`
+- **Request:** `getSportCentreInfo(sportCentreId)`
 - **Response:**
     + *Success:*
-        + SuccessCode
-        + sportCenterInfo (where sportCenterInfo structure contains these attributes: name, city, address, phoneNum, courtIdArray)
+        + `successCode`
+        + `sportCentre`
     + *Error:*
-        + errorCode
+        + `errorCode`
 - **Tests:**
-    + **`testGetSportCenterInfo`**: test if data in the response is valid under expected preconditions
+    + **`testGetSportCentreInfo`**: test if the request is accepted and a booking is created when `caller` is valid and all the parameters are valid
         + _Preconditions_:
-            + The staff is logged in
-            + Valid parameters are provided
+            + `staffId` exists in the data-tier
+            + `sportCentreId` exists in the data-tier
         + _Expected response_:
-            + The response indicates the request is success
-            + The response contains requested information about the sport centre
-    + **`testGetSportCenterInfo`**: test if the server behaves as expected when receives unauthorized request
+            + `successCode` is equal to *200 - SUCCESS*
+            + `sportCentre` is a tuple `(name, city, address, phoneNum, courtIdArray)` which exists in the data-tier
+    + **`testGetSportCentreInfoUnauthorized`**: test if the request is rejected when `caller` is invalid
         + _Preconditions_:
-            + The staff is not logged in
-            + Valid parameters are provided
-        + _Test conditions_:
-            + The response contains an error code along with a message indicate the request is unauthorized
-    + **`testGetSportCenterInfoInvalidSportCenterId`**: test if the server behaves as expected when an invalid `sportCenterId` is provided
+            + `staffId` does not exist in the data-tier
+        + _Pass conditions_:
+            + ``errorCode`` is equal to *- UNAUTHORIZED*
+    + **`testGetSportCentreInfoInvalidSportCentreId`**: test if the request is rejected when `caller` is valid and `sportCentreId` is invalid
         + _Preconditions_:
-            + The staff is logged in
-            + Invalid `sportCenterId` is provided (`sportCenterId` is not contained in the database, or `sportCenterId` is in invalid format)
-        + _Test conditions_:
-            + The response contains an error code along with an error message indicate an invalid `sportCenterId` is provided
+            + `staffId` exists in the data-tier
+            + `sportCentreId` doest not exist in the data-tier
+        + _Pass conditions_:
+            + ``errorCode`` is equal to *- INVALID SPORT CENTRE ID*
 
 
 
-updateSportCenterInfo (`updateName`, `updateCity`, `updatePhoneNumber`)
+updateSportCentreInfo (`updateName`, `updateCity`, `updatePhoneNumber`)
 ---
-- **Description:** update information of a sport centre base on the corresponding parameter and a given sportCenterId
+- **Description:** update information of a sport centre base on the corresponding parameter and a given sportCentreId
 - **Security/Caller:** staffId
-- **Request:** updateName(sportCenterId, name)/ updateCity(sportCenterId, cityId)/ updatePhoneNumber(sportCenterId, phoneNum)
+- **Request:** `updateName(sportCentreId, name)` / `updateCity(sportCentreId, cityId)` / `updatePhoneNumber(sportCentreId, phoneNum)`
 - **Response:**
     + *Success:*
-        + SuccessCode
+        + `successCode`
     + *Error:*
-        + errorCode
+        + ``errorCode``
 - **Tests:**
-    + **`testUpdateSportCenterInfo`**: test if the sport center's information in the database is changed according to the new information under expected preconditions
+    + **`testUpdateSportCentreInfoUnauthorized`**: test if the request is rejected when the `caller` is invalid
         + _Preconditions_:
-            + The user is logged in
-            + Valid parameters are provided
-        + _Test conditions_:
-            + The response indicates the request is success
-            + The user's information in the data is changed according the newly provided information
-    + **`testUpdateSportCenterInfoUnauthorized`**: test if the server behaves as expected when receives unauthorized request
+            + `staffId` does no exist in the data-tier
+        + _Pass conditions_:
+            + ``errorCode`` is equal to *- UNAUTHORIZED*
+    + **`testSportCentreInfoInvalidSportCentreId`**: test if the request is rejected when the `caller` is valid and `sportCentreId` is invalid
         + _Preconditions_:
-            + The staff is not logged in
-            + Valid parameters are provided
-        + _Test conditions_:
-            + The response contains an error code along with a message indicate the request is unauthorized
-    + **`testUpdateSportCenterInfoInvalidId`**: test if the the server behaves as expected when an invalid `sportCenterId` is provided
+            + `staffId` exists in the data-tier
+            + `sportCentreId` doest not exist in the data-tier
+        + _Pass conditions_:
+            + ``errorCode`` is equal to *- INVALID SPORT CENTRE ID*
+    + **`testUpdateName`**: test if the request is accepted and the sport centre's name in the data-tier is changed according to the provided information when the `caller` is valid
         + _Preconditions_:
-            + The user is logged in
-            + Invalid `sportCenterId` is provided (`sportCenterId` is not contained in the database, or `sportCenterId` is in invalid format)
-        + _Test conditions_:
-            + The response contains an error code along with an error message indicate an invalid `sportCenterId` was provided
-            + The information about the user in the database is not changed
-    + **`testUpdateSportCenterInfoInvalidName`**: test if the the server behaves as expected when an invalid `name` is provided
+            + `staffId` exists in the data-tier
+            + `sportCentreId` exists in the data-tier
+            + `name` contains only alphanumeric characters and spaces
+        + _Pass conditions_:
+            + `successCode` is equal to *203 - UPDATED*
+    + **`testUpdateNameInvalid`**: test if the request is rejected when the `caller` is valid and `name` is invalid
         + _Preconditions_:
-            + The user is logged in
-            + Invalid `name` is provided (`name` is in invalid format)
-        + _Test conditions_:
-            + The response contains an error code along with an error message indicate an invalid `name` was provided
-            + The information about the user in the database is not changed
-    + **`testUpdateSportCenterInfoInvalidCity`**: test if the the server behaves as expected when an invalid `cityId` is provided
+            + `staffId` exists in the data-tier
+            + `sportCentreId` exists in the data-tier
+            + `name` does not contain only alphanumeric characters and spaces
+        + _Pass conditions_:
+            + ``errorCode`` is equal to *- INVALID SPORT CENTRE NAME*
+    + **`testUpdateCity`**: test if the request is accepted and the sport centre's `cityId` in the data-tier is changed according to the provided information when the `caller` is valid
         + _Preconditions_:
-            + The user is logged in
-            + Invalid `cityId` is provided (`cityId` is not contained in the database, or `cityId` is in invalid format)
-        + _Test conditions_:
-            + The response contains an error code along with an error message indicate an invalid `cityId` was provided
-            + The information about the user in the database is not changed
-    + **`testUpdateSportCenterInfoInvalidPhoneNumber`**: test if the the server behaves as expected when an invalid `phoneNumber` is provided
-        + _Preconditions_:
-            + The user is logged in
-            + Invalid `phoneNumber` is provided (`phoneNumber` is in invalid format)
-        + _Test conditions_:
-            + The response contains an error code along with an error message indicate an invalid `phoneNumber` was provided
-            + The information about the user in the database is not changed
+            + `staffId` exists in the data-tier
+            + `sportCentreId` exists in the data-tier
+            + `cityId` exists in the data-tier
+        + _Pass conditions_:
+            + `successCode` is equal to *203 - UPDATED*
 
-
-
+    + **`testUpdateCityInvalid`**: test if the request is rejected when the `caller` is valid and `cityId` is invalid
+        + _Preconditions_:
+            + `staffId` exists in the data-tier
+            + `sportCentreId` exists in the data-tier
+            + `cityId` does not not exist in the data-tier
+        + _Pass conditions_:
+            + ``errorCode`` is equal to *- INVALID CITY ID*
+    + **`testUpdatePhoneNumber`**: test if the request is accepted and the sport centre's phone number in the data-tier is changed according to the provided information when the `caller` is valid
+        + _Preconditions_:
+            + `staffId` exists in the data-tier
+            + `sportCentreId` exists in the data-tier
+            + `phonerNumber` contains only numeric characters
+        + _Pass conditions_:
+            + `successCode` is equal to *203 - UPDATED*
+    + **`testUpdatePhoneNumberInvalid`**: test if the request is rejected when the `caller` is valid and `phoneNumber` is invalid
+        + _Preconditions_:
+            + `staffId` exists in the data-tier
+            + `sportCentreId` exists in the data-tier
+            + `phonerNumber` does not contain only numeric characters
+        + _Pass conditions_:
+            + ``errorCode`` is equal to *- INVALID PHONE NUMER*

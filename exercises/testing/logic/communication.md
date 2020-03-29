@@ -1,81 +1,59 @@
 `contact`
 ---
-- **Description:** contact a sportCenter/user by a given senderId, receiverId and a message
-- **Security/Caller:** userId/ staffId
-- **Request:** contact(sportCenterId/userId (**senderId**), msg, sportCenterId/userId (**reveiverId**))
+- **Description:** transfer messages between staff and user
+- **Security/Caller:** `userId/staffId`
+- **Request:** `contact(userId/sportCentreId, msg)`
 - **Response:**
     + *Success:*
-        + SuccessCode
+        + `successCode`
     + *Error:*
-        + errorCode
+        + `errorCode`
 + **Tests:**
-    + **`testContact`**: test if the message can be sent under expected preconditions
+    + **`testContact`**: test if the request is accepted and the message is sent when `caller` is valid and all the parameters are valid
         + _Preconditions_:
-            + Sender is logged in
-            + Valid parameters are provided
-        + _Test conditions_:
-            + The response indicates the request is success
-            + The message is stored in the database
-            + The receiver is notified about the message
-    + **`testContactUnauthorized`**: test if the server behaves as expected when receives unauthorized request
+            + `caller` (`userId/staffId`) exists in the data-tier
+            + `sportCentreId/sportCentreId` exists in the data-tier
+        + _Pass conditions_:
+            + `successCode` is equal to *202 - CREATED*
+            + *Side effect*:  tuples and relations needed for the message are created in the data tier
+    + **`testContactUnauthorized`**: test if the request is rejected when `caller` is invalid
         + _Preconditions_:
-            + The sender is not logged in
-            + Valid parameters are provided
-        + _Test conditions_:
-            + The response contains an error code along with a message indicate the request is unauthorized
-    + **`testContactInvalidSenderId`**: test if the the server behaves as expected when an invalid `senderId` is provided
+            + `caller` (`userId/staffId`) doest not exist in the data-tier invalid
+        + _Pass conditions_:
+            + `errorCode` is equal to *- UNAUTHORIZED*
+    + **`testContactInvalidReceiverId`**: test if the request is rejected when `caller` is valid and `receiver` is invalid
         + _Preconditions_:
-            + The sender is logged in
-            + Invalid `senderId` is provided (`senderId` is not contained in the database, or `senderId` is in invalid format)
-        + _Test conditions_:
-            + The response contains an error code along with an error message indicate an invalid `senderId` was provided
-            + The message is not stored in the database
-            + The receiver is not notified about the message
-    + **`testContactInvalidReceiverId`**: test if the the server behaves as expected when an invalid `receiverId` is provided
-        + _Preconditions_:
-            + The sender is logged in
-            + Invalid `receiverId` is provided (`receiverId` is not contained in the database, or `receiverId` is in invalid format)
-        + _Test conditions_:
-            + The response contains an error code along with an error message indicate an invalid `receiverId` was provided
-            + The message is not stored in the database
+            + `caller` (`userId/staffId`) exists in the data-tier
+            + `userId/sportCentreId` does not exists in the data-tier
+        + _Pass conditions_:
+            + `errorCode` is equal to *- INVALID RECEIVER ID*
 
 `report`
 ---
-- **Description:** report a user or a sportCenter by a given reporterId and reporteeId and a message
-- **Security/Caller:** userId/ staffId
-- **Request:** report(sportCenterId/userId (**reporterId**), msg, sportCenterId/userId (**reporteeId**))
+- **Description:** create a report message for a staff or a user
+- **Security/Caller:** `userId/staffId`
+- **Request:** `report(userId/sportCentreId, msg)`
 - **Response:**
     + *Success:*
-        + SuccessCode
+        + `successCode`
     + *Error:*
-        + errorCode
+        + `errorCode`
 + **Tests:**
-    + **`testReport`**: test if the message can be sent under expected preconditions
+    + **`testReport`**: test if the request is accepted and a report is created when `caller` is valid and all the paramters are valid
         + _Preconditions_:
-            + Sender is logged in
-            + Valid parameters are provided
-        + _Test conditions_:
-            + The response indicates the request is success
-            + The report is stored in the database
-            + The reportee is notified about the message
-    + **`testReportUnauthorized`**: test if the server behaves as expected when receives unauthorized request
+            + `caller` (`userId/staffId`) exists in the data-tier
+            + `sportCentreId/sportCentreId` exists in the data-tier
+        + _Pass conditions_:
+            + `successCode` is equal to *202 - CREATED*
+            + *Side effect*:  tuples and relations needed for the report are created in the data tier
+    + **`testReportUnauthorized`**: test if the request is rejected when `caller` is invalid
         + _Preconditions_:
-            + The reporter is not logged in
-            + Valid parameters are provided
-        + _Test conditions_:
-            + The response contains an error code along with a message indicate the request is unauthorized
-    + **`testReportInvalidReporterId`**: test if the the server behaves as expected when an invalid `reporterId` is provided
+            + `caller` (`userId/staffId`) does not exist in the data-tier
+        + _Pass conditions_:
+            + `errorCode` is equal to *- UNAUTHORIZED*
+    + **`testReportInvalidReporteeId`**: test if the request is rejected when `caller` is valid and `reportee` is invalid
         + _Preconditions_:
-            + The reporter is logged in
-            + Invalid `reporterId` is provided (`reporterId` is not contained in the database, or `reporterId` is in invalid format)
-        + _Test conditions_:
-            + The response contains an error code along with an error message indicate an invalid `reporterId` was provided
-            + The message is not stored in the database
-            + The reportee is not notified about the message
-    + **`testReportInvalidReporteeId`**: test if the the server behaves as expected when an invalid `reporteeId` is provided
-        + _Preconditions_:
-            + The reporter is logged in
-            + Invalid `reporteeId` is provided (`reporteeId` is not contained in the database, or `reporteeId` is in invalid format)
-        + _Test conditions_:
-            + The response contains an error code along with an error message indicate an invalid `reporteeId` was provided
-            + The message is not stored in the database
+            + `caller` (`userId/staffId`) exists in the data-tier
+            + `userId/sportCentreId` does not exists in the data-tier
+        + _Pass conditions_:
+            + `errorCode` is equal to *- INVALID REPORTEE ID*
