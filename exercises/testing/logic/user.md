@@ -9,7 +9,7 @@ Query/Changing user's information
 - **Response:**
     + *Success:*
         + `successCode`
-        + `user` `(firstName, lastName, birthDay, phoneNumber)`
+        + `user` `(firstName, lastName, birthday, phoneNumber)`
     + *Error:*
         + ``errorCode``
 - **Tests:**
@@ -18,15 +18,15 @@ Query/Changing user's information
            + `userId` exists in the data-tier
         + _Test conditions_:
             + `succesCode` is equal to *201 - SUCCESS WITH DATA*
-            + `user` is a tuple `(firstName, lastName, birthDay, phoneNumber)` which exists in the data-tier, where:
+            + `user` is a tuple `(firstName, lastName, birthday, phoneNumber)` which exists in the data-tier, where:
                 + `firstName` and `lastName` contains only lower-case and upper-case alphabetic characters and spaces but not with leading and trailing spaces
-                + `birthDay` is formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given **AND** `date` comes after the date when the interface is called
+                + `birthday` is formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given **AND** `date` comes after the date when the interface is called
                 + `phoneNumber` contains only numberic characters
     + **`testGetUserInfoUnauthorized`**:  test if the request is rejected when `caller` is invalid
         + _Preconditions_:
            + `userId` doest not exist in the data-tier
         + _Pass conditions_:
-            + `errorCode` is equal to *- UNAUTHORIZED*
+            + `errorCode` is equal to *401 - UNAUTHORIZED*
 
 updateUserInfo (`updateFirstName`, `updateLastName`, `updateBirthday`, `updatePhoneNumber`)
 ---
@@ -43,7 +43,7 @@ updateUserInfo (`updateFirstName`, `updateLastName`, `updateBirthday`, `updatePh
         + _Preconditions_:
             + `userId` does no exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- UNAUTHORIZED*
+            + ``errorCode`` is equal to *401 - UNAUTHORIZED*
     + **`testUpdateUserFirstName`**: test if the request is accepted and the user's first name in the data-tier is changed according to the provided information when the `caller` is valid
         + _Preconditions_:
             + `userId` exists in the data-tier
@@ -55,7 +55,7 @@ updateUserInfo (`updateFirstName`, `updateLastName`, `updateBirthday`, `updatePh
             + `userId` exists in the data-tier
             + `firstName` does not contain only alphanumeric characters and spaces
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID FIRST NAME*
+            + ``errorCode`` is equal to *475 - INVALID FIRST NAME*
 
     + **`testUpdateUserLastName`**: test if the request is accepted and the user's last name in the data-tier is changed according to the provided information when the `caller` is valid
         + _Preconditions_:
@@ -68,19 +68,19 @@ updateUserInfo (`updateFirstName`, `updateLastName`, `updateBirthday`, `updatePh
             + `userId` exists in the data-tier
             + `lastName` does not contain only alphebetic characters and spaces
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID LAST NAME*
+            + ``errorCode`` is equal to *476 - INVALID LAST NAME*
     + **`testUpdateUserBirthDay`**: test if the request is accepted and the user's birth day in the data-tier is changed according to the provided information when the `caller` is valid
         + _Preconditions_:
             + `userId` exists in the data-tier
-            + `birthDay` is formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given
+            + `birthday` is formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given
         + _Pass conditions_:
             + `successCode` is equal to *203 - UPDATED*
-    + **`testUpdateUserBirthDayInvalid`**: test if the request is rejected when the `caller` is valid and `birthDay` is invalid
+    + **`testUpdateUserBirthDayInvalid`**: test if the request is rejected when the `caller` is valid and `birthday` is invalid
         + _Preconditions_:
             + `userId` exists in the data-tier
-            + `birthDay` is not formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given
+            + `birthday` is not formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID BIRTH DAY*
+            + ``errorCode`` is equal to *477 - INVALID BIRTHDAY*
     + **`testUpdateUserPhoneNumber`**: test if the request is accepted and the user's phone number in the data-tier is changed according to the provided information when the `caller` is valid
         + _Preconditions_:
             + `userId` exists in the data-tier
@@ -92,7 +92,7 @@ updateUserInfo (`updateFirstName`, `updateLastName`, `updateBirthday`, `updatePh
             + `userId` exists in the data-tier
             + `phoneNumber` does not contain only numeric characters
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID PHONE NUMER*
+            + ``errorCode`` is equal to *474 - INVALID PHONE NUMBER*
 
 
 `getUserBooking`
@@ -126,19 +126,19 @@ updateUserInfo (`updateFirstName`, `updateLastName`, `updateBirthday`, `updatePh
       + _Preconditions_:
             + `userId` does not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- UNAUTHORIZED*
+            + ``errorCode`` is equal to *401 - UNAUTHORIZED*
     + **`testGetUserBookingInvalidCityId`**: test if the request is rejected when `caller` is valid and `cityId` is invalid
         + _Preconditions_:
             + `userId` exists in the data-tier
             + `cityId` does not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID CITY ID*
+            + ``errorCode`` is equal to *461 - INVALID CITY ID*
     + **`testGetUserBookingInvalidDate`**: test if the request is rejected when `caller` is valid and `date` is invalid
         + _Preconditions_:
             + `userId` exists in the data-tier
             + `date` is not formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID DATE*
+            + ``errorCode`` is equal to *463 - INVALID DATE*
 
 
 These interfaces have not been clearly specified

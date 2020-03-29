@@ -20,13 +20,13 @@
         + _Preconditions_:
             + `caller` (`userId/staffId`) doest not exist in the data-tier invalid
         + _Pass conditions_:
-            + `errorCode` is equal to *- UNAUTHORIZED*
+            + `errorCode` is equal to *401 - UNAUTHORIZED*
     + **`testContactInvalidReceiverId`**: test if the request is rejected when `caller` is valid and `receiver` is invalid
         + _Preconditions_:
             + `caller` (`userId/staffId`) exists in the data-tier
             + `userId/sportCentreId` does not exists in the data-tier
         + _Pass conditions_:
-            + `errorCode` is equal to *- INVALID RECEIVER ID*
+            + `errorCode` is equal to *468 - INVALID RECEIVER ID*
 
 `report`
 ---
@@ -50,10 +50,10 @@
         + _Preconditions_:
             + `caller` (`userId/staffId`) does not exist in the data-tier
         + _Pass conditions_:
-            + `errorCode` is equal to *- UNAUTHORIZED*
+            + `errorCode` is equal to *401 - UNAUTHORIZED*
     + **`testReportInvalidReporteeId`**: test if the request is rejected when `caller` is valid and `reportee` is invalid
         + _Preconditions_:
             + `caller` (`userId/staffId`) exists in the data-tier
             + `userId/sportCentreId` does not exists in the data-tier
         + _Pass conditions_:
-            + `errorCode` is equal to *- INVALID REPORTEE ID*
+            + `errorCode` is equal to *467 - INVALID REPORTEE ID*

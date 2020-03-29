@@ -22,7 +22,7 @@
         + _Preconditions_:
             + `userId` does not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- UNAUTHORIZED*
+            + ``errorCode`` is equal to *401 - UNAUTHORIZED*
 
 `getAvailableSlots`
 ---
@@ -52,19 +52,19 @@
         + _Preconditions_:
             + `userId` does not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- UNAUTHORIZED*
+            + ``errorCode`` is equal to *401 - UNAUTHORIZED*
     + **`testGetAvailableSlotsInvalidDate`**: test if the request is rejected when `caller` is valid and `date` is invalid
         + _Preconditions_:
             + `userId` exists in the data-tier
             + `date` is not formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given **OR** `date` comes before the date when the interface is called
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID DATE*
+            + ``errorCode`` is equal to *463 - INVALID DATE*
     + **`testGetAvailableSlotsInvalidCity`**: test if the request is rejected when `caller` is valid and `cityId` is invalid
         + _Preconditions_:
             + `userId` exists in the data-tier
             + `cityId` doest not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID CITY ID*
+            + ``errorCode`` is equal to *461 - INVALID CITY ID*
 
 `getBookingInfo`
 ---
@@ -96,13 +96,13 @@
         + _Preconditions_:
             + `staffId` or `userId` does not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- UNAUTHORIZED*
+            + ``errorCode`` is equal to *401 - UNAUTHORIZED*
     + **`testGetBookingInfoInvalidBookingId`**: test if the request is rejected when `caller` is valid and `bookingId` is invalid
         + _Preconditions_:
             + `staffId` or `userId` exists in the data-tier
             + `bookingId` does not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID BOOKING ID*
+            + ``errorCode`` is equal to *410 - BOOKING NOT FOUND*
 
 `makeBooking`
 ---
@@ -134,7 +134,7 @@
             + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by ":" *(colon)*,, and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
             + The available slots computed by the server does not contains the given slot
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID SLOT*
+            + ``errorCode`` is equal to *464 - INVALID SLOT*
     + **`testMakeBookingPendingPayment`**: test if the request is rejected when the `caller` is valid and the user has past unpaid payment
         + _Preconditions_:
             + `userId` exists in the data-tier
@@ -143,7 +143,7 @@
             + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by ":" *(colon)*,, **AND**and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
             + The user has a booking in the past that has not been paid
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- UNPAID BOOKING FOUND*
+            + ``errorCode`` is equal to *413 - UNPAID BOOKING FOUND*
     + **`testMakeBookingLimitExceed`**: test if the server behaves as expected when the user has already had 3 future bookings
         + _Preconditions_:
             + `userId` exists in the data-tier
@@ -157,7 +157,7 @@
          + _Preconditions_:
             + `userId` does not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- UNAUTHORIZED*
+            + ``errorCode`` is equal to *401 - UNAUTHORIZED*
     + **`testMakeBookingInvalidCourtId`**:  test if the request is rejected when `caller` is valid and `courtId` is invalid
         + _Preconditions_:
             + `userId` exists in the data-tier
@@ -169,28 +169,28 @@
             + `userId` exists in the data-tier
             + `date` is not formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, **OR** not ordered as given **OR**  `date` comes after the date when the interface is called
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID COURT DATE*
+            + ``errorCode`` is equal to *463 - INVALID DATE*
     + **`testMakeBookingInvalidDuration`**: test if the server behaves as expected when the request contains an invalid duration (`endTime - startTime`)
         + _Preconditions_:
             + `userId` exists in the data-tier
             + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by ":" *(colon)*,, and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
             + The period between `startTime` and `endTime` is not *45 minutes*, *1 hour*, *1 hour and 15 minutes*, or *1 hour and 30 minutes*
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID DURATION*
+            + ``errorCode`` is equal to *465 - INVALID DURATION*
     + **`testMakeBookingInvalidStartTime`**: test if the server behaves as expected when the request contains an invalid `startTime`
         + _Preconditions_:
             + The user is logged in
             + The user does not have a past pending payment nor 3 future bookings
             + `startTime` is not formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by "-" *(hyphens)*, and ordered as given **OR** `startTime` does not come before `endTime` **OR** `startTime` does not come after the time when the interface is called
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID START TIME*
+            + ``errorCode`` is equal to *470 - INVALID START TIME*
     + **`testMakeBookingInvalidEndTime`**: test if the server behaves as expected when the request contains an invalid `endTime`
         + _Preconditions_:
             + The user is logged in
             + The user does not have a past pending payment nor 3 future bookings
             + `endTime` is not formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by "-" *(hyphens)*, and ordered as given
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID END TIME*
+            + ``errorCode`` is equal to *471 - INVALID END TIME*
 
 `changeBookingState`
 ---
@@ -214,19 +214,19 @@
         + _Preconditions_:
             + `staffId` does not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- UNAUTHORIZED*
+            + ``errorCode`` is equal to *401 - UNAUTHORIZED*
     + **`testChangeBookingStateInvalidBookingId`**: test if the request is rejected when `caller` is valid and `bookingId` is invalid
         + _Preconditions_:
             + `staffId` exists in the data-tier
             + `bookingId` does not exist in the data tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID BOOKING ID*
+            + ``errorCode`` is equal to *410 - BOOKING NOT FOUND*
     + **`testChangeBookingStateInvalidState`**: test if the request is rejected when `caller` is valid and `state` is invalid
         + _Preconditions_:
             + `staffId` exists in the data-tier
             + `state` is invalid
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID STATE*
+            + ``errorCode`` is equal to *466 - INVALID STATE*
 
 
 `cancelBooking`
@@ -251,17 +251,17 @@
         + _Preconditions_:
             + `userId` doest not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- UNAUTHORIZED*
+            + ``errorCode`` is equal to *401 - UNAUTHORIZED*
     + **`testCancelBookingLate`**: test is the request is rejected when `caller` is valid and the time instance, when the request is made, is not 24 hours before the `startTime` of the booking
         + _Preconditions_:
             + `userId` exists in the data-tier
             + `bookingId` exists in the data-tier
             + The request is made in less than 24 hours before the start time of the booking
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- LATE CANCELLATION*
+            + ``errorCode`` is equal to *412 - BOOKING CANCELLATION REJECTED*
     + **`testCancelBookingInvalidId`**: test if the request is rejected when `caller` is valid and `bookingId` is invalid
         + _Preconditions_:
             + `userId` exists in the data-tier
             + `bookingId` does not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- BOOKING NOT FOUND*
+            + ``errorCode`` is equal to *410 - BOOKING NOT FOUND*

@@ -29,19 +29,19 @@
       + _Preconditions_:
             + `staffId` does not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- UNAUTHORIZED*
+            + ``errorCode`` is equal to *401 - UNAUTHORIZED*
     + **`testGetSportCentreBookingInvalidId`**: test if the request is rejected when `caller` is valid and `sportCentreId` is invalid
         + _Preconditions_:
             + `staffId` exists in the data-tier
             + `sportCentreId` does not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID SPORT CENTRE ID*
+            + ``errorCode`` is equal to *462 - INVALID SPORT CENTRE ID*
     + **`testGetSportCentreBookingInvalidDate`**: test if the request is rejected when `caller` is valid and `date` is invalid
         + _Preconditions_:
             + `staffId` exists in the data-tier
             + `date` is not formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID DATE*
+            + ``errorCode`` is equal to *463 - INVALID DATE*
 
 
 `getSportCentreInfo`
@@ -72,13 +72,13 @@
         + _Preconditions_:
             + `staffId` does not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- UNAUTHORIZED*
+            + ``errorCode`` is equal to *401 - UNAUTHORIZED*
     + **`testGetSportCentreInfoInvalidSportCentreId`**: test if the request is rejected when `caller` is valid and `sportCentreId` is invalid
         + _Preconditions_:
             + `staffId` exists in the data-tier
             + `sportCentreId` doest not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID SPORT CENTRE ID*
+            + ``errorCode`` is equal to *462 - INVALID SPORT CENTRE ID*
 
 
 
@@ -97,13 +97,13 @@ updateSportCentreInfo (`updateName`, `updateCity`, `updatePhoneNumber`)
         + _Preconditions_:
             + `staffId` does no exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- UNAUTHORIZED*
+            + ``errorCode`` is equal to *401 - UNAUTHORIZED*
     + **`testSportCentreInfoInvalidSportCentreId`**: test if the request is rejected when the `caller` is valid and `sportCentreId` is invalid
         + _Preconditions_:
             + `staffId` exists in the data-tier
             + `sportCentreId` doest not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID SPORT CENTRE ID*
+            + ``errorCode`` is equal to *462 - INVALID SPORT CENTRE ID*
     + **`testUpdateName`**: test if the request is accepted and the sport centre's name in the data-tier is changed according to the provided information when the `caller` is valid
         + _Preconditions_:
             + `staffId` exists in the data-tier
@@ -117,7 +117,7 @@ updateSportCentreInfo (`updateName`, `updateCity`, `updatePhoneNumber`)
             + `sportCentreId` exists in the data-tier
             + `name` does not contain only alphanumeric characters and spaces
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID SPORT CENTRE NAME*
+            + ``errorCode`` is equal to *472 - INVALID SPORT CENTRE NAME*
     + **`testUpdateCity`**: test if the request is accepted and the sport centre's `cityId` in the data-tier is changed according to the provided information when the `caller` is valid
         + _Preconditions_:
             + `staffId` exists in the data-tier
@@ -131,7 +131,7 @@ updateSportCentreInfo (`updateName`, `updateCity`, `updatePhoneNumber`)
             + `sportCentreId` exists in the data-tier
             + `cityId` does not not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID CITY ID*
+            + ``errorCode`` is equal to *461 - INVALID CITY ID*
     + **`testUpdateAddress`**: test if the request is accepted and the sport centre's `address` in the data-tier is changed according to the provided information when the `caller` is valid
         + _Preconditions_:
             + `staffId` exists in the data-tier
@@ -145,7 +145,7 @@ updateSportCentreInfo (`updateName`, `updateCity`, `updatePhoneNumber`)
             + `sportCentreId` exists in the data-tier
             + `address` does not contain only alphanumetic characters, spaces, and the following special characters `-/,`
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID ADDRESS*
+            + ``errorCode`` is equal to *473 - INVALID ADDRESS*
     + **`testUpdatePhoneNumber`**: test if the request is accepted and the sport centre's phone number in the data-tier is changed according to the provided information when the `caller` is valid
         + _Preconditions_:
             + `staffId` exists in the data-tier
@@ -159,4 +159,4 @@ updateSportCentreInfo (`updateName`, `updateCity`, `updatePhoneNumber`)
             + `sportCentreId` exists in the data-tier
             + `phonerNumber` does not contain only numeric characters
         + _Pass conditions_:
-            + ``errorCode`` is equal to *- INVALID PHONE NUMER*
+            + ``errorCode`` is equal to *474 - INVALID PHONE NUMBER*
