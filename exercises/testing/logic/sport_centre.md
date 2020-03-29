@@ -17,7 +17,14 @@
         + _Pass conditions_:
             + `successCode` is equal to *200 - SUCCESS*
             + Number of elements in `Bookings` is equal to the number of bookings for the given sport centre in the data-tier
-            + Each element in `Bookings`, is a tuple `(bookingId, userId, courtId, date, startTime, endTime, state)` which exists in the data-tier
+            + Each element in `Bookings`, is a tuple `(bookingId, userId, sportCenterId, courtId, date, startTime, endTime, state)` which exists in the data-tier, where
+                + `bookingId` uniquely identify the booking in the data-tier
+                + `userId` exists in the data-tier
+                + `sportCentreId` exists in the data-tier
+                + `courtId` exists in the data-tier
+                + `date` is formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given
+                + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by ":" *(colon)*,, and ordered as given **AND** `startTime` comes before `endTime`
+                + `state` is equal to one of the following: `UPCOMING`, `UNPAID`, `PAID`, `CANCELLED`
     + **`testGetSportCentreBookingUnauthorized`**: test if the request is rejected when `caller` is invalid
       + _Preconditions_:
             + `staffId` does not exist in the data-tier
@@ -55,7 +62,12 @@
             + `sportCentreId` exists in the data-tier
         + _Expected response_:
             + `successCode` is equal to *200 - SUCCESS*
-            + `sportCentre` is a tuple `(name, city, address, phoneNum, courtIdArray)` which exists in the data-tier
+            + `sportCentre` is a tuple `(name, city, address, phoneNum, courts)` which exists in the data-tier, where:
+                + `name` contains only alphanumeric characters and spaces
+                + `city` contains only alphabetic characters and spaces
+                + `address` contains only alphanumetic characters, spaces, and the following special characters `-/,`
+                + `phoneNumber` contains only numeric characters
+                + `courts` is an array, where each element is a key pointing to the information of the court in the data-tier
     + **`testGetSportCentreInfoUnauthorized`**: test if the request is rejected when `caller` is invalid
         + _Preconditions_:
             + `staffId` does not exist in the data-tier
@@ -113,7 +125,6 @@ updateSportCentreInfo (`updateName`, `updateCity`, `updatePhoneNumber`)
             + `cityId` exists in the data-tier
         + _Pass conditions_:
             + `successCode` is equal to *203 - UPDATED*
-
     + **`testUpdateCityInvalid`**: test if the request is rejected when the `caller` is valid and `cityId` is invalid
         + _Preconditions_:
             + `staffId` exists in the data-tier
@@ -121,6 +132,20 @@ updateSportCentreInfo (`updateName`, `updateCity`, `updatePhoneNumber`)
             + `cityId` does not not exist in the data-tier
         + _Pass conditions_:
             + ``errorCode`` is equal to *- INVALID CITY ID*
+    + **`testUpdateAddress`**: test if the request is accepted and the sport centre's `address` in the data-tier is changed according to the provided information when the `caller` is valid
+        + _Preconditions_:
+            + `staffId` exists in the data-tier
+            + `sportCentreId` exists in the data-tier
+            + `address` contains only alphanumetic characters, spaces, and the following special characters `-/,`
+        + _Pass conditions_:
+            + `successCode` is equal to *203 - UPDATED*
+    + **`testUpdateCityInvalid`**: test if the request is rejected when the `caller` is valid and `cityId` is invalid
+        + _Preconditions_:
+            + `staffId` exists in the data-tier
+            + `sportCentreId` exists in the data-tier
+            + `address` does not contain only alphanumetic characters, spaces, and the following special characters `-/,`
+        + _Pass conditions_:
+            + ``errorCode`` is equal to *- INVALID ADDRESS*
     + **`testUpdatePhoneNumber`**: test if the request is accepted and the sport centre's phone number in the data-tier is changed according to the provided information when the `caller` is valid
         + _Preconditions_:
             + `staffId` exists in the data-tier

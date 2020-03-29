@@ -114,7 +114,14 @@ updateUserInfo (`updateFirstName`, `updateLastName`, `updateBirthday`, `updatePh
         + _Pass conditions_:
             + `successCode` is equal to *200 - SUCCESS*
             + Number of elements in `Bookings` is equal to the number of bookings for the given sport centre in the data-tier
-            + Each element in `Bookings` is a tuple `(bookingId, userId, courtId, date, startTime, endTime, state)` which exists in the data-tier
+            + Each element in `Bookings` is a tuple `(bookingId, userId, sportCentreId, courtId, date, startTime, endTime, state)` which exists in the data-tier, where
+                + `bookingId` uniquely identify the booking in the data-tier
+                + `userId` exists in the data-tier
+                + `sportCentreId` exists in the data-tier
+                + `courtId` exists in the data-tier
+                + `date` is formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given
+                + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by ":" *(colon)*,, and ordered as given **AND** `startTime` comes before `endTime`
+                + `state` is equal to one of the following: `UPCOMING`, `UNPAID`, `PAID`, `CANCELLED`
     + **`testGetUserBookingUnauthorized`**: test if the request is rejected when `caller` is invalid
       + _Preconditions_:
             + `userId` does not exist in the data-tier

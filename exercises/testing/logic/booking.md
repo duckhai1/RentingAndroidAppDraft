@@ -16,7 +16,8 @@
         + _Pass conditions_:
             + `successCode` is equal to *200 - SUCCESS*
             + Number of elements in `Cities` is equal to the number of cities in the data-tier
-            + Each elements in `Cities`, is a tuple `(cityId, cityName)` which exists in the data-tier
+            + Each elements in `Cities`, is a tuple `(cityId, cityName)` which exists in the data-tier, where:
+                + `cityName` contains only alphabetic characters and spaces
     + **`testGetCityListUnauthorized`**: test if the request is rejected when `caller` is invalid
         + _Preconditions_:
             + `userId` does not exist in the data-tier
@@ -43,7 +44,10 @@
         + _Pass conditions_:
             + `successCode` is equal to *200 - SUCCESS*
             + Number of elements in `Slots` is equal to the number of slots in the data-tier
-            + Each element in `Slots`, is a tuple `(sportCentreId, courtId, startTime, endTime)` which exists in the data-tier
+            + Each element in `Slots`, is a tuple `(sportCentreId, courtId, startTime, endTime)` which exists in the data-tier, where:
+                + `sportCentreId` exists in the data-tier
+                + `courtId` exists in the data-tier
+                `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by ":" *(colon)*,, and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
     + **`testGetAvailableSlotsUnauthorized`**: test if the request is rejected when `caller` is invalid
         + _Preconditions_:
             + `userId` does not exist in the data-tier
@@ -80,7 +84,14 @@
             + `bookingId` exists in the data-tier
         + _Pass conditions_:
             + `successCode` is equal to *200 - SUCCESS*
-            + `booking` is a tuple `(userId, sportCentreId, courtId, date, startTime, endTime, state)` which exists in the data-tier
+            + `booking` is a tuple `(bookingId, userId, sportCentreId, courtId, date, startTime, endTime, state)` which exists in the data-tier, where:
+                + `bookingId` uniquely identify the booking in the data-tier
+                + `userId` exists in the data-tier
+                + `sportCentreId` exists in the data-tier
+                + `courtId` exists in the data-tier
+                + `date` is formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given
+                + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by ":" *(colon)*,, and ordered as given **AND** `startTime` comes before `endTime`
+                + `state` is equal to one of the following: `UPCOMING`, `UNPAID`, `PAID`, `CANCELLED`
     + **`testGetBookingInfoUnauthorized`**: test if the request is rejected when `caller` is invalid
         + _Preconditions_:
             + `staffId` or `userId` does not exist in the data-tier
@@ -110,7 +121,7 @@
             + `userId` exists in the data-tier
             + `courtId` exists in the data-tier
             + `date` is formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given **AND**  `date` comes after the date when the interface is called
-            + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by "-" *(hyphens)*, and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
+            + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by ":" *(colon)*,, and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
         + _Pass conditions_:
             + `successCode` is equal to *202 - CREATED*
             + `bookingId` is the unique identifier for the booking which was created by the server; this can be used to find details information about the booking
@@ -120,7 +131,7 @@
             + `userId` exists in the data-tier
             + `courtId` exists in the data-tier
             + `date` is formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given **AND**  `date` comes after the date when the interface is called
-            + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by "-" *(hyphens)*, and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
+            + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by ":" *(colon)*,, and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
             + The available slots computed by the server does not contains the given slot
         + _Pass conditions_:
             + ``errorCode`` is equal to *- INVALID SLOT*
@@ -129,7 +140,7 @@
             + `userId` exists in the data-tier
             + `courtId` exists in the data-tier
             + `date` is formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given **AND**  `date` comes after the date when the interface is called
-            + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by "-" *(hyphens)*, **AND**and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
+            + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by ":" *(colon)*,, **AND**and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
             + The user has a booking in the past that has not been paid
         + _Pass conditions_:
             + ``errorCode`` is equal to *- UNPAID BOOKING FOUND*
@@ -138,7 +149,7 @@
             + `userId` exists in the data-tier
             + `courtId` exists in the data-tier
             + `date` is formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given **AND**  `date` comes after the date when the interface is called
-            + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by "-" *(hyphens)*, and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
+            + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by ":" *(colon)*,, and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
             + The user has already had three upcoming bookings
         + _Pass conditions_:
             + ``errorCode`` is equal to *- BOOKINGS LIMIT REACHED*
@@ -162,7 +173,7 @@
     + **`testMakeBookingInvalidDuration`**: test if the server behaves as expected when the request contains an invalid duration (`endTime - startTime`)
         + _Preconditions_:
             + `userId` exists in the data-tier
-            + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by "-" *(hyphens)*, and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
+            + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by ":" *(colon)*,, and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
             + The period between `startTime` and `endTime` is not *45 minutes*, *1 hour*, *1 hour and 15 minutes*, or *1 hour and 30 minutes*
         + _Pass conditions_:
             + ``errorCode`` is equal to *- INVALID DURATION*
