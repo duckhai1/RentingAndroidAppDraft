@@ -43,10 +43,11 @@ Coding conventions:
 | 471 | INVALID END TIME | The request is rejected, because an invalid end time was provided |
 | 472 | INVALID SPORTCENTRE NAME | The request is rejected, because an invalid sport centre name was provided |
 | 473 | INVALID ADDRESS | The request is rejected, because an invalid address was provided |
-| 474 | INVALID PHONE NUMBER | The request is rejected, because an invalid phone number was provided 
+| 474 | INVALID PHONE NUMBER | The request is rejected, because an invalid phone number was provided
 | 475 | INVALID FIRST NAME | The request is rejected, because an invalid first name was provided |
 | 476 | INVALID LAST NAME | The request is rejected, because an invalid last name was provided |
 | 477 | INVALID BIRTHDAY | The request is rejected, because an invalid birthday was provided |
+| 478 | INVALID USER ID | The request is rejected, because an invalid user id was provided |
 
 
 
