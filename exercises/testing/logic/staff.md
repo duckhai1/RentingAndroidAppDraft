@@ -3,9 +3,9 @@ These interfaces have not been clearly specified
 
 `loginStaff`
 ---
-- **Description:** authenticate the staff by the given username and password
+- **Description:** authenticate the staff by the given playername and password
 - **Security/Caller:** anonymous
-- **Request:** loginStaff(username, password)
+- **Request:** loginStaff(playername, password)
 - **Response:**
     + *Success:*
         + `successCode`
@@ -22,15 +22,15 @@ These interfaces have not been clearly specified
             + The staff can access information that he/she is authorized to
     + **`testLoginStaffUnknown`**: test if the server behaves as expected when invalid credentials are provided
         + _Preconditions_:
-            + Invalid credentials are provided (username-password pair is not contained in the database)
+            + Invalid credentials are provided (playername-password pair is not contained in the database)
         + _Pass conditions_:
             + The response contains an error code along with an error message indicate a fail login attempt was made
             + The staff is not authenticated
-    + **`testLoginStaffInvalidUsername`**: test if the server behaves as expected when an invalid `username` is provided
+    + **`testLoginStaffInvalidPlayername`**: test if the server behaves as expected when an invalid `playername` is provided
         + _Preconditions_:
-            + Invalid `username` is provided (`username` is in invalid format)
+            + Invalid `playername` is provided (`playername` is in invalid format)
         + _Pass conditions_:
-            + The response contains an error code along with an error message indicate an invalid `username` was provided
+            + The response contains an error code along with an error message indicate an invalid `playername` was provided
             + The staff is not authenticated
     + **`testLoginStaffInvalidPassword`**: test if the server behaves as expected when an invalid `password` is provided
         + _Preconditions_:
@@ -66,7 +66,7 @@ These interfaces have not been clearly specified
     + **`testLogoutStaffInvalidId`**: test if the server behaves as expected when an invalid `staffId` is provided
         + _Preconditions_:
             + The staff is logged in
-            + Invalid `staffId` is provided (`staffId` is not contained in the database, or `userId` is in invalid format)
+            + Invalid `staffId` is provided (`staffId` is not contained in the database, or `playerId` is in invalid format)
         + _Pass conditions_:
             + The response contains an error code along with an error message indicate an invalid `staffId` was provided
             + The staff is not unauthenticated

@@ -26,10 +26,10 @@ Coding conventions:
 | 400 | ERROR FOUND | The request is rejected, because of an error was made on the client |
 | 401 | UNAUTHORIZED | The request is rejected, because the requested content is not accessible by the caller of the interface |
 | 410 | BOOKING NOT FOUND | The request is rejected, because an invalid booking id was provided |
-| 411 | BOOKINGS LIMIT REACHED | The request is rejected, because the user has reached the maximum number of allowed bookings |
-| 412 | BOOKING CANCELLATION REJECTED | The request is rejected, because the user makes the request in less the 24 hours before the start time of the booking|
+| 411 | BOOKINGS LIMIT REACHED | The request is rejected, because the player has reached the maximum number of allowed bookings |
+| 412 | BOOKING CANCELLATION REJECTED | The request is rejected, because the player makes the request in less the 24 hours before the start time of the booking|
 | 413 | UNPAID BOOKING FOUND | The request is rejected, because there exists a booking in the past that has not been paid|
-| 460 | INVALID CREDENTIALS | The request is rejected, because an invalid user-name or an invalid password was provided |
+| 460 | INVALID CREDENTIALS | The request is rejected, because an invalid player-name or an invalid password was provided |
 | 461 | INVALID CITY ID | The request is rejected, because an invalid city i was provided |
 | 462 | INVALID SPORTCENTRE ID | The request is rejected, because an invalid city id was provided |
 | 463 | INVALID DATE | The request is rejected, because an invalid date was provided |
@@ -47,7 +47,7 @@ Coding conventions:
 | 475 | INVALID FIRST NAME | The request is rejected, because an invalid first name was provided |
 | 476 | INVALID LAST NAME | The request is rejected, because an invalid last name was provided |
 | 477 | INVALID BIRTHDAY | The request is rejected, because an invalid birthday was provided |
-| 478 | INVALID USER ID | The request is rejected, because an invalid user id was provided |
+| 478 | INVALID PLAYER ID | The request is rejected, because an invalid player id was provided |
 
 
 

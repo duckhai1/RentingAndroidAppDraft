@@ -17,9 +17,9 @@
         + _Pass conditions_:
             + `successCode` is equal to *200 - SUCCESS*
             + Number of elements in `Bookings` is equal to the number of bookings for the given sport centre in the data-tier
-            + Each element in `Bookings`, is a tuple `(bookingId, userId, sportCenterId, courtId, date, startTime, endTime, state)` which exists in the data returned to the logic-tier from the data-tier, where
+            + Each element in `Bookings`, is a tuple `(bookingId, playerId, sportCenterId, courtId, date, startTime, endTime, state)` which exists in the data returned to the logic-tier from the data-tier, where
                 + `bookingId` uniquely identify the booking in the data-tier
-                + `userId` exists in the data returned to the logic-tier from the data-tier
+                + `playerId` exists in the data returned to the logic-tier from the data-tier
                 + `sportCentreId` exists in the data returned to the logic-tier from the data-tier
                 + `courtId` exists in the data returned to the logic-tier from the data-tier
                 + `date` is formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given

@@ -16,7 +16,7 @@
 
 #### **Client error code**
 - 400: General client error
-- 401: Login error due to username and password are not matched in server
+- 401: Login error due to playername and password are not matched in server
 - 402: The server could not understand the request due to invalid parameter provided
 - 403: The request is unauthorized
 - 404: The server can not find the requested booking’s information
