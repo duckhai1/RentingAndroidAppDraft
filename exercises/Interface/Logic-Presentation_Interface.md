@@ -10,9 +10,9 @@
 ## LOGIC-PRESENTATION INTERFACES
 ### LOGIN-LOGOUT:
 #### login
-- **Description:** login by a given userName and password
+- **Description:** login by a given playerName and password
 - **Security/Caller:** anonymous
-- **Request:** loginStaff(staffName, password) / loginUser(userName, password)
+- **Request:** loginStaff(staffName, password) / loginPlayer(playerName, password)
 - **Response:**
     + **Success:**
         + SuccessCode
@@ -20,9 +20,9 @@
         + errorCode
         
 ### logout
-- **Description:** logout by a given userId or staffId
-- **Security/Caller:** userId/ staffId
-- **Request:** logout(userId)
+- **Description:** logout by a given playerId or staffId
+- **Security/Caller:** playerId/ staffId
+- **Request:** logout(playerId)
 - **Response:**
     + **Success:**
         + SuccessCode
@@ -32,7 +32,7 @@
 ### DISPLAY INFORMATION:
 #### getCityList:
 - **Description**: get all city name and ID
-- **Caller**: userId
+- **Caller**: playerId
 - **Request**: getCityList()
 - **Response**: 
     + **Success**: 
@@ -43,7 +43,7 @@
     
 #### getAvailableSlots
 - **Description:** get all available slot for a given day and cityId
-- **Security/Caller:** userId
+- **Security/Caller:** playerId
 - **Request:** getAvailableSlots(day, cityId)
 - **Response:**
     + **Success:** 
@@ -52,14 +52,14 @@
     + **Error:** 
         + errorCode        
         
-#### getUserBooking
-- **Description:** get all booking of the user by a given userId in particular cityId and date
-- **Security/Caller:** userId
-- **Request:** getUserBookingInCity(userId, cityId, date)
+#### getPlayerBooking
+- **Description:** get all booking of the player by a given playerId in particular cityId and date
+- **Security/Caller:** playerId
+- **Request:** getPlayerBookingInCity(playerId, cityId, date)
 - **Response:**
     + **Success:** 
         + SuccessCode
-        + userBookingArray (where userBooking structure contains these attributes: bookingId, courtId, startTime, endTime, state)
+        + playerBookingArray (where playerBooking structure contains these attributes: bookingId, courtId, startTime, endTime, state)
     + **Error:**
         + errorCode    
         
@@ -70,18 +70,18 @@
 - **Response:**
     + **Success:**
         + SuccessCode
-        + sportCenterBookingArray (where sportCenterBooking structure contains these attributes: bookingId, userId, courtId, date, startTime, endTime, state)
+        + sportCenterBookingArray (where sportCenterBooking structure contains these attributes: bookingId, playerId, courtId, date, startTime, endTime, state)
     + **Error:**
         + errorCode
 
-#### getUserInfo
-- **Description:** get all information of the user by a given userId
-- **Security/Caller:** userId
-- **Request:** getUserInfo(userId)
+#### getPlayerInfo
+- **Description:** get all information of the player by a given playerId
+- **Security/Caller:** playerId
+- **Request:** getPlayerInfo(playerId)
 - **Response:**
     + **Success:**
         + SuccessCode
-        + userInfo (where userInfo structure contains these attributes: firstName, lastName, dateOfBirth, phoneNum)
+        + playerInfo (where playerInfo structure contains these attributes: firstName, lastName, dateOfBirth, phoneNum)
     + **Error:**
         + errorCode
         
@@ -103,15 +103,15 @@
 - **Response**: 
     + **Success**: 
         + SuccessCode
-        + booking (where booking structure contains these attributes userId, sportCenterId, courtId, date startTime, endTime, state)
+        + booking (where booking structure contains these attributes playerId, sportCenterId, courtId, date startTime, endTime, state)
     - **Error**: 
         + errorCode
 
 ### PERFORM ACTION:
 #### makeBooking
-- **Description:** make a booking by a given userId, courtId, date, startTime, endTime
-- **Security/Caller:** userId
-- **Request:** makeBooking(userId, courtId, date, startTime, endTime)
+- **Description:** make a booking by a given playerId, courtId, date, startTime, endTime
+- **Security/Caller:** playerId
+- **Request:** makeBooking(playerId, courtId, date, startTime, endTime)
 - **Response:**
     + **Success:**
         + SuccessCode
@@ -120,7 +120,7 @@
         
 #### cancelBooking
 - **Description:** cancel a booking by a given bookingId and sportCenterId
-- **Security/Caller:** userId
+- **Security/Caller:** playerId
 - **Request:** cancelBooking(bookingId)
 - **Response:** 
     + **Success:**
@@ -139,10 +139,10 @@
         + errorCode
         
 ### MODIFY INFORMATION:
-#### updateUserInfo (updateFirstName, updateLastName, updateBirthday, updatePhoneNumber)
-- **Description:** update information of a user base on the corresponding parameter and a given userId
-- **Security/Caller:** userId
-- **Request:** updateFirstName(userId, firstName)/ updateLastName(userId, lastName)/ updateBirthday(userId, birthday)/ updatePhoneNum(userId, phoneNum)
+#### updatePlayerInfo (updateFirstName, updateLastName, updateBirthday, updatePhoneNumber)
+- **Description:** update information of a player base on the corresponding parameter and a given playerId
+- **Security/Caller:** playerId
+- **Request:** updateFirstName(playerId, firstName)/ updateLastName(playerId, lastName)/ updateBirthday(playerId, birthday)/ updatePhoneNum(playerId, phoneNum)
 - **Response:**
     + **Success:**
         + SuccessCode
@@ -160,9 +160,9 @@
         
 ### FURTHER UPDATE / ADDITIONAL FEATURES:
 #### contact
-- **Description:** contact a sportCenter/user by a given senderId, receiverId and a message
-- **Security/Caller:** userId/ staffId
-- **Request:** contact(sportCenterId / userId (**senderId**), msg, sportCenterId / userId (**reveiverId**))
+- **Description:** contact a sportCenter/player by a given senderId, receiverId and a message
+- **Security/Caller:** playerId/ staffId
+- **Request:** contact(sportCenterId / playerId (**senderId**), msg, sportCenterId / playerId (**reveiverId**))
 - **Response:**
     + **Success:**
         + SuccessCode
@@ -170,9 +170,9 @@
         + errorCode
         
 #### report
-- **Description:** report a user or a sportCenter by a given reporterId and reporteeId and a message
-- **Security/Caller:** userId/ staffId
-- **Request:** report(sportCenterId / userId (**reporterId**), msg, sportCenterId / userId (**reporteeId**))
+- **Description:** report a player or a sportCenter by a given reporterId and reporteeId and a message
+- **Security/Caller:** playerId/ staffId
+- **Request:** report(sportCenterId / playerId (**reporterId**), msg, sportCenterId / playerId (**reporteeId**))
 - **Response:**
     + **Success:**
         + SuccessCode
