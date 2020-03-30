@@ -170,21 +170,21 @@
             + `date` is not formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, **OR** not ordered as given **OR**  `date` comes after the date when the interface is called
         + _Pass conditions_:
             + ``errorCode`` is equal to *463 - INVALID DATE*
-    + **`testMakeBookingInvalidDuration`**: test if the server behaves as expected when the request contains an invalid duration (`endTime - startTime`)
+    + **`testMakeBookingInvalidDuration`**:test if the request is rejected when `caller` is valid and the duration between `startTime` and `endTime` is invalid
         + _Preconditions_:
             + `userId` exists in the data returned to the logic-tier from the data-tier
             + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by ":" *(colon)*,, and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
             + The period between `startTime` and `endTime` is not *45 minutes*, *1 hour*, *1 hour and 15 minutes*, or *1 hour and 30 minutes*
         + _Pass conditions_:
             + ``errorCode`` is equal to *465 - INVALID DURATION*
-    + **`testMakeBookingInvalidStartTime`**: test if the server behaves as expected when the request contains an invalid `startTime`
+    + **`testMakeBookingInvalidStartTime`**: test if the request is rejected when `caller` is valid and `startTime` is invalid
         + _Preconditions_:
             + The user is logged in
             + The user does not have a past pending payment nor 3 future bookings
             + `startTime` is not formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by "-" *(hyphens)*, and ordered as given **OR** `startTime` does not come before `endTime` **OR** `startTime` does not come after the time when the interface is called
         + _Pass conditions_:
             + ``errorCode`` is equal to *470 - INVALID START TIME*
-    + **`testMakeBookingInvalidEndTime`**: test if the server behaves as expected when the request contains an invalid `endTime`
+    + **`testMakeBookingInvalidEndTime`**: test if the request is rejected when `caller` is valid and `endTime` is invalid
         + _Preconditions_:
             + The user is logged in
             + The user does not have a past pending payment nor 3 future bookings
