@@ -60,7 +60,7 @@
         + _Preconditions_:
             + `staffId` exists in the data-tier
             + `sportCentreId` exists in the data-tier
-        + _Expected response_:
+        + _Pass conditions_:
             + `successCode` is equal to *200 - SUCCESS*
             + `sportCentre` is a tuple `(name, city, address, phoneNum, courts)` which exists in the data-tier, where:
                 + `name` contains only alphanumeric characters and spaces
