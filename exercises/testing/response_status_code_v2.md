@@ -48,7 +48,7 @@ Coding conventions:
 | 476 | INVALID LAST NAME | The request is rejected, because an invalid last name was provided |
 | 477 | INVALID BIRTHDAY | The request is rejected, because an invalid birthday was provided |
 | 478 | INVALID PLAYER ID | The request is rejected, because an invalid player id was provided |
-
+| 479 | INVALID STAFF ID | The request is rejected, because an invalid staff id was provided |
 
 
 
