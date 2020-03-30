@@ -9,47 +9,47 @@
 ## LOGIC-DATABASE INTERFACES
 ### LOGIN-LOGOUT:
 #### login
-- **Description:** request database for a given userName and hashed password, check whether it is correct or not
+- **Description:** request database for a given playerName and hashed password, check whether it is correct or not
 - **Security/Caller:** anonymous
-- **Request:** loginStaff(staffName, password) / loginUser(userName, password)
+- **Request:** loginStaff(staffName, password) / loginPlayer(playerName, password)
 - **Response:** 
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
 #### logout
-- **Description:** User logout from a server
-- **Security/Caller:** userId/ staffId
-- **Request:** logout(userId/staffId)
+- **Description:** Player logout from a server
+- **Security/Caller:** playerId/ staffId
+- **Request:** logout(playerId/staffId)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
 ### DISPLAY INFORMATION:
 #### getBooking
 - **Description:** request database for all booking for a given city and a given date (**logic layer will extract from that data all available slot**)
-- **Security/Caller:** userId
+- **Security/Caller:** playerId
 - **Request:** getBooking(cityId, date)
 - **Response:** 
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
         + bookingTable (contains these columns: bookingId, sportCenterId, courtId, startTime, endTime)
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
-#### getUserBooking
- - **Description:** request database for all booking of a user by a given city and date
- - **Security/Caller:** userId
- - **Request:** getUserBooking(userId, cityId, date)
+#### getPlayerBooking
+ - **Description:** request database for all booking of a player by a given city and date
+ - **Security/Caller:** playerId
+ - **Request:** getPlayerBooking(playerId, cityId, date)
  - **Response:**
      + **Success:**
-         + SuccessCode(0)
+         + SuccessCode
          + bookingTable (contains these columns: bookingId, sportCenterId, courtId, startTime, endTime)
      + **Error:**
-         + errorCode(-1)
+         + errorCode
          
 #### getSportCenterBooking
 - **Description:** request database for all booking of a sportCenter by a given date
@@ -57,21 +57,21 @@
 - **Request:** getSportCenterBooking(staffId, date)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
-        + bookingTable (contains these columns: bookingId, userId, courtId, startTime, endTime)
+        + SuccessCode
+        + bookingTable (contains these columns: bookingId, playerId, courtId, startTime, endTime)
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
-#### getUserInfo
-- **Description:** request database for all information of a user by a given userId
-- **Security/Caller:** userId
-- **Request:** getUserInfo(userId)
+#### getPlayerInfo
+- **Description:** request database for all information of a player by a given playerId
+- **Security/Caller:** playerId
+- **Request:** getPlayerInfo(playerId)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
-        + userInfoTable(contains these columns: firstName, lastName, dateOfBirth, phoneNumber)
+        + SuccessCode
+        + playerInfoTable(contains these columns: firstName, lastName, dateOfBirth, phoneNumber)
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
 #### getSportCenterInfo
 - **Description:** request database for all information of sportCenter by a given sportCenterId
@@ -79,31 +79,31 @@
 - **Request:** getSportCenterInfo(sportCenterId)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
         + sportCenterInfoTable(contains these columns: name, city, courtId)
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
 ### PERFORM ACTION:
 #### makeBooking
-- **Description:** update to database new booking by a given userId, sportCenterId, courtId, date, startTime, endTime)
-- **Security/Caller:** userId
-- **Request:** makeBooking(userId, sportCenterId, courtId, date, startTime, endTime)
+- **Description:** update to database new booking by a given playerId, sportCenterId, courtId, date, startTime, endTime)
+- **Security/Caller:** playerId
+- **Request:** makeBooking(playerId, sportCenterId, courtId, date, startTime, endTime)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
 #### cancelBooking
 - **Description:** delete from database a existed booking by a given bookingId
-- **Security/Caller:** userId
+- **Security/Caller:** playerId
 - **Request:** cancelBooking(bookingId)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
 #### changeBookingState
 - **Description:** update to database a new booking state by a given bookingId and a state
@@ -111,20 +111,20 @@
 - **Request:** changeBookingState(bookingId, state)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
 ### MODIFY INFORMATION
-#### updateUserInfo (updateFirstName, updateLastName, updateBirthday, updatePhoneNumber)
-- **Description:** update to database a new piece information base on the corresponding parameter and userId
-- **Security/Caller:** userId
-- **Request:** updateFirstName(userId, firstName)/ updateLastName(userId, lastName)/ updateBirthday(userId, birthday)/ updatePhoneNum(userId, phoneNum)
+#### updatePlayerInfo (updateFirstName, updateLastName, updateBirthday, updatePhoneNumber)
+- **Description:** update to database a new piece information base on the corresponding parameter and playerId
+- **Security/Caller:** playerId
+- **Request:** updateFirstName(playerId, firstName)/ updateLastName(playerId, lastName)/ updateBirthday(playerId, birthday)/ updatePhoneNum(playerId, phoneNum)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
 
 #### updateSportCenterInfo (updateName, updateCity, updatePhoneNumber)
 - **Description:** update to database a new piece information base on the corresponding parameter and sportCenterId
@@ -132,28 +132,28 @@
 - **Request:** updateName(sportCenterId, name)/ updateCity(sportCenterId, city)/ updatePhoneNumber(sportCenterId, phoneNum)
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
 ### FURTHER UPDATE / ADDITIONAL FEATURES:
 #### contact
 - **Description:** update to database a new message by a given senderId, receiverId and a message
-- **Security/Caller:** userId/staffId
-- **Request:** contact(sportCenterId / userId (**senderId**), msg, sportCenterId / userId (**reveiverId**))
+- **Security/Caller:** playerId/staffId
+- **Request:** contact(sportCenterId / playerId (**senderId**), msg, sportCenterId / playerId (**reveiverId**))
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
 #### report
 - **Description:** update to database a new report by a given reporterId and reporteeId and a message
-- **Security/Caller:** userId/staffId
-- **Request:** report(sportCenterId / userId (**reporterId**), msg, sportCenterId / userId (**reporteeId**))
+- **Security/Caller:** playerId/staffId
+- **Request:** report(sportCenterId / playerId (**reporterId**), msg, sportCenterId / playerId (**reporteeId**))
 - **Response:**
     + **Success:**
-        + SuccessCode(0)
+        + SuccessCode
     + **Error:**
-        + errorCode(-1)
+        + errorCode
         
