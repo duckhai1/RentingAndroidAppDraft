@@ -1,44 +1,37 @@
 CREATE DATABASE book2play;
 
 DROP TABLE IF EXISTS player;
-CREATE TABLE IF NOT EXISTS player(
+CREATE TABLE IF NOT EXISTS player (
     player_id INT NOT NULL AUTO_INCREMENT,
+
     p_name VARCHAR(50),
-    /* -- For furture --
-    p_email VARCHAR(50) NOT NULL,
-    p_username VARCHAR(25) NOT NULL UNIQUE,
-    p_password VARCHAR(25) NOT NULL,
-    p_phonenumber VARCHAR(10),
-    p_address VARCHAR(50), */
+
     PRIMARY KEY(player_id)
 ); 
 
 DROP TABLE IF EXISTS staff;
-CREATE TABLE IF NOT EXISTS staff(
+CREATE TABLE IF NOT EXISTS staff (
     staff_id INT NOT NULL AUTO_INCREMENT,
-    s_name VARCHAR(50),
-    /* -- For furture --
-    s_email VARCHAR(50) NOT NULL,
-    s_username VARCHAR(25) NOT NULL UNIQUE,
-    s_password VARCHAR(25) NOT NULL,
-    s_phonenumber VARCHAR(10),
-    s_address VARCHAR(50), */
     sportcenter_id int,
+
+    s_name VARCHAR(50),
+
     PRIMARY KEY(staff_id),
     FOREIGN KEY(sportcenter_id) REFERENCES staffs(sportcenter_id) ON DELETE SET NULL
-
 ); 
 
 DROP TABLE IF EXISTS booking;
-CREATE TABLE IF NOT EXISTS booking(
+CREATE TABLE IF NOT EXISTS booking (
     booking_id INT NOT NULL AUTO_INCREMENT,
-    booking_time DATETIME NOT NULL,
+    player_id INT,
+    court_id INT,
+
+    created_at DATETIME NOT NULL,
     booking_date DATE NOT NULL,
     start_time TIME NOT NULL,
     end_time TIME NOT NULL,
-    booking_state BOOLEAN DEFAULT 0, -- 2 state: 0 unpaid; 1 paid
-    player_id INT,
-    court_id INT,
+    is_paid BOOLEAN DEFAULT 0, -- 2 state: 0 unpaid; 1 paid
+
     PRIMARY KEY(booking_id),
     FOREIGN KEY(player_id) REFERENCES player(player_id) ON DELETE CASCADE,
     FOREIGN KEY(court_id) REFERENCES court(court_id) ON DELETE SET NULL
@@ -46,19 +39,21 @@ CREATE TABLE IF NOT EXISTS booking(
 ); 
 
 DROP TABLE IF EXISTS city;
-CREATE TABLE IF NOT EXISTS city(
+CREATE TABLE IF NOT EXISTS city (
     city_id INT NOT NULL AUTO_INCREMENT,
+
     city_name VARCHAR(50) NOT NULL UNIQUE,
+
     PRIMARY KEY(city_id)
 ); 
 
 DROP TABLE IF EXISTS sportcenter;
-CREATE TABLE IF NOT EXISTS sportcenter(
-    sportcentre_id INT NOT NULL AUTO_INCREMENT,
-    sc_name VARCHAR(50) NOT NULL UNIQUE,
-    /* -- For furture 
-    sc_address VARCHAR(50), */
+CREATE TABLE IF NOT EXISTS sportcenter (
+    sportcenter_id INT NOT NULL AUTO_INCREMENT,
     city_id INT,
+
+    sc_name VARCHAR(50) NOT NULL UNIQUE,
+
     PRIMARY KEY(sportcenter_id),
     FOREIGN KEY(city_id) REFERENCES city(city_id) ON DELETE CASCADE
 ); 
@@ -66,8 +61,10 @@ CREATE TABLE IF NOT EXISTS sportcenter(
 DROP TABLE IF EXISTS court;
 CREATE TABLE IF NOT EXISTS court(
     court_id INT NOT NULL AUTO_INCREMENT,
-    court_name VARCHAR(50) NOT NULL UNIQUE,
     sportcentre_id INT,
+
+    court_name VARCHAR(50) NOT NULL UNIQUE,
+
     PRIMARY KEY(court_id),
     FOREIGN KEY(sportcentre_id) REFERENCES sportcenter(sportcentre_id) ON DELETE CASCADE
 );
