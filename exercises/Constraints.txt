@@ -1,0 +1,32 @@
+PLAYER CONSTRAINTS
+1.PlayerID NOT NULL PRIMARY KEY
+2.Player can not cancel a booking if:
+SlotStartTime - BookingTime < 24h
+3.A.Player can only check A.Booking
+4.Pusername NOT NULL UNIQUE
+
+STAFFS CONSTRAINTS
+1.StaffID NOT NULL PRIMARY KEY
+2.Susername NOT NULL UNIQUE
+
+BOOKING CONSTRAINTS
+1.MAX Booking = 3
+2.Can not add booking A in database if there are booking B:
+	B.StartTime > CurrentTime
+	B.state == unpaid
+	A.PlayerId == B.PlayerId
+3.DELETE FROM Booking
+  WHERE B.state == cancel
+4.BookingNumber NOT NULL PRIMARY KEY
+5.SlotStartTime < SlotEndTime
+6.A.SlotStartTime - A.SlotEndTime != B.SlotStartTime - B.SlotEndTime
+7.Can not insert booking A if there exist booking B: 
+(A.start<B.start and A.end>B.start) or
+(A.start>B.start and A.start<B.end)
+
+SPORTCENTRES CONSTRAINTS
+1.SportCentreID NOT NULL PRIMARY KEY
+
+
+COURTS CONSTRAINTS
+1.CourtID NOT NULL PRIMARY KEY
