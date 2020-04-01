@@ -52,7 +52,6 @@ CREATE TABLE IF NOT EXISTS bookings (
     bookingEndTime TIME NOT NULL,
     createdAt TIMESTAMP NOT NULL,
     isPaid BOOLEAN DEFAULT FALSE, -- FALSE-unpaid; TRUE-paid
-    isCancelled BOOLEAN DEFAULT FALSE, -- FALSE-not cancelled; TRUE-cancelled
     playerId INT NOT NULL,
     courtId INT NULL,
 

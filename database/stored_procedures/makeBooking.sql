@@ -60,7 +60,7 @@ BEGIN
     ELSEIF (
 		SELECT count(*)
         FROM bookings
-		WHERE player_id = inPlayerId
+		WHERE playerId = inPlayerId
 			AND isPaid = FALSE
 			AND isCancelled = FALSE
 			AND cast(concat(bookingDate, ' ', bookingStartTime) as datetime) < NOW()
