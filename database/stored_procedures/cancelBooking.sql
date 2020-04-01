@@ -4,30 +4,25 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS cancelBooking//
 
 CREATE PROCEDURE cancelBooking(
-    in input_booking_id INT,
-    in input_player_id INT,
-    out result_code INT
+    IN inBookingId INT,
+    OUT resultCode INT
 )
-BEGIN 
-    -- test if parameter exist
-    IF input_booking_id NOT IN (SELECT booking_id FROM booking) THEN 
-        SET result_code = 410;
-    ELSEIF input_player_id NOT IN (SELECT player FROM player) THEN 
-        SET result_code = 478; 
-    -- if player have permission
-    ELSEIF input_player_id <> (SELECT player_id FROM booking WHERE booking_id = input_booking_id) THEN
-        SET result_code = 401;
-    -- test if cancel was late
-    ELSEIF TIMEDIFF((SELECT (cast(concat(booking_date, ' ', booking_time) as datetime))
-                     FROM booking 
-                     WHERE booking_id = input_booking_id),
-                    NOW()
-        ) < TIME('24:00:00') THEN 
-        SET result_code = 412;
-    ELSE 
-        -- cancel the booking 
-        SET result_code = 200;
-        DELETE FROM booking WHERE booking_id = input_booking_id;
+BEGIN
+	DECLARE bookingDatetime DATETIME;
+	SELECT (CAST(CONCAT(bookingDate, ' ', bookingStartTime) AS DATETIME))
+	INTO bookingDatetime
+	FROM booking
+	WHERE bookingId = inBookingId;
+
+    IF inBookingId NOT IN (SELECT bookingId FROM bookings) THEN
+        SET resultCode = 410; -- booking id does not exists
+
+    ELSEIF TIMEDIFF(bookingDatetime, NOW()) < TIME('24:00:00') THEN
+        SET resultCode = 412; -- the booking is cancelled in less then 24h before the start time
+
+    ELSE
+        SET resultCode = 200;
+        DELETE FROM booking WHERE bookingId = inBookingId; -- cancel the booking
     END IF;
 END//
 
