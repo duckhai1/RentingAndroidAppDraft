@@ -4,66 +4,73 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS makeBooking//
 
 CREATE PROCEDURE makeBooking(
-    IN input_player_id INT,
-    IN input_court_id INT,
-    IN input_date DATE,
-    IN input_start_time TIME,
-    IN input_end_time TIME,
-    OUT result_code INT
+    IN inPlayerId INT,
+    IN inCourtId INT,
+    IN inDate DATE,
+    IN inStartTime TIME,
+    IN inEndTime TIME,
+    OUT resultCode INT
 )
 BEGIN
-    DECLARE open_time TIME;
-    DECLARE close_time TIME;
-    SET open_time = '07:00:00';
-    SET close_time = '21:00:00';
+    DECLARE openTime TIME;
+    DECLARE closeTime TIME;
+    SET openTime = '07:00:00';
+    SET closeTime = '21:00:00';
 
-    IF input_player_id NOT IN (SELECT player_id FROM player) THEN
-        SET result_code = 478; -- player is does not exist
-    ELSEIF input_court_id NOT IN (SELECT court_id FROM court) THEN
-        SET result_code = 469; -- court id does not exist
-    ELSEIF input_start_time < open_time
-		OR input_start_time > close_time
-		OR MOD(UNIX_TIMESTAMP(input_start_time), 15 * 60) <> 0 THEN
-        SET result_code = 470; -- start time is not in working hour or is not in interval of 15 minutes with 00h00m is the start
-    ELSEIF input_end_time < open_time
-		OR input_end_time > close_time
-		OR MOD(UNIX_TIMESTAMP(input_end_time),(15 * 60)) <> 0 THEN
-        SET result_code = 471; -- end time is not in working hour or is not in interval of 15 minutes with 00h00m is the start
-    ELSEIF TIMEDIFF(input_end_time, input_start_time) <> TIME('00:45:00')
-		AND TIMEDIFF(input_end_time, input_start_time) <> TIME('01:00:00')
-		AND TIMEDIFF(input_end_time, input_start_time) <> TIME('01:15:00')
-		AND TIMEDIFF(input_end_time, input_start_time) <> TIME('01:30:00') THEN
-        SET result_code = 465; -- invalid duration, interval between start time and end time must be 45m, 1h, 1h15, or 1h30
+    IF inPlayerId NOT IN (SELECT playerId FROM players) THEN
+        SET resultCode = 478; -- player is does not exist
+
+    ELSEIF inCourtId NOT IN (SELECT courtId FROM courts) THEN
+        SET resultCode = 469; -- court id does not exist
+
+    ELSEIF inStartTime < openTime
+		OR inStartTime > closeTime
+		OR MOD(UNIX_TIMESTAMP(inStartTime), 15 * 60) <> 0 THEN
+        SET resultCode = 470; -- start time is not in working hour or is not in interval of 15 minutes with 00h00m is the start
+
+    ELSEIF inEndTime < openTime
+		OR inEndTime > closeTime
+		OR MOD(UNIX_TIMESTAMP(inEndTime),(15 * 60)) <> 0 THEN
+        SET resultCode = 471; -- end time is not in working hour or is not in interval of 15 minutes with 00h00m is the start
+
+    ELSEIF TIMEDIFF(inEndTime, inStartTime) <> TIME('00:45:00')
+		AND TIMEDIFF(inEndTime, inStartTime) <> TIME('01:00:00')
+		AND TIMEDIFF(inEndTime, inStartTime) <> TIME('01:15:00')
+		AND TIMEDIFF(inEndTime, inStartTime) <> TIME('01:30:00') THEN
+        SET resultCode = 465; -- invalid duration, interval between start time and end time must be 45m, 1h, 1h15, or 1h30
+
 	ELSEIF (
         SELECT count(*)
-        FROM booking
-        WHERE player_id = input_player_id
-            AND CAST(CONCAT(booking_date, ' ', booking_start_time) AS DATETIME) > NOW()
+        FROM bookings
+        WHERE playerId = inPlayerId
+            AND CAST(CONCAT(bookingDate, ' ', bookingStartTime) AS DATETIME) > NOW()
     ) >= 3 THEN
-		SET result_code = 411; -- the user already has 3 upcomming bookings
+		SET resultCode = 411; -- the user already has 3 upcomming bookings
+
 	ELSEIF (
 		SELECT count(*)
-        FROM booking
-        WHERE court_id = input_court_id
-			AND booking_date = input_date
-			AND ((input_start_time < start_time AND input_end_time > start_time)
-				OR (input_start_time > start_time AND input_start_time < end_time))
+        FROM bookings
+        WHERE courtId = inCourtId
+			AND bookingDate = inDate
+			AND ((inStartTime <= bookingStartTime AND inEndTime > bookingStartTime)
+				OR (inStartTime >= bookingStartTime AND inStartTime < bookingEndTime))
     ) > 0 THEN
-		SET result_code = 464; -- the booking's period overlaps with another existing booking
+		SET resultCode = 464; -- the booking's period overlaps with another existing booking
+
     ELSEIF (
 		SELECT count(*)
-        FROM booking
-		WHERE player_id = input_player_id
-			AND is_paid = FALSE
-			AND is_cancelled = FALSE
-			AND cast(concat(booking_date, ' ', booking_time) as datetime) < NOW()
+        FROM bookings
+		WHERE player_id = inPlayerId
+			AND isPaid = FALSE
+			AND isCancelled = FALSE
+			AND cast(concat(bookingDate, ' ', bookingStartTime) as datetime) < NOW()
     ) > 0 THEN
-		SET result_code = 413;
+		SET resultCode = 413;
+
     ELSE
-		SET result_code = 202;
-        
-		INSERT INTO booking (booking_date, booking_start_time, booking_end_time, created_at, player_id, court_id)
-		VALUES (input_date, input_start_time, input_end_time, NOW(), input_player_id, input_court_id);
+		SET resultCode = 202;
+		INSERT INTO bookings (bookingDate, bookingStartTime, bookingEndTime, createdAt, playerId, courtId)
+		VALUES (inDate, inStartTime, inEndTime, NOW(), inPlayerId, inCourtId);
     END IF;
 END//
 
