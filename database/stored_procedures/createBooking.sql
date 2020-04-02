@@ -1,9 +1,9 @@
 -- MakeBooking
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS makeBooking//
+DROP PROCEDURE IF EXISTS createBooking//
 
-CREATE PROCEDURE makeBooking(
+CREATE PROCEDURE createBooking (
     IN inPlayerId INT,
     IN inCourtId INT,
     IN inDate DATE,

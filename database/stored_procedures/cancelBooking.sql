@@ -3,7 +3,7 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS cancelBooking//
 
-CREATE PROCEDURE cancelBooking(
+CREATE PROCEDURE cancelBooking (
     IN inBookingId INT,
 )
 BEGIN

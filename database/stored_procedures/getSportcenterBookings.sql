@@ -20,7 +20,7 @@ BEGIN
 			SET MYSQL_ERRNO = 462; -- sportcenter id does not exist
 	END IF;
 
-	IF inBookingDate NOT in (SELECT bookingDate FROM bookings) THEN
+	IF inBookingDate NOT IN (SELECT bookingDate FROM bookings) THEN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 463; -- no bookings in the given date
 	END IF;
