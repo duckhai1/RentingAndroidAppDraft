@@ -1,16 +1,19 @@
+DELIMITER //
+
 DROP PROCEDURE IF EXISTS getPlayerInfo//
 CREATE PROCEDURE getPlayerInfo(
-	in input_player_id INT,
-    out result_code INT
+	IN inPlayerId INT,
+    OUT resultCode INT
 )
 BEGIN
-	IF input_player_id NOT in(SELECT player_id FROM player) THEN
-		SET result_code = 478;
+	IF inPlayerId NOT in(SELECT playerId FROM players) THEN
+		SET resultCode = 478;
     ELSE
-        SET result_code = 201;
+        SET resultCode = 201;
         SELECT *
         FROM player
-        WHERE player_id = input_player_id;
+        WHERE playerId = inPlayerId;
 	END IF;
 END//
 
+DELIMITER ;

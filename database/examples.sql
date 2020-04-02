@@ -17,6 +17,16 @@ INSERT INTO courts(sportcenterId, courtName) VALUES
 	((SELECT sportcenterId FROM sportcenters WHERE sportcenterName = 'HoChiMinh Sport Center A'), 'Court 3');
 
 CALL makeBooking(
+	(SELECT playerId FROM players WHERE playerName = 'Hieu'),
+    (SELECT courtId FROM courts WHERE courtName = 'Court 1'),
+    "2020-04-15",
+    "6:00:00",
+    "7:30:00",
+    @StatusCode
+);
+SELECT @StatusCode;
+
+CALL makeBooking(
 	(SELECT playerId FROM players WHERE playerName = 'Tung'),
     (SELECT courtId FROM courts WHERE courtName = 'Court 1'),
     "2020-04-15",
@@ -24,7 +34,28 @@ CALL makeBooking(
     "10:30:00",
     @StatusCode
 );
-SELECT @StatusCode;
+
+CALL makeBooking(
+	(SELECT playerId FROM players WHERE playerName = 'Tung'),
+    (SELECT courtId FROM courts WHERE courtName = 'Court 1'),
+    "2020-04-15",
+    "10:30:00",
+    "12:00:00",
+    @StatusCode
+);
+
+CALL makeBooking(
+	(SELECT playerId FROM players WHERE playerName = 'Tung'),
+    (SELECT courtId FROM courts WHERE courtName = 'Court 1'),
+    "2020-04-15",
+    "14:00:00",
+    "15:00:00",
+    @StatusCode
+);
+
 
 CALL cancelBooking(1, @StatusCode);
+SELECT @StatusCode;
+
+CALL getBookings((SELECT cityId FROM cities WHERE cityName = 'Ho Chi Minh'), "2020-04-15", @StatusCode);
 SELECT @StatusCode;

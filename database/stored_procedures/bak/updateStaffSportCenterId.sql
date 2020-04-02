@@ -1,19 +1,22 @@
+DELIMITER //
+
 DROP PROCEDURE IF EXISTS updateStaffSportCenterId//
 CREATE PROCEDURE updateStaffSportCenterId(
-    in input_staff_id INT,
-    in input_sportcenter_id INT,
-    out result_code INT 
+    in inStaffId INT,
+    in inSportcenterId INT,
+    out resultCode INT 
 )
 BEGIN
-    -- test if parameter exist
-    IF input_staff_id NOT IN (SELECT staff_id FROM staff) THEN 
-        SET result_code = 479;
-    ELSEIF input_sportcenter_id NOT IN (SELECT sportcenter_id FROM sportcenter) THEN
-        SET result_code = 462;
+    IF inStaffId NOT IN (SELECT staffId FROM staffs) THEN 
+        SET resultCode = 479; -- staff id does not exist
+    ELSEIF inSportcenterId NOT IN (SELECT sportcenterId FROM sportcenters) THEN
+        SET resultCode = 462; -- 
     ELSE
-        SET result_code = 203;
+        SET resultCode = 203;
         UPDATE staff 
-        SET sportcenter_id = input_sportcenter_id
-        WHERE staff_id = input_staff_id;
+        SET sportcenterId = inSportCenterId
+        WHERE staffId = inStaffId;
     END IF;
 END//
+
+DELIMITER ;

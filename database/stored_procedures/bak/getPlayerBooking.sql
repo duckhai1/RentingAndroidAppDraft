@@ -1,28 +1,32 @@
-DROP PROCEDURE IF EXISTS getPlayerBooking//
-	CREATE PROCEDURE getPlayerBooking(
-	in input_player_id INT,
-    in input_city_name INT,
-    in input_book_date DATE,
-    out result_code INT
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS getPlayerBookings //
+	CREATE PROCEDURE getPlayerBookings (
+	IN inPlayerId INT,
+    IN inCityName INT,
+    IN inBookingDate DATE,
+    OUT resultCode INT
 )
 BEGIN
-	IF input_player_id NOT in(SELECT player_id FROM booking) THEN
-		SET result_code = 478;
-	ELSEIF input_city_name NOT in(SELECT city_name
-					            FROM  city
-                                NATURAL JOIN sportcenter 
-                                NATURAL JOIN court 
-                                NATURAL JOIN booking
+	IF inPlayerId NOT in(SELECT playerId FROM bookings) THEN
+		SET resultCode = 478;
+	ELSEIF inCityName NOT in(SELECT cityName
+					            FROM cities
+                                NATURAL JOIN sportcenters 
+                                NATURAL JOIN courts
+                                NATURAL JOIN bookings
 	) THEN
-		SET result_code = 461;
-	ELSEIF input_book_date NOT in (SELECT booking_date FROM booking) THEN 
-        SET result_code = 463;
+		SET resultCode = 461;
+	ELSEIF inBookingDate NOT in (SELECT bookingDate FROM bookings) THEN 
+        SET resultCode = 463;
     ELSE
-        SET result_code = 200;
+        SET resultCode = 200;
         SELECT * 
-        FROM booking 
-        WHERE player_id = input_player_id 
-            AND city_name = input_city_name 
-            AND booking_date = input_book_date;
+        FROM bookings
+        WHERE playerId = inPlayerId 
+            AND cityName = inCityName 
+            AND bookingDate = inBookingDate;
     END IF;
 END//
+
+DELIMITER ;
