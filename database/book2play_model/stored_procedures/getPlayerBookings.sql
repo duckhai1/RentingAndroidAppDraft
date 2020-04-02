@@ -17,7 +17,7 @@ BEGIN
 		ROLLBACK;
 	END;
 
-	START TRANSITION;
+	START TRANSACTION;
 
 	IF inPlayerId NOT IN (SELECT playerId FROM bookings) THEN
 		SIGNAL SQLSTATE '45000'
@@ -34,7 +34,7 @@ BEGIN
 			SET MYSQL_ERRNO = 461; -- city id does not exist
 	END IF;
 
-	IF inBookingDate NOT in (SELECT bookingDate FROM bookings) THEN
+	IF inBookingDate NOT IN (SELECT bookingDate FROM bookings) THEN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 463; -- no bookings in given date
 	END IF;

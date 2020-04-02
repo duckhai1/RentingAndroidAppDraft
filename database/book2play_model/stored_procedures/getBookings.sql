@@ -5,8 +5,8 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS getBookings//
 CREATE PROCEDURE getBookings (
-    in inCityId INT,
-    in inBookingDate DATE,
+    IN inCityId INT,
+    IN inBookingDate DATE
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -16,9 +16,9 @@ BEGIN
 		ROLLBACK;
 	END;
 
-	START TRANSITION;
+	START TRANSACTION;
 
-    IF inCityId NOT in (SELECT cityId FROM cities ) THEN
+    IF inCityId NOT IN (SELECT cityId FROM cities ) THEN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 461; -- city id does not exist
 	END IF;

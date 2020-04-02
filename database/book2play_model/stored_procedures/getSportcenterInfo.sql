@@ -5,7 +5,7 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS getSportcenterInfo//
 CREATE PROCEDURE getSportcenterInfo (
-	in inSportcenterId INT
+	IN inSportcenterId INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -15,7 +15,7 @@ BEGIN
 		ROLLBACK;
 	END;
 
-	START TRANSITION;
+	START TRANSACTION;
 
 	IF inSportcenterId NOT IN (SELECT sportcenterId FROM sportcenters) THEN
 		SIGNAL SQLSTATE '45000'

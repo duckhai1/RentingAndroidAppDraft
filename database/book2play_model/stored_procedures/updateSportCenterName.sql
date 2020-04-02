@@ -3,10 +3,10 @@
 */
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS updateSportCenterName //
-CREATE PROCEDURE updateSportCenterName (
+DROP PROCEDURE IF EXISTS updateSportcenterName //
+CREATE PROCEDURE updateSportcenterName (
     IN inSportcenterId INT,
-    IN inSportcenterName VARCHAR(64),
+    IN inSportcenterName VARCHAR(64)
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION

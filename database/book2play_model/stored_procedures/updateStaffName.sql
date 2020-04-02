@@ -5,9 +5,8 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS updateStaffName //
 CREATE PROCEDURE updateStaffName (
-    in inStaffId INT,
-    in inStaffName VARCHAR(50),
-    out MYSQL_ERRNO INT 
+    IN inStaffId INT,
+    IN inStaffName VARCHAR(64)
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -17,7 +16,7 @@ BEGIN
 		ROLLBACK;
 	END;
 
-	START TRANSITION;
+	START TRANSACTION;
 
     IF inStaffId NOT IN (SELECT staffId FROM staffs) THEN 
         SIGNAL SQLSTATE '45000'

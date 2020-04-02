@@ -1,7 +1,7 @@
 /*
 	Change the name of a player given the player id
 */
-DELIMTER //
+DELIMITER //
 
 DROP PROCEDURE IF EXISTS updatePlayerName//
 CREATE PROCEDURE updatePlayerName (

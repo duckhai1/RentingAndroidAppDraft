@@ -5,7 +5,7 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS getBookingInfo//
 CREATE PROCEDURE getBookingInfo (
-    in inBookingId INT
+    IN inBookingId INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -15,9 +15,9 @@ BEGIN
 		ROLLBACK;
 	END;
 
-	START TRANSITION;
+	START TRANSACTION;
 
-    IF inBookingId NOT in (SELECT bookingId FROM bookings ) THEN
+    IF inBookingId NOT IN (SELECT bookingId FROM bookings ) THEN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 410; -- booking not found
 	END IF;

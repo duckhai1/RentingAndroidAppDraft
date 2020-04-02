@@ -75,7 +75,7 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS getBookingInfo//
 CREATE PROCEDURE getBookingInfo (
-    in inBookingId INT
+    IN inBookingId INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -85,9 +85,9 @@ BEGIN
 		ROLLBACK;
 	END;
 
-	START TRANSITION;
+	START TRANSACTION;
 
-    IF inBookingId NOT in (SELECT bookingId FROM bookings ) THEN
+    IF inBookingId NOT IN (SELECT bookingId FROM bookings ) THEN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 410; -- booking not found
 	END IF;
@@ -138,7 +138,7 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS getStaffInfo//
 CREATE PROCEDURE getStaffInfo(
-	in inStaffId INT
+	IN inStaffId INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -148,7 +148,7 @@ BEGIN
 		ROLLBACK;
 	END;
 
-	START TRANSITION;
+	START TRANSACTION;
 
 	IF inStaffId NOT IN (SELECT staffId FROM staffs) THEN
 		SIGNAL SQLSTATE '45000'
@@ -169,9 +169,8 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS updateStaffName //
 CREATE PROCEDURE updateStaffName (
-    in inStaffId INT,
-    in inStaffName VARCHAR(50),
-    out MYSQL_ERRNO INT 
+    IN inStaffId INT,
+    IN inStaffName VARCHAR(64)
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -181,7 +180,7 @@ BEGIN
 		ROLLBACK;
 	END;
 
-	START TRANSITION;
+	START TRANSACTION;
 
     IF inStaffId NOT IN (SELECT staffId FROM staffs) THEN 
         SIGNAL SQLSTATE '45000'
@@ -198,7 +197,7 @@ DELIMITER ;
 /*
 	Change the name of a player given the player id
 */
-DELIMTER //
+DELIMITER //
 
 DROP PROCEDURE IF EXISTS updatePlayerName//
 CREATE PROCEDURE updatePlayerName (
@@ -234,7 +233,7 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS cancelBooking//
 CREATE PROCEDURE cancelBooking (
-    IN inBookingId INT,
+    IN inBookingId INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -244,7 +243,7 @@ BEGIN
 		ROLLBACK;
 	END;
 
-	START TRANSITION;
+	START TRANSACTION;
 
     IF inBookingId NOT IN (SELECT bookingId FROM bookings) THEN
 		SIGNAL SQLSTATE '45000'
@@ -273,7 +272,7 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS getSportcenterInfo//
 CREATE PROCEDURE getSportcenterInfo (
-	in inSportcenterId INT
+	IN inSportcenterId INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -283,7 +282,7 @@ BEGIN
 		ROLLBACK;
 	END;
 
-	START TRANSITION;
+	START TRANSACTION;
 
 	IF inSportcenterId NOT IN (SELECT sportcenterId FROM sportcenters) THEN
 		SIGNAL SQLSTATE '45000'
@@ -316,7 +315,7 @@ BEGIN
 		ROLLBACK;
 	END;
 
-	START TRANSITION;
+	START TRANSACTION;
 
 	IF inPlayerId NOT IN (SELECT playerId FROM bookings) THEN
 		SIGNAL SQLSTATE '45000'
@@ -333,7 +332,7 @@ BEGIN
 			SET MYSQL_ERRNO = 461; -- city id does not exist
 	END IF;
 
-	IF inBookingDate NOT in (SELECT bookingDate FROM bookings) THEN
+	IF inBookingDate NOT IN (SELECT bookingDate FROM bookings) THEN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 463; -- no bookings in given date
 	END IF;
@@ -367,7 +366,7 @@ BEGIN
 		ROLLBACK;
 	END;
 
-	START TRANSITION;
+	START TRANSACTION;
 
 	IF inPlayerId NOT IN (SELECT playerId FROM players) THEN
 		SIGNAL SQLSTATE '45000'
@@ -388,8 +387,8 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS getBookings//
 CREATE PROCEDURE getBookings (
-    in inCityId INT,
-    in inBookingDate DATE,
+    IN inCityId INT,
+    IN inBookingDate DATE
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -399,9 +398,9 @@ BEGIN
 		ROLLBACK;
 	END;
 
-	START TRANSITION;
+	START TRANSACTION;
 
-    IF inCityId NOT in (SELECT cityId FROM cities ) THEN
+    IF inCityId NOT IN (SELECT cityId FROM cities ) THEN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 461; -- city id does not exist
 	END IF;
@@ -535,7 +534,7 @@ BEGIN
 		ROLLBACK;
 	END;
 
-	START TRANSITION;
+	START TRANSACTION;
 
 	IF inSportcenterId NOT IN (SELECT sportcenterId FROM sportcenters) THEN
 		SIGNAL SQLSTATE '45000'
@@ -574,7 +573,7 @@ BEGIN
 		ROLLBACK;
 	END;
 
-	START TRANSITION;
+	START TRANSACTION;
 
     IF inCourtId NOT IN (SELECT courtId FROM courts) THEN 
 		SIGNAL SQLSTATE '45000'
@@ -595,7 +594,7 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS getCourtInfo//
 CREATE PROCEDURE getCourtInfo(
-	in inCourtId INT
+	IN inCourtId INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -605,7 +604,7 @@ BEGIN
 		ROLLBACK;
 	END;
 
-	START TRANSITION;
+	START TRANSACTION;
 
 	IF inCourtId NOT IN (SELECT courtId FROM courts) THEN
 		SIGNAL SQLSTATE '45000'
@@ -624,10 +623,10 @@ DELIMITER ;
 */
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS updateSportCenterName //
-CREATE PROCEDURE updateSportCenterName (
+DROP PROCEDURE IF EXISTS updateSportcenterName //
+CREATE PROCEDURE updateSportcenterName (
     IN inSportcenterId INT,
-    IN inSportcenterName VARCHAR(64),
+    IN inSportcenterName VARCHAR(64)
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
