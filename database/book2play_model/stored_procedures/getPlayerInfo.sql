@@ -1,3 +1,6 @@
+/*
+	Get all information about a player given the player id
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS getPlayerInfo//
@@ -11,6 +14,8 @@ BEGIN
 		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
 		ROLLBACK;
 	END;
+
+	START TRANSITION;
 
 	IF inPlayerId NOT IN (SELECT playerId FROM players) THEN
 		SIGNAL SQLSTATE '45000'

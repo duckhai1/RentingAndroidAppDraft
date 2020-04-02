@@ -1,6 +1,8 @@
+/*
+	Update whether a booking has been paid or not
+*/
 DELIMITER //
 
--- change booking state
 DROP PROCEDURE IF EXISTS updateBookingPaymentStatus//
 CREATE PROCEDURE updateBookingPaymentStatus (
     IN inBookingId INT,

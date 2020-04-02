@@ -1,4 +1,6 @@
--- Get sport center's bookings for a specific date
+/*
+	Get all bookings of the sport center in the given date
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS getSportcenterBookings//
@@ -14,6 +16,7 @@ BEGIN
 		ROLLBACK;
 	END;
 
+	START TRANSITION;
 
 	IF inSportcenterId NOT IN (SELECT sportcenterId FROM sportcenters) THEN
 		SIGNAL SQLSTATE '45000'

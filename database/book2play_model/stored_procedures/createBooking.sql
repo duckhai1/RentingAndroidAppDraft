@@ -1,8 +1,10 @@
--- MakeBooking
+/*
+	Create a booking given the player id, the court id, 
+	date and start/end time of the booking
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS createBooking//
-
 CREATE PROCEDURE createBooking (
     IN inPlayerId INT,
     IN inCourtId INT,

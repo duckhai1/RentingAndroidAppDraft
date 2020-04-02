@@ -1,3 +1,6 @@
+/*
+	Change the name of a staff given the staff id
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS updateStaffName //
@@ -13,6 +16,8 @@ BEGIN
 		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
 		ROLLBACK;
 	END;
+
+	START TRANSITION;
 
     IF inStaffId NOT IN (SELECT staffId FROM staffs) THEN 
         SIGNAL SQLSTATE '45000'

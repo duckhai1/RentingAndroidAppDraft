@@ -13,15 +13,15 @@ stored_procedures = model_root / 'stored_procedures'
 with open(DEFAULT_OUT, "w") as fo:
     with init_file.open('r') as fi:
         fo.write(fi.read())
-        fo.write('\n')
+        fo.write('\n\n')
 
     for x in model_root.iterdir():
         if x != init_file and x != stored_procedures:
             with x.open('r') as fi:
                 fo.write(fi.read())
-                fo.write('\n')
+                fo.write('\n\n')
                 
     for x in stored_procedures.iterdir():
         with x.open('r') as fi:
             fo.write(fi.read())
-            fo.write('\n')
+            fo.write('\n\n')

@@ -1,3 +1,6 @@
+/*
+	Get all bookings of a player in the given city and date
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS getPlayerBookings //
@@ -13,6 +16,8 @@ BEGIN
 		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
 		ROLLBACK;
 	END;
+
+	START TRANSITION;
 
 	IF inPlayerId NOT IN (SELECT playerId FROM bookings) THEN
 		SIGNAL SQLSTATE '45000'

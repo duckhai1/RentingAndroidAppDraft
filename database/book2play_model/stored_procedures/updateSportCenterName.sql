@@ -1,3 +1,6 @@
+/*
+	Change the name of a sport center given the sport center id
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS updateSportCenterName //

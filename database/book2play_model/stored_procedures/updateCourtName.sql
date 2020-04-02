@@ -1,4 +1,6 @@
--- Update court name
+/*
+	Change the name of a court given the court id
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS updateCourtName//
@@ -13,6 +15,8 @@ BEGIN
 		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
 		ROLLBACK;
 	END;
+
+	START TRANSITION;
 
     IF inCourtId NOT IN (SELECT courtId FROM courts) THEN 
 		SIGNAL SQLSTATE '45000'

@@ -1,6 +1,7 @@
 DROP DATABASE IF EXISTS book2play_test;
 CREATE DATABASE book2play_test;
 USE book2play_test;
+
 CREATE TABLE IF NOT EXISTS cities (
   cityId INT NOT NULL AUTO_INCREMENT,
   cityName VARCHAR(64) NOT NULL,
@@ -67,9 +68,42 @@ CREATE TABLE IF NOT EXISTS bookings (
 		ON DELETE SET NULL
 ); 
 
+/*
+	Get all information about a booking given the booking id
+*/
 DELIMITER //
 
--- change booking state
+DROP PROCEDURE IF EXISTS getBookingInfo//
+CREATE PROCEDURE getBookingInfo (
+    in inBookingId INT
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO, @p2 = MESSAGE_TEXT;
+		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
+		ROLLBACK;
+	END;
+
+	START TRANSITION;
+
+    IF inBookingId NOT in (SELECT bookingId FROM bookings ) THEN
+		SIGNAL SQLSTATE '45000'
+			SET MYSQL_ERRNO = 410; -- booking not found
+	END IF;
+
+	SELECT *
+	FROM bookings
+	WHERE bookingId = inBookingId;
+END//
+
+DELIMITER ;
+
+/*
+	Update whether a booking has been paid or not
+*/
+DELIMITER //
+
 DROP PROCEDURE IF EXISTS updateBookingPaymentStatus//
 CREATE PROCEDURE updateBookingPaymentStatus (
     IN inBookingId INT,
@@ -97,6 +131,9 @@ END//
 
 DELIMITER ;
 
+/*
+	Get all information about a staff given the staff id
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS getStaffInfo//
@@ -111,6 +148,8 @@ BEGIN
 		ROLLBACK;
 	END;
 
+	START TRANSITION;
+
 	IF inStaffId NOT IN (SELECT staffId FROM staffs) THEN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 479;
@@ -123,6 +162,9 @@ END//
 
 DELIMITER ;
 
+/*
+	Change the name of a staff given the staff id
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS updateStaffName //
@@ -139,6 +181,8 @@ BEGIN
 		ROLLBACK;
 	END;
 
+	START TRANSITION;
+
     IF inStaffId NOT IN (SELECT staffId FROM staffs) THEN 
         SIGNAL SQLSTATE '45000'
             SET MYSQL_ERRNO = 479;
@@ -150,6 +194,10 @@ BEGIN
 END//
 
 DELIMITER ;
+
+/*
+	Change the name of a player given the player id
+*/
 DELIMTER //
 
 DROP PROCEDURE IF EXISTS updatePlayerName//
@@ -178,11 +226,13 @@ BEGIN
 END//
  
  DELIMITER ;
--- cancel booking
+
+/*
+	Cancel a booking given the booking id
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS cancelBooking//
-
 CREATE PROCEDURE cancelBooking (
     IN inBookingId INT,
 )
@@ -193,6 +243,8 @@ BEGIN
 		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
 		ROLLBACK;
 	END;
+
+	START TRANSITION;
 
     IF inBookingId NOT IN (SELECT bookingId FROM bookings) THEN
 		SIGNAL SQLSTATE '45000'
@@ -214,6 +266,40 @@ END//
 
 DELIMITER ;
 
+/*
+	Get all information about a sport center given the sport center id
+*/
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS getSportcenterInfo//
+CREATE PROCEDURE getSportcenterInfo (
+	in inSportcenterId INT
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO, @p2 = MESSAGE_TEXT;
+		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
+		ROLLBACK;
+	END;
+
+	START TRANSITION;
+
+	IF inSportcenterId NOT IN (SELECT sportcenterId FROM sportcenters) THEN
+		SIGNAL SQLSTATE '45000'
+			SET MYSQL_ERRNO = 462;
+	END IF;
+
+	SELECT *
+	FROM sportcenters
+	WHERE sportcenterId = inSportcenterId;
+END//
+
+DELIMITER ;
+
+/*
+	Get all bookings of a player in the given city and date
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS getPlayerBookings //
@@ -229,6 +315,8 @@ BEGIN
 		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
 		ROLLBACK;
 	END;
+
+	START TRANSITION;
 
 	IF inPlayerId NOT IN (SELECT playerId FROM bookings) THEN
 		SIGNAL SQLSTATE '45000'
@@ -262,6 +350,9 @@ END//
 
 DELIMITER ;
 
+/*
+	Get all information about a player given the player id
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS getPlayerInfo//
@@ -276,6 +367,8 @@ BEGIN
 		ROLLBACK;
 	END;
 
+	START TRANSITION;
+
 	IF inPlayerId NOT IN (SELECT playerId FROM players) THEN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 478;
@@ -288,11 +381,12 @@ END//
 
 DELIMITER ;
 
--- Get all bookings for a given city and date
+/*
+	Get all bookings for a given date and city id
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS getBookings//
-
 CREATE PROCEDURE getBookings (
     in inCityId INT,
     in inBookingDate DATE,
@@ -304,6 +398,8 @@ BEGIN
 		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
 		ROLLBACK;
 	END;
+
+	START TRANSITION;
 
     IF inCityId NOT in (SELECT cityId FROM cities ) THEN
 		SIGNAL SQLSTATE '45000'
@@ -320,11 +416,13 @@ END//
 
 DELIMITER ;
 
--- MakeBooking
+/*
+	Create a booking given the player id, the court id, 
+	date and start/end time of the booking
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS createBooking//
-
 CREATE PROCEDURE createBooking (
     IN inPlayerId INT,
     IN inCourtId INT,
@@ -419,7 +517,9 @@ END//
 
 DELIMITER ;
 
--- Get sport center's bookings for a specific date
+/*
+	Get all bookings of the sport center in the given date
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS getSportcenterBookings//
@@ -435,6 +535,7 @@ BEGIN
 		ROLLBACK;
 	END;
 
+	START TRANSITION;
 
 	IF inSportcenterId NOT IN (SELECT sportcenterId FROM sportcenters) THEN
 		SIGNAL SQLSTATE '45000'
@@ -455,7 +556,9 @@ END//
 
 DELIMITER ;
 
--- Update court name
+/*
+	Change the name of a court given the court id
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS updateCourtName//
@@ -471,6 +574,8 @@ BEGIN
 		ROLLBACK;
 	END;
 
+	START TRANSITION;
+
     IF inCourtId NOT IN (SELECT courtId FROM courts) THEN 
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 469; -- test if parameter exist
@@ -483,6 +588,40 @@ END//
 
 DELIMITER ;
 
+/*
+	Get all information about a court given the court id
+*/
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS getCourtInfo//
+CREATE PROCEDURE getCourtInfo(
+	in inCourtId INT
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+	BEGIN
+		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO, @p2 = MESSAGE_TEXT;
+		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
+		ROLLBACK;
+	END;
+
+	START TRANSITION;
+
+	IF inCourtId NOT IN (SELECT courtId FROM courts) THEN
+		SIGNAL SQLSTATE '45000'
+			SET MYSQL_ERRNO = 469;
+	END IF;
+
+	SELECT *
+	FROM courts
+	WHERE courtId = inCourtId;
+END//
+
+DELIMITER ;
+
+/*
+	Change the name of a sport center given the sport center id
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS updateSportCenterName //
@@ -512,3 +651,4 @@ BEGIN
 END//
 
 DELIMITER ;
+

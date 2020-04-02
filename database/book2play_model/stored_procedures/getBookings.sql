@@ -1,8 +1,9 @@
--- Get all bookings for a given city and date
+/*
+	Get all bookings for a given date and city id
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS getBookings//
-
 CREATE PROCEDURE getBookings (
     in inCityId INT,
     in inBookingDate DATE,
@@ -14,6 +15,8 @@ BEGIN
 		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
 		ROLLBACK;
 	END;
+
+	START TRANSITION;
 
     IF inCityId NOT in (SELECT cityId FROM cities ) THEN
 		SIGNAL SQLSTATE '45000'

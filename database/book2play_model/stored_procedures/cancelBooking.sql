@@ -1,8 +1,9 @@
--- cancel booking
+/*
+	Cancel a booking given the booking id
+*/
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS cancelBooking//
-
 CREATE PROCEDURE cancelBooking (
     IN inBookingId INT,
 )
@@ -13,6 +14,8 @@ BEGIN
 		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
 		ROLLBACK;
 	END;
+
+	START TRANSITION;
 
     IF inBookingId NOT IN (SELECT bookingId FROM bookings) THEN
 		SIGNAL SQLSTATE '45000'

@@ -1,11 +1,11 @@
 /*
-	Get all information about a staff given the staff id
+	Get all information about a court given the court id
 */
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS getStaffInfo//
-CREATE PROCEDURE getStaffInfo(
-	in inStaffId INT
+DROP PROCEDURE IF EXISTS getCourtInfo//
+CREATE PROCEDURE getCourtInfo(
+	in inCourtId INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -17,14 +17,14 @@ BEGIN
 
 	START TRANSITION;
 
-	IF inStaffId NOT IN (SELECT staffId FROM staffs) THEN
+	IF inCourtId NOT IN (SELECT courtId FROM courts) THEN
 		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 479;
+			SET MYSQL_ERRNO = 469;
 	END IF;
 
 	SELECT *
-	FROM staffs
-	WHERE staffId = inStaffId;
+	FROM courts
+	WHERE courtId = inCourtId;
 END//
 
 DELIMITER ;
