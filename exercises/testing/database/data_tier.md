@@ -27,13 +27,13 @@
         + `errorCode`
 
 ### DISPLAY INFORMATION:
-#### getBooking
+#### getBookings
 - **Description:** request database for all booking for a given city and a given date (**logic layer will extract from that data all available slot**)
-- **Request:** `getBooking(cityId, date)`
+- **Request:** `getBookings(cityId, date)`
 - **Response:**
     + **Success:**
         + `successCode`
-        + bookingTable (contains these columns: bookingId, sportCenterId, courtId, startTime, endTime)
+		+ `Bookings`
     + **Error:**
         + `errorCode`
 - **Tests:**
@@ -43,13 +43,12 @@
             + `date` is in `DATE` format
         + _Pass conditions_:
             + `successCode` is equal to *200 - SUCCESS*
-            + `Booking` is a relation `(bookingId, playerId, sportCentreId, courtId, date, startTime, endTime, state)`, each row in this relation has:
+            + `Bookings` is a relation `(bookingId, playerId, sportCentreId, courtId, date, startTime, endTime, state)`, each row in this relation has:
                 + Primary key: `bookingId`
                 + Foreign keys: `playerId`, `sportCentreId`, `courtId`
                 + `cityId` is equal to the `cityId` given as parameter
                 + `date` is is equal to the `date` given as parameter
                 + `startTime` and `endTime` is in `TIMESTAMP` format
-                + There does not exists in the relation any pair of rows A and B, where `A.courtId == B.courtID && (A.startTime < B.startTime and A.endTime > B.startTime) or (A.startTime > B.startTime and B.endTime > A.startTime)`, i.e., there does not exist any two rows with the same `courtId` with overlapping `startTime` and `endTime`
                 + state is either `UPCOMMING`, `UNPAID`, `PAID`, or `CANCELLED`
     + **`testGetPlayerBookingInvalidCityId`**: test if the request is rejected when `cityId` is invalid
         + _Preconditions_:
