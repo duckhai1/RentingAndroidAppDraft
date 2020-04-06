@@ -13,6 +13,7 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.example.book2play.MyBookingModel
 import com.example.book2play.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.activity_booking_detail_demo.*
 
 class DetailScreen : AppCompatActivity(){
 
@@ -29,6 +31,7 @@ class DetailScreen : AppCompatActivity(){
         "Court",
         "Booking Confirmation"
     )
+
     var DESCRIPTIONS = arrayOf(
         "April 27th, 9h30 - 10h30",
         "PhatCho Sporting Centre",
@@ -41,6 +44,15 @@ class DetailScreen : AppCompatActivity(){
         setContentView(R.layout.detail_screen)
         val listView =
             findViewById<View>(R.id.listDetail) as ListView
+
+        val bookingModel = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
+        if (bookingModel != null) {
+            DESCRIPTIONS[0] = bookingModel.date + " " + bookingModel.week+", " + bookingModel.time
+            DESCRIPTIONS[1] = bookingModel.title
+            DESCRIPTIONS[2] = bookingModel.court
+
+            DESCRIPTIONS[3] = if (bookingModel.status == 0) "Unpaid" else "Paid"
+        }
 
         val toolbar = findViewById<View>(R.id.toolbarLS2) as Toolbar
         setSupportActionBar(toolbar)

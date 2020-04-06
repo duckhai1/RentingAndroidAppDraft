@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.locationsscreen.DetailScreen
 import kotlinx.android.synthetic.main.upcomming_row.view.*
 
 class UpcommingAdapter(val arrayList: ArrayList<MyBookingModel>, val context : Context):
@@ -34,6 +35,8 @@ class UpcommingAdapter(val arrayList: ArrayList<MyBookingModel>, val context : C
             itemView.record_title.text = model.title
             itemView.record_info.text = model.info
             itemView.record_weekday.text = model.week
+            itemView.record_time.text = model.time
+            itemView.record_court.text = model.court
         }
 
         // for Strategy pattern for 2 button
@@ -69,7 +72,7 @@ class UpcommingAdapter(val arrayList: ArrayList<MyBookingModel>, val context : C
         holder.setOnMyButtonClickListener(object : MyButtonClickListener{
             override fun onDetailButtonClickListener(view: View, pos: Int) {
                 // open detail screen
-                val intent = Intent(mContext, BookingDetailDemo::class.java)
+                val intent = Intent(mContext, DetailScreen::class.java)
                 intent.putExtra("BookingInfo", arrayList[pos])
                 mContext.startActivity(intent)
             }

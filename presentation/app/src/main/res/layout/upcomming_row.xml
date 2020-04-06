@@ -23,7 +23,7 @@
             android:background="#434343"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.22"
+            app:layout_constraintHorizontal_bias="0.3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.42000002" />
@@ -32,8 +32,7 @@
             android:id="@+id/record_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="24dp"
-            android:layout_marginRight="24dp"
+            android:layout_marginEnd="16dp"
             android:text="mmm dd"
             android:textColor="#000000"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -73,11 +72,36 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
+            android:id="@+id/record_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time"
+            android:textColor="#999999"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/record_weekday"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/record_weekday"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
             android:id="@+id/record_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="Name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/record_court"
+            app:layout_constraintTop_toBottomOf="@+id/record_court"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/record_court"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Name\nTime"
+            android:text="Court"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

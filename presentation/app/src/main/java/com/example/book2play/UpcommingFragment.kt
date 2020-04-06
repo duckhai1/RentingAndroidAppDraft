@@ -35,12 +35,12 @@ class UpcommingFragment : Fragment() {
 
 
     fun adding_upcomming_list(arrayList : ArrayList<MyBookingModel>){
-        arrayList.add(MyBookingModel("Apr 2", "Fri","TA Sport Center", "Maria Onawa\n10:30-11h30"))
-        arrayList.add(MyBookingModel("Apr 24", "Mon","TA Sport Center", "Maria Onawa\n10:30-11h30"))
-        arrayList.add(MyBookingModel("May 5", "Mon","TA Sport Center", "Maria Onawa\n10:30-11h30"))
-        arrayList.add(MyBookingModel("May 18", "Tue","TA Sport Center", "Maria Onawa\n10:30-11h30"))
-        arrayList.add(MyBookingModel("Jun 29", "Fri","TA Sport Center", "Maria Onawa\n10:30-11h30"))
-        arrayList.add(MyBookingModel("Jul 21", "Sun","TA Sport Center", "Maria Onawa\n10:30-11h30"))
+        arrayList.add(MyBookingModel("Apr 2", "Fri","10:30-11h30","TA Sport Center", "Court 1","Maria Onawa"))
+        arrayList.add(MyBookingModel("Apr 24", "Mon","10:30-11h30","TA Sport Center", "Court 1","Maria Onawa"))
+        arrayList.add(MyBookingModel("May 5", "Mon","10:30-11h30","TA Sport Center", "Court 1","Maria Onawa"))
+        arrayList.add(MyBookingModel("May 18", "Tue","10:30-11h30","TA Sport Center", "Court 1","Maria Onawa"))
+        arrayList.add(MyBookingModel("Jun 29", "Fri","10:30-11h30","TA Sport Center", "Court 1","Maria Onawa"))
+        arrayList.add(MyBookingModel("Jul 21", "Sun","10:30-11h30","TA Sport Center", "Court 1","Maria Onawa"))
     }
 
 
