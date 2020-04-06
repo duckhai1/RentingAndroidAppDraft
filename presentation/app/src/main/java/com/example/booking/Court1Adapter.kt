@@ -30,7 +30,7 @@ class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context) :
             if (model.slot == 1){
 
                 itemView.description.text = "Click to choose slot"
-                itemView.description.setBackgroundColor(Color.parseColor("#bffcc6"))
+                itemView.description.setBackgroundColor(Color.parseColor("#ffffff"))
             }
 
 
@@ -72,12 +72,12 @@ class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context) :
                 } else if (arrayList[position].slot == 1){
                     Toast.makeText(context, "Chosen slot clicked", Toast.LENGTH_SHORT).show()
                     holder.itemView.description.setText("Slot is chosen")
-                    holder.itemView.description.setBackgroundColor(Color.parseColor("#006600"))
+                    holder.itemView.description.setBackgroundColor(Color.parseColor("#bffcc6"))
                     arrayList[position].slot = 2
                 } else if (arrayList[position].slot == 2) {
                         Toast.makeText(context, "Chosen slot cancelled", Toast.LENGTH_SHORT).show()
                         holder.itemView.description.setText("Click to choose slot")
-                        holder.itemView.description.setBackgroundColor(Color.parseColor("#bffcc6"))
+                        holder.itemView.description.setBackgroundColor(Color.parseColor("#ffffff"))
                         arrayList[position].slot = 1
                     }
             }

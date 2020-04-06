@@ -39,7 +39,7 @@
             android:layout_toRightOf="@id/timeDisplay"
             android:text="Unavailable"
             android:layout_marginLeft="15dp"
-
+            android:background="#fa7470"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="18sp" />

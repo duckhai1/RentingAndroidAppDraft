@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -11,12 +12,26 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:id="@+id/toolBar"
+            android:layout_gravity="right"
             android:background="@color/colorPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:titleTextColor="#000000"/>
+            app:titleTextColor="#000000">
+
+            <ImageView
+            android:id="@+id/nextActivity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="232dp"
+            android:clickable="true"
+            android:rotation="180"
+            android:visibility="visible"
+            app:srcCompat="?attr/homeAsUpIndicator"
+            tools:visibility="visible" />
+
+        </androidx.appcompat.widget.Toolbar>
 
         <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
@@ -28,6 +43,8 @@
             app:tabIndicatorColor="#000000"
             app:tabTextColor="#000000"
             />
+
+
     </com.google.android.material.appbar.AppBarLayout>
     <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
