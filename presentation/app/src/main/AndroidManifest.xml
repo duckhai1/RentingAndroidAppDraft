@@ -41,11 +41,11 @@
             android:name="com.example.locationsscreen.Location2Screen"
             android:label="@string/title_activity_location2">
         </activity>
+        <activity android:name="com.example.booking.TestActivity"></activity>
+        <activity android:name="com.example.locationsscreen.MainActivity"/>
 
-        <activity android:name="com.example.locationsscreen.MainActivity">
-        <activity android:name=".TestActivity"></activity>
 
-        <activity android:name=".SelectTimeScreen">
+        <activity android:name="com.example.booking.SelectTimeScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

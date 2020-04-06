@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.book2play.R
 import kotlinx.android.synthetic.main.court1_row.view.*
 
 
@@ -50,6 +51,7 @@ class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Court1Adapter.ViewHolder {
         val v = LayoutInflater.from (parent.context).inflate(R.layout.court1_row, parent, false)
+
         return ViewHolder(v)
     }
 
