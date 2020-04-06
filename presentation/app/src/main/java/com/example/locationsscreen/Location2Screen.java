@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.book2play.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -37,6 +38,7 @@ public class Location2Screen extends AppCompatActivity implements OnMapReadyCall
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location2);
+
 
         ListView listView = (ListView) findViewById(R.id.listPlaces);
 

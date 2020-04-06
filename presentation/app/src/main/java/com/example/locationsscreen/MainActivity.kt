@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.book2play.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         citySpinner = findViewById(R.id.CitySpinner) as Spinner
         val cities = arrayOf("Ho Chi Minh city", "My Tho city", "Vung Tau city", "Binh Duong city")
