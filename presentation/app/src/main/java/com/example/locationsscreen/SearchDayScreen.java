@@ -36,7 +36,7 @@ public class SearchDayScreen extends AppCompatActivity {
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                final String date = dayOfMonth + "/" + month + "/" + year;
+                final String date = dayOfMonth + "/" + (month + 1) + "/" + year;
 
                 bt.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
