@@ -15,13 +15,17 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.book2play.R;
+import com.example.booking.SelectTimeScreen;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class SearchDayScreen extends AppCompatActivity {
 
     CalendarView calendarView;
     TextView tv;
     Button bt;
-
+    String date;
     @Override
     protected  void onCreate(Bundle savedInstanceState)
     {
@@ -38,22 +42,24 @@ public class SearchDayScreen extends AppCompatActivity {
         final ImageView ctnBtn = findViewById(R.id.continueButton);
 
         calendarView = (CalendarView)findViewById(R.id.calendarView);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String currentDate = sdf.format(new Date(calendarView.getDate()));
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                final String date = dayOfMonth + "/" + (month + 1) + "/" + year;
+                date = dayOfMonth + "/" + (month + 1) + "/" + year;
 
-                ctnBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.putExtra("THEDATE", date);
-                        startActivity(intent);
-                    }
-                });
+
             }
         });
-
+        ctnBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SelectTimeScreen.class);
+                intent.putExtra("THEDATE", (date == null)? currentDate : date);
+                startActivity(intent);
+            }
+        });
 
     }
 }
