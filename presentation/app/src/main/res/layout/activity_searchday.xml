@@ -15,52 +15,64 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarLS2"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarSD"
         app:srcCompat="@drawable/searchday_pic" />
 
-    <include
-        android:id="@+id/toolbarLS2"
-        layout="@layout/toolbar" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarSD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#BFFCC6"
+        android:elevation="4dp"
+        app:titleTextColor="@android:color/black"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/continueButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="370dp"
+            android:clickable="true"
+            android:rotation="180"
+            app:srcCompat="@drawable/quantum_ic_arrow_back_grey600_24"
+            android:focusable="true"
+            android:layout_marginStart="370dp" />
+
+    </androidx.appcompat.widget.Toolbar>
+
 
     <TextView
         android:id="@+id/centerName"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/montserrat"
         android:gravity="center"
         android:text="Center name"
         android:textColor="#000"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3"></TextView>
-
-    <Button
-        android:id="@+id/btnContinue2"
-        android:layout_width="93dp"
-        android:layout_height="48dp"
-        android:layout_gravity="center_horizontal"
-
-        android:background="@drawable/rounded_button"
-        android:text="Continue"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <CalendarView
         android:id="@+id/calendarView"
         android:layout_width="338dp"
         android:layout_height="296dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/calendar_background"
         android:elevation="2dp"
+        android:focusedMonthDateColor="@color/colorPositive"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/centerName">
+        app:layout_constraintTop_toBottomOf="@+id/centerName"
+        app:layout_constraintVertical_bias="0.023">
 
     </CalendarView>
 

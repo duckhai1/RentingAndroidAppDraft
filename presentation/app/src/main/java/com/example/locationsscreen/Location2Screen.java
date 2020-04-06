@@ -39,7 +39,6 @@ public class Location2Screen extends AppCompatActivity implements OnMapReadyCall
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location2);
 
-
         ListView listView = (ListView) findViewById(R.id.listPlaces);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -65,18 +64,17 @@ public class Location2Screen extends AppCompatActivity implements OnMapReadyCall
                     startActivity(intent);
                 }
                 if (position == 1) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "This center is not available right now :(", Toast.LENGTH_SHORT);
-                    toast.show();
+                    String theCenterName = NAMES[position];
+                    Intent intent = new Intent(getApplicationContext(), SearchDayScreen.class);
+                    intent.putExtra("CENTERNAME", theCenterName);
+                    startActivity(intent);
                 }
                 if (position == 2) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "This center is not available right now :(", Toast.LENGTH_SHORT);
-                    toast.show();
+                    String theCenterName = NAMES[position];
+                    Intent intent = new Intent(getApplicationContext(), SearchDayScreen.class);
+                    intent.putExtra("CENTERNAME", theCenterName);
+                    startActivity(intent);
                 }
-                if (position == 3) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "This center is not available right now :(", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-
             }
         });
     }
