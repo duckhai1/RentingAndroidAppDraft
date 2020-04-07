@@ -132,13 +132,13 @@ updatePlayerInfo (`updateFirstName`, `updateLastName`, `updateBirthday`, `update
             + `playerId` exists in the data returned to the logic-tier from the data-tier
             + `cityId` does not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *461 - INVALID CITY ID*
+            + ``errorCode`` is equal to *460 - INVALID CITY ID*
     + **`testGetPlayerBookingInvalidDate`**: test if the request is rejected when `caller` is valid and `date` is invalid
         + _Preconditions_:
             + `playerId` exists in the data returned to the logic-tier from the data-tier
             + `date` is not formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given
         + _Pass conditions_:
-            + ``errorCode`` is equal to *463 - INVALID DATE*
+            + ``errorCode`` is equal to *466 - INVALID DATE*
 
 
 These interfaces have not been clearly specified

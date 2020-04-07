@@ -58,13 +58,13 @@
             + `playerId` exists in the data returned to the logic-tier from the data-tier
             + `date` is not formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given **OR** `date` comes before the date when the interface is called
         + _Pass conditions_:
-            + ``errorCode`` is equal to *463 - INVALID DATE*
+            + ``errorCode`` is equal to *466 - INVALID DATE*
     + **`testGetAvailableSlotsInvalidCity`**: test if the request is rejected when `caller` is valid and `cityId` is invalid
         + _Preconditions_:
             + `playerId` exists in the data returned to the logic-tier from the data-tier
             + `cityId` doest not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *461 - INVALID CITY ID*
+            + ``errorCode`` is equal to *460 - INVALID CITY ID*
 
 `getBookingInfo`
 ---
@@ -102,7 +102,7 @@
             + `staffId` or `playerId` exists in the data returned to the logic-tier from the data-tier
             + `bookingId` does not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *410 - BOOKING NOT FOUND*
+            + ``errorCode`` is equal to *467 - BOOKING NOT FOUND*
 
 `makeBooking`
 ---
@@ -143,7 +143,7 @@
             + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by ":" *(colon)*,, **AND**and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
             + The player has a booking in the past that has not been paid
         + _Pass conditions_:
-            + ``errorCode`` is equal to *413 - UNPAID BOOKING FOUND*
+            + ``errorCode`` is equal to *412 - UNPAID BOOKING FOUND*
     + **`testMakeBookingLimitExceed`**: test if the server behaves as expected when the player has already had 3 future bookings
         + _Preconditions_:
             + `playerId` exists in the data returned to the logic-tier from the data-tier
@@ -169,28 +169,28 @@
             + `playerId` exists in the data returned to the logic-tier from the data-tier
             + `date` is not formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, **OR** not ordered as given **OR**  `date` comes after the date when the interface is called
         + _Pass conditions_:
-            + ``errorCode`` is equal to *463 - INVALID DATE*
+            + ``errorCode`` is equal to *466 - INVALID DATE*
     + **`testMakeBookingInvalidDuration`**:test if the request is rejected when `caller` is valid and the duration between `startTime` and `endTime` is invalid
         + _Preconditions_:
             + `playerId` exists in the data returned to the logic-tier from the data-tier
             + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by ":" *(colon)*,, and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
             + The period between `startTime` and `endTime` is not *45 minutes*, *1 hour*, *1 hour and 15 minutes*, or *1 hour and 30 minutes*
         + _Pass conditions_:
-            + ``errorCode`` is equal to *465 - INVALID DURATION*
+            + ``errorCode`` is equal to *467 - INVALID DURATION*
     + **`testMakeBookingInvalidStartTime`**: test if the request is rejected when `caller` is valid and `startTime` is invalid
         + _Preconditions_:
             + The player is logged in
             + The player does not have a past pending payment nor 3 future bookings
             + `startTime` is not formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by "-" *(hyphens)*, and ordered as given **OR** `startTime` does not come before `endTime` **OR** `startTime` does not come after the time when the interface is called
         + _Pass conditions_:
-            + ``errorCode`` is equal to *470 - INVALID START TIME*
+            + ``errorCode`` is equal to *468 - INVALID START TIME*
     + **`testMakeBookingInvalidEndTime`**: test if the request is rejected when `caller` is valid and `endTime` is invalid
         + _Preconditions_:
             + The player is logged in
             + The player does not have a past pending payment nor 3 future bookings
             + `endTime` is not formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by "-" *(hyphens)*, and ordered as given
         + _Pass conditions_:
-            + ``errorCode`` is equal to *471 - INVALID END TIME*
+            + ``errorCode`` is equal to *469 - INVALID END TIME*
 
 `changeBookingState`
 ---
@@ -220,7 +220,7 @@
             + `staffId` exists in the data returned to the logic-tier from the data-tier
             + `bookingId` does not exist in the data tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *410 - BOOKING NOT FOUND*
+            + ``errorCode`` is equal to *467 - BOOKING NOT FOUND*
     + **`testChangeBookingStateInvalidState`**: test if the request is rejected when `caller` is valid and `state` is invalid
         + _Preconditions_:
             + `staffId` exists in the data returned to the logic-tier from the data-tier
@@ -258,10 +258,10 @@
             + `bookingId` exists in the data returned to the logic-tier from the data-tier
             + The request is made in less than 24 hours before the start time of the booking
         + _Pass conditions_:
-            + ``errorCode`` is equal to *412 - BOOKING CANCELLATION REJECTED*
+            + ``errorCode`` is equal to *411 - BOOKING CANCELLATION REJECTED*
     + **`testCancelBookingInvalidId`**: test if the request is rejected when `caller` is valid and `bookingId` is invalid
         + _Preconditions_:
             + `playerId` exists in the data returned to the logic-tier from the data-tier
             + `bookingId` does not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *410 - BOOKING NOT FOUND*
+            + ``errorCode`` is equal to *467 - BOOKING NOT FOUND*

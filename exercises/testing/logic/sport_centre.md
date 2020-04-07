@@ -35,13 +35,13 @@
             + `staffId` exists in the data returned to the logic-tier from the data-tier
             + `sportCentreId` does not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *462 - INVALID SPORT CENTRE ID*
+            + ``errorCode`` is equal to *461 - INVALID SPORT CENTRE ID*
     + **`testGetSportCentreBookingInvalidDate`**: test if the request is rejected when `caller` is valid and `date` is invalid
         + _Preconditions_:
             + `staffId` exists in the data returned to the logic-tier from the data-tier
             + `date` is not formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given
         + _Pass conditions_:
-            + ``errorCode`` is equal to *463 - INVALID DATE*
+            + ``errorCode`` is equal to *466 - INVALID DATE*
 
 
 `getSportCentreInfo`
@@ -77,7 +77,7 @@
             + `staffId` exists in the data returned to the logic-tier from the data-tier
             + `sportCentreId` doest not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *462 - INVALID SPORT CENTRE ID*
+            + ``errorCode`` is equal to *461 - INVALID SPORT CENTRE ID*
 
 
 
@@ -102,7 +102,7 @@ updateSportCentreInfo (`updateName`, `updateCity`, `updatePhoneNumber`)
             + `staffId` exists in the data returned to the logic-tier from the data-tier
             + `sportCentreId` doest not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *462 - INVALID SPORT CENTRE ID*
+            + ``errorCode`` is equal to *461 - INVALID SPORT CENTRE ID*
     + **`testUpdateName`**: test if the request is accepted and the sport centre's name in the data-tier is changed according to the provided information when the `caller` is valid
         + _Preconditions_:
             + `staffId` exists in the data returned to the logic-tier from the data-tier
@@ -130,7 +130,7 @@ updateSportCentreInfo (`updateName`, `updateCity`, `updatePhoneNumber`)
             + `sportCentreId` exists in the data returned to the logic-tier from the data-tier
             + `cityId` does not not exist in the data-tier
         + _Pass conditions_:
-            + ``errorCode`` is equal to *461 - INVALID CITY ID*
+            + ``errorCode`` is equal to *460 - INVALID CITY ID*
     + **`testUpdateAddress`**: test if the request is accepted and the sport centre's `address` in the data-tier is changed according to the provided information when the `caller` is valid
         + _Preconditions_:
             + `staffId` exists in the data returned to the logic-tier from the data-tier

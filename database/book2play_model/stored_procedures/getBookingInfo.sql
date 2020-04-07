@@ -5,7 +5,7 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS getBookingInfo//
 CREATE PROCEDURE getBookingInfo (
-    IN inBookingId INT
+    IN inBookingId VARCHAR(100)
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
@@ -19,7 +19,7 @@ BEGIN
 
     IF inBookingId NOT IN (SELECT bookingId FROM bookings ) THEN
 		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 410; -- booking not found
+			SET MYSQL_ERRNO = 465; -- invalid booking id
 	END IF;
 
 	SELECT *

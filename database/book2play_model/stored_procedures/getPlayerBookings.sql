@@ -5,8 +5,8 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS getPlayerBookings //
 CREATE PROCEDURE getPlayerBookings (
-	IN inPlayerId INT,
-	IN inCityId INT,
+	IN inPlayerId VARCHAR(100),
+	IN inCityId VARCHAR(100),
 	IN inBookingDate DATE
 )
 BEGIN
@@ -19,34 +19,40 @@ BEGIN
 
 	START TRANSACTION;
 
-	IF inPlayerId NOT IN (SELECT playerId FROM bookings) THEN
+	IF inCityId NOT IN (SELECT cityId FROM cities) THEN
 		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 478;
+			SET MYSQL_ERRNO = 460; -- city id does not exist
 	END IF;
 
-	IF inCityId NOT IN (
-		SELECT cityId
+	IF inPlayerId NOT IN (SELECT playerId FROM players) THEN
+		SIGNAL SQLSTATE '45000'
+			SET MYSQL_ERRNO = 464;
+	END IF;
+
+	IF NOT EXISTS (
+		SELECT *
 		FROM bookings
 		NATURAL JOIN courts
 		NATURAL JOIN sportcenters
+		NATURAL JOIN cities
+		NATURAL JOIN players
+		WHERE cityId = inCityID
+			AND playerId = inPlayerId
+			AND bookingDate = inBookingDate
 	) THEN
 		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 461; -- city id does not exist
+			SET MYSQL_ERRNO = 466; -- no bookings in given date
 	END IF;
-
-	IF inBookingDate NOT IN (SELECT bookingDate FROM bookings) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 463; -- no bookings in given date
-	END IF;
-
 
 	SELECT *
 	FROM bookings
 	NATURAL JOIN courts
 	NATURAL JOIN sportcenters
-	WHERE playerId = inPlayerId
-		AND cityId = inCityId
-		AND bookingDate = inBookingDate;
+	NATURAL JOIN cities
+	NATURAL JOIN players
+	WHERE cityId = inCityId
+		AND bookingDate = inBookingDate
+		AND playerId = inPLayerId;
 END//
 
 DELIMITER ;
