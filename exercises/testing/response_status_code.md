@@ -31,7 +31,7 @@ Coding conventions:
 | 413 | UNPAID BOOKING FOUND | The request is rejected, because there exists a booking in the past that has not been paid|
 | 460 | INVALID CREDENTIALS | The request is rejected, because an invalid player-name or an invalid password was provided |
 | 461 | INVALID CITY ID | The request is rejected, because an invalid city i was provided |
-| 462 | INVALID SPORTCENTRE ID | The request is rejected, because an invalid city id was provided |
+| 462 | INVALID SPORTCENTER ID | The request is rejected, because an invalid city id was provided |
 | 463 | INVALID DATE | The request is rejected, because an invalid date was provided |
 | 464 | INVALID SLOT | The request is rejected, because an invalid timeslot was provided |
 | 465 | INVALID DURATION | The request is rejected, because an invalid booking duration was provided |
@@ -41,14 +41,16 @@ Coding conventions:
 | 469 | INVALID COURT ID | The request is rejected, because an invalid court id was provided |
 | 470 | INVALID START TIME | The request is rejected, because an invalid start time was provided |
 | 471 | INVALID END TIME | The request is rejected, because an invalid end time was provided |
-| 472 | INVALID SPORTCENTRE NAME | The request is rejected, because an invalid sport centre name was provided |
+| 472 | INVALID SPORTCENTER NAME | The request is rejected, because an invalid sport centre name was provided |
 | 473 | INVALID ADDRESS | The request is rejected, because an invalid address was provided |
 | 474 | INVALID PHONE NUMBER | The request is rejected, because an invalid phone number was provided
-| 475 | INVALID FIRST NAME | The request is rejected, because an invalid first name was provided |
-| 476 | INVALID LAST NAME | The request is rejected, because an invalid last name was provided |
+| 475 | INVALID PLAYER NAME | The request is rejected, because an invalid name was provided |
+| 476 | INVALID PHONE NUMBER | The request is rejected, because an invalid phone number was provided |
 | 477 | INVALID BIRTHDAY | The request is rejected, because an invalid birthday was provided |
 | 478 | INVALID PLAYER ID | The request is rejected, because an invalid player id was provided |
-| 479 | INVALID STAFF ID | The request is rejected, because an invalid staff id was provided |
+| 479 | INVALID EMAIL | The request is rejected, because an invalid email was provided |
+| 480 | INVALID PASSWORD | The request is rejected, because an invalid password was provided |
+
 
 
 
