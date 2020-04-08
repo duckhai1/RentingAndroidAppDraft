@@ -2,12 +2,15 @@ Error codes
 ===
 
 Coding conventions:
++ Codes, which are in the format `2xx` where `x` is an arbitrary digit, are success code
 + Codes, which are in the format `40x` where `x` is an arbitrary digit, are code for general errors
 + Codes, which are in the format `41x` where `x` is an arbitrary digit, are code for booking errors
 + Codes, which are in the format `46x` where `x` is an arbitrary digit, are code for invalid parameters errors
 
 | Code | Short description | Long description |
 |:----:|-------------------|------------------|
+| 200 | SUCCESS | The request is accepted and processed by the database |
+| 400 | ERROR FOUND | The request is rejected, because of an error was made on the client |
 | 400 | ERROR FOUND | The request is rejected, because of an error was made on the client |
 | 401 | UNAUTHORIZED | The request is rejected, because the requested content is not accessible by the caller of the interface |
 | 402 | CITY ID ALREADY EXISTS | The request is rejected, because the provided city id already exists | 
