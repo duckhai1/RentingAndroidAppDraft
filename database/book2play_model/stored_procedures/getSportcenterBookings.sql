@@ -7,7 +7,8 @@ DROP PROCEDURE IF EXISTS getSportcenterBookings//
 CREATE PROCEDURE getSportcenterBookings(
 	IN inSportcenterId VARCHAR(100),
     IN inCityId VARCHAR(100),
-    IN inBookingDate DATE
+    IN inBookingDate DATE,
+    OUT statusCode INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION

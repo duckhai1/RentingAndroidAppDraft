@@ -5,7 +5,8 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS getBookingInfo//
 CREATE PROCEDURE getBookingInfo (
-    IN inBookingId VARCHAR(100)
+    IN inBookingId VARCHAR(100),
+    OUT statusCode INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION

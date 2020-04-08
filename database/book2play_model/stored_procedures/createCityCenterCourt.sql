@@ -7,7 +7,8 @@ DROP PROCEDURE IF EXISTS createCityCenterCourt //
 CREATE PROCEDURE createCityCenterCourt (
 	IN inCourtId VARCHAR(100),
     IN inCityId VARCHAR(100),
-    IN inSportcenterId VARCHAR(100)
+    IN inSportcenterId VARCHAR(100),
+    OUT statusCode INT
 )
 BEGIN
 DECLARE EXIT HANDLER FOR SQLEXCEPTION

@@ -16,7 +16,8 @@ CREATE PROCEDURE createBooking (
 	IN inCityId VARCHAR(100),
 	IN inSportcenterId VARCHAR(100),
 	IN inCourtId VARCHAR(100),
-	IN inPlayerId VARCHAR(100)
+	IN inPlayerId VARCHAR(100),
+    OUT statusCode INT
 )
 BEGIN
     DECLARE openTime TIME;

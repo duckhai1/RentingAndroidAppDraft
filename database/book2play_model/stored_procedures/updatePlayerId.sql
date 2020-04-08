@@ -6,7 +6,8 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS updatePlayerId//
 CREATE PROCEDURE updatePlayerId (
     IN newPlayerId VARCHAR(100),
-    IN inPlayerId VARCHAR(100)
+    IN inPlayerId VARCHAR(100),
+    OUT statusCode INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION

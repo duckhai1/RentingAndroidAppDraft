@@ -8,7 +8,8 @@ CREATE PROCEDURE updateCourtId (
     IN newCourtId VARCHAR(100),
     IN inCourtId VARCHAR(100),
     IN inCityId VARCHAR(100),
-    IN inSportCenterId VARCHAR(100)
+    IN inSportCenterId VARCHAR(100),
+    OUT statusCode INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION

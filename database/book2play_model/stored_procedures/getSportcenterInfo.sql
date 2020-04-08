@@ -6,7 +6,8 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS getSportcenterInfo//
 CREATE PROCEDURE getSportcenterInfo (
 	IN inSportcenterId VARCHAR(100),
-	IN inCityId VARCHAR(100)
+	IN inCityId VARCHAR(100),
+    OUT statusCode INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
