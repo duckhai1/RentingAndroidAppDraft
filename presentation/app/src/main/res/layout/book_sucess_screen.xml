@@ -33,7 +33,7 @@
         android:id="@+id/booking_list_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Go to booking list"
+        android:text="Go to home page"
         android:padding="4dp"
         android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
