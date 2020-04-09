@@ -1,27 +1,31 @@
 package com.example.book2play
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
+
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     // fragment for each menu item
     lateinit var homeFragment: HomeFragment
-    lateinit var fragment1: CancelledFragment
-    lateinit var fragment2: UpcommingFragment
-    lateinit var fragment3: CompletedFragment
-
+    lateinit var bookingHistoryFragment: BookingHistoryScreen
+    lateinit var createBookingFragment :HomeFragment
+    lateinit var settingFragment: HomeFragment
+    lateinit var logoutFragment: HomeFragment
+    lateinit var fragment1: HomeFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setContentView(com.example.book2play.R.layout.activity_main)
 
         setSupportActionBar(toolBar)
         val actionBar = supportActionBar
@@ -59,7 +63,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
             }
             R.id.create_booking_menu -> {
-                fragment1 = CancelledFragment()  // --> change this one
+                fragment1 = HomeFragment()  // --> change this one
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, fragment1)
@@ -67,15 +71,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
             }
             R.id.booking_list_menu -> {
-                fragment1 = CancelledFragment()  // --> change this one
+                bookingHistoryFragment = BookingHistoryScreen()
                 supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.frame_layout, fragment1)
+                    .replace(R.id.frame_layout, bookingHistoryFragment)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
             }
             R.id.setting_menu -> {
-                fragment1 = CancelledFragment()  // --> change this one
+                fragment1 = HomeFragment()  // --> change this one
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, fragment1)
@@ -83,7 +87,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
             }
             R.id.logout_menu -> {
-                fragment1 = CancelledFragment()  // --> change this one
+                fragment1 = HomeFragment()  // --> change this one
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, fragment1)
@@ -103,4 +107,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             super.onBackPressed()
         }
     }
+
+
 }
