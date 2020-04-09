@@ -12,7 +12,7 @@ for court in courtList:
                 slotList <- slot(court.Id, court.sportCenterId, court.cityId, 07:00:00, court.Booking[i].startTime)
             if (i == len(court.Bookings) - 1 and 21:00:00 - court.Booking[i].endTime >= 00:45:00):
                 slotList <- slot(court.Id, court.sportCenterId, court.cityId, court.Booking[i].endTime, 21:00:00)
-            else if (i < len(court.Bookings) - 1 and court.Booking[i+1].startTime - court.Booking[i].endTime >= 00:45:00):
+            if (i < len(court.Bookings) - 1 and court.Booking[i+1].startTime - court.Booking[i].endTime >= 00:45:00):
                 slotList <- slot(court.Id, court.sportCenterId, court.cityId, court.Booking[i].endTime, court.Booking[i+1].startTime)
 return slotList
 ```
