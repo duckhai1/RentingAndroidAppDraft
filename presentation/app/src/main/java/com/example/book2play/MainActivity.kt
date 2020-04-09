@@ -7,6 +7,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
+import com.example.locationsscreen.ChooseLocationScreen
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     // fragment for each menu item
     lateinit var homeFragment: HomeFragment
     lateinit var bookingHistoryFragment: BookingHistoryScreen
-    lateinit var createBookingFragment :HomeFragment
+    lateinit var createBookingFragment :ChooseLocationScreen
     lateinit var settingFragment: HomeFragment
     lateinit var logoutFragment: HomeFragment
     lateinit var fragment1: HomeFragment
@@ -63,10 +64,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
             }
             R.id.create_booking_menu -> {
-                fragment1 = HomeFragment()  // --> change this one
+                createBookingFragment = ChooseLocationScreen()  // --> change this one
                 supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.frame_layout, fragment1)
+                    .replace(R.id.frame_layout, createBookingFragment)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
             }
