@@ -47,6 +47,8 @@ BEGIN
 			SET MYSQL_ERRNO = 462; -- invalid court id
 	END IF;
 
+    SET statusCode = 200;
+
 	SELECT *
 	FROM courts
 	NATURAL JOIN sportcenters
@@ -54,7 +56,6 @@ BEGIN
 	WHERE cityId = inCityId
 		AND sportcenterId = inSportcenterId
 		AND courtId = inCourtId;
-    SET statusCode = 200;
 END//
 
 DELIMITER ;

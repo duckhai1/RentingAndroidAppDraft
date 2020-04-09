@@ -27,10 +27,11 @@ BEGIN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 405; -- Player already exists
     END IF;
+
+    SET statusCode = 200;
            
     INSERT INTO players (playerId) 
     VALUES (inPlayerId);
-    SET statusCode = 200;
 END//
 
 DELIMITER ;

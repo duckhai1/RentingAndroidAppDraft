@@ -45,6 +45,8 @@ BEGIN
 			SET MYSQL_ERRNO = 466; -- no bookings in given date
 	END IF;
 
+    SET statusCode = 200;
+
 	SELECT *
 	FROM bookings
 	NATURAL JOIN courts
@@ -54,7 +56,6 @@ BEGIN
 	WHERE cityId = inCityId
 		AND bookingDate = inBookingDate
 		AND playerId = inPLayerId;
-    SET statusCode = 200;
 END//
 
 DELIMITER ;

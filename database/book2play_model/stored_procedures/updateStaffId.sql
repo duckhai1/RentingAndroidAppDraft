@@ -65,6 +65,8 @@ BEGIN
 			SET MYSQL_ERRNO = 406; -- staff id already exists
 	END IF;
 
+    SET statusCode = 200;
+
 	UPDATE staffs 
 	SET staffId = newStaffId
 	WHERE staffId = inStaffId
@@ -75,7 +77,6 @@ BEGIN
 			WHERE cityId = inCityId
 				AND sportcenterId = inSportCenterId
 		);
-    SET statusCode = 200;
 END//
 
 DELIMITER ;

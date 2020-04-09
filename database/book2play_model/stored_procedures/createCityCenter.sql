@@ -39,9 +39,10 @@ BEGIN
 			SET MYSQL_ERRNO = 403; -- center already exists 
 	END IF;
    
+    SET statusCode = 200;
+
     INSERT INTO sportcenters (sportcenterId, cityPk) 
     VALUES (inSportcenterId, (SELECT cityPk FROM cities WHERE cityId = inCityId));
-    SET statusCode = 200;
 END//
 
 DELIMITER ;

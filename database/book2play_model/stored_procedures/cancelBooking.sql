@@ -48,10 +48,11 @@ BEGIN
 			SET MYSQL_ERRNO = 411; -- The booking is cancelled in less than 24h before the start time
 	END IF;
 
+    SET statusCode = 200;
+
 	DELETE
 	FROM bookings
 	WHERE bookingId = inBookingId;
-    SET statusCode = 200;
 END//
 
 DELIMITER ;

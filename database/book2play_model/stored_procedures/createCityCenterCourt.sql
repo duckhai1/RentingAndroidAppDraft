@@ -53,6 +53,8 @@ BEGIN
 			SET MYSQL_ERRNO = 404; -- court already exists 
 	END IF;
    
+    SET statusCode = 200;
+
     INSERT INTO courts (courtId, sportcenterPk) 
     VALUES (
 		inCourtId,
@@ -64,7 +66,6 @@ BEGIN
 				AND sportcenterId = inSportcenterId
 		)
 	);
-    SET statusCode = 200;
 END//
 
 DELIMITER ;

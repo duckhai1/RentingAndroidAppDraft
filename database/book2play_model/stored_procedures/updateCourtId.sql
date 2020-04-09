@@ -65,6 +65,8 @@ BEGIN
 			SET MYSQL_ERRNO = 404; -- court id exists
 	END IF;
 
+    SET statusCode = 200;
+
 	UPDATE courts 
 	SET courtId = newCourtId
 	WHERE courtId = inCourtId
@@ -75,7 +77,6 @@ BEGIN
 			WHERE cityId = inCityId
 				AND sportcenterId = inSportCenterId
 		);
-    SET statusCode = 200;
 END//
 
 DELIMITER ;

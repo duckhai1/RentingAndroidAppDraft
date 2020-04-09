@@ -47,6 +47,8 @@ BEGIN
 			SET MYSQL_ERRNO = 463; -- staff id does not exists
 	END IF;
 
+    SET statusCode = 200;
+
 	SELECT *
 	FROM staffs
 	NATURAL JOIN sportcenters
@@ -54,7 +56,6 @@ BEGIN
 	WHERE cityId = inCityId
 		AND sportcenterId = inSportcenterId
 		AND staffId = inStaffId;
-    SET statusCode = 200;
 END//
 
 DELIMITER ;

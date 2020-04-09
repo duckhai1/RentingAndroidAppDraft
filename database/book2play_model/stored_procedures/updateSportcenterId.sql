@@ -50,6 +50,8 @@ BEGIN
 			SET MYSQL_ERRNO = 403; -- Sportcenter already exists
 	END IF;
 
+    SET statusCode = 200;
+
     UPDATE sportcenters
     SET sportcenterId = newSportcenterId
     WHERE sportcenterId = inSportcenterId
@@ -58,7 +60,6 @@ BEGIN
             FROM cities
             WHERE cityId = inCityID
         );
-    SET statusCode = 200;
 END//
 
 DELIMITER ;

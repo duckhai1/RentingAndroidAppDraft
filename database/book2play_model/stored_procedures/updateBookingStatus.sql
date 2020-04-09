@@ -72,10 +72,11 @@ BEGIN
 			SET MYSQL_ERRNO = 401; -- unauthorized
 	END IF;
 
+    SET statusCode = 200;
+
    	UPDATE bookings
 	SET isPaid = inStatus
 	WHERE bookingId = inBookingId;
-    SET statusCode = 200;
 END//
 
 DELIMITER ;

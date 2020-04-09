@@ -28,9 +28,10 @@ BEGIN
 			SET MYSQL_ERRNO = 402 ; -- city already exists 
 	END IF;
 
+    SET statusCode = 200;
+
     INSERT INTO cities (cityId)
     VALUES (inCityId);
-    SET statusCode = 200;
 END//
 
 DELIMITER ;

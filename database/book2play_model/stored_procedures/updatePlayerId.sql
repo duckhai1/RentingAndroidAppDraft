@@ -34,10 +34,11 @@ BEGIN
             SET MYSQL_ERRNO = 405; -- player Id already exists
     END IF;
 
+    SET statusCode = 200;
+
     UPDATE players
     SET playerId = newPlayerId
     WHERE playerId = inPlayerId;
-    SET statusCode = 200;
 END//
  
  DELIMITER ;

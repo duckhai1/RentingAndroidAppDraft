@@ -34,12 +34,13 @@ BEGIN
 			SET MYSQL_ERRNO = 461; -- sportcenter id does not exist
 	END IF;
 
+    SET statusCode = 200;
+
 	SELECT *
 	FROM sportcenters
 	NATURAL JOIN cities
 	WHERE sportcenterId = inSportcenterId
 		AND cityId = inCityId;
-    SET statusCode = 200;
 END//
 
 DELIMITER ;

@@ -24,6 +24,8 @@ BEGIN
 			SET MYSQL_ERRNO = 460; -- invalid city id
 	END IF;
 
+    SET statusCode = 200;
+
 	SELECT *
 	FROM bookings
 	NATURAL JOIN courts
@@ -31,7 +33,6 @@ BEGIN
 	NATURAL JOIN cities
 	WHERE cityId = inCityId
 		AND bookingDate = inBookingDate ;
-    SET statusCode = 200;
 END//
 
 DELIMITER ;

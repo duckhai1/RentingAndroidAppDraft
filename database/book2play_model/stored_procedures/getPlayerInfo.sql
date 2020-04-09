@@ -23,10 +23,11 @@ BEGIN
 			SET MYSQL_ERRNO = 464;
 	END IF;
 
+    SET statusCode = 200;
+
 	SELECT *
 	FROM players
 	WHERE playerId = inPlayerId;
-    SET statusCode = 200;
 END//
 
 DELIMITER ;

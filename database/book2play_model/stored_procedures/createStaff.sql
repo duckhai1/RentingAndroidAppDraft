@@ -51,6 +51,8 @@ BEGIN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 406; -- Staff already exists
 	END IF;
+
+    SET statusCode = 200;
     
     INSERT INTO staffs (staffId, sportcenterPk)
 	VALUES (
@@ -63,7 +65,6 @@ BEGIN
 				AND sportcenterId = inSportcenterId
 		)
 	);
-    SET statusCode = 200;
 END//
 
 DELIMITER ;

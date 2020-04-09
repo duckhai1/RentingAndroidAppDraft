@@ -23,10 +23,11 @@ BEGIN
 			SET MYSQL_ERRNO = 465; -- invalid booking id
 	END IF;
 
+    SET statusCode = 200;
+
 	SELECT *
 	FROM bookings
 	WHERE bookingId = inBookingId;
-    SET statusCode = 200;
 END//
 
 DELIMITER ;

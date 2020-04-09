@@ -144,6 +144,8 @@ BEGIN
 			SET MYSQL_ERRNO = 413; -- the booking's period overlaps with another existing booking
 	END IF;
 
+    SET statusCode = 200;
+
 	INSERT INTO bookings (bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, courtPk, playerPk)
 	VALUES (
 		inBookingId, inTimestamp, inDate, inStartTime, inEndTime,
@@ -162,7 +164,6 @@ BEGIN
 			WHERE playerId = inPlayerId
 		)
 	);
-    SET statusCode = 200;
 END//
 
 DELIMITER ;
