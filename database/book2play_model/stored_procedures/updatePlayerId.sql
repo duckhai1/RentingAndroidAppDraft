@@ -6,14 +6,13 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS updatePlayerId//
 CREATE PROCEDURE updatePlayerId (
     IN newPlayerId VARCHAR(100),
-    IN inPlayerId VARCHAR(100),
-    OUT statusCode INT
+    IN inPlayerId VARCHAR(100)
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
-		SET statusCode = @p1;
+		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO, @p2 = MESSAGE_TEXT;
+		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
 		ROLLBACK;
 	END;
 
@@ -33,8 +32,6 @@ BEGIN
         SIGNAL SQLSTATE '45000'
             SET MYSQL_ERRNO = 405; -- player Id already exists
     END IF;
-
-    SET statusCode = 200;
 
     UPDATE players
     SET playerId = newPlayerId
