@@ -7,13 +7,14 @@ DROP PROCEDURE IF EXISTS updateSportcenterId //
 CREATE PROCEDURE updateSportcenterId (
     IN newSportcenterId VARCHAR(100),
     IN inSportcenterId VARCHAR(100),
-    IN inCityId VARCHAR(100)
+    IN inCityId VARCHAR(100),
+    OUT statusCode INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO, @p2 = MESSAGE_TEXT;
-		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
+		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
+		SET statusCode = @p1;
 		ROLLBACK;
 	END;
 
@@ -48,6 +49,8 @@ BEGIN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 403; -- Sportcenter already exists
 	END IF;
+
+    SET statusCode = 200;
 
     UPDATE sportcenters
     SET sportcenterId = newSportcenterId

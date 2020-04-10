@@ -2,9 +2,9 @@
     Test if all information about the user in the database is returned,
     when all the parameters are correct
 */
-CALL createPlayer('P');
-CALL createPlayer('Q');
-CALL getPlayerInfo('P');
+CALL createPlayer('P', @statusCode);
+CALL createPlayer('Q', @statusCode);
+CALL getPlayerInfo('P', @statusCode);
 -- expected: no error code, a relation with 1 element is returned
 
 
@@ -12,9 +12,9 @@ CALL getPlayerInfo('P');
     Test if all information about the user in the database is returned,
     when all the parameters are correct
 */
-CALL createPlayer('P');
-CALL createPlayer('Q');
-CALL getPlayerInfo('Q');
+CALL createPlayer('P', @statusCode);
+CALL createPlayer('Q', @statusCode);
+CALL getPlayerInfo('Q', @statusCode);
 -- expected: no error code, a relation with 1 element is returned
 
 
@@ -22,7 +22,7 @@ CALL getPlayerInfo('Q');
     Test if the information about a user is not returned,
     when provided player id is incorrect
 */
-CALL createPlayer('P');
-CALL createPlayer('Q');
-CALL getPlayerInfo('@');
+CALL createPlayer('P', @statusCode);
+CALL createPlayer('Q', @statusCode);
+CALL getPlayerInfo('@', @statusCode);
 -- expected: error code 464
