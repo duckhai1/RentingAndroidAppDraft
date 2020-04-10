@@ -4,16 +4,16 @@
 
     (1st case)
 */
-CALL createCity('A', @statusCode);
-CALL createCity('B', @statusCode);
-CALL createCityCenter('X', 'A', @statusCode);
-CALL createCityCenter('Y', 'A', @statusCode);
-CALL createCityCenter('Z', 'B', @statusCode);
-CALL createStaff('S', 'A', 'X', @statusCode);
-CALL createStaff('T', 'A', 'X', @statusCode);
-CALL createStaff('U', 'A', 'Y', @statusCode);
-CALL createStaff('V', 'B', 'Z', @statusCode);
-CALL getStaffInfo('S', 'A', 'X', @statusCode);
+CALL createCity('A');
+CALL createCity('B');
+CALL createCityCenter('X', 'A');
+CALL createCityCenter('Y', 'A');
+CALL createCityCenter('Z', 'B');
+CALL createStaff('S', 'A', 'X');
+CALL createStaff('T', 'A', 'X');
+CALL createStaff('U', 'A', 'Y');
+CALL createStaff('V', 'B', 'Z');
+CALL getStaffInfo('S', 'A', 'X');
 -- expected: no error code, a relation with 1 element is returned
 
 
@@ -23,16 +23,16 @@ CALL getStaffInfo('S', 'A', 'X', @statusCode);
 
     (2nd case)
 */
-CALL createCity('A', @statusCode);
-CALL createCity('B', @statusCode);
-CALL createCityCenter('X', 'A', @statusCode);
-CALL createCityCenter('Y', 'A', @statusCode);
-CALL createCityCenter('Z', 'B', @statusCode);
-CALL createStaff('S', 'A', 'X', @statusCode);
-CALL createStaff('T', 'A', 'X', @statusCode);
-CALL createStaff('U', 'A', 'Y', @statusCode);
-CALL createStaff('V', 'B', 'Z', @statusCode);
-CALL getStaffInfo('T', 'A', 'X', @statusCode);
+CALL createCity('A');
+CALL createCity('B');
+CALL createCityCenter('X', 'A');
+CALL createCityCenter('Y', 'A');
+CALL createCityCenter('Z', 'B');
+CALL createStaff('S', 'A', 'X');
+CALL createStaff('T', 'A', 'X');
+CALL createStaff('U', 'A', 'Y');
+CALL createStaff('V', 'B', 'Z');
+CALL getStaffInfo('T', 'A', 'X');
 -- expected: no error code, a relation with 1 element is returned
 
 
@@ -42,16 +42,16 @@ CALL getStaffInfo('T', 'A', 'X', @statusCode);
 
     (3rd case)
 */
-CALL createCity('A', @statusCode);
-CALL createCity('B', @statusCode);
-CALL createCityCenter('X', 'A', @statusCode);
-CALL createCityCenter('Y', 'A', @statusCode);
-CALL createCityCenter('Z', 'B', @statusCode);
-CALL createStaff('S', 'A', 'X', @statusCode);
-CALL createStaff('T', 'A', 'X', @statusCode);
-CALL createStaff('U', 'A', 'Y', @statusCode);
-CALL createStaff('V', 'B', 'Z', @statusCode);
-CALL getStaffInfo('U', 'A', 'Y', @statusCode);
+CALL createCity('A');
+CALL createCity('B');
+CALL createCityCenter('X', 'A');
+CALL createCityCenter('Y', 'A');
+CALL createCityCenter('Z', 'B');
+CALL createStaff('S', 'A', 'X');
+CALL createStaff('T', 'A', 'X');
+CALL createStaff('U', 'A', 'Y');
+CALL createStaff('V', 'B', 'Z');
+CALL getStaffInfo('U', 'A', 'Y');
 -- expected: no error code, a relation with 1 element is returned
 
 
@@ -61,62 +61,62 @@ CALL getStaffInfo('U', 'A', 'Y', @statusCode);
 
     (4th case)
 */
-CALL createCity('A', @statusCode);
-CALL createCity('B', @statusCode);
-CALL createCityCenter('X', 'A', @statusCode);
-CALL createCityCenter('Y', 'A', @statusCode);
-CALL createCityCenter('Z', 'B', @statusCode);
-CALL createStaff('S', 'A', 'X', @statusCode);
-CALL createStaff('T', 'A', 'X', @statusCode);
-CALL createStaff('U', 'A', 'Y', @statusCode);
-CALL createStaff('V', 'B', 'Z', @statusCode);
-CALL getStaffInfo('V', 'B', 'Z', @statusCode);
+CALL createCity('A');
+CALL createCity('B');
+CALL createCityCenter('X', 'A');
+CALL createCityCenter('Y', 'A');
+CALL createCityCenter('Z', 'B');
+CALL createStaff('S', 'A', 'X');
+CALL createStaff('T', 'A', 'X');
+CALL createStaff('U', 'A', 'Y');
+CALL createStaff('V', 'B', 'Z');
+CALL getStaffInfo('V', 'B', 'Z');
 -- expected: no error code, a relation with 1 element is returned
 
 
 /*
     Test if an error code is returned when to provided staff id is invalid
 */
-CALL createCity('A', @statusCode);
-CALL createCity('B', @statusCode);
-CALL createCityCenter('X', 'A', @statusCode);
-CALL createCityCenter('Y', 'A', @statusCode);
-CALL createCityCenter('Z', 'B', @statusCode);
-CALL createStaff('S', 'A', 'X', @statusCode);
-CALL createStaff('T', 'A', 'X', @statusCode);
-CALL createStaff('U', 'A', 'Y', @statusCode);
-CALL createStaff('V', 'B', 'Z', @statusCode);
-CALL getStaffInfo('@', 'A', 'X', @statusCode);
+CALL createCity('A');
+CALL createCity('B');
+CALL createCityCenter('X', 'A');
+CALL createCityCenter('Y', 'A');
+CALL createCityCenter('Z', 'B');
+CALL createStaff('S', 'A', 'X');
+CALL createStaff('T', 'A', 'X');
+CALL createStaff('U', 'A', 'Y');
+CALL createStaff('V', 'B', 'Z');
+CALL getStaffInfo('@', 'A', 'X');
 -- expected: error code 463
 
 
 /*
     Test if an error code is returned when to provided city id is invalid
 */
-CALL createCity('A', @statusCode);
-CALL createCity('B', @statusCode);
-CALL createCityCenter('X', 'A', @statusCode);
-CALL createCityCenter('Y', 'A', @statusCode);
-CALL createCityCenter('Z', 'B', @statusCode);
-CALL createStaff('S', 'A', 'X', @statusCode);
-CALL createStaff('T', 'A', 'X', @statusCode);
-CALL createStaff('U', 'A', 'Y', @statusCode);
-CALL createStaff('V', 'B', 'Z', @statusCode);
-CALL getStaffInfo('S', '@', 'X', @statusCode);
+CALL createCity('A');
+CALL createCity('B');
+CALL createCityCenter('X', 'A');
+CALL createCityCenter('Y', 'A');
+CALL createCityCenter('Z', 'B');
+CALL createStaff('S', 'A', 'X');
+CALL createStaff('T', 'A', 'X');
+CALL createStaff('U', 'A', 'Y');
+CALL createStaff('V', 'B', 'Z');
+CALL getStaffInfo('S', '@', 'X');
 -- expected: error code 460
 
 
 /*
     Test if an error code is returned when to provided sportcenter id is invalid
 */
-CALL createCity('A', @statusCode);
-CALL createCity('B', @statusCode);
-CALL createCityCenter('X', 'A', @statusCode);
-CALL createCityCenter('Y', 'A', @statusCode);
-CALL createCityCenter('Z', 'B', @statusCode);
-CALL createStaff('S', 'A', 'X', @statusCode);
-CALL createStaff('T', 'A', 'X', @statusCode);
-CALL createStaff('U', 'A', 'Y', @statusCode);
-CALL createStaff('V', 'B', 'Z', @statusCode);
-CALL getStaffInfo('S', 'A', '@', @statusCode);
+CALL createCity('A');
+CALL createCity('B');
+CALL createCityCenter('X', 'A');
+CALL createCityCenter('Y', 'A');
+CALL createCityCenter('Z', 'B');
+CALL createStaff('S', 'A', 'X');
+CALL createStaff('T', 'A', 'X');
+CALL createStaff('U', 'A', 'Y');
+CALL createStaff('V', 'B', 'Z');
+CALL getStaffInfo('S', 'A', '@');
 -- expected: error code 461

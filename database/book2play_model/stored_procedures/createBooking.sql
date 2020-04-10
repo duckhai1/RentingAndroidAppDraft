@@ -16,8 +16,7 @@ CREATE PROCEDURE createBooking (
 	IN inCityId VARCHAR(100),
 	IN inSportcenterId VARCHAR(100),
 	IN inCourtId VARCHAR(100),
-	IN inPlayerId VARCHAR(100),
-    OUT statusCode INT
+	IN inPlayerId VARCHAR(100)
 )
 BEGIN
     DECLARE openTime TIME;
@@ -25,8 +24,8 @@ BEGIN
 
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
-		SET statusCode = @p1;
+		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO, @p2 = MESSAGE_TEXT;
+		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
 		ROLLBACK;
 	END;
 
@@ -143,8 +142,6 @@ BEGIN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 413; -- the booking's period overlaps with another existing booking
 	END IF;
-
-    SET statusCode = 200;
 
 	INSERT INTO bookings (bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, courtPk, playerPk)
 	VALUES (
