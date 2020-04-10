@@ -4,9 +4,9 @@
 
     (1st case)
 */
-CALL createPlayer('X');
-CALL createPlayer('Y');
-CALL updatePlayerId('Z', 'X');
+CALL createPlayer('X', @statusCode);
+CALL createPlayer('Y', @statusCode);
+CALL updatePlayerId('Z', 'X', @statusCode);
 -- expected: no error code
 
 
@@ -16,9 +16,9 @@ CALL updatePlayerId('Z', 'X');
 
     (2nd case)
 */
-CALL createPlayer('X');
-CALL createPlayer('Y');
-CALL updatePlayerId('Z', 'Y');
+CALL createPlayer('X', @statusCode);
+CALL createPlayer('Y', @statusCode);
+CALL updatePlayerId('Z', 'Y', @statusCode);
 -- expected: no error code
 
 
@@ -27,9 +27,9 @@ CALL updatePlayerId('Z', 'Y');
 
     (1st case)
 */
-CALL createPlayer('X');
-CALL createPlayer('Y');
-CALL updatePlayerId('Y', 'X');
+CALL createPlayer('X', @statusCode);
+CALL createPlayer('Y', @statusCode);
+CALL updatePlayerId('Y', 'X', @statusCode);
 -- expected: error code 405
 
 
@@ -38,25 +38,25 @@ CALL updatePlayerId('Y', 'X');
 
     (2nd case)
 */
-CALL createPlayer('X');
-CALL createPlayer('Y');
-CALL updatePlayerId('X', 'Y');
+CALL createPlayer('X', @statusCode);
+CALL createPlayer('Y', @statusCode);
+CALL updatePlayerId('X', 'Y', @statusCode);
 -- expected: error code 405
 
 
 /*
     Test if an error code is returned, when the new player id is in invalid format
 */
-CALL createPlayer('X');
-CALL createPlayer('Y');
-CALL updatePlayerId('@', 'X');
+CALL createPlayer('X', @statusCode);
+CALL createPlayer('Y', @statusCode);
+CALL updatePlayerId('@', 'X', @statusCode);
 -- expected: error code 464
 
 
 /*
     Test if an error code is returned, when the old player id does not exist in the database 
 */
-CALL createPlayer('X');
-CALL createPlayer('Y');
-CALL updatePlayerId('X', 'Z');
+CALL createPlayer('X', @statusCode);
+CALL createPlayer('Y', @statusCode);
+CALL updatePlayerId('X', 'Z', @statusCode);
 -- expected: error code 464
