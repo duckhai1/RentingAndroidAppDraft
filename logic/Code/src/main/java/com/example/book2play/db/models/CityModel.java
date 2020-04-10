@@ -36,7 +36,12 @@ public class CityModel extends MySQLModel implements CityProcedures {
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception", e);
+            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         }
+    }
+
+    @Override
+    public void clearCity() throws MySQLException {
+
     }
 }

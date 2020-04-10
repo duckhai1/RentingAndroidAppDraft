@@ -39,7 +39,7 @@ public class App {
 
         var cityModel = new CityModel(srv);
         try {
-            cityModel.createCity("HoChiMinh");
+            cityModel.createCity("HaNoi");
         } catch (MySQLException e) {
             LOG.warning(e.getMessage());
         }
