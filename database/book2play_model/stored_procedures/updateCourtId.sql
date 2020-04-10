@@ -8,13 +8,14 @@ CREATE PROCEDURE updateCourtId (
     IN newCourtId VARCHAR(100),
     IN inCourtId VARCHAR(100),
     IN inCityId VARCHAR(100),
-    IN inSportCenterId VARCHAR(100)
+    IN inSportCenterId VARCHAR(100),
+    OUT statusCode INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO, @p2 = MESSAGE_TEXT;
-		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
+		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
+		SET statusCode = @p1;
 		ROLLBACK;
 	END;
 
@@ -63,6 +64,8 @@ BEGIN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 404; -- court id exists
 	END IF;
+
+    SET statusCode = 200;
 
 	UPDATE courts 
 	SET courtId = newCourtId

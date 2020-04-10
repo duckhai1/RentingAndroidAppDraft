@@ -8,13 +8,14 @@ CREATE PROCEDURE updateStaffId (
     IN newStaffId VARCHAR(100),
     IN inStaffId VARCHAR(100),
     IN inCityId VARCHAR(100),
-    IN inSportcenterId VARCHAR(100)
+    IN inSportcenterId VARCHAR(100),
+    OUT statusCode INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO, @p2 = MESSAGE_TEXT;
-		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
+		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
+		SET statusCode = @p1;
 		ROLLBACK;
 	END;
 
@@ -63,6 +64,8 @@ BEGIN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 406; -- staff id already exists
 	END IF;
+
+    SET statusCode = 200;
 
 	UPDATE staffs 
 	SET staffId = newStaffId

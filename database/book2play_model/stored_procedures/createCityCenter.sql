@@ -6,13 +6,14 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS createCityCenter //
 CREATE PROCEDURE createCityCenter (
 	IN inSportcenterId VARCHAR(100),
-    IN inCityId VARCHAR(100)
+    IN inCityId VARCHAR(100),
+    OUT statusCode INT
 )
 BEGIN
-DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO, @p2 = MESSAGE_TEXT;
-		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
+		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
+		SET statusCode = @p1;
 		ROLLBACK;
 	END;
 
@@ -38,6 +39,8 @@ DECLARE EXIT HANDLER FOR SQLEXCEPTION
 			SET MYSQL_ERRNO = 403; -- center already exists 
 	END IF;
    
+    SET statusCode = 200;
+
     INSERT INTO sportcenters (sportcenterId, cityPk) 
     VALUES (inSportcenterId, (SELECT cityPk FROM cities WHERE cityId = inCityId));
 END//
