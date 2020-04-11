@@ -6,13 +6,14 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS cancelBooking//
 CREATE PROCEDURE cancelBooking (
     IN inBookingId VARCHAR(100),
-	IN inPlayerId VARCHAR(100)
+	IN inPlayerId VARCHAR(100),
+    OUT statusCode INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO, @p2 = MESSAGE_TEXT;
-		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
+		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
+		SET statusCode = @p1;
 		ROLLBACK;
 	END;
 
@@ -46,6 +47,8 @@ BEGIN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 411; -- The booking is cancelled in less than 24h before the start time
 	END IF;
+
+    SET statusCode = 200;
 
 	DELETE
 	FROM bookings

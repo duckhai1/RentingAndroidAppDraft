@@ -3,15 +3,15 @@
 
     (1st case)
 */
-CALL createCity('A');
-CALL createCityCenter('B', 'A');
-CALL createCityCenter('C', 'A');
-CALL createStaff('C', 'A', 'B');
-CALL createStaff('D', 'A', 'B');
-CALL createStaff('E', 'A', 'B');
-CALL createStaff('F', 'A', 'C');
-CALL createStaff('G', 'A', 'C');
-CALL updateStaffId('F', 'C', 'A', 'B');
+CALL createCity('A', @statusCode);
+CALL createCityCenter('B', 'A', @statusCode);
+CALL createCityCenter('C', 'A', @statusCode);
+CALL createStaff('C', 'A', 'B', @statusCode);
+CALL createStaff('D', 'A', 'B', @statusCode);
+CALL createStaff('E', 'A', 'B', @statusCode);
+CALL createStaff('F', 'A', 'C', @statusCode);
+CALL createStaff('G', 'A', 'C', @statusCode);
+CALL updateStaffId('F', 'C', 'A', 'B', @statusCode);
 -- expected: no error code
 
 
@@ -20,15 +20,15 @@ CALL updateStaffId('F', 'C', 'A', 'B');
 
     (2nd case)
 */
-CALL createCity('A');
-CALL createCityCenter('B', 'A');
-CALL createCityCenter('C', 'A');
-CALL createStaff('C', 'A', 'B');
-CALL createStaff('D', 'A', 'B');
-CALL createStaff('E', 'A', 'B');
-CALL createStaff('F', 'A', 'C');
-CALL createStaff('G', 'A', 'C');
-CALL updateStaffId('G', 'E', 'A', 'B');
+CALL createCity('A', @statusCode);
+CALL createCityCenter('B', 'A', @statusCode);
+CALL createCityCenter('C', 'A', @statusCode);
+CALL createStaff('C', 'A', 'B', @statusCode);
+CALL createStaff('D', 'A', 'B', @statusCode);
+CALL createStaff('E', 'A', 'B', @statusCode);
+CALL createStaff('F', 'A', 'C', @statusCode);
+CALL createStaff('G', 'A', 'C', @statusCode);
+CALL updateStaffId('G', 'E', 'A', 'B', @statusCode);
 -- expected: no error code
 
 
@@ -37,15 +37,15 @@ CALL updateStaffId('G', 'E', 'A', 'B');
 
     (1st case)
 */
-CALL createCity('A');
-CALL createCityCenter('B', 'A');
-CALL createCityCenter('C', 'A');
-CALL createStaff('C', 'A', 'B');
-CALL createStaff('D', 'A', 'B');
-CALL createStaff('E', 'A', 'B');
-CALL createStaff('F', 'A', 'C');
-CALL createStaff('G', 'A', 'C');
-CALL updateStaffId('G', 'F', 'A', 'C');
+CALL createCity('A', @statusCode);
+CALL createCityCenter('B', 'A', @statusCode);
+CALL createCityCenter('C', 'A', @statusCode);
+CALL createStaff('C', 'A', 'B', @statusCode);
+CALL createStaff('D', 'A', 'B', @statusCode);
+CALL createStaff('E', 'A', 'B', @statusCode);
+CALL createStaff('F', 'A', 'C', @statusCode);
+CALL createStaff('G', 'A', 'C', @statusCode);
+CALL updateStaffId('G', 'F', 'A', 'C', @statusCode);
 -- expected: error code 406
 
 
@@ -54,15 +54,15 @@ CALL updateStaffId('G', 'F', 'A', 'C');
 
     (2nd case)
 */
-CALL createCity('A');
-CALL createCityCenter('B', 'A');
-CALL createCityCenter('C', 'A');
-CALL createStaff('C', 'A', 'B');
-CALL createStaff('D', 'A', 'B');
-CALL createStaff('E', 'A', 'B');
-CALL createStaff('F', 'A', 'C');
-CALL createStaff('G', 'A', 'C');
-CALL updateStaffId('F', 'F', 'A', 'C');
+CALL createCity('A', @statusCode);
+CALL createCityCenter('B', 'A', @statusCode);
+CALL createCityCenter('C', 'A', @statusCode);
+CALL createStaff('C', 'A', 'B', @statusCode);
+CALL createStaff('D', 'A', 'B', @statusCode);
+CALL createStaff('E', 'A', 'B', @statusCode);
+CALL createStaff('F', 'A', 'C', @statusCode);
+CALL createStaff('G', 'A', 'C', @statusCode);
+CALL updateStaffId('F', 'F', 'A', 'C', @statusCode);
 -- expected: error code 406
 
 
@@ -71,15 +71,15 @@ CALL updateStaffId('F', 'F', 'A', 'C');
 
     (1st case)
 */
-CALL createCity('A');
-CALL createCityCenter('B', 'A');
-CALL createCityCenter('C', 'A');
-CALL createCityCenterCourt('C', 'A', 'B');
-CALL createCityCenterCourt('D', 'A', 'B');
-CALL createCityCenterCourt('E', 'A', 'B');
-CALL createCityCenterCourt('F', 'A', 'C');
-CALL createCityCenterCourt('G', 'A', 'C');
-CALL updateCourtId('F', 'C', 'A', 'B');
+CALL createCity('A', @statusCode);
+CALL createCityCenter('B', 'A', @statusCode);
+CALL createCityCenter('C', 'A', @statusCode);
+CALL createCityCenterCourt('C', 'A', 'B', @statusCode);
+CALL createCityCenterCourt('D', 'A', 'B', @statusCode);
+CALL createCityCenterCourt('E', 'A', 'B', @statusCode);
+CALL createCityCenterCourt('F', 'A', 'C', @statusCode);
+CALL createCityCenterCourt('G', 'A', 'C', @statusCode);
+CALL updateCourtId('F', 'C', 'A', 'B', @statusCode);
 -- expected: no error code
 
 
@@ -88,30 +88,30 @@ CALL updateCourtId('F', 'C', 'A', 'B');
 
     (2nd case)
 */
-CALL createCity('A');
-CALL createCityCenter('B', 'A');
-CALL createCityCenter('C', 'A');
-CALL createCityCenterCourt('C', 'A', 'B');
-CALL createCityCenterCourt('D', 'A', 'B');
-CALL createCityCenterCourt('E', 'A', 'B');
-CALL createCityCenterCourt('F', 'A', 'C');
-CALL createCityCenterCourt('G', 'A', 'C');
-CALL updateCourtId('G', 'E', 'A', 'B');
+CALL createCity('A', @statusCode);
+CALL createCityCenter('B', 'A', @statusCode);
+CALL createCityCenter('C', 'A', @statusCode);
+CALL createCityCenterCourt('C', 'A', 'B', @statusCode);
+CALL createCityCenterCourt('D', 'A', 'B', @statusCode);
+CALL createCityCenterCourt('E', 'A', 'B', @statusCode);
+CALL createCityCenterCourt('F', 'A', 'C', @statusCode);
+CALL createCityCenterCourt('G', 'A', 'C', @statusCode);
+CALL updateCourtId('G', 'E', 'A', 'B', @statusCode);
 -- expected: no error code
 
 
 /*
     Test if the staff id is not updated when the new staff id is in invalid format
 */
-CALL createCity('A');
-CALL createCityCenter('B', 'A');
-CALL createCityCenter('C', 'A');
-CALL createStaff('C', 'A', 'B');
-CALL createStaff('D', 'A', 'B');
-CALL createStaff('E', 'A', 'B');
-CALL createStaff('F', 'A', 'C');
-CALL createStaff('G', 'A', 'C');
-CALL updateStaffId('@', 'G', 'A', 'C');
+CALL createCity('A', @statusCode);
+CALL createCityCenter('B', 'A', @statusCode);
+CALL createCityCenter('C', 'A', @statusCode);
+CALL createStaff('C', 'A', 'B', @statusCode);
+CALL createStaff('D', 'A', 'B', @statusCode);
+CALL createStaff('E', 'A', 'B', @statusCode);
+CALL createStaff('F', 'A', 'C', @statusCode);
+CALL createStaff('G', 'A', 'C', @statusCode);
+CALL updateStaffId('@', 'G', 'A', 'C', @statusCode);
 -- expected: error code 463
 
 
@@ -119,43 +119,43 @@ CALL updateStaffId('@', 'G', 'A', 'C');
 /*
     Test if the staff id is not updated when the old staff id does not exist in the database
 */
-CALL createCity('A');
-CALL createCityCenter('B', 'A');
-CALL createCityCenter('C', 'A');
-CALL createStaff('C', 'A', 'B');
-CALL createStaff('D', 'A', 'B');
-CALL createStaff('E', 'A', 'B');
-CALL createStaff('F', 'A', 'C');
-CALL createStaff('G', 'A', 'C');
-CALL updateStaffId('I', 'H', 'A', 'C');
+CALL createCity('A', @statusCode);
+CALL createCityCenter('B', 'A', @statusCode);
+CALL createCityCenter('C', 'A', @statusCode);
+CALL createStaff('C', 'A', 'B', @statusCode);
+CALL createStaff('D', 'A', 'B', @statusCode);
+CALL createStaff('E', 'A', 'B', @statusCode);
+CALL createStaff('F', 'A', 'C', @statusCode);
+CALL createStaff('G', 'A', 'C', @statusCode);
+CALL updateStaffId('I', 'H', 'A', 'C', @statusCode);
 -- expected: error code 463
 
 
 /*
     Test if the staff id is not updated when the city id does not exist in the database
 */
-CALL createCity('A');
-CALL createCityCenter('B', 'A');
-CALL createCityCenter('C', 'A');
-CALL createStaff('C', 'A', 'B');
-CALL createStaff('D', 'A', 'B');
-CALL createStaff('E', 'A', 'B');
-CALL createStaff('F', 'A', 'C');
-CALL createStaff('G', 'A', 'C');
-CALL updateStaffId('H', 'G', 'B', 'C');
+CALL createCity('A', @statusCode);
+CALL createCityCenter('B', 'A', @statusCode);
+CALL createCityCenter('C', 'A', @statusCode);
+CALL createStaff('C', 'A', 'B', @statusCode);
+CALL createStaff('D', 'A', 'B', @statusCode);
+CALL createStaff('E', 'A', 'B', @statusCode);
+CALL createStaff('F', 'A', 'C', @statusCode);
+CALL createStaff('G', 'A', 'C', @statusCode);
+CALL updateStaffId('H', 'G', 'B', 'C', @statusCode);
 -- expected: error code 460
 
 
 /*
     Test if the staff id is not updated when the sportcenter id does not exist in the database
 */
-CALL createCity('A');
-CALL createCityCenter('B', 'A');
-CALL createCityCenter('C', 'A');
-CALL createStaff('C', 'A', 'B');
-CALL createStaff('D', 'A', 'B');
-CALL createStaff('E', 'A', 'B');
-CALL createStaff('F', 'A', 'C');
-CALL createStaff('G', 'A', 'C');
-CALL updateStaffId('H', 'G', 'A', 'K');
+CALL createCity('A', @statusCode);
+CALL createCityCenter('B', 'A', @statusCode);
+CALL createCityCenter('C', 'A', @statusCode);
+CALL createStaff('C', 'A', 'B', @statusCode);
+CALL createStaff('D', 'A', 'B', @statusCode);
+CALL createStaff('E', 'A', 'B', @statusCode);
+CALL createStaff('F', 'A', 'C', @statusCode);
+CALL createStaff('G', 'A', 'C', @statusCode);
+CALL updateStaffId('H', 'G', 'A', 'K', @statusCode);
 -- expected: error code 461
