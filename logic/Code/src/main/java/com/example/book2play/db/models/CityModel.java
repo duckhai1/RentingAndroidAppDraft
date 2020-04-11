@@ -10,8 +10,11 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.Collection;
+import java.util.logging.Logger;
 
 public class CityModel extends MySQLModel implements CityProcedures {
+
+    final static Logger LOG = Logger.getAnonymousLogger();
 
     public CityModel(MySQLServer db) {
         super(db);
@@ -24,7 +27,7 @@ public class CityModel extends MySQLModel implements CityProcedures {
     public void createCity(String cityId) throws MySQLException {
         Connection conn;
         try {
-            conn  = this.db.getConnection();
+            conn = this.db.getConnection();
 
             var cs = conn.prepareCall(("{CALL createCity(?, ?)}"));
             cs.setString(1, cityId);
@@ -32,6 +35,9 @@ public class CityModel extends MySQLModel implements CityProcedures {
 
             cs.executeUpdate();
             var statusCode = cs.getInt(2);
+
+            LOG.info("Received status code " + statusCode);
+
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }

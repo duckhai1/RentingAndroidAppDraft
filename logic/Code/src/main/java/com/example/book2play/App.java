@@ -30,6 +30,8 @@ public class App {
         var port = this.mySqlProps.getProperty("mysql_port");
         var database = this.mySqlProps.getProperty("mysql_database");
 
+        LOG.info("Connection to MySQL database at " + host + ":" + port + "/" + database);
+
         var srv = new MySQLServer(
                 host.equals("") ? "127.0.0.1" : host,
                 port.equals("") ? "3306" : port,
@@ -39,6 +41,7 @@ public class App {
 
         var cityModel = new CityModel(srv);
         try {
+            LOG.info("CALLING createCity(HaNoi)");
             cityModel.createCity("HaNoi");
         } catch (MySQLException e) {
             LOG.warning(e.getMessage());
