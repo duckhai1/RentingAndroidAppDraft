@@ -4,7 +4,6 @@ import com.example.book2play.db.MySQLServer;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.CityModel;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -26,22 +25,16 @@ public class App {
     }
 
     public void runExample() {
-        var host = this.mySqlProps.getProperty("mysql_host");
-        var port = this.mySqlProps.getProperty("mysql_port");
-        var database = this.mySqlProps.getProperty("mysql_database");
+        var host = this.mySqlProps.getProperty("mysql_host", "127.0.0.1");
+        var port = this.mySqlProps.getProperty("mysql_port", "3306");
+        var database = this.mySqlProps.getProperty("mysql_database", "book2play");
 
         LOG.info("Connection to MySQL database at " + host + ":" + port + "/" + database);
 
-        var srv = new MySQLServer(
-                host.equals("") ? "127.0.0.1" : host,
-                port.equals("") ? "3306" : port,
-                database.equals("") ? "book2play" : database,
-                this.mySqlProps
-        );
-
+        var srv = new MySQLServer(host, port, database, mySqlProps);
         var cityModel = new CityModel(srv);
+
         try {
-            LOG.info("CALLING createCity(HaNoi)");
             cityModel.createCity("HaNoi");
         } catch (MySQLException e) {
             LOG.warning(e.getMessage());

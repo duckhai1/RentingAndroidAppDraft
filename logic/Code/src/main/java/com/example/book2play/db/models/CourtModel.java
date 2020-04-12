@@ -57,7 +57,7 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
         try{
             conn = this.db.getConnection();
 
-            stm = conn.prepareCall("{call (?,?,?,?)}");
+            stm = conn.prepareCall("{call createCityCenterCourt(?,?,?,?)}");
             stm.setString(1, courtId);
             stm.setString(2, cityId);
             stm.setString(3, sportCenterId);
@@ -110,7 +110,7 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
         try{
             conn = this.db.getConnection();
 
-            stm = conn.prepareStatement("DELETE * FROM courts");
+            stm = conn.prepareStatement("DELETE FROM courts");
 
             stm.executeUpdate();
         } catch (SQLException e) {

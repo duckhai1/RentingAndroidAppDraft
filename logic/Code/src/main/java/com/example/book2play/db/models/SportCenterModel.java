@@ -3,10 +3,8 @@ package com.example.book2play.db.models;
 import com.example.book2play.db.MySQLModel;
 import com.example.book2play.db.MySQLServer;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.types.Booking;
 import com.example.book2play.db.types.SportCenter;
 import com.example.book2play.db.utils.SportCenterProcedures;
-import com.mysql.cj.log.Log;
 
 import java.sql.*;
 import java.util.logging.Logger;
@@ -15,6 +13,10 @@ public class SportCenterModel extends MySQLModel implements SportCenterProcedure
     public SportCenterModel(MySQLServer db) { super(db);}
     final static Logger LOG = Logger.getAnonymousLogger();
 
+    public SportCenterModel(MySQLServer srv) {
+        super(srv);
+    }
+
     @Override
     public SportCenter getSportCenterInfo(String sportCenterId, String cityId) throws MySQLException {
         SportCenter sportCenter;
@@ -22,7 +24,7 @@ public class SportCenterModel extends MySQLModel implements SportCenterProcedure
         CallableStatement stm;
         ResultSet rs;
 
-        try{
+        try {
             conn = this.db.getConnection();
 
             stm = conn.prepareCall("{call getSportcenterInfo(?,?,?)");
@@ -35,7 +37,7 @@ public class SportCenterModel extends MySQLModel implements SportCenterProcedure
 
             LOG.info("Received status code " + statusCode);
 
-            if(statusCode>500){
+            if (statusCode > 500) {
                 throw new MySQLException(statusCode);
             }
             return new SportCenter(
@@ -53,7 +55,7 @@ public class SportCenterModel extends MySQLModel implements SportCenterProcedure
         Connection conn;
         CallableStatement stm;
 
-        try{
+        try {
             conn = this.db.getConnection();
 
             stm = conn.prepareCall("{call createCityCenter(?,?,?)}");
@@ -66,7 +68,7 @@ public class SportCenterModel extends MySQLModel implements SportCenterProcedure
 
             LOG.info("Received status code " + statusCode);
 
-            if(statusCode>500){
+            if (statusCode > 500) {
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
@@ -78,7 +80,7 @@ public class SportCenterModel extends MySQLModel implements SportCenterProcedure
     public void updateSportCenterId(String newSportCenterId, String oldSportCenterId, String cityId) throws MySQLException {
         Connection conn;
         CallableStatement stm;
-        try{
+        try {
             conn = this.db.getConnection();
 
             stm = conn.prepareCall("{call updateSprtCenterId(?,?,?,?)}");
@@ -92,7 +94,7 @@ public class SportCenterModel extends MySQLModel implements SportCenterProcedure
 
             LOG.info("Received status code " + statusCode);
 
-            if(statusCode>500){
+            if (statusCode > 500) {
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
@@ -104,10 +106,10 @@ public class SportCenterModel extends MySQLModel implements SportCenterProcedure
     public void clearSportCenter() throws MySQLException {
         Connection conn;
         PreparedStatement stm;
-        try{
+        try {
             conn = this.db.getConnection();
 
-            stm = conn.prepareStatement("DELETE * FROM sportcenters");
+            stm = conn.prepareStatement("DELETE FROM sportcenters");
 
             stm.executeUpdate();
         } catch (SQLException e) {

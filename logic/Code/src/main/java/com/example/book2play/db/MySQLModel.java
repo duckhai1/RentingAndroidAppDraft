@@ -5,8 +5,4 @@ public class MySQLModel {
     public MySQLModel(MySQLServer db) {
         this.db = db;
     }
-
-    public MySQLModel() {
-
-    }
 }

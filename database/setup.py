@@ -5,50 +5,64 @@
 import pathlib
 import os
 
-DEFAULT_ROOT = './'
-DEFAULT_MODEL_ROOT = 'book2play_model/'
+MODEL_ROOT = pathlib.Path('book2play_model/')
+TESTS_DIR = MODEL_ROOT / 'tests'
+PROCEDURES_DIR = MODEL_ROOT / 'stored_procedures'
+SCHEMAS_DIR = MODEL_ROOT / 'schemas'
 
-DEFAULT_BUILD_OUT = './build'
-DEFAULT_OUT = DEFAULT_BUILD_OUT + '/setup.sql'
-TESTS_OUT = DEFAULT_BUILD_OUT + '/tests.sql'
+BUILD_OUT = pathlib.Path('./build')
+SETUP_OUT = BUILD_OUT / 'setup.sql'
+SETUP_TEST_OUT = BUILD_OUT / 'setup_test.sql'
+TESTS_OUT = BUILD_OUT / 'tests.sql'
 
-db_root = pathlib.Path(DEFAULT_ROOT)
-model_root = pathlib.Path(DEFAULT_MODEL_ROOT)
-init_file = model_root / 'init.sql'
-stored_procedures = model_root / 'stored_procedures'
-tests = model_root / 'tests'
+INIT = MODEL_ROOT / 'init.sql'
+INIT_TEST = MODEL_ROOT / 'init_test.sql'
 
-if not os.path.exists(DEFAULT_BUILD_OUT):
-    os.makedirs(DEFAULT_BUILD_OUT)
 
-with open(DEFAULT_OUT, "w") as fo:
-    print("WRITING %s" % DEFAULT_OUT)
-    with init_file.open('r') as fi:
-        print('READING INIT:', init_file)
-        content = fi.read()
-        fo.write(content)
-        fo.write('\n\n')
+def create_setup_script(out_file, init_file, schemas_dir, stored_procedures_dir):
+    with open(out_file, "w") as fo:
+        print("WRITING %s" % out_file)
+        with init_file.open('r') as fi:
+            print('READING INIT:', init_file)
+            content = fi.read()
+            fo.write(content)
+            fo.write('\n\n')
 
-    for x in sorted(model_root.glob("*.sql")):
-        if x != init_file and not x.is_dir():
+        for x in sorted(schemas_dir.glob("*.sql")):
+            if x != init_file and not x.is_dir():
+                with x.open('r') as fi:
+                    print('READING SETUP SCRIPT:', x)
+                    content = fi.read()
+                    fo.write(content)
+                    fo.write('\n\n')
+
+        for x in stored_procedures_dir.glob("*.sql"):
             with x.open('r') as fi:
-                print('READING SETUP SCRIPT:', x)
+                print('READING PROCEDURE:', x)
                 content = fi.read()
                 fo.write(content)
                 fo.write('\n\n')
 
-    for x in stored_procedures.glob("*.sql"):
-        with x.open('r') as fi:
-            print('READING PROCEDURE:', x)
-            content = fi.read()
-            fo.write(content)
-            fo.write('\n\n')
 
-print("WRITING %s" % TESTS_OUT)
-with open(TESTS_OUT, "w") as fo:
-    for x in tests.glob("*.sql"):
-        with x.open('r') as fi:
-            print('READING TEST CASE:', x)
-            content = fi.read()
-            fo.write(content)
-            fo.write('\n\n')
+def create_tests(out_file, tests_dir):
+    with open(out_file, "w") as fo:
+        print("WRITING %s" % out_file)
+        for x in tests_dir.glob("*.sql"):
+            with x.open('r') as fi:
+                print('READING TEST CASE:', x)
+                content = fi.read()
+                fo.write(content)
+                fo.write('\n\n')
+
+
+def main():
+    if not os.path.exists(BUILD_OUT):
+        os.makedirs(BUILD_OUT)
+
+    create_setup_script(SETUP_OUT, INIT, SCHEMAS_DIR, PROCEDURES_DIR)
+    create_setup_script(SETUP_TEST_OUT, INIT_TEST, SCHEMAS_DIR, PROCEDURES_DIR)
+    create_tests(TESTS_OUT, TESTS_DIR)
+
+
+if __name__ == '__main__':
+    main()

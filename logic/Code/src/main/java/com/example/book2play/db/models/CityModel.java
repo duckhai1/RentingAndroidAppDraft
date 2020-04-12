@@ -73,7 +73,7 @@ public class CityModel extends MySQLModel implements CityProcedures {
         try{
             conn = this.db.getConnection();
 
-            stm = conn.prepareStatement("DELETE * FROM City");
+            stm = conn.prepareStatement("DELETE FROM cities");
 
             stm.executeUpdate();
         } catch (SQLException e) {
