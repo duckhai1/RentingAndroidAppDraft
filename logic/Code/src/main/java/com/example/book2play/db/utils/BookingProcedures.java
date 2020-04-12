@@ -13,7 +13,7 @@ public interface BookingProcedures {
 
     Booking getBookingInfo(String bookingId) throws MySQLException, SQLException;
 
-    Collection<Booking> getBookings(String cityId, Date date) throws MySQLException;
+    Collection<Booking> getBookingsInCourt(String courtId, String cityId, String sportCenterId, Date date) throws MySQLException;
 
     Collection<Booking> getSportCenterBookings(String sportCenterId, Date date) throws MySQLException;
 

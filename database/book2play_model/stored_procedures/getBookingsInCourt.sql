@@ -5,6 +5,7 @@ CREATE PROCEDURE getBookingsInCourt(
 	IN inCourtId VARCHAR(100),
 	IN inCityId VARCHAR(100),
 	IN inSportcenterId VARCHAR(100),
+    IN inBookingDate Date,
     OUT statusCode INT
 )
 BEGIN
@@ -46,14 +47,16 @@ BEGIN
     
     SET statusCode = 200;
     
-    SELECT bookingId, courtId, sportcenterId, cityId, bookingStartTime, bookingEndTime
+    SELECT bookingId, bookingStartTime, bookingEndTime, courtId, sportcenterId, cityId
 	FROM bookings
 	NATURAL JOIN courts
 	NATURAL JOIN sportcenters
 	NATURAL JOIN cities
 	WHERE cityId = inCityId
 		AND sportcenterId = inSportcenterId
-		AND courtId = inCourtId;
+		AND courtId = inCourtId
+        AND bookingDate = inBookingDate
+		ORDER BY bookingStartTime ASC;
 END//
 
 DELIMITER ;

@@ -48,7 +48,7 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
                     rs.getTime("bookingEndTime"),
                     rs.getTimestamp("createAt"),
                     rs.getBoolean("isPaid")
-                    );
+            );
 
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
@@ -60,7 +60,7 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
     }
 
     @Override
-    public Collection<Booking> getBookings(String cityId, Date date) throws MySQLException {
+    public Collection<Booking> getBookingsInCourt(String courtId, String cityId, String sportCenterId, Date date) throws MySQLException {
         ArrayList<Booking> bookings = new ArrayList<>();
         Connection conn = null;
         CallableStatement stm = null;
@@ -68,9 +68,11 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
         try {
             conn = this.db.getConnection();
 
-            stm = conn.prepareCall("{call getBookings(?,?,?)}");
-            stm.setString(1, cityId);
-            stm.setDate(2, date);
+            stm = conn.prepareCall("{call getBookingsInCourt(?,?,?,?,?)}");
+            stm.setString(1, courtId);
+            stm.setString(2, cityId);
+            stm.setString(3, sportCenterId);
+            stm.setDate(4, date);
             stm.registerOutParameter(5, Types.INTEGER);
 
             rs = stm.executeQuery();
@@ -88,7 +90,7 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
                         rs.getTime("bookingEndTime"),
                         rs.getTimestamp("createAt"),
                         rs.getBoolean("isPaid")
-                        ));
+                ));
             }
             return bookings;
         } catch (SQLException e) {
@@ -124,12 +126,12 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
             while (rs.next()) {
                 bookings.add(new Booking(
                         rs.getString("bookingId"),
-                        rs.getDate("bookingDate"),
                         rs.getTime("bookingStartTime"),
                         rs.getTime("bookingEndTime"),
-                        rs.getTimestamp("createAt"),
-                        rs.getBoolean("isPaid")
-                        ));
+                        rs.getString("courtId"),
+                        rs.getString("sportCenterId"),
+                        rs.getString("cityId")
+                ));
             }
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
@@ -171,7 +173,7 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
                         rs.getTime("bookingEndTime"),
                         rs.getTimestamp("createAt"),
                         rs.getBoolean("isPaid")
-                        ));
+                ));
             }
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
