@@ -1,11 +1,13 @@
 package com.example.book2play.db.types;
 
 public class Player {
-    private int playerPk;
     private String playerId;
 
-    public Player(int playerPk, String playerId) {
-        this.playerPk = playerPk;
+    public Player(String playerId) {
         this.playerId = playerId;
+    }
+
+    public String getPlayerId() {
+        return playerId;
     }
 }

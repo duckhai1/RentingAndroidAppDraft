@@ -24,19 +24,23 @@ public class CityModel extends MySQLModel implements CityProcedures {
     public Collection<City> getCities() throws MySQLException {
         ArrayList<City> cities = new ArrayList<>();
         Connection conn = null;
-        PreparedStatement stm = null;
+        CallableStatement stm = null;
         ResultSet rs = null;
         try {
             conn = this.db.getConnection();
 
-            stm = conn.prepareStatement("SELECT * FROM Cities");
+            stm = conn.prepareCall("{call getCities(?)}");
+            stm.registerOutParameter(1, Types.INTEGER);
 
             rs = stm.executeQuery();
+            var statusCode = stm.getInt(1);
 
+            if(statusCode >= 400 && statusCode < 500){
+                throw new MySQLException(statusCode);
+            }
             while (rs.next()) {
                 cities.add(new City(
-                        rs.getInt(1),
-                        rs.getString(2)
+                        rs.getString(1)
                 ));
             }
 

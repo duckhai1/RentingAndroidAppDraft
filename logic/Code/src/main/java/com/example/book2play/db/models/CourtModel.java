@@ -39,14 +39,14 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
 
             LOG.info("Received status code " + statusCode);
 
-            if (statusCode > 500) {
+            if (statusCode >= 400 && statusCode< 500) {
                 throw new MySQLException(statusCode);
             }
 
             return new Court(
-                    rs.getInt("courtPk"),
                     rs.getString("courtId"),
-                    rs.getInt("sportcenterPk")
+                    rs.getString("cityId"),
+                    rs.getString("sportcenterId")
             );
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
@@ -75,7 +75,7 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
 
             LOG.info("Received status code " + statusCode);
 
-            if (statusCode > 500) {
+            if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
@@ -105,7 +105,7 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
 
             LOG.info("Received status code " + statusCode);
 
-            if (statusCode > 500) {
+            if (statusCode >=400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
@@ -146,12 +146,16 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
 
             rs = stm.executeQuery();
             var statusCode = stm.getInt(2);
+
+            if(statusCode >= 400 && statusCode < 500){
+                throw new MySQLException(statusCode);
+            }
             while (rs.next()) {
                 courts.add(new Court(
 
-                        rs.getInt("bookingPk"),
-                        rs.getString("boookingId"),
-                        rs.getInt("sportcenterPk")
+                        rs.getString("courtId"),
+                        rs.getString("cityId"),
+                        rs.getString("sportcenterId")
 
                 ));
             }

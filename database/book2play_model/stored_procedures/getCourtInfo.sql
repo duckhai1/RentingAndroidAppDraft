@@ -49,7 +49,7 @@ BEGIN
 
     SET statusCode = 200;
 
-	SELECT courtId
+	SELECT courtId, cityId, sportcenterId
 	FROM courts
 	NATURAL JOIN sportcenters
 	NATURAL JOIN cities

@@ -19,8 +19,6 @@ public class PlayerModel extends MySQLModel implements PlayerProcedures {
         super(db);
     }
 
-    final static Logger LOG = Logger.getAnonymousLogger();
-
     @Override
     public Player getPlayerInfo(String playerId) throws MySQLException {
         Connection conn = null;
@@ -38,11 +36,10 @@ public class PlayerModel extends MySQLModel implements PlayerProcedures {
 
             LOG.info("Received status code " + statusCode);
 
-            if (statusCode > 500) {
+            if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
             return new Player(
-                    rs.getInt("playerPk"),
                     rs.getString("playerId")
             );
         } catch (SQLException e) {
@@ -70,7 +67,7 @@ public class PlayerModel extends MySQLModel implements PlayerProcedures {
 
             LOG.info("Received status code " + statusCode);
 
-            if (statusCode > 500) {
+            if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
@@ -98,7 +95,7 @@ public class PlayerModel extends MySQLModel implements PlayerProcedures {
 
             LOG.info("Received status code " + statusCode);
 
-            if (statusCode > 500) {
+            if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {

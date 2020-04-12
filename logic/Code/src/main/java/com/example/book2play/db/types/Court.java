@@ -1,25 +1,25 @@
 package com.example.book2play.db.types;
 
 public class Court {
-    private int courtPk;
     private String courtId;
-    private int sportcenterPk;
+    private String cityId;
+    private String sportcenterId;
 
-    public Court(int courtPk, String courtId, int sportcenterPk) {
-        this.courtPk = courtPk;
+    public Court( String courtId, String cityId, String sportcenterId) {
         this.courtId = courtId;
-        this.sportcenterPk = sportcenterPk;
-    }
-
-    public int getCourtPk() {
-        return courtPk;
+        this.cityId = cityId;
+        this.sportcenterId = sportcenterId;
     }
 
     public String getCourtId() {
         return courtId;
     }
 
-    public int getSportcenterPk() {
-        return sportcenterPk;
+    public String getCityId() {
+        return cityId;
+    }
+
+    public String getSportcenterId() {
+        return sportcenterId;
     }
 }

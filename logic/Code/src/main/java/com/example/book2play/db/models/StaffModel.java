@@ -33,14 +33,13 @@ public class StaffModel extends MySQLModel implements StaffProcedures {
 
             rs = stm.executeQuery();
             var statusCode = stm.getInt(4);
-            if (statusCode > 500) {
+            if (statusCode >=400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
 
             return new Staff(
-                    rs.getInt("staffPk"),
                     rs.getString("staffId"),
-                    rs.getInt("sportcenterPk")
+                    rs.getString("sportcenterId")
             );
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
@@ -67,7 +66,7 @@ public class StaffModel extends MySQLModel implements StaffProcedures {
             stm.executeUpdate();
             var statusCode = stm.getInt(4);
 
-            if (statusCode > 500) {
+            if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
@@ -95,7 +94,7 @@ public class StaffModel extends MySQLModel implements StaffProcedures {
             stm.executeUpdate();
             var statusCode = stm.getInt(5);
 
-            if (statusCode > 500) {
+            if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {

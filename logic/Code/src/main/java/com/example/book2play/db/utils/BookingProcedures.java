@@ -13,7 +13,7 @@ public interface BookingProcedures {
 
     Booking getBookingInfo(String bookingId) throws MySQLException, SQLException;
 
-    Collection<Booking> getBookings(String cityId, String sportCenterId, String courtId, Date date) throws MySQLException;
+    Collection<Booking> getBookings(String cityId, Date date) throws MySQLException;
 
     Collection<Booking> getSportCenterBookings(String sportCenterId, Date date) throws MySQLException;
 
@@ -35,5 +35,5 @@ public interface BookingProcedures {
 
     void cancelBooking(String bookingId, String playerId) throws MySQLException;
 
-    void clearBooking(String bookingId) throws MySQLException;
+    void clearBooking() throws MySQLException;
 }

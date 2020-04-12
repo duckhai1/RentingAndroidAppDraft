@@ -1,13 +1,19 @@
 package com.example.book2play.db.types;
 
 public class SportCenter {
-    private int sportCenterPk;
     private String sportCenterId;
-    private int cityPK;
+    private String cityId;
 
-    public SportCenter(int sportCenterPk, String sportCenterId, int cityPK) {
-        this.sportCenterPk = sportCenterPk;
+    public SportCenter(String sportCenterId, String cityId) {
         this.sportCenterId = sportCenterId;
-        this.cityPK = cityPK;
+        this.cityId = cityId;
+    }
+
+    public String getSportCenterId() {
+        return sportCenterId;
+    }
+
+    public String getCityId() {
+        return cityId;
     }
 }

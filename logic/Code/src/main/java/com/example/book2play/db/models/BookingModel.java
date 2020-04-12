@@ -42,16 +42,13 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
             }
 
             return new Booking(
-                    rs.getInt("bookingPK"),
                     rs.getString("bookingId"),
                     rs.getDate("bookingDate"),
                     rs.getTime("bookingStartTime"),
                     rs.getTime("bookingEndTime"),
                     rs.getTimestamp("createAt"),
-                    rs.getBoolean("isPaid"),
-                    rs.getInt("playerPk"),
-                    rs.getInt("courtPk")
-            );
+                    rs.getBoolean("isPaid")
+                    );
 
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
@@ -63,7 +60,7 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
     }
 
     @Override
-    public Collection<Booking> getBookings(String cityId, String sportCenterId, String courtId, Date date) throws MySQLException {
+    public Collection<Booking> getBookings(String cityId, Date date) throws MySQLException {
         ArrayList<Booking> bookings = new ArrayList<>();
         Connection conn = null;
         CallableStatement stm = null;
@@ -71,32 +68,27 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
         try {
             conn = this.db.getConnection();
 
-            stm = conn.prepareCall("{call getBookings(?,?,?,?,?)}");
+            stm = conn.prepareCall("{call getBookings(?,?,?)}");
             stm.setString(1, cityId);
-            stm.setString(2, sportCenterId);
-            stm.setString(3, courtId);
-            stm.setDate(4, date);
+            stm.setDate(2, date);
             stm.registerOutParameter(5, Types.INTEGER);
 
             rs = stm.executeQuery();
             var statusCode = stm.getInt(5);
             LOG.info("Received status code " + statusCode);
 
-            if (statusCode > 5000) {
+            if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
             while (rs.next()) {
                 bookings.add(new Booking(
-                        rs.getInt("bookingPK"),
                         rs.getString("bookingId"),
                         rs.getDate("bookingDate"),
                         rs.getTime("bookingStartTime"),
                         rs.getTime("bookingEndTime"),
                         rs.getTimestamp("createAt"),
-                        rs.getBoolean("isPaid"),
-                        rs.getInt("playerPk"),
-                        rs.getInt("courtPk")
-                ));
+                        rs.getBoolean("isPaid")
+                        ));
             }
             return bookings;
         } catch (SQLException e) {
@@ -126,21 +118,18 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
             var statusCode = stm.getInt(2);
             LOG.info("Received status code " + statusCode);
 
-            if (statusCode > 500) {
+            if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
             while (rs.next()) {
                 bookings.add(new Booking(
-                        rs.getInt("bookingPK"),
                         rs.getString("bookingId"),
                         rs.getDate("bookingDate"),
                         rs.getTime("bookingStartTime"),
                         rs.getTime("bookingEndTime"),
                         rs.getTimestamp("createAt"),
-                        rs.getBoolean("isPaid"),
-                        rs.getInt("playerPk"),
-                        rs.getInt("courtPk")
-                ));
+                        rs.getBoolean("isPaid")
+                        ));
             }
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
@@ -171,21 +160,18 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
 
             LOG.info("Received status code " + statusCode);
 
-            if (statusCode > 500) {
+            if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
             while (rs.next()) {
                 bookings.add(new Booking(
-                        rs.getInt("bookingPK"),
                         rs.getString("bookingId"),
                         rs.getDate("bookingDate"),
                         rs.getTime("bookingStartTime"),
                         rs.getTime("bookingEndTime"),
                         rs.getTimestamp("createAt"),
-                        rs.getBoolean("isPaid"),
-                        rs.getInt("playerPk"),
-                        rs.getInt("courtPk")
-                ));
+                        rs.getBoolean("isPaid")
+                        ));
             }
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
@@ -252,7 +238,7 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
 
             LOG.info("Received status code " + statusCode);
 
-            if (statusCode > 500) {
+            if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
@@ -281,7 +267,7 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
 
             LOG.info("Received status code " + statusCode);
 
-            if (statusCode > 500) {
+            if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
@@ -294,13 +280,12 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
 
     // TODO: clear all
     @Override
-    public void clearBooking(String bookingId) throws MySQLException {
+    public void clearBooking() throws MySQLException {
         Connection conn = null;
         PreparedStatement stm = null;
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareStatement("DELETE FROM bookings WHERE bookingId = ?");
-            stm.setString(1, bookingId);
+            stm = conn.prepareStatement("DELETE FROM bookings");
             stm.executeUpdate();
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
