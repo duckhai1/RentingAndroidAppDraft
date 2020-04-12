@@ -4,6 +4,7 @@ import com.example.book2play.db.MySQLModel;
 import com.example.book2play.db.MySQLServer;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.types.Player;
+import com.example.book2play.db.utils.DBUtils;
 import com.example.book2play.db.utils.PlayerProcedures;
 
 import java.sql.*;
@@ -13,14 +14,16 @@ public class PlayerModel extends MySQLModel implements PlayerProcedures {
 
     final static Logger LOG = Logger.getAnonymousLogger();
 
-    public PlayerModel(MySQLServer db) {super(db);}
+    public PlayerModel(MySQLServer db) {
+        super(db);
+    }
 
     @Override
     public Player getPlayerInfo(String playerId) throws MySQLException {
-        Connection conn;
-        CallableStatement stm;
-        ResultSet rs;
-        try{
+        Connection conn = null;
+        CallableStatement stm = null;
+        ResultSet rs = null;
+        try {
             conn = this.db.getConnection();
 
             stm = conn.prepareCall("{call getPlayerInfo(?,?)}");
@@ -32,23 +35,27 @@ public class PlayerModel extends MySQLModel implements PlayerProcedures {
 
             LOG.info("Received status code " + statusCode);
 
-            if(statusCode>500){
+            if (statusCode > 500) {
                 throw new MySQLException(statusCode);
             }
             return new Player(
-                rs.getInt("playerPk"),
-                rs.getString("playerId")
+                    rs.getInt("playerPk"),
+                    rs.getString("playerId")
             );
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception"+ e.getMessage(), e);
+            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
+            DBUtils.quietCloseResultSet(rs);
         }
     }
 
     @Override
     public void createPlayer(String playerId) throws MySQLException {
-        Connection conn;
-        CallableStatement stm;
-        try{
+        Connection conn = null;
+        CallableStatement stm = null;
+        try {
             conn = this.db.getConnection();
 
             stm = conn.prepareCall("{call createPlayer(?,?)}");
@@ -60,19 +67,22 @@ public class PlayerModel extends MySQLModel implements PlayerProcedures {
 
             LOG.info("Received status code " + statusCode);
 
-            if(statusCode>500){
+            if (statusCode > 500) {
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception"+ e.getMessage(), e);
+            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
         }
     }
 
     @Override
     public void updatePlayerId(String newPlayerId, String oldPlayerId) throws MySQLException {
-        Connection conn;
-        CallableStatement stm;
-        try{
+        Connection conn = null;
+        CallableStatement stm = null;
+        try {
             conn = this.db.getConnection();
 
             stm = conn.prepareCall("{call updatePlayerId(?,?,?)}");
@@ -85,25 +95,30 @@ public class PlayerModel extends MySQLModel implements PlayerProcedures {
 
             LOG.info("Received status code " + statusCode);
 
-            if(statusCode>500){
+            if (statusCode > 500) {
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception"+ e.getMessage(), e);
+            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
         }
     }
 
     @Override
     public void clearPlayer() throws MySQLException {
-        Connection conn;
-        PreparedStatement stm;
-        try{
+        Connection conn = null;
+        Statement stm = null;
+        try {
             conn = this.db.getConnection();
-
-            stm = conn.prepareStatement("DELETE FROM players");
-            stm.executeUpdate();
+            stm = conn.createStatement();
+            stm.executeUpdate("DELETE FROM players");
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception"+ e.getMessage(), e);
+            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
         }
     }
 }

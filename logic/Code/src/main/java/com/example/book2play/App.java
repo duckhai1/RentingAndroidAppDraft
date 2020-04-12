@@ -24,6 +24,11 @@ public class App {
         }
     }
 
+    public static void main(String[] args) {
+        var app = new App();
+        app.runExample();
+    }
+
     public void runExample() {
         var host = this.mySqlProps.getProperty("mysql_host", "127.0.0.1");
         var port = this.mySqlProps.getProperty("mysql_port", "3306");
@@ -39,10 +44,5 @@ public class App {
         } catch (MySQLException e) {
             LOG.warning(e.getMessage());
         }
-    }
-
-    public static void main(String[] args) {
-        var app = new App();
-        app.runExample();
     }
 }

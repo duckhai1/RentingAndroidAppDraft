@@ -3,8 +3,9 @@ package com.example.book2play.db.models;
 import com.example.book2play.db.MySQLModel;
 import com.example.book2play.db.MySQLServer;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.utils.BookingProcedures;
 import com.example.book2play.db.types.Booking;
+import com.example.book2play.db.utils.BookingProcedures;
+import com.example.book2play.db.utils.DBUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,15 +14,17 @@ import java.util.logging.Logger;
 
 public class BookingModel extends MySQLModel implements BookingProcedures {
 
-    public BookingModel(MySQLServer db) { super(db);}
-
     final static Logger LOG = Logger.getAnonymousLogger();
+
+    public BookingModel(MySQLServer db) {
+        super(db);
+    }
 
     @Override
     public Booking getBookingInfo(String bookingId) throws MySQLException {
-        Connection conn;
-        CallableStatement stm;
-        ResultSet rs;
+        Connection conn = null;
+        CallableStatement stm = null;
+        ResultSet rs = null;
         try {
             conn = this.db.getConnection();
 
@@ -52,15 +55,19 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
 
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
+            DBUtils.quietCloseResultSet(rs);
         }
     }
 
     @Override
     public Collection<Booking> getBookings(String cityId, String sportCenterId, String courtId, Date date) throws MySQLException {
         ArrayList<Booking> bookings = new ArrayList<>();
-        Connection conn;
-        CallableStatement stm;
-        ResultSet rs;
+        Connection conn = null;
+        CallableStatement stm = null;
+        ResultSet rs = null;
         try {
             conn = this.db.getConnection();
 
@@ -94,15 +101,19 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
             return bookings;
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
+            DBUtils.quietCloseResultSet(rs);
         }
     }
 
     @Override
     public Collection<Booking> getSportCenterBookings(String sportCenterId, Date date) throws MySQLException {
         ArrayList<Booking> bookings = new ArrayList<>();
-        Connection conn;
-        CallableStatement stm;
-        ResultSet rs;
+        Connection conn = null;
+        CallableStatement stm = null;
+        ResultSet rs = null;
         try {
             conn = this.db.getConnection();
 
@@ -133,16 +144,20 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
             }
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
+            DBUtils.quietCloseResultSet(rs);
         }
         return bookings;
     }
 
     @Override
     public Collection<Booking> getPlayerBookings(String playerId, String cityId, Date date) throws MySQLException {
-        ArrayList<Booking> bookings = new ArrayList<Booking>();
-        Connection conn;
-        CallableStatement stm;
-        ResultSet rs;
+        ArrayList<Booking> bookings = new ArrayList<>();
+        Connection conn = null;
+        CallableStatement stm = null;
+        ResultSet rs = null;
         try {
             conn = this.db.getConnection();
 
@@ -174,14 +189,18 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
             }
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
+            DBUtils.quietCloseResultSet(rs);
         }
         return bookings;
     }
 
     @Override
     public void createBooking(String bookingId, Timestamp timestamp, Date date, Time startTime, Time endTime, String cityId, String sportCenterId, String courtId, String playerId) throws MySQLException {
-        Connection conn;
-        CallableStatement stm;
+        Connection conn = null;
+        CallableStatement stm = null;
         try {
             conn = this.db.getConnection();
 
@@ -207,18 +226,21 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
             }
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
         }
 
     }
 
     @Override
     public void updateBookingStatus(Boolean status, String bookingId, String playerId, String staffId) throws MySQLException {
-        Connection conn;
-        CallableStatement stm;
+        Connection conn = null;
+        CallableStatement stm = null;
         try {
             conn = this.db.getConnection();
 
-            stm = conn.prepareCall("{call(?,?,?,?,?) }");
+            stm = conn.prepareCall("{CALL updateBookingStatus(?, ?, ?, ?, ?)}");
             stm.setBoolean(1, status);
             stm.setString(2, bookingId);
             stm.setString(3, playerId);
@@ -235,13 +257,16 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
             }
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
         }
     }
 
     @Override
     public void cancelBooking(String bookingId, String playerId) throws MySQLException {
-        Connection conn;
-        CallableStatement stm;
+        Connection conn = null;
+        CallableStatement stm = null;
         try {
             conn = this.db.getConnection();
 
@@ -261,20 +286,27 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
             }
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
         }
     }
 
+    // TODO: clear all
     @Override
     public void clearBooking(String bookingId) throws MySQLException {
-        Connection conn;
-        PreparedStatement stm;
+        Connection conn = null;
+        PreparedStatement stm = null;
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareStatement("DELETE FROM bookings WHERE bookingId == ?");
+            stm = conn.prepareStatement("DELETE FROM bookings WHERE bookingId = ?");
             stm.setString(1, bookingId);
             stm.executeUpdate();
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
         }
     }
 }
