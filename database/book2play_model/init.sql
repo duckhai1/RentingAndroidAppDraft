@@ -1,3 +1,3 @@
-DROP DATABASE IF EXISTS book2play_test;
-CREATE DATABASE book2play_test;
-USE book2play_test;
+DROP DATABASE IF EXISTS book2play;
+CREATE DATABASE book2play;
+USE book2play;

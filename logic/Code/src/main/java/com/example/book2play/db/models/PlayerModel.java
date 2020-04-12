@@ -100,7 +100,7 @@ public class PlayerModel extends MySQLModel implements PlayerProcedures {
         try{
             conn = this.db.getConnection();
 
-            stm = conn.prepareStatement("DELETE * FROM players");
+            stm = conn.prepareStatement("DELETE FROM players");
             stm.executeUpdate();
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception"+ e.getMessage(), e);

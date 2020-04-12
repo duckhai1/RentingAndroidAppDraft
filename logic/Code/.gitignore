@@ -120,4 +120,5 @@ Network Trash Folder
 Temporary Items
 .apdisk
 src/main/resources/mysql_database.properties
+src/test/resources/mysql_database.properties
 target/

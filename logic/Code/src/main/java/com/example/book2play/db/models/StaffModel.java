@@ -101,7 +101,7 @@ public class StaffModel extends MySQLModel implements StaffProcedures {
         try{
             conn = this.db.getConnection();
 
-            stm = conn.prepareStatement("DELETE * FROM staff ");
+            stm = conn.prepareStatement("DELETE FROM staff ");
 
             stm.executeUpdate();
         } catch (SQLException e) {
