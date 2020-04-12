@@ -4,6 +4,7 @@ import com.example.book2play.db.MySQLModel;
 import com.example.book2play.db.MySQLServer;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.types.SportCenter;
+import com.example.book2play.db.utils.DBUtils;
 import com.example.book2play.db.utils.SportCenterProcedures;
 
 import java.sql.*;
@@ -20,9 +21,9 @@ public class SportCenterModel extends MySQLModel implements SportCenterProcedure
     @Override
     public SportCenter getSportCenterInfo(String sportCenterId, String cityId) throws MySQLException {
         SportCenter sportCenter;
-        Connection conn;
-        CallableStatement stm;
-        ResultSet rs;
+        Connection conn = null;
+        CallableStatement stm = null;
+        ResultSet rs = null;
 
         try {
             conn = this.db.getConnection();
@@ -47,13 +48,17 @@ public class SportCenterModel extends MySQLModel implements SportCenterProcedure
             );
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
+            DBUtils.quietCloseResultSet(rs);
         }
     }
 
     @Override
     public void createCityCenter(String sportCenterId, String cityId) throws MySQLException {
-        Connection conn;
-        CallableStatement stm;
+        Connection conn = null;
+        CallableStatement stm = null;
 
         try {
             conn = this.db.getConnection();
@@ -73,13 +78,16 @@ public class SportCenterModel extends MySQLModel implements SportCenterProcedure
             }
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
         }
     }
 
     @Override
     public void updateSportCenterId(String newSportCenterId, String oldSportCenterId, String cityId) throws MySQLException {
-        Connection conn;
-        CallableStatement stm;
+        Connection conn = null;
+        CallableStatement stm = null;
         try {
             conn = this.db.getConnection();
 
@@ -99,21 +107,25 @@ public class SportCenterModel extends MySQLModel implements SportCenterProcedure
             }
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
         }
     }
 
     @Override
     public void clearSportCenter() throws MySQLException {
-        Connection conn;
-        PreparedStatement stm;
+        Connection conn = null;
+        Statement stm = null;
         try {
             conn = this.db.getConnection();
-
-            stm = conn.prepareStatement("DELETE FROM sportcenters");
-
-            stm.executeUpdate();
+            stm = conn.createStatement();
+            stm.executeUpdate("DELETE FROM sportcenters");
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
         }
     }
 }

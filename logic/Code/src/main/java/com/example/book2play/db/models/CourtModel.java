@@ -5,6 +5,7 @@ import com.example.book2play.db.MySQLServer;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.types.Court;
 import com.example.book2play.db.utils.CourtProcedures;
+import com.example.book2play.db.utils.DBUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -13,16 +14,18 @@ import java.util.logging.Logger;
 
 public class CourtModel extends MySQLModel implements CourtProcedures {
 
-    public CourtModel(MySQLServer db) { super(db);}
-
     final static Logger LOG = Logger.getAnonymousLogger();
+
+    public CourtModel(MySQLServer db) {
+        super(db);
+    }
 
     @Override
     public Court getCourtInfo(String courtId, String cityId, String sportCenterId) throws MySQLException {
-        Connection conn;
-        CallableStatement stm;
-        ResultSet rs;
-        try{
+        Connection conn = null;
+        CallableStatement stm = null;
+        ResultSet rs = null;
+        try {
             conn = this.db.getConnection();
 
             stm = conn.prepareCall("{call getCourtInfo(?,?,?,?)}");
@@ -36,25 +39,29 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
 
             LOG.info("Received status code " + statusCode);
 
-            if(statusCode>500){
+            if (statusCode > 500) {
                 throw new MySQLException(statusCode);
             }
 
             return new Court(
-                rs.getInt("courtPk"),
-                rs.getString("courtId"),
-                rs.getInt("sportcenterPk")
+                    rs.getInt("courtPk"),
+                    rs.getString("courtId"),
+                    rs.getInt("sportcenterPk")
             );
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
+            DBUtils.quietCloseResultSet(rs);
         }
     }
 
     @Override
     public void createCityCenterCourt(String courtId, String cityId, String sportCenterId) throws MySQLException {
-        Connection conn;
-        CallableStatement stm;
-        try{
+        Connection conn = null;
+        CallableStatement stm = null;
+        try {
             conn = this.db.getConnection();
 
             stm = conn.prepareCall("{call createCityCenterCourt(?,?,?,?)}");
@@ -68,19 +75,22 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
 
             LOG.info("Received status code " + statusCode);
 
-            if(statusCode>500){
+            if (statusCode > 500) {
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
         }
     }
 
     @Override
     public void updateCourtId(String newCourtId, String oldCourtId, String cityId, String sportCenterId) throws MySQLException {
-        Connection conn;
-        CallableStatement stm;
-        try{
+        Connection conn = null;
+        CallableStatement stm = null;
+        try {
             conn = this.db.getConnection();
 
             stm = conn.prepareCall("{call updateCourtId(?,?,?,?,?)}");
@@ -95,35 +105,39 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
 
             LOG.info("Received status code " + statusCode);
 
-            if(statusCode>500){
+            if (statusCode > 500) {
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
         }
     }
 
     @Override
     public void clearCourt() throws MySQLException {
-        Connection conn;
-        PreparedStatement stm;
-        try{
+        Connection conn = null;
+        Statement stm = null;
+        try {
             conn = this.db.getConnection();
-
-            stm = conn.prepareStatement("DELETE FROM courts");
-
-            stm.executeUpdate();
+            stm = conn.createStatement();
+            stm.executeUpdate("DELETE FROM courts");
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
         }
     }
 
     public Collection<Court> getCourtsInCity(String cityId) throws MySQLException {
         ArrayList<Court> courts = new ArrayList<>();
-        Connection conn;
-        CallableStatement stm;
-        ResultSet rs;
-        try{
+        Connection conn = null;
+        CallableStatement stm = null;
+        ResultSet rs = null;
+        try {
             conn = this.db.getConnection();
 
             stm = conn.prepareCall("{call getCourtInCities(?,?)}");
@@ -132,16 +146,22 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
 
             rs = stm.executeQuery();
             var statusCode = stm.getInt(2);
-            while(rs.next()){
+            while (rs.next()) {
                 courts.add(new Court(
-                    rs.getInt("courtPk"),
-                    rs.getString("courtId"),
-                    rs.getInt("sportcenterPk")
+
+                        rs.getInt("bookingPk"),
+                        rs.getString("boookingId"),
+                        rs.getInt("sportcenterPk")
+
                 ));
             }
             return courts;
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
+            DBUtils.quietCloseResultSet(rs);
         }
     }
 }

@@ -5,6 +5,7 @@ import com.example.book2play.db.MySQLServer;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.types.City;
 import com.example.book2play.db.utils.CityProcedures;
+import com.example.book2play.db.utils.DBUtils;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,39 +18,44 @@ public class CityModel extends MySQLModel implements CityProcedures {
         super(db);
     }
 
-    final static Logger LOG = Logger.getAnonymousLogger();
 
+    final static Logger LOG = Logger.getAnonymousLogger();
+    // TODO: call stored procedures
     public Collection<City> getCities() throws MySQLException {
         ArrayList<City> cities = new ArrayList<>();
-        Connection conn;
-        PreparedStatement stm;
-        ResultSet rs;
-        try{
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
             conn = this.db.getConnection();
 
             stm = conn.prepareStatement("SELECT * FROM Cities");
 
             rs = stm.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 cities.add(new City(
-                    rs.getInt(1),
-                    rs.getString(2)
+                        rs.getInt(1),
+                        rs.getString(2)
                 ));
             }
 
             return cities;
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception"+ e.getMessage(), e);
+            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
+            DBUtils.quietCloseResultSet(rs);
         }
     }
 
     public void createCity(String cityId) throws MySQLException {
-        Connection conn;
+        Connection conn = null;
         try {
             conn = this.db.getConnection();
 
-            var cs = conn.prepareCall(("{CALL createCity(?, ?)}"));
+            var cs = conn.prepareCall("{CALL createCity(?, ?)}");
             cs.setString(1, cityId);
             cs.registerOutParameter(2, Types.INTEGER);
 
@@ -63,21 +69,24 @@ public class CityModel extends MySQLModel implements CityProcedures {
             }
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
         }
     }
 
     @Override
     public void clearCity() throws MySQLException {
-        Connection conn;
-        PreparedStatement stm;
-        try{
+        Connection conn = null;
+        Statement stm = null;
+        try {
             conn = this.db.getConnection();
-
-            stm = conn.prepareStatement("DELETE FROM cities");
-
-            stm.executeUpdate();
+            stm = conn.createStatement();
+            stm.executeUpdate("DELETE FROM cities");
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
         }
     }
 }

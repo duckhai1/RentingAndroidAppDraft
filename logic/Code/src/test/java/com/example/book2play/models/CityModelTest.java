@@ -9,26 +9,18 @@ import static org.junit.Assert.fail;
 public class CityModelTest extends ModelTestSetup {
     @Test
     public void testCreateCityOnEmptyDatabase() throws Exception {
-        try {
-            cityModel.createCity("HoChiMinh");
-        } catch (MySQLException e) {
-            throw new Exception("Could not create city", e);
-        }
+        cityModel.createCity("HoChiMinh");
     }
 
     @Test
     public void testCreateCityWithDuplicateId() throws Exception {
-        try {
-            cityModel.createCity("HoChiMinh");
-        } catch (MySQLException e) {
-            throw new Exception("Could not create city", e);
-        }
+        cityModel.createCity("HoChiMinh");
 
         try {
             cityModel.createCity("HoChiMinh");
-            fail("Expecting an exception");
+            fail("Expecting MySQLException with statusCode 402");
         } catch (MySQLException e) {
-            assertEquals(e.getStatusCode(), 402);
+            assertEquals(402, e.getStatusCode());
         }
     }
 }
