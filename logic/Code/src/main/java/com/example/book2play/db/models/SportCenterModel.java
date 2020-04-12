@@ -1,6 +1,7 @@
 package com.example.book2play.db.models;
 
 import com.example.book2play.db.MySQLModel;
+import com.example.book2play.db.MySQLServer;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.types.Booking;
 import com.example.book2play.db.types.SportCenter;
@@ -11,7 +12,7 @@ import java.sql.*;
 import java.util.logging.Logger;
 
 public class SportCenterModel extends MySQLModel implements SportCenterProcedures {
-
+    public SportCenterModel(MySQLServer db) { super(db);}
     final static Logger LOG = Logger.getAnonymousLogger();
 
     @Override

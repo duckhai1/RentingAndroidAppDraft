@@ -11,9 +11,9 @@ import java.util.logging.Logger;
 
 public class PlayerModel extends MySQLModel implements PlayerProcedures {
 
-    final static Logger LOG = Logger.getAnonymousLogger();
-
     public PlayerModel(MySQLServer db) {super(db);}
+
+    final static Logger LOG = Logger.getAnonymousLogger();
 
     @Override
     public Player getPlayerInfo(String playerId) throws MySQLException {

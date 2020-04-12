@@ -118,7 +118,7 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
         }
     }
 
-    public Collection<Court> getCourtsInCities(String cityId) throws MySQLException {
+    public Collection<Court> getCourtsInCity(String cityId) throws MySQLException {
         ArrayList<Court> courts = new ArrayList<>();
         Connection conn;
         CallableStatement stm;
@@ -134,8 +134,8 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
             var statusCode = stm.getInt(2);
             while(rs.next()){
                 courts.add(new Court(
-                    rs.getInt("bookingPk"),
-                    rs.getString("boookingId"),
+                    rs.getInt("courtPk"),
+                    rs.getString("courtId"),
                     rs.getInt("sportcenterPk")
                 ));
             }

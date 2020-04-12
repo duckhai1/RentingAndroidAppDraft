@@ -13,11 +13,11 @@ import java.util.logging.Logger;
 
 public class CityModel extends MySQLModel implements CityProcedures {
 
-    final static Logger LOG = Logger.getAnonymousLogger();
-
     public CityModel(MySQLServer db) {
         super(db);
     }
+
+    final static Logger LOG = Logger.getAnonymousLogger();
 
     public Collection<City> getCities() throws MySQLException {
         ArrayList<City> cities = new ArrayList<>();
