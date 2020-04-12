@@ -6,9 +6,8 @@ import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.types.City;
 import com.example.book2play.db.utils.CityProcedures;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
 
@@ -20,8 +19,29 @@ public class CityModel extends MySQLModel implements CityProcedures {
         super(db);
     }
 
-    public Collection<City> getCities() {
-        return null;
+    public Collection<City> getCities() throws MySQLException {
+        ArrayList<City> cities = new ArrayList<>();
+        Connection conn;
+        PreparedStatement stm;
+        ResultSet rs;
+        try{
+            conn = this.db.getConnection();
+
+            stm = conn.prepareStatement("SELECT * FROM Cities");
+
+            rs = stm.executeQuery();
+
+            while(rs.next()){
+                cities.add(new City(
+                    rs.getInt(1),
+                    rs.getString(2)
+                ));
+            }
+
+            return cities;
+        } catch (SQLException e) {
+            throw new MySQLException("Unexpected exception"+ e.getMessage(), e);
+        }
     }
 
     public void createCity(String cityId) throws MySQLException {
@@ -48,6 +68,16 @@ public class CityModel extends MySQLModel implements CityProcedures {
 
     @Override
     public void clearCity() throws MySQLException {
+        Connection conn;
+        PreparedStatement stm;
+        try{
+            conn = this.db.getConnection();
 
+            stm = conn.prepareStatement("DELETE * FROM City");
+
+            stm.executeUpdate();
+        } catch (SQLException e) {
+            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+        }
     }
 }
