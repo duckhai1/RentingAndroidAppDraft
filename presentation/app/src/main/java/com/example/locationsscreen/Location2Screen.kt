@@ -13,6 +13,7 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.example.book2play.MyBookingModel
 import com.example.book2play.R
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -39,6 +40,10 @@ class Location2Screen : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location2)
+
+        // get last intent information
+        val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
+
         val listView =
             findViewById<View>(R.id.listPlaces) as ListView
 
@@ -59,21 +64,42 @@ class Location2Screen : AppCompatActivity(),
                     val theCenterName = NAMES[position]
                     val intent =
                         Intent(applicationContext, SearchDayScreen::class.java)
-                    intent.putExtra("CENTERNAME", theCenterName)
+                    // update bookingInfo
+                    if (bookingInfo != null) {
+                        bookingInfo.center = theCenterName
+                    }
+                    else {
+                        val bookingInfo = MyBookingModel(center = theCenterName)
+                    }
+                    intent.putExtra("BookingInfo", bookingInfo)
                     startActivity(intent)
                 }
                 if (position == 1) {
                     val theCenterName = NAMES[position]
                     val intent =
                         Intent(applicationContext, SearchDayScreen::class.java)
-                    intent.putExtra("CENTERNAME", theCenterName)
+                    // update bookingInfo
+                    if (bookingInfo != null) {
+                        bookingInfo.center = theCenterName
+                    }
+                    else {
+                        val bookingInfo = MyBookingModel(center = theCenterName)
+                    }
+                    intent.putExtra("BookingInfo", bookingInfo)
                     startActivity(intent)
                 }
                 if (position == 2) {
                     val theCenterName = NAMES[position]
                     val intent =
                         Intent(applicationContext, SearchDayScreen::class.java)
-                    intent.putExtra("CENTERNAME", theCenterName)
+                    // update bookingInfo
+                    if (bookingInfo != null) {
+                        bookingInfo.center = theCenterName
+                    }
+                    else {
+                        val bookingInfo = MyBookingModel(center = theCenterName)
+                    }
+                    intent.putExtra("BookingInfo", bookingInfo)
                     startActivity(intent)
                 }
             }

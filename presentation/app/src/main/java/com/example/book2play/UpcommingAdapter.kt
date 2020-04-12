@@ -32,8 +32,8 @@ class UpcommingAdapter(val arrayList: ArrayList<MyBookingModel>, val context : C
         // assign value
         fun bindItem(model: MyBookingModel){
             itemView.record_date.text = model.date
-            itemView.record_title.text = model.title
-            itemView.record_info.text = model.info
+            itemView.record_center.text = model.center
+            itemView.record_player.text = model.player
             itemView.record_weekday.text = model.week
             itemView.record_time.text = model.time
             itemView.record_court.text = model.court

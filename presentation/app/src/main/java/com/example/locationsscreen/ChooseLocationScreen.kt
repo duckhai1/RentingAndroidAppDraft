@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.book2play.MyBookingModel
 import com.example.book2play.R
 import kotlinx.android.synthetic.main.choose_location_screen.*
 
@@ -47,6 +48,8 @@ class ChooseLocationScreen : Fragment() {
                 Toast.makeText(activity, "Please wait for the update!", Toast.LENGTH_SHORT).show()
             } else {
                 val intent = Intent(activity, Location2Screen::class.java)
+                val bookingInfor = MyBookingModel(city = text)
+                intent.putExtra("BookingInfo", bookingInfor)
                 startActivity(intent)
             }
         }

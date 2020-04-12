@@ -2,6 +2,13 @@ package com.example.book2play
 
 import java.io.Serializable
 
-class MyBookingModel(val date : String, val week: String,val time:String , val title: String, val court : String, val info: String, val status: Int = 0) :Serializable {
-    // status 0: unpaid; 1:paid
-}
+class MyBookingModel(
+    var date : String = "",     // date of booking
+    var week: String = "",      // date of the week of the booking
+    var time: String = "",      // time of the booking
+    var city: String = "",      // booking city
+    var center: String= "",     // booking sport center
+    var court : String = "",    // booking court
+    var player: String = "",    // booking player name
+    var status: Int = 0         // status 0: unpaid; 1:paid
+) :Serializable {}

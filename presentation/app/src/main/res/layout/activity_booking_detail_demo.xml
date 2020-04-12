@@ -32,7 +32,7 @@
         app:layout_constraintVertical_bias="0.241" />
 
     <TextView
-        android:id="@+id/record_title"
+        android:id="@+id/record_center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -61,7 +61,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/record_info"
+        android:id="@+id/record_player"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -69,8 +69,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/record_title"
-        app:layout_constraintTop_toBottomOf="@+id/record_title"
+        app:layout_constraintStart_toStartOf="@+id/record_center"
+        app:layout_constraintTop_toBottomOf="@+id/record_center"
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
@@ -83,6 +83,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.444"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/record_info"
+        app:layout_constraintTop_toBottomOf="@+id/record_player"
         app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>

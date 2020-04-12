@@ -48,7 +48,7 @@ class DetailScreen : AppCompatActivity(){
         val bookingModel = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
         if (bookingModel != null) {
             DESCRIPTIONS[0] = bookingModel.date + " " + bookingModel.week+", " + bookingModel.time
-            DESCRIPTIONS[1] = bookingModel.title
+            DESCRIPTIONS[1] = bookingModel.center
             DESCRIPTIONS[2] = bookingModel.court
 
             DESCRIPTIONS[3] = if (bookingModel.status == 0) "Unpaid" else "Paid"

@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.locationsscreen.DetailScreen
 import kotlinx.android.synthetic.main.completed_row.view.*
@@ -24,8 +23,8 @@ class CompletedAdapter(val arrayList: ArrayList<MyBookingModel>, val context : C
         }
         fun bindItem(model: MyBookingModel){
             itemView.record_date.text = model.date
-            itemView.record_title.text = model.title
-            itemView.record_info.text = model.info
+            itemView.record_center.text = model.center
+            itemView.record_player.text = model.player
             itemView.record_weekday.text = model.week
             itemView.record_time.text = model.time
             itemView.record_court.text = model.court

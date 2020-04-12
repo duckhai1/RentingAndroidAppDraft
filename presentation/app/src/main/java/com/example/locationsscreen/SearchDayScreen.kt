@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.example.book2play.MyBookingModel
 import com.example.book2play.R
 import com.example.booking.SelectTimeScreen
 import java.text.SimpleDateFormat
@@ -22,6 +23,11 @@ class SearchDayScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_searchday)
+
+        // get last intent information
+        val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
+
+
         val toolbar =
             findViewById<View>(R.id.toolbarSD) as Toolbar
         setSupportActionBar(toolbar)
@@ -41,7 +47,15 @@ class SearchDayScreen : AppCompatActivity() {
                 applicationContext,
                 SelectTimeScreen::class.java
             )
-            intent.putExtra("THEDATE", if (date == null) currentDate else date)
+            val bookingDay = if (date == null) currentDate else date
+            // update bookingInfo
+            if (bookingInfo != null && bookingDay != null) {
+                bookingInfo.date = bookingDay
+            }
+            else {
+                val bookingInfo = bookingDay?.let { it1 -> MyBookingModel(date = it1) }
+            }
+            intent.putExtra("BookingInfo", bookingInfo)
             startActivity(intent)
         }
     }
