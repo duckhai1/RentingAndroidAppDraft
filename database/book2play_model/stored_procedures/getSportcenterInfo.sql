@@ -36,7 +36,7 @@ BEGIN
 
     SET statusCode = 200;
 
-	SELECT *
+	SELECT sportcenterId, cityId
 	FROM sportcenters
 	NATURAL JOIN cities
 	WHERE sportcenterId = inSportcenterId
