@@ -1,8 +1,10 @@
 package com.example.book2play.db.types;
 
-import java.sql.*;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 
-public class Booking{
+public class Booking {
     private int bookingPK;
     private String bookingId;
     private Date bookingDate;
