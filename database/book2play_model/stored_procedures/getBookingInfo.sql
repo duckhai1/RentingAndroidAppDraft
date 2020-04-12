@@ -25,7 +25,7 @@ BEGIN
 
     SET statusCode = 200;
 
-	SELECT *
+	SELECT bookingId, bookingDate, bookingStartTime, bookingEndTime, createdAt, isPaid
 	FROM bookings
 	WHERE bookingId = inBookingId;
 END//

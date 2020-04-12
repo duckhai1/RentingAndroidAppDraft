@@ -47,7 +47,7 @@ BEGIN
 
     SET statusCode = 200;
 
-	SELECT *
+	SELECT bookingId, playerId, courtId, bookingDate, bookingStartTime, bookingEndTime, createdAt, isPaid
 	FROM bookings
 	NATURAL JOIN courts
 	NATURAL JOIN sportcenters

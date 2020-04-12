@@ -49,7 +49,7 @@ BEGIN
 
     SET statusCode = 200;
 
-	SELECT *
+	SELECT staffId, sportcenterId
 	FROM staffs
 	NATURAL JOIN sportcenters
 	NATURAL JOIN cities

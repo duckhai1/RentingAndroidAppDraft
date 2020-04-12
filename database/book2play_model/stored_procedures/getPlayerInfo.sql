@@ -25,7 +25,7 @@ BEGIN
 
     SET statusCode = 200;
 
-	SELECT *
+	SELECT playerId
 	FROM players
 	WHERE playerId = inPlayerId;
 END//
