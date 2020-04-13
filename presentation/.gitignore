@@ -11,4 +11,8 @@
 /build
 /captures
 .externalNativeBuild
+<<<<<<< HEAD
 .cxx
+=======
+.cxx
+>>>>>>> 788a36a830733c4240cab657f97e1d05f69c2cfc
