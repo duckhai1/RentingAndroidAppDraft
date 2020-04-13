@@ -1,4 +1,4 @@
-package com.example.book2play
+package com.example.BookingList
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

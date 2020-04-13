@@ -1,7 +1,6 @@
-package com.example.booking
+package com.example.SelectTime
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
@@ -36,7 +35,7 @@ class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context, val m
 
 
         }
-        fun setOnMyItemClickListener(ItemClickListener:MyItemClickListener){
+        fun setOnMyItemClickListener(ItemClickListener: MyItemClickListener){
             this.myItemClickListener = ItemClickListener
         }
 
@@ -49,7 +48,7 @@ class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context, val m
 
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Court1Adapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from (parent.context).inflate(R.layout.court1_row, parent, false)
 
         return ViewHolder(v)
@@ -59,7 +58,7 @@ class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context, val m
         return arrayList.size
     }
 
-    override fun onBindViewHolder(holder: Court1Adapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItems(arrayList[position])
 
         val id = arrayList[position].time
@@ -79,7 +78,8 @@ class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context, val m
             }
         }
 
-        holder.setOnMyItemClickListener(object  : MyItemClickListener{
+        holder.setOnMyItemClickListener(object  :
+            MyItemClickListener {
             override fun onItemClickListener(view: View, position: Int) {
 //                Toast.makeText(mContext, "Click on item with status: " + arrayList[pos].slot, Toast.LENGTH_SHORT).show()
                 if (arrayList[position].slot == 0){

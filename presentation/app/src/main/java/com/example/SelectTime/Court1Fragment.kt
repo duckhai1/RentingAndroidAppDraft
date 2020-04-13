@@ -1,16 +1,14 @@
-package com.example.booking
+package com.example.SelectTime
 
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.book2play.MyBookingModel
 import com.example.book2play.R
-import com.example.locationsscreen.DetailScreen
+import com.example.CreateBooking.BookSucessScrenn
 import kotlinx.android.synthetic.main.fragment_court1.*
 
 
@@ -69,11 +67,23 @@ class Court1Fragment : Fragment(), MainInterface {
             slot[i] = 1
         }
         for (i in 0..55) {
-            arrayList.add(Model(time[i], "Unavailable", slot[i]))
+            arrayList.add(
+                Model(
+                    time[i],
+                    "Unavailable",
+                    slot[i]
+                )
+            )
         }
 
         recyclerView1.layoutManager = LinearLayoutManager(activity)
-        myAdapter = context?.let { Court1Adapter(arrayList, it, this) }
+        myAdapter = context?.let {
+            Court1Adapter(
+                arrayList,
+                it,
+                this
+            )
+        }
         recyclerView1.adapter = myAdapter
     }
 

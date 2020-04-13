@@ -1,13 +1,12 @@
-package com.example.book2play
+package com.example.BookingList
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.book2play.R
 import kotlinx.android.synthetic.main.booking_history_screen.*
-import kotlinx.android.synthetic.main.booking_history_screen.view.*
 
 class BookingHistoryScreen : Fragment() {
 
@@ -24,7 +23,8 @@ class BookingHistoryScreen : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val fragmentAdapter = MyPagerAdapter(this.childFragmentManager)
+        val fragmentAdapter =
+            MyPagerAdapter(this.childFragmentManager)
 
         viewPager.adapter = fragmentAdapter
 

@@ -1,4 +1,4 @@
-package com.example.locationsscreen
+package com.example.CreateBooking
 
 import android.content.Context
 import android.content.Intent
@@ -25,7 +25,11 @@ import com.google.android.gms.maps.model.MarkerOptions
 class Location2Screen : AppCompatActivity(),
     OnMapReadyCallback {
     private var mMap: GoogleMap? = null
-    var IMAGES = intArrayOf(R.drawable.hcmc1, R.drawable.hcmc2, R.drawable.hcmc3)
+    var IMAGES = intArrayOf(
+        R.drawable.hcmc1,
+        R.drawable.hcmc2,
+        R.drawable.hcmc3
+    )
     var NAMES = arrayOf(
         "PhatCho Sporting Center",
         "HieuLon Sporting Center",
@@ -69,7 +73,8 @@ class Location2Screen : AppCompatActivity(),
                         bookingInfo.center = theCenterName
                     }
                     else {
-                        val bookingInfo = MyBookingModel(center = theCenterName)
+                        val bookingInfo =
+                            MyBookingModel(center = theCenterName)
                     }
                     intent.putExtra("BookingInfo", bookingInfo)
                     startActivity(intent)
@@ -83,7 +88,8 @@ class Location2Screen : AppCompatActivity(),
                         bookingInfo.center = theCenterName
                     }
                     else {
-                        val bookingInfo = MyBookingModel(center = theCenterName)
+                        val bookingInfo =
+                            MyBookingModel(center = theCenterName)
                     }
                     intent.putExtra("BookingInfo", bookingInfo)
                     startActivity(intent)
@@ -97,7 +103,8 @@ class Location2Screen : AppCompatActivity(),
                         bookingInfo.center = theCenterName
                     }
                     else {
-                        val bookingInfo = MyBookingModel(center = theCenterName)
+                        val bookingInfo =
+                            MyBookingModel(center = theCenterName)
                     }
                     intent.putExtra("BookingInfo", bookingInfo)
                     startActivity(intent)
@@ -111,7 +118,9 @@ class Location2Screen : AppCompatActivity(),
         var Description: Array<String>,
         var Images: IntArray
     ) :
-        ArrayAdapter<String?>(context, R.layout.rows_listview, R.id.textViewName, Name) {
+        ArrayAdapter<String?>(context,
+            R.layout.rows_listview,
+            R.id.textViewName, Name) {
         override fun getView(
             position: Int,
             convertView: View?,

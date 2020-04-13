@@ -1,18 +1,20 @@
-package com.example.book2play
+package com.example.BookingList
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.locationsscreen.DetailScreen
-import kotlinx.android.synthetic.main.cancelled_row.view.*
+import com.example.book2play.MyBookingModel
+import com.example.book2play.R
+import com.example.book2play.DetailScreen
+import kotlinx.android.synthetic.main.completed_row.view.*
 
-class CancelledAdapter(val arrayList: ArrayList<MyBookingModel>, val context : Context):
-    RecyclerView.Adapter<CancelledAdapter.ViewHolder>() {
+class CompletedAdapter(val arrayList: ArrayList<MyBookingModel>, val context : Context):
+    RecyclerView.Adapter<CompletedAdapter.ViewHolder>() {
     var mContext = context
-
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
         var myItemClickListener : MyItemClickListener?=null
@@ -28,9 +30,16 @@ class CancelledAdapter(val arrayList: ArrayList<MyBookingModel>, val context : C
             itemView.record_weekday.text = model.week
             itemView.record_time.text = model.time
             itemView.record_court.text = model.court
+            if (model.status == 0){
+                itemView.record_status.text = "Status: Unpaid"
+                itemView.record_status.setTextColor(Color.parseColor("#fa7470"))
+            } else {
+                itemView.record_status.text = "Status: Paid"
+                itemView.record_status.setTextColor(Color.parseColor("#81c784"))
+            }
         }
         // for Strategy pattern for 2 button
-        fun setOnMyItemClickListener(ItemClickListener:MyItemClickListener){
+        fun setOnMyItemClickListener(ItemClickListener: MyItemClickListener){
             this.myItemClickListener = ItemClickListener
         }
         // when item click
@@ -52,7 +61,8 @@ class CancelledAdapter(val arrayList: ArrayList<MyBookingModel>, val context : C
         holder.bindItem(arrayList[position])
 
         // real implementation of each button
-        holder.setOnMyItemClickListener(object : MyItemClickListener{
+        holder.setOnMyItemClickListener(object :
+            MyItemClickListener {
             override fun onItemClickListener(view: View, pos: Int) {
                 // open detail screen
                 val intent = Intent(mContext, DetailScreen::class.java)

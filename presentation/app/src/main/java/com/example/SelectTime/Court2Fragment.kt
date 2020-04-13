@@ -1,4 +1,4 @@
-package com.example.booking
+package com.example.SelectTime
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -50,11 +50,22 @@ class Court2Fragment : Fragment() {
             slot[i] = 1
         }
         for (i in 0..55) {
-            arrayList.add(Model(time[i], "Unavailable", slot[i]))
+            arrayList.add(
+                Model(
+                    time[i],
+                    "Unavailable",
+                    slot[i]
+                )
+            )
         }
 
         recyclerView2.layoutManager = LinearLayoutManager(activity)
-        recyclerView2.adapter = context?.let { Court2Adapter(arrayList, it) }
+        recyclerView2.adapter = context?.let {
+            Court2Adapter(
+                arrayList,
+                it
+            )
+        }
     }
 }
 

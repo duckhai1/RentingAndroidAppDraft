@@ -1,4 +1,4 @@
-package com.example.locationsscreen
+package com.example.CreateBooking
 
 import android.Manifest
 import android.content.Intent
@@ -11,13 +11,11 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.book2play.MyBookingModel
 import com.example.book2play.R
-import kotlinx.android.synthetic.main.choose_location_screen.*
 
 
 class ChooseLocationScreen : Fragment() {

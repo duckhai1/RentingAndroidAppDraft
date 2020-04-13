@@ -1,4 +1,4 @@
-package com.example.booking
+package com.example.CreateBooking
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -19,7 +19,7 @@ class BookSucessScrenn : AppCompatActivity() {
 
         if (bookingInfo != null) {
             result_court.text = bookingInfo.court
-            result_date.text = bookingInfo.date
+            result_date.text = "Date: " + bookingInfo.date
             result_hour.text = "Period: " + bookingInfo.time
             result_center.text = bookingInfo.center
         }

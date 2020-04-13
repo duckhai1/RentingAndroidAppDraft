@@ -1,12 +1,7 @@
-package com.example.booking
-import android.content.Intent
+package com.example.SelectTime
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import com.example.book2play.MyBookingModel
 import com.example.book2play.R
 import kotlinx.android.synthetic.main.select_time_screen.*
@@ -29,7 +24,8 @@ class SelectTimeScreen : AppCompatActivity() {
 
 
         // TODO change to more flexible to add court
-        val fragmentAdapter = MyPagerAdapter(supportFragmentManager)
+        val fragmentAdapter =
+            MyPagerAdapter(supportFragmentManager)
         val bundle = intent.extras
 
         setupFragment(fragmentAdapter,bundle, "Court 1")

@@ -1,4 +1,4 @@
-package com.example.locationsscreen
+package com.example.CreateBooking
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,9 +6,9 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.example.SelectTime.SelectTimeScreen
 import com.example.book2play.MyBookingModel
 import com.example.book2play.R
-import com.example.booking.SelectTimeScreen
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -48,7 +48,11 @@ class SearchDayScreen : AppCompatActivity() {
                 bookingInfo.date = bookingDay
             }
             else {
-                val bookingInfo = bookingDay?.let { it1 -> MyBookingModel(date = it1) }
+                val bookingInfo = bookingDay?.let { it1 ->
+                    MyBookingModel(
+                        date = it1
+                    )
+                }
             }
             intent.putExtra("BookingInfo", bookingInfo)
             startActivity(intent)

@@ -1,4 +1,4 @@
-package com.example.booking
+package com.example.SelectTime
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -51,11 +51,22 @@ class Court3Fragment : Fragment() {
             slot[i] = 1
         }
         for (i in 0..55) {
-            arrayList.add(Model(time[i], "Unavailable", slot[i]))
+            arrayList.add(
+                Model(
+                    time[i],
+                    "Unavailable",
+                    slot[i]
+                )
+            )
         }
 
         recyclerView3.layoutManager = LinearLayoutManager(activity)
-        recyclerView3.adapter = context?.let { Court3Adapter(arrayList, it) }
+        recyclerView3.adapter = context?.let {
+            Court3Adapter(
+                arrayList,
+                it
+            )
+        }
     }
 
 

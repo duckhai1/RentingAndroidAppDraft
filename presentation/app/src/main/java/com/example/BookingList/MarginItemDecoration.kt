@@ -1,4 +1,4 @@
-package com.example.book2play
+package com.example.BookingList
 
 import android.graphics.Rect
 import android.view.View

@@ -1,4 +1,4 @@
-package com.example.locationsscreen
+package com.example.Login
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.book2play.MainActivity
 import com.example.book2play.R
-import com.example.booking.SelectTimeScreen
 import com.facebook.login.LoginManager
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.facebook_user_info.*

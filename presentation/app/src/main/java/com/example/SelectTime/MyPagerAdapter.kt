@@ -1,4 +1,4 @@
-package com.example.booking
+package com.example.SelectTime
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter

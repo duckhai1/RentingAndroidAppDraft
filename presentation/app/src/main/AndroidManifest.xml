@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.example.locationsscreen.LoginScreen">
+        <activity android:name="com.example.Login.LoginScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -58,18 +58,18 @@
         </activity>
 
 
-        <activity android:name=".BookingHistoryScreen">
+        <activity android:name="com.example.BookingList.BookingHistoryScreen">
 
         </activity>
         <activity
-            android:name="com.example.locationsscreen.Location2Screen"
+            android:name="com.example.CreateBooking.Location2Screen"
             android:label="@string/title_activity_location2" />
-        <activity android:name="com.example.booking.BookSucessScrenn" />
-        <activity android:name="com.example.booking.SelectTimeScreen" />
-        <activity android:name="com.example.locationsscreen.ChooseLocationScreen"></activity>
-        <activity android:name="com.example.locationsscreen.DetailScreen" />
-        <activity android:name="com.example.locationsscreen.SearchDayScreen" />
-        <activity android:name="com.example.locationsscreen.LoginFacebookScreen"/>
+        <activity android:name="com.example.CreateBooking.BookSucessScrenn" />
+        <activity android:name="com.example.SelectTime.SelectTimeScreen" />
+        <activity android:name="com.example.CreateBooking.ChooseLocationScreen"></activity>
+        <activity android:name=".DetailScreen" />
+        <activity android:name="com.example.CreateBooking.SearchDayScreen" />
+        <activity android:name="com.example.Login.LoginFacebookScreen"/>
 
         <meta-data
             android:name="preloaded_fonts"
