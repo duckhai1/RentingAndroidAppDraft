@@ -36,11 +36,7 @@ public abstract class ModelTestSetup {
             LOG.warning("Could not get configurations for the test database");
         }
 
-        var host = mySqlProps.getProperty("mysql_host", "127.0.0.1");
-        var port = mySqlProps.getProperty("mysql_port", "3306");
-        var database = mySqlProps.getProperty("mysql_database", "book2play_test");
-
-        var srv = new MySQLServer(host, port, database, mySqlProps);
+        var srv = new MySQLServer(mySqlProps);
 
         bookingModel = new BookingModel(srv);
         cityModel = new CityModel(srv);

@@ -8,12 +8,8 @@ import com.example.book2play.db.utils.DBUtils;
 import com.example.book2play.db.utils.PlayerProcedures;
 
 import java.sql.*;
-import java.util.logging.Logger;
 
 public class PlayerModel extends MySQLModel implements PlayerProcedures {
-
-
-    final static Logger LOG = Logger.getAnonymousLogger();
 
     public PlayerModel(MySQLServer db) {
         super(db);

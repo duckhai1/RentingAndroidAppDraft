@@ -8,12 +8,12 @@ import com.example.book2play.db.utils.DBUtils;
 import com.example.book2play.db.utils.SportCenterProcedures;
 
 import java.sql.*;
-import java.util.logging.Logger;
 
 public class SportCenterModel extends MySQLModel implements SportCenterProcedures {
 
-    public SportCenterModel(MySQLServer db) { super(db);}
-    final static Logger LOG = Logger.getAnonymousLogger();
+    public SportCenterModel(MySQLServer db) {
+        super(db);
+    }
 
     @Override
     public SportCenter getSportCenterInfo(String sportCenterId, String cityId) throws MySQLException {
@@ -98,7 +98,7 @@ public class SportCenterModel extends MySQLModel implements SportCenterProcedure
 
             LOG.info("Received status code " + statusCode);
 
-            if (statusCode >=400 && statusCode < 500) {
+            if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {

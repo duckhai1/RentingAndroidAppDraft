@@ -8,10 +8,8 @@ import com.example.book2play.db.utils.DBUtils;
 import com.example.book2play.db.utils.StaffProcedures;
 
 import java.sql.*;
-import java.util.logging.Logger;
 
 public class StaffModel extends MySQLModel implements StaffProcedures {
-    final static Logger LOG = Logger.getAnonymousLogger();
 
     public StaffModel(MySQLServer db) {
         super(db);
@@ -33,7 +31,7 @@ public class StaffModel extends MySQLModel implements StaffProcedures {
 
             rs = stm.executeQuery();
             var statusCode = stm.getInt(4);
-            if (statusCode >=400 && statusCode < 500) {
+            if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
 

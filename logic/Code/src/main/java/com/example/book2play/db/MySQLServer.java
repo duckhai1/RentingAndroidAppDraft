@@ -1,32 +1,32 @@
 package com.example.book2play.db;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
 public class MySQLServer {
-    private String host;
-    private String port;
-    private String database;
+    private String url;
     private Properties props;
+    private DataSource ds;
 
-    public MySQLServer(String host, String port, String database, Properties props) {
-        this.host = host;
-        this.port = port;
-        this.database = database;
+    public MySQLServer(Properties props) {
+        setupDataSource(props);
         this.props = props;
     }
 
     public Connection getConnection() throws SQLException {
-        var conn = DriverManager.getConnection(
-                "jdbc:mysql://" + this.host
-                        + ":" + this.port
-                        + "/" + this.database,
-                this.props
-        );
+        return this.ds.getConnection();
+    }
 
-        return conn;
+    private void setupDataSource(Properties props) {
+        var newDs = new MysqlDataSource();
+        newDs.setURL(props.getProperty("url"));
+        newDs.setUser(props.getProperty("user"));
+        newDs.setPassword(props.getProperty("password"));
+        ds = newDs;
     }
 }
 

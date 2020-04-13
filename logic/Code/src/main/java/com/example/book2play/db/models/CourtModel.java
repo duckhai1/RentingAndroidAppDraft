@@ -10,11 +10,8 @@ import com.example.book2play.db.utils.DBUtils;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.logging.Logger;
 
 public class CourtModel extends MySQLModel implements CourtProcedures {
-
-    final static Logger LOG = Logger.getAnonymousLogger();
 
     public CourtModel(MySQLServer db) {
         super(db);
@@ -39,7 +36,7 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
 
             LOG.info("Received status code " + statusCode);
 
-            if (statusCode >= 400 && statusCode< 500) {
+            if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
 
@@ -105,7 +102,7 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
 
             LOG.info("Received status code " + statusCode);
 
-            if (statusCode >=400 && statusCode < 500) {
+            if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
@@ -147,7 +144,7 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
             rs = stm.executeQuery();
             var statusCode = stm.getInt(2);
 
-            if(statusCode >= 400 && statusCode < 500){
+            if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
             while (rs.next()) {

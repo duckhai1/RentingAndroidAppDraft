@@ -30,13 +30,9 @@ public class App {
     }
 
     public void runExample() {
-        var host = this.mySqlProps.getProperty("mysql_host", "127.0.0.1");
-        var port = this.mySqlProps.getProperty("mysql_port", "3306");
-        var database = this.mySqlProps.getProperty("mysql_database", "book2play");
+        LOG.info("Connection to MySQL database at " + mySqlProps.getProperty("url"));
 
-        LOG.info("Connection to MySQL database at " + host + ":" + port + "/" + database);
-
-        var srv = new MySQLServer(host, port, database, mySqlProps);
+        var srv = new MySQLServer(mySqlProps);
         var cityModel = new CityModel(srv);
 
         try {

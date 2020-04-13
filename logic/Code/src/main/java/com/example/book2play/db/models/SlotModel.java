@@ -10,15 +10,12 @@ import com.example.book2play.db.types.Slot;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 public class SlotModel extends MySQLModel {
 
     public SlotModel(MySQLServer db) {
         super(db);
     }
-
-    final static Logger LOG = Logger.getAnonymousLogger();
 
     public ArrayList<ArrayList<Slot>> getAvailableSot(String cityId, Date date) throws MySQLException {
         ArrayList<ArrayList<Slot>> slots = new ArrayList<ArrayList<Slot>>();
