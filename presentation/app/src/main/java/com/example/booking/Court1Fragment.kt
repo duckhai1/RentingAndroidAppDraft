@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.book2play.MyBookingModel
 import com.example.book2play.R
 import com.example.locationsscreen.DetailScreen
+import kotlinx.android.synthetic.main.fragment_court1.*
 
 
 /**

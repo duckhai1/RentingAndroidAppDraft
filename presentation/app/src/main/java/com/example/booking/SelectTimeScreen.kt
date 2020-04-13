@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.book2play.MyBookingModel
 import com.example.book2play.R
+import kotlinx.android.synthetic.main.select_time_screen.*
 
 class SelectTimeScreen : AppCompatActivity() {
 
