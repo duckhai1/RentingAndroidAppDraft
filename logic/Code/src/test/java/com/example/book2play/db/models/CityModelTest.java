@@ -12,7 +12,7 @@ public class CityModelTest extends ModelTestSetup {
     @Test
     public void testCreateCityOnEmptyDatabase() throws Exception {
         var cityId = "HoChiMinh";
-        cityModel.createCity(cityId);
+        CITY.createCity(cityId);
     }
 
     @Test
@@ -22,37 +22,38 @@ public class CityModelTest extends ModelTestSetup {
         cities.add("HaNoi");
 
         for (var city : cities) {
-            cityModel.createCity(city);
+            CITY.createCity(city);
         }
     }
 
     @Test
     public void testCreateCityWithDuplicateId() throws Exception {
-        var expectedCode = 402;
+        final int EXPECTED_CODE = 402;
         var cityId = "HoChiMinh";
 
-        cityModel.createCity(cityId);
+        CITY.createCity(cityId);
         try {
-            cityModel.createCity(cityId);
-            fail("Expecting MySQLException with statusCode " + expectedCode);
+            CITY.createCity(cityId);
+            fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
         } catch (MySQLException e) {
-            assertEquals(expectedCode, e.getStatusCode());
+            assertEquals("Unexpected error code", EXPECTED_CODE, e.getStatusCode());
         }
     }
 
     @Test
     public void testCreateCityWithInvalidIdFormat() {
-        var expectedCode = 460;
+        final int EXPECTED_CODE = 460;
+
         var cities = new ArrayList<String>();
         cities.add("Sai Gon");
         cities.add("@SaiGon");
 
         for (var city : cities) {
             try {
-                cityModel.createCity(city);
-                fail("Expecting MySQLException with statusCode " + expectedCode);
+                CITY.createCity(city);
+                fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
             } catch (MySQLException e) {
-                assertEquals(expectedCode, e.getStatusCode());
+                assertEquals("Unexpected error code", EXPECTED_CODE, e.getStatusCode());
             }
         }
     }
