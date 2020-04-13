@@ -1,24 +1,12 @@
 package com.example.book2play.db.models;
+
 import com.example.book2play.db.exceptions.MySQLException;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 public class CityCenterCourtModelTest extends ModelTestSetup {
-
-    //create cityId, sportCenterId
-    @Before
-    public void createScenario() throws Exception{
-        var cityId = "HoChiMinh";
-        var sportCenterId = "DinhHoa";
-
-        CITY.createCity(cityId);
-        SPORT_CENTER.createCityCenter(sportCenterId, cityId);
-    }
 
     @Test
     public void createCourtOnEmptyDatabase() throws Exception {
@@ -32,9 +20,6 @@ public class CityCenterCourtModelTest extends ModelTestSetup {
 
         //test
         COURT.createCityCenterCourt(courtId, cityId, sportCenterId);
-
-
-
     }
 
     @Test
@@ -99,7 +84,7 @@ public class CityCenterCourtModelTest extends ModelTestSetup {
     @Test
     public void createCourtWithInvalidCenterId() throws Exception{
         var cityId = "HoChiMinh";
-        var sportCenterId = "DinhHo@";
+        var sportCenterId = "DinhHoa@";
         var courtId = "courtA";
         var expectedCode = 461;
 
