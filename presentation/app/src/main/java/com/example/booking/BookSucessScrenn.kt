@@ -3,7 +3,6 @@ package com.example.booking
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.book2play.HomeFragment
 import com.example.book2play.MainActivity
 import com.example.book2play.MyBookingModel
 import com.example.book2play.R
@@ -17,6 +16,13 @@ class BookSucessScrenn : AppCompatActivity() {
 
         // get last intent information
         val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
+
+        if (bookingInfo != null) {
+            result_court.text = bookingInfo.court
+            result_date.text = bookingInfo.date
+            result_hour.text = bookingInfo.time
+            result_center.text = bookingInfo.center
+        }
 
 
         booking_list_button.setOnClickListener {

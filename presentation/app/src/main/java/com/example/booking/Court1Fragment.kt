@@ -107,7 +107,8 @@ class Court1Fragment : Fragment(), MainInterface {
 
                     // move to next screen
                     val intent =
-                        Intent(activity, DetailScreen::class.java)
+                        Intent(activity, BookSucessScrenn::class.java)
+
 
 
 
