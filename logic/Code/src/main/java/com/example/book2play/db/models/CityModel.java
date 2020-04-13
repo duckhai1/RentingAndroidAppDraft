@@ -18,7 +18,6 @@ public class CityModel extends MySQLModel implements CityProcedures {
     }
 
     public Collection<City> getCities() throws MySQLException {
-        ArrayList<City> cities = new ArrayList<>();
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
@@ -30,17 +29,12 @@ public class CityModel extends MySQLModel implements CityProcedures {
 
             rs = stm.executeQuery();
             var statusCode = stm.getInt(1);
-
+            LOG.info("Received status code " + statusCode);
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
 
-            while (rs.next()) {
-                cities.add(new City(
-                        rs.getString(1)
-                ));
-            }
-            return cities;
+            return DBUtils.citiesFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
@@ -58,10 +52,11 @@ public class CityModel extends MySQLModel implements CityProcedures {
             stm = conn.prepareCall("{CALL createCity(?, ?)}");
             stm.setString(1, cityId);
             stm.registerOutParameter(2, Types.INTEGER);
-            stm.executeUpdate();
 
+            var updateCount = stm.executeUpdate();
             var statusCode = stm.getInt(2);
             LOG.info("Received status code " + statusCode);
+            LOG.info("Update count " + updateCount);
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
@@ -80,7 +75,9 @@ public class CityModel extends MySQLModel implements CityProcedures {
         try {
             conn = this.db.getConnection();
             stm = conn.createStatement();
-            stm.executeUpdate("DELETE FROM cities");
+
+            var updateCount = stm.executeUpdate("DELETE FROM cities");
+            LOG.info("Update count " + updateCount);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {

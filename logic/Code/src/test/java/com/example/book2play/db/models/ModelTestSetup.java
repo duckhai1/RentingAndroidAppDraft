@@ -1,4 +1,4 @@
-package com.example.book2play.models;
+package com.example.book2play.db.models;
 
 import com.example.book2play.App;
 import com.example.book2play.db.MySQLServer;
@@ -49,7 +49,7 @@ public abstract class ModelTestSetup {
     @Before
     public void cleanTables() {
         try {
-            // bookingModel.clearBooking();
+            bookingModel.clearBooking();
             cityModel.clearCity();
             courtModel.clearCourt();
             playerModel.clearPlayer();

@@ -11,36 +11,18 @@ CREATE PROCEDURE createStaff (
     OUT statusCode INT
 )
 BEGIN
-	    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
-		SET statusCode = @p1;
-		ROLLBACK;
-	END;
-
-    START TRANSACTION;
-
 	IF inStaffId REGEXP '[^a-zA-Z0-9]+$' THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 463; -- invalid staff id 
-	END IF;
-
-    IF inCityId NOT IN (SELECT cityId FROM cities) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 460; -- invalid city id
-	END IF;
-    
-    IF inSportCenterId NOT IN (
+		SET statusCode = 463; -- invalid staff id 
+	ELSEIF inCityId NOT IN (SELECT cityId FROM cities) THEN
+		SET statusCode = 460; -- invalid city id
+    ELSEIF inSportCenterId NOT IN (
 		SELECT sportCenterId
 		FROM sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
 	) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 461; -- invalid sportCenter id
-	END IF;
-
-	IF inStaffId IN (
+		SET statusCode = 461; -- invalid sportCenter id
+	ELSEIF inStaffId IN (
 		SELECT staffId
 		FROM staffs
 		NATURAL JOIN sportCenters
@@ -48,23 +30,21 @@ BEGIN
 		WHERE sportCenterId = inSportCenterId
 			AND cityId = inCityId
 	) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 406; -- Staff already exists
+		SET statusCode = 406; -- Staff already exists
+    ELSE
+		SET statusCode = 200;
+		INSERT INTO staffs (staffId, sportCenterPk)
+		VALUES (
+			inStaffId,
+			(
+				SELECT sportCenterPk
+				FROM sportCenters
+				NATURAL JOIN cities
+				WHERE cityId = inCityId
+					AND sportCenterId = inSportCenterId
+			)
+		);
 	END IF;
-
-    SET statusCode = 200;
-    
-    INSERT INTO staffs (staffId, sportCenterPk)
-	VALUES (
-		inStaffId,
-		(
-			SELECT sportCenterPk
-			FROM sportCenters
-			NATURAL JOIN cities
-			WHERE cityId = inCityId
-				AND sportCenterId = inSportCenterId
-		)
-	);
 END//
 
 DELIMITER ;

@@ -28,11 +28,10 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
             stm = conn.prepareCall("{CALL getBookingInfo(?, ?)}");
             stm.setString(1, bookingId);
             stm.registerOutParameter(2, Types.INTEGER);
-            rs = stm.executeQuery();
 
+            rs = stm.executeQuery();
             var statusCode = stm.getInt(2);
             LOG.info("Received status code " + statusCode);
-
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
@@ -60,7 +59,6 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
 
     @Override
     public Collection<Booking> getBookingsInCourt(String courtId, String cityId, String sportCenterId, Date date) throws MySQLException {
-        ArrayList<Booking> bookings = new ArrayList<>();
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
@@ -73,8 +71,8 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
             stm.setString(3, sportCenterId);
             stm.setDate(4, date);
             stm.registerOutParameter(5, Types.INTEGER);
-            rs = stm.executeQuery();
 
+            rs = stm.executeQuery();
             var statusCode = stm.getInt(5);
             LOG.info("Received status code " + statusCode);
             if (statusCode >= 400 && statusCode < 500) {
@@ -93,7 +91,6 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
 
     @Override
     public Collection<Booking> getSportCenterBookings(String sportCenterId, Date date) throws MySQLException {
-        ArrayList<Booking> bookings = new ArrayList<>();
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
@@ -104,8 +101,8 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
             stm.setString(1, sportCenterId);
             stm.setDate(2, date);
             stm.registerOutParameter(2, Types.INTEGER);
-            rs = stm.executeQuery();
 
+            rs = stm.executeQuery();
             var statusCode = stm.getInt(2);
             LOG.info("Received status code " + statusCode);
 
@@ -125,7 +122,6 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
 
     @Override
     public Collection<Booking> getPlayerBookings(String playerId, String cityId, Date date) throws MySQLException {
-        ArrayList<Booking> bookings = new ArrayList<>();
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
@@ -136,8 +132,8 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
             stm.setString(1, playerId);
             stm.setString(2, cityId);
             stm.registerOutParameter(3, Types.INTEGER);
-            rs = stm.executeQuery();
 
+            rs = stm.executeQuery();
             var statusCode = stm.getInt(3);
             LOG.info("Received status code " + statusCode);
             if (statusCode >= 400 && statusCode < 500) {
@@ -182,11 +178,11 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
             stm.setString(8, courtId);
             stm.setString(9, playerId);
             stm.registerOutParameter(10, Types.INTEGER);
-            stm.executeUpdate();
 
+            var updateCount = stm.executeUpdate();
             var statusCode = stm.getInt(10);
             LOG.info("Received status code " + statusCode);
-            LOG.info("Update count " + stm.getUpdateCount());
+            LOG.info("Update count " + updateCount);
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
@@ -211,11 +207,11 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
             stm.setString(3, playerId);
             stm.setString(4, staffId);
             stm.registerOutParameter(5, Types.INTEGER);
-            stm.executeUpdate();
 
+            var updateCount = stm.executeUpdate();
             var statusCode = stm.getInt(5);
             LOG.info("Received status code " + statusCode);
-            LOG.info("Update count " + stm.getUpdateCount());
+            LOG.info("Update count " + updateCount);
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
@@ -238,10 +234,11 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
             stm.setString(1, bookingId);
             stm.setString(2, playerId);
             stm.registerOutParameter(3, Types.INTEGER);
-            stm.executeUpdate();
 
+            var updateCount = stm.executeUpdate();
             var statusCode = stm.getInt(3);
             LOG.info("Received status code " + statusCode);
+            LOG.info("Update count " + updateCount);
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
@@ -261,7 +258,9 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
         try {
             conn = this.db.getConnection();
             stm = conn.createStatement();
-            stm.executeUpdate("DELETE FROM bookings");
+
+            var updateCount = stm.executeUpdate("DELETE FROM bookings");
+            LOG.info("Update count " + updateCount);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
         } finally {

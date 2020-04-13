@@ -21,6 +21,7 @@ public class MySQLException extends Exception {
 
     public MySQLException(Integer code) {
         super("Encounter error code " + code);
+        this.statusCode = code;
     }
 
     public int getStatusCode() {

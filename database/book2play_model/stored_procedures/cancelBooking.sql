@@ -10,49 +10,29 @@ CREATE PROCEDURE cancelBooking (
     OUT statusCode INT
 )
 BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
-		SET statusCode = @p1;
-		ROLLBACK;
-	END;
-
-	START TRANSACTION;
-
 	IF inPlayerId NOT IN (SELECT playerId FROM players) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO =464; -- Player does not exist
-	END IF;
-
-    IF inBookingId NOT IN (SELECT bookingId FROM bookings) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 465; -- invalid booking id
-	END IF;
-
-	IF NOT EXISTS (
+		SET statusCode =464; -- Player does not exist
+	ELSEIF inBookingId NOT IN (SELECT bookingId FROM bookings) THEN
+		SET statusCode = 465; -- invalid booking id
+	ELSEIF NOT EXISTS (
 		SELECT *
 		FROM bookings
 		NATURAL JOIN players
 		WHERE bookingID = inBookingId
 			AND playerId = inPlayerId
 	) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 401; -- Unauthorized
-	END IF;
-
-    IF TIMEDIFF(
+		SET statusCode = 401; -- Unauthorized
+	ELSEIF TIMEDIFF(
 		(SELECT (CAST(CONCAT(bookingDate, ' ', bookingStartTime) AS DATETIME))
 		FROM bookings
 		WHERE bookingId = inBookingId), NOW()) < TIME('24:00:00') THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 411; -- The booking is cancelled in less than 24h before the start time
+		SET statusCode = 411; -- The booking is cancelled in less than 24h before the start time
+	ELSE
+		SET statusCode = 200;
+		DELETE
+		FROM bookings
+		WHERE bookingId = inBookingId;
 	END IF;
-
-    SET statusCode = 200;
-
-	DELETE
-	FROM bookings
-	WHERE bookingId = inBookingId;
 END//
 
 DELIMITER ;

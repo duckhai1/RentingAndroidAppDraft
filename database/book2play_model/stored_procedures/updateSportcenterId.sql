@@ -11,55 +11,35 @@ CREATE PROCEDURE updateSportCenterId (
     OUT statusCode INT
 )
 BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
-		SET statusCode = @p1;
-		ROLLBACK;
-	END;
-
-    START TRANSACTION;
-
 	IF newSportCenterId REGEXP '[^a-zA-Z0-9]+$' THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 461; -- invalid sportCenter id 
-	END IF;
-
-    IF inCityId NOT IN (SELECT cityId FROM cities) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 460; -- invalid city id
-	END IF;
-    
-    IF inSportCenterId NOT IN (
+		SET statusCode = 461; -- invalid sportCenter id 
+	ELSEIF inCityId NOT IN (SELECT cityId FROM cities) THEN
+		SET statusCode = 460; -- invalid city id
+	ELSEIF inSportCenterId NOT IN (
 		SELECT sportCenterId
 		FROM sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
 	) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 461; -- invalid sportCenter id
-	END IF;
-
-    IF newSportCenterId IN (
+		SET statusCode = 461; -- invalid sportCenter id
+	ELSEIF newSportCenterId IN (
 		SELECT sportCenterId
 		FROM sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
 	) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 403; -- SportCenter already exists
+		SET statusCode = 403; -- SportCenter already exists
+    ELSE
+		SET statusCode = 200;
+		UPDATE sportCenters
+		SET sportCenterId = newSportCenterId
+		WHERE sportCenterId = inSportCenterId
+			AND cityPk = (
+				SELECT cityPk
+				FROM cities
+				WHERE cityId = inCityID
+			);
 	END IF;
-
-    SET statusCode = 200;
-
-    UPDATE sportCenters
-    SET sportCenterId = newSportCenterId
-    WHERE sportCenterId = inSportCenterId
-        AND cityPk = (
-            SELECT cityPk
-            FROM cities
-            WHERE cityId = inCityID
-        );
 END//
 
 DELIMITER ;

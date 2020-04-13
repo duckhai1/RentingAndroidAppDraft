@@ -11,26 +11,11 @@ CREATE PROCEDURE getPlayerBookings (
     OUT statusCode INT
 )
 BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
-		SET statusCode = @p1;
-		ROLLBACK;
-	END;
-
-	START TRANSACTION;
-
 	IF inCityId NOT IN (SELECT cityId FROM cities) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 460; -- city id does not exist
-	END IF;
-
-	IF inPlayerId NOT IN (SELECT playerId FROM players) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 464;
-	END IF;
-
-	IF NOT EXISTS (
+		SET statusCode = 460; -- city id does not exist
+	ELSEIF inPlayerId NOT IN (SELECT playerId FROM players) THEN
+		SET statusCode = 464;
+	ELSEIF NOT EXISTS (
 		SELECT *
 		FROM bookings
 		NATURAL JOIN courts
@@ -41,21 +26,19 @@ BEGIN
 			AND playerId = inPlayerId
 			AND bookingDate = inBookingDate
 	) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 466; -- no bookings in given date
+		SET statusCode = 466; -- no bookings in given date 
+    ELSE
+		SET statusCode = 200;
+		SELECT bookingId, playerId, courtId, bookingDate, bookingStartTime, bookingEndTime, createdAt, isPaid
+		FROM bookings
+		NATURAL JOIN courts
+		NATURAL JOIN sportCenters
+		NATURAL JOIN cities
+		NATURAL JOIN players
+		WHERE cityId = inCityId
+			AND bookingDate = inBookingDate
+			AND playerId = inPLayerId;
 	END IF;
-
-    SET statusCode = 200;
-
-	SELECT bookingId, playerId, courtId, bookingDate, bookingStartTime, bookingEndTime, createdAt, isPaid
-	FROM bookings
-	NATURAL JOIN courts
-	NATURAL JOIN sportCenters
-	NATURAL JOIN cities
-	NATURAL JOIN players
-	WHERE cityId = inCityId
-		AND bookingDate = inBookingDate
-		AND playerId = inPLayerId;
 END//
 
 DELIMITER ;

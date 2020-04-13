@@ -31,6 +31,7 @@ public class StaffModel extends MySQLModel implements StaffProcedures {
 
             rs = stm.executeQuery();
             var statusCode = stm.getInt(4);
+            LOG.info("Received status code " + statusCode);
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
@@ -61,9 +62,10 @@ public class StaffModel extends MySQLModel implements StaffProcedures {
             stm.setString(3, sportCenterId);
             stm.registerOutParameter(4, Types.INTEGER);
 
-            stm.executeUpdate();
+            var updateCount = stm.executeUpdate();
             var statusCode = stm.getInt(4);
-
+            LOG.info("Received status code " + statusCode);
+            LOG.info("Update count " + updateCount);
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
@@ -89,9 +91,10 @@ public class StaffModel extends MySQLModel implements StaffProcedures {
             stm.setString(4, sportCenterId);
             stm.registerOutParameter(5, Types.INTEGER);
 
-            stm.executeUpdate();
+            var updateCount = stm.executeUpdate();
             var statusCode = stm.getInt(5);
-
+            LOG.info("Received status code " + statusCode);
+            LOG.info("Update count " + updateCount);
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
@@ -111,7 +114,9 @@ public class StaffModel extends MySQLModel implements StaffProcedures {
         try {
             conn = this.db.getConnection();
             stm = conn.createStatement();
-            stm.executeUpdate("DELETE FROM sportCenters");
+
+            var updateCount= stm.executeUpdate("DELETE FROM sportCenters");
+            LOG.info("Update count " + updateCount);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
         } finally {

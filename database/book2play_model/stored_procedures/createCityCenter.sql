@@ -10,39 +10,22 @@ CREATE PROCEDURE createCityCenter (
     OUT statusCode INT
 )
 BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
-		SET statusCode = @p1;
-		ROLLBACK;
-	END;
-
-    START TRANSACTION;
-
 	IF inSportCenterId REGEXP '[^a-zA-Z0-9]+$' THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 461; -- invalid sportCenter id 
-	END IF;
-
-    IF inCityId NOT IN (SELECT cityId FROM cities) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 460; -- invalid city id
-	END IF;
-    
-    IF inSportCenterId IN (
+		SET statusCode = 461; -- invalid sportCenter id 
+	ELSEIF inCityId NOT IN (SELECT cityId FROM cities) THEN
+		SET statusCode = 460; -- invalid city id
+    ELSEIF inSportCenterId IN (
 		SELECT sportCenterId
 		FROM sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
 	) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 403; -- center already exists 
+		SET statusCode = 403; -- center already exists 
+	ELSE
+		SET statusCode = 200;
+		INSERT INTO sportCenters (sportCenterId, cityPk) 
+		VALUES (inSportCenterId, (SELECT cityPk FROM cities WHERE cityId = inCityId));
 	END IF;
-   
-    SET statusCode = 200;
-
-    INSERT INTO sportCenters (sportCenterId, cityPk) 
-    VALUES (inSportCenterId, (SELECT cityPk FROM cities WHERE cityId = inCityId));
 END//
 
 DELIMITER ;

@@ -11,31 +11,16 @@ CREATE PROCEDURE getStaffInfo(
     OUT statusCode INT
 )
 BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
-		SET statusCode = @p1;
-		ROLLBACK;
-	END;
-
-	START TRANSACTION;
-
 	IF inCityId NOT IN (SELECT cityId FROM cities) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 460; -- city id does not exist
-	END IF;
-
-	IF inSportCenterId NOT IN (
+		SET statusCode = 460; -- city id does not exist
+	ELSEIF inSportCenterId NOT IN (
 		SELECT sportCenterId
 		FROM sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
 	) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 461; -- sportCenter id does not exist
-	END IF;
-
-	IF inStaffId NOT IN (
+		SET statusCode = 461; -- sportCenter id does not exist
+	ELSEIF inStaffId NOT IN (
 		SELECT staffId
 		FROM staffs
 		NATURAL JOIN sportCenters
@@ -43,19 +28,17 @@ BEGIN
 		WHERE cityId = inCityId
 			AND sportCenterId = inSportCenterId
 	) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 463; -- staff id does not exists
+		SET statusCode = 463; -- staff id does not exists
+    ELSE
+		SET statusCode = 200;
+		SELECT staffId, sportCenterId
+		FROM staffs
+		NATURAL JOIN sportCenters
+		NATURAL JOIN cities
+		WHERE cityId = inCityId
+			AND sportCenterId = inSportCenterId
+			AND staffId = inStaffId;
 	END IF;
-
-    SET statusCode = 200;
-
-	SELECT staffId, sportCenterId
-	FROM staffs
-	NATURAL JOIN sportCenters
-	NATURAL JOIN cities
-	WHERE cityId = inCityId
-		AND sportCenterId = inSportCenterId
-		AND staffId = inStaffId;
 END//
 
 DELIMITER ;
