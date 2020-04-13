@@ -14,8 +14,10 @@ public class CityCenterModelTest extends ModelTestSetup {
     public void testCreateCityCenterOnEmptyDatabase() throws Exception {
         var sportCenterId = "Dinh Hoa Center";
         var cityId = "HoChiMinh";
-        cityModel.createCity(cityId);
-        sportCenterModel.createCityCenter(sportCenterId,cityId);
+
+        CITY.createCity(cityId);
+
+        SPORT_CENTER.createCityCenter(sportCenterId,cityId);
     }
 
     @Test
@@ -23,18 +25,18 @@ public class CityCenterModelTest extends ModelTestSetup {
         // CALL createCity for scenario
         var cityId = "HoChiMinh";
 
-        cityModel.createCity(cityId);
+        CITY.createCity(cityId);
 
         //test
         var expectedCode = 403;
         var sportCenterId = "Dinh Hoa Center";
 
-        sportCenterModel.createCityCenter(sportCenterId,cityId);
+        SPORT_CENTER.createCityCenter(sportCenterId,cityId);
         try {
-            sportCenterModel.createCityCenter(sportCenterId,cityId);
+            SPORT_CENTER.createCityCenter(sportCenterId,cityId);
             fail("Expecting MySQLException with statusCode " + expectedCode);
         } catch (MySQLException e){
-            assertEquals(expectedCode,e.getStatusCode());
+            assertEquals(expectedCode, e.getStatusCode());
         }
     }
 
@@ -43,7 +45,7 @@ public class CityCenterModelTest extends ModelTestSetup {
         //CALL createCity for scenario
         var cityId = "HoChiMinh";
 
-        cityModel.createCity(cityId);
+        CITY.createCity(cityId);
 
         //Test
         var expectedCode = 461;
@@ -53,7 +55,7 @@ public class CityCenterModelTest extends ModelTestSetup {
 
         for( var sportCenterId: sportCenterIds ) {
             try {
-                sportCenterModel.createCityCenter(sportCenterId, cityId);
+                SPORT_CENTER.createCityCenter(sportCenterId, cityId);
                 fail("Expecting MySQLException with statusCode " + expectedCode);
             } catch (MySQLException e) {
                 assertEquals(expectedCode, e.getStatusCode());
@@ -70,8 +72,8 @@ public class CityCenterModelTest extends ModelTestSetup {
         var expectedCode = 460;
         var sportCenterId = "Dinh Hoa Center";
         try {
-            cityModel.createCity(cityId);
-            sportCenterModel.createCityCenter(sportCenterId, cityId);
+            CITY.createCity(cityId);
+            SPORT_CENTER.createCityCenter(sportCenterId, cityId);
             fail("Expecting MySQLException with statusCode " + expectedCode);
         }catch (MySQLException e){
             assertEquals(expectedCode,e.getStatusCode());
