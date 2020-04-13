@@ -22,6 +22,7 @@ public class CityModel extends MySQLModel implements CityProcedures {
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
+
         try {
             conn = this.db.getConnection();
             stm = conn.prepareCall("{CALL getCities(?)}");

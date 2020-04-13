@@ -20,10 +20,10 @@ BEGIN
 			SET MYSQL_ERRNO = 460; -- invalid city id
 	END IF;
     
-    SELECT courtId, cityId, sportcenterId
+    SELECT courtId, cityId, sportCenterId
 	FROM courts
 	NATURAL JOIN cities
-    NATURAL JOIN sportcenters
+    NATURAL JOIN sportCenters
 	WHERE cityId = inCityId;
 END//
 

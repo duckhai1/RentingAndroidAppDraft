@@ -20,7 +20,7 @@ CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00',
 CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '14:00:00', '15:30:00', 'B', 'C', 'C', 'P', @statusCode);
 CALL createBooking('3', NOW(), DATE_ADD(CURDATE(), INTERVAL 11 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'Q', @statusCode);
 CALL createBooking('4', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00', '10:30:00', 'A', 'D', 'C', 'P', @statusCode);
-CALL getSportcenterBookings('B', 'A', DATE_ADD(CURDATE(), INTERVAL 10 DAY), @statusCode);
+CALL getSportCenterBookings('B', 'A', DATE_ADD(CURDATE(), INTERVAL 10 DAY), @statusCode);
 -- expected: no error code, a relation with 1 element is returned
 
 
@@ -46,7 +46,7 @@ CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00',
 CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '14:00:00', '15:30:00', 'B', 'C', 'C', 'P', @statusCode);
 CALL createBooking('3', NOW(), DATE_ADD(CURDATE(), INTERVAL 11 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'Q', @statusCode);
 CALL createBooking('4', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00', '10:30:00', 'A', 'D', 'C', 'P', @statusCode);
-CALL getSportcenterBookings('B', 'A', DATE_ADD(CURDATE(), INTERVAL 11 DAY), @statusCode);
+CALL getSportCenterBookings('B', 'A', DATE_ADD(CURDATE(), INTERVAL 11 DAY), @statusCode);
 -- expected: no error code, a relation with 1 element is returned
 
 
@@ -72,7 +72,7 @@ CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00',
 CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '14:00:00', '15:30:00', 'B', 'C', 'C', 'P', @statusCode);
 CALL createBooking('3', NOW(), DATE_ADD(CURDATE(), INTERVAL 11 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'Q', @statusCode);
 CALL createBooking('4', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00', '10:30:00', 'A', 'D', 'C', 'P', @statusCode);
-CALL getSportcenterBookings('D', 'A', DATE_ADD(CURDATE(), INTERVAL 10 DAY), @statusCode);
+CALL getSportCenterBookings('D', 'A', DATE_ADD(CURDATE(), INTERVAL 10 DAY), @statusCode);
 -- expected: no error code, a relation with 1 element is returned
 
 
@@ -98,13 +98,13 @@ CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00',
 CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '14:00:00', '15:30:00', 'B', 'C', 'C', 'P', @statusCode);
 CALL createBooking('3', NOW(), DATE_ADD(CURDATE(), INTERVAL 11 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'Q', @statusCode);
 CALL createBooking('4', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00', '10:30:00', 'A', 'D', 'C', 'P', @statusCode);
-CALL getSportcenterBookings('C', 'B', DATE_ADD(CURDATE(), INTERVAL 10 DAY), @statusCode);
+CALL getSportCenterBookings('C', 'B', DATE_ADD(CURDATE(), INTERVAL 10 DAY), @statusCode);
 -- expected: no error code, a relation with 1 element is returned
 
 
 
 /*
-    Test if an error code is returned, when the provided sportcenter id is invalid
+    Test if an error code is returned, when the provided sportCenter id is invalid
 */
 
 
@@ -122,7 +122,7 @@ CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00',
 CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '14:00:00', '15:30:00', 'B', 'C', 'C', 'P', @statusCode);
 CALL createBooking('3', NOW(), DATE_ADD(CURDATE(), INTERVAL 11 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'Q', @statusCode);
 CALL createBooking('4', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00', '10:30:00', 'A', 'D', 'C', 'P', @statusCode);
-CALL getSportcenterBookings('@', 'A', DATE_ADD(CURDATE(), INTERVAL 10 DAY), @statusCode);
+CALL getSportCenterBookings('@', 'A', DATE_ADD(CURDATE(), INTERVAL 10 DAY), @statusCode);
 -- expected: error code 461
 
 
@@ -145,7 +145,7 @@ CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00',
 CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '14:00:00', '15:30:00', 'B', 'C', 'C', 'P', @statusCode);
 CALL createBooking('3', NOW(), DATE_ADD(CURDATE(), INTERVAL 11 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'Q', @statusCode);
 CALL createBooking('4', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00', '10:30:00', 'A', 'D', 'C', 'P', @statusCode);
-CALL getSportcenterBookings('B', '@', DATE_ADD(CURDATE(), INTERVAL 10 DAY), @statusCode);
+CALL getSportCenterBookings('B', '@', DATE_ADD(CURDATE(), INTERVAL 10 DAY), @statusCode);
 -- expected: error code 460
 
 
@@ -168,5 +168,5 @@ CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00',
 CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '14:00:00', '15:30:00', 'B', 'C', 'C', 'P', @statusCode);
 CALL createBooking('3', NOW(), DATE_ADD(CURDATE(), INTERVAL 11 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'Q', @statusCode);
 CALL createBooking('4', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00', '10:30:00', 'A', 'D', 'C', 'P', @statusCode);
-CALL getSportcenterBookings('B', 'A', DATE_ADD(CURDATE(), INTERVAL 12 DAY), @statusCode);
+CALL getSportCenterBookings('B', 'A', DATE_ADD(CURDATE(), INTERVAL 12 DAY), @statusCode);
 -- expected: error code 466

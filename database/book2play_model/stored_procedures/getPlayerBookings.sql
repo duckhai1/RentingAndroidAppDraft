@@ -34,7 +34,7 @@ BEGIN
 		SELECT *
 		FROM bookings
 		NATURAL JOIN courts
-		NATURAL JOIN sportcenters
+		NATURAL JOIN sportCenters
 		NATURAL JOIN cities
 		NATURAL JOIN players
 		WHERE cityId = inCityID
@@ -50,7 +50,7 @@ BEGIN
 	SELECT bookingId, playerId, courtId, bookingDate, bookingStartTime, bookingEndTime, createdAt, isPaid
 	FROM bookings
 	NATURAL JOIN courts
-	NATURAL JOIN sportcenters
+	NATURAL JOIN sportCenters
 	NATURAL JOIN cities
 	NATURAL JOIN players
 	WHERE cityId = inCityId

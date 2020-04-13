@@ -4,7 +4,7 @@ DROP PROCEDURE IF EXISTS getBookingsInCourt//
 CREATE PROCEDURE getBookingsInCourt(
 	IN inCourtId VARCHAR(100),
 	IN inCityId VARCHAR(100),
-	IN inSportcenterId VARCHAR(100),
+	IN inSportCenterId VARCHAR(100),
     IN inBookingDate Date,
     OUT statusCode INT
 )
@@ -23,23 +23,23 @@ BEGIN
 			SET MYSQL_ERRNO = 460; -- invalid city id
 	END IF;
     
-	IF inSportcenterId NOT IN (
-		SELECT sportcenterId 
-		FROM sportcenters
+	IF inSportCenterId NOT IN (
+		SELECT sportCenterId 
+		FROM sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
 	) THEN
 		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 461; -- sportcenter id does not exist
+			SET MYSQL_ERRNO = 461; -- sportCenter id does not exist
 	END IF;
     
     IF inCourtId NOT IN (
 		SELECT courtId
 		FROM courts
-		NATURAL JOIN sportcenters
+		NATURAL JOIN sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
-			AND sportcenterId = inSportcenterId
+			AND sportCenterId = inSportCenterId
 	) THEN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 462; -- invalid court id
@@ -47,13 +47,13 @@ BEGIN
     
     SET statusCode = 200;
     
-    SELECT bookingId, bookingStartTime, bookingEndTime, courtId, sportcenterId, cityId
+    SELECT bookingId, bookingStartTime, bookingEndTime, courtId, sportCenterId, cityId
 	FROM bookings
 	NATURAL JOIN courts
-	NATURAL JOIN sportcenters
+	NATURAL JOIN sportCenters
 	NATURAL JOIN cities
 	WHERE cityId = inCityId
-		AND sportcenterId = inSportcenterId
+		AND sportCenterId = inSportCenterId
 		AND courtId = inCourtId
         AND bookingDate = inBookingDate
 		ORDER BY bookingStartTime ASC;

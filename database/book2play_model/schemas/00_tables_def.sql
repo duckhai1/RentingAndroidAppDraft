@@ -7,43 +7,43 @@ CREATE TABLE IF NOT EXISTS cities (
         UNIQUE (cityId)
 );
 
-CREATE TABLE IF NOT EXISTS sportcenters (
-    sportcenterPk INT NOT NULL AUTO_INCREMENT,
-    sportcenterId VARCHAR(100) NOT NULL,
+CREATE TABLE IF NOT EXISTS sportCenters (
+    sportCenterPk INT NOT NULL AUTO_INCREMENT,
+    sportCenterId VARCHAR(100) NOT NULL,
 	cityPk INT NOT NULL,
 
-    PRIMARY KEY (sportcenterPk),
+    PRIMARY KEY (sportCenterPk),
 	FOREIGN KEY (cityPk)
 		REFERENCES cities (cityPk)
 		ON DELETE CASCADE,
-    CONSTRAINT sportcentersInCity
-        UNIQUE (cityPk, sportcenterId)
+    CONSTRAINT sportCentersInCity
+        UNIQUE (cityPk, sportCenterId)
 ); 
 
 CREATE TABLE IF NOT EXISTS courts (
     courtPk INT NOT NULL AUTO_INCREMENT,
     courtId VARCHAR(100) NOT NULL,
-    sportcenterPk INT NOT NULL,
+    sportCenterPk INT NOT NULL,
 
     PRIMARY KEY (courtPk),
-	FOREIGN KEY (sportcenterPk)
-		REFERENCES sportcenters (sportcenterPk)
+	FOREIGN KEY (sportCenterPk)
+		REFERENCES sportCenters (sportCenterPk)
 		ON DELETE CASCADE,
-    CONSTRAINT courtsInSportcenter
-        UNIQUE (sportcenterPk, courtId)
+    CONSTRAINT courtsInSportCenter
+        UNIQUE (sportCenterPk, courtId)
 );
 
 CREATE TABLE IF NOT EXISTS staffs (
     staffPk INT NOT NULL AUTO_INCREMENT,
     staffId VARCHAR(100) NOT NULL,
-    sportcenterPk INT NOT NULL,
+    sportCenterPk INT NOT NULL,
 
     PRIMARY KEY (staffPk),
-	FOREIGN KEY (sportcenterPk)
-		REFERENCES sportcenters (sportcenterPk)
+	FOREIGN KEY (sportCenterPk)
+		REFERENCES sportCenters (sportCenterPk)
 		ON DELETE CASCADE,
-    CONSTRAINT staffsInSportcenter
-        UNIQUE (sportcenterPk, staffId)
+    CONSTRAINT staffsInSportCenter
+        UNIQUE (sportCenterPk, staffId)
 ); 
 
 CREATE TABLE IF NOT EXISTS players (

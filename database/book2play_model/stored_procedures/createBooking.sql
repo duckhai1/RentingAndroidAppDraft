@@ -14,7 +14,7 @@ CREATE PROCEDURE createBooking (
     IN inStartTime TIME,
     IN inEndTime TIME,
 	IN inCityId VARCHAR(100),
-	IN inSportcenterId VARCHAR(100),
+	IN inSportCenterId VARCHAR(100),
 	IN inCourtId VARCHAR(100),
 	IN inPlayerId VARCHAR(100),
     OUT statusCode INT
@@ -82,9 +82,9 @@ BEGIN
 			SET MYSQL_ERRNO = 460; -- City does not exist
 	END IF;
 
-	IF inSportcenterId NOT IN (
-		SELECT sportcenterId
-		FROM sportcenters
+	IF inSportCenterId NOT IN (
+		SELECT sportCenterId
+		FROM sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
 	) THEN
@@ -95,9 +95,9 @@ BEGIN
     IF inCourtId NOT IN (
 		SELECT courtId
 		FROM courts
-		NATURAL JOIN sportcenters
+		NATURAL JOIN sportCenters
 		NATURAL JOIN cities
-		WHERE sportcenterId = inSportcenterId
+		WHERE sportCenterId = inSportCenterId
 			AND cityId = inCityId
 	) THEN
 		SIGNAL SQLSTATE '45000'
@@ -131,10 +131,10 @@ BEGIN
 		SELECT count(*)
         FROM bookings
 		NATURAL JOIN courts
-		NATURAL JOIN sportcenters
+		NATURAL JOIN sportCenters
 		NATURAL JOIN cities
         WHERE cityId = inCityId
-			AND sportcenterId = inSportcenterId
+			AND sportCenterId = inSportCenterId
 			AND courtId = inCourtId
 			AND bookingDate = inDate
 			AND ((inStartTime <= bookingStartTime AND inEndTime > bookingStartTime)
@@ -152,10 +152,10 @@ BEGIN
 		(
 			SELECt courtPk
 			FROM courts
-			NATURAL JOIN sportcenters
+			NATURAL JOIN sportCenters
 			NATURAL JOIN cities
 			WHERE cityId = inCityId
-				AND sportcenterId = inSportcenterId
+				AND sportCenterId = inSportCenterId
 				AND courtId = inCourtId
 		),
 		(

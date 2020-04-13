@@ -7,7 +7,7 @@ DROP PROCEDURE IF EXISTS getStaffInfo//
 CREATE PROCEDURE getStaffInfo(
 	IN inStaffId VARCHAR(100),
 	IN inCityId VARCHAR(100),
-	IN inSportcenterId VARCHAR(100),
+	IN inSportCenterId VARCHAR(100),
     OUT statusCode INT
 )
 BEGIN
@@ -25,23 +25,23 @@ BEGIN
 			SET MYSQL_ERRNO = 460; -- city id does not exist
 	END IF;
 
-	IF inSportcenterId NOT IN (
-		SELECT sportcenterId
-		FROM sportcenters
+	IF inSportCenterId NOT IN (
+		SELECT sportCenterId
+		FROM sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
 	) THEN
 		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 461; -- sportcenter id does not exist
+			SET MYSQL_ERRNO = 461; -- sportCenter id does not exist
 	END IF;
 
 	IF inStaffId NOT IN (
 		SELECT staffId
 		FROM staffs
-		NATURAL JOIN sportcenters
+		NATURAL JOIN sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
-			AND sportcenterId = inSportcenterId
+			AND sportCenterId = inSportCenterId
 	) THEN
 		SIGNAL SQLSTATE '45000'
 			SET MYSQL_ERRNO = 463; -- staff id does not exists
@@ -49,12 +49,12 @@ BEGIN
 
     SET statusCode = 200;
 
-	SELECT staffId, sportcenterId
+	SELECT staffId, sportCenterId
 	FROM staffs
-	NATURAL JOIN sportcenters
+	NATURAL JOIN sportCenters
 	NATURAL JOIN cities
 	WHERE cityId = inCityId
-		AND sportcenterId = inSportcenterId
+		AND sportCenterId = inSportCenterId
 		AND staffId = inStaffId;
 END//
 

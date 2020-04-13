@@ -3,9 +3,9 @@
 */
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS getSportcenterBookings//
-CREATE PROCEDURE getSportcenterBookings(
-	IN inSportcenterId VARCHAR(100),
+DROP PROCEDURE IF EXISTS getSportCenterBookings//
+CREATE PROCEDURE getSportCenterBookings(
+	IN inSportCenterId VARCHAR(100),
     IN inCityId VARCHAR(100),
     IN inBookingDate DATE,
     OUT statusCode INT
@@ -25,24 +25,24 @@ BEGIN
 			SET MYSQL_ERRNO = 460; -- city id does not exist
 	END IF;
 
-	IF inSportcenterId NOT IN (
-		SELECT sportcenterId
-		FROM sportcenters
+	IF inSportCenterId NOT IN (
+		SELECT sportCenterId
+		FROM sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
 	) THEN
 		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 461; -- sportcenter id does not exist
+			SET MYSQL_ERRNO = 461; -- sportCenter id does not exist
 	END IF;
 
 	IF NOT EXISTS (
 		SELECT *
 		FROM bookings
 		NATURAL JOIN courts
-		NATURAL JOIN sportcenters
+		NATURAL JOIN sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
-			AND sportcenterId = inSportcenterId
+			AND sportCenterId = inSportCenterId
 			AND bookingDate = inBookingDate
 	) THEN
 		SIGNAL SQLSTATE '45000'
@@ -54,10 +54,10 @@ BEGIN
 	SELECT bookingId, bookingDate, bookingStartTime, bookingEndTime, createdAt, isPaid
 	FROM bookings
 	NATURAL JOIN courts
-	NATURAL JOIN sportcenters
+	NATURAL JOIN sportCenters
 	NATURAL JOIN cities
 	WHERE cityId = inCityId
-		AND sportcenterId = inSportcenterId
+		AND sportCenterId = inSportCenterId
 		AND bookingDate = inBookingDate;
 END//
 

@@ -29,7 +29,7 @@ BEGIN
 	SELECT bookingId, bookingDate, bookingStartTime, bookingEndTime, createdAt, isPaid
 	FROM bookings
 	NATURAL JOIN courts
-	NATURAL JOIN sportcenters
+	NATURAL JOIN sportCenters
 	NATURAL JOIN cities
 	WHERE cityId = inCityId
 		AND bookingDate = inBookingDate ;

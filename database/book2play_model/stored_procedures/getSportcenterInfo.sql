@@ -3,9 +3,9 @@
 */
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS getSportcenterInfo//
-CREATE PROCEDURE getSportcenterInfo (
-	IN inSportcenterId VARCHAR(100),
+DROP PROCEDURE IF EXISTS getSportCenterInfo//
+CREATE PROCEDURE getSportCenterInfo (
+	IN inSportCenterId VARCHAR(100),
 	IN inCityId VARCHAR(100),
     OUT statusCode INT
 )
@@ -24,22 +24,22 @@ BEGIN
 			SET MYSQL_ERRNO = 460; -- invalid city id
 	END IF;
     
-	IF inSportcenterId NOT IN (
-		SELECT sportcenterId 
-		FROM sportcenters
+	IF inSportCenterId NOT IN (
+		SELECT sportCenterId 
+		FROM sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
 	) THEN
 		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 461; -- sportcenter id does not exist
+			SET MYSQL_ERRNO = 461; -- sportCenter id does not exist
 	END IF;
 
     SET statusCode = 200;
 
-	SELECT sportcenterId, cityId
-	FROM sportcenters
+	SELECT sportCenterId, cityId
+	FROM sportCenters
 	NATURAL JOIN cities
-	WHERE sportcenterId = inSportcenterId
+	WHERE sportCenterId = inSportCenterId
 		AND cityId = inCityId;
 END//
 

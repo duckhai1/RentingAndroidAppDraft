@@ -147,7 +147,7 @@ CALL updateStaffId('H', 'G', 'B', 'C', @statusCode);
 
 
 /*
-    Test if the staff id is not updated when the sportcenter id does not exist in the database
+    Test if the staff id is not updated when the sportCenter id does not exist in the database
 */
 CALL createCity('A', @statusCode);
 CALL createCityCenter('B', 'A', @statusCode);

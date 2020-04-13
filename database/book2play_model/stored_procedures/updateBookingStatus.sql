@@ -32,9 +32,9 @@ BEGIN
 			SET MYSQL_ERRNO = 465; -- invalid booking id
 	END IF;
 
-    IF inSportcenterId NOT IN (
-		SELECT sportcenterId
-		FROM sportcenters
+    IF inSportCenterId NOT IN (
+		SELECT sportCenterId
+		FROM sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
 	) THEN
@@ -45,10 +45,10 @@ BEGIN
 	IF NOT EXISTS (
 		SELECT *
 		FROM staffs
-		NATURAL JOIN sportcenters
+		NATURAL JOIN sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
-			AND sportcenterId = inSportcenterId
+			AND sportCenterId = inSportCenterId
 			AND staffId = inStaffId
 	) THEN
 		SIGNAL SQLSTATE '45000'
@@ -56,13 +56,13 @@ BEGIN
 	END IF;
     
 	IF (
-		SELECT sportcenterPk
-		FROM sportcenters
+		SELECT sportCenterPk
+		FROM sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
-			AND sportcenterId = inSportcenterId
+			AND sportCenterId = inSportCenterId
 	) <> (
-		SELECT sportcenterPk
+		SELECT sportCenterPk
 		FROM bookings
 		NATURAL JOIN courts
 		WHERE bookingId = inBookingId
