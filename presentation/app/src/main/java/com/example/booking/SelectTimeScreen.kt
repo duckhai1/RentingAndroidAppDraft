@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.example.book2play.MyBookingModel
 import com.example.book2play.R
-import kotlinx.android.synthetic.main.select_time_screen.*
 
 class SelectTimeScreen : AppCompatActivity() {
 
@@ -19,23 +19,45 @@ class SelectTimeScreen : AppCompatActivity() {
 
         // get last intent information
         val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
-
-//        nextActivity.setOnClickListener{
-//            val intent = Intent(this,BookSucessScrenn::class.java)
-//            startActivity(intent)
-//        }
         toolBar.setTitle("Booking")
+
+
         setSupportActionBar(toolBar)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
 
+
+        // TODO change to more flexible to add court
         val fragmentAdapter = MyPagerAdapter(supportFragmentManager)
+        val bundle = intent.extras
+
+        setupFragment(fragmentAdapter,bundle, "Court 1")
+        setupFragment(fragmentAdapter,bundle, "Court 2")
+        setupFragment(fragmentAdapter,bundle, "Court 3")
+
         viewPager.adapter = fragmentAdapter
         tabLayout.setupWithViewPager(viewPager)
 
 
 
     }
+
+
+    fun setupFragment(fragmentAdapter: MyPagerAdapter, bundle: Bundle?, court_name : String){
+        var court_frag = when (court_name){
+            "Court 1" -> Court1Fragment()
+            "Court 2" -> Court1Fragment()   // -> need to change
+            "Court 3" -> Court1Fragment()   // -> need to change
+            else -> Court3Fragment()
+        }
+        var cbundle = bundle?.clone() as Bundle
+        if (cbundle != null) {
+            cbundle.putString("courtName", court_name)
+        }
+        court_frag.arguments = cbundle
+        fragmentAdapter.addFrag(court_frag, court_name)
+    }
+
 
 //    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 //        menuInflater.inflate(R.menu.action_mode_menu, menu)

@@ -6,13 +6,11 @@ import android.os.Bundle
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-//import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.book2play.MyBookingModel
 import com.example.book2play.R
 import com.example.locationsscreen.DetailScreen
-import kotlinx.android.synthetic.main.fragment_court1.*
 
 
 /**
@@ -20,8 +18,9 @@ import kotlinx.android.synthetic.main.fragment_court1.*
  */
 class Court1Fragment : Fragment(), MainInterface {
 
-    // get last intent information
-    val bookingInfo = activity?.intent?.getSerializableExtra("BookingInfo") as? MyBookingModel
+
+    var bookingInfo : MyBookingModel = MyBookingModel()
+    lateinit var bookingCourtName :String
 
     var actionMode: ActionMode? = null
     var myAdapter: Court1Adapter? = null
@@ -31,7 +30,10 @@ class Court1Fragment : Fragment(), MainInterface {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_court1, container, false)
+        val v = inflater.inflate(R.layout.fragment_court1, container, false)
+        bookingInfo = this.arguments?.getSerializable("BookingInfo") as MyBookingModel
+        bookingCourtName = this.arguments!!.getString("courtName").toString()
+        return v
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -105,12 +107,16 @@ class Court1Fragment : Fragment(), MainInterface {
                     // move to next screen
                     val intent =
                         Intent(activity, DetailScreen::class.java)
+
+
+
                     // update bookingInfo
                     if (bookingInfo != null) {
                         bookingInfo.time = timeText
+                        bookingInfo.court = bookingCourtName
                     }
                     else {
-                        val bookingInfo = MyBookingModel(time = timeText)
+                        bookingInfo = MyBookingModel(time = timeText, court = bookingCourtName)
                     }
                     intent.putExtra("BookingInfo", bookingInfo)
                     startActivity(intent)

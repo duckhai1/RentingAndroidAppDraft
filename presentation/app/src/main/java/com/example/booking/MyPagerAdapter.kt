@@ -4,29 +4,26 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
 class MyPagerAdapter(fm : FragmentManager) : FragmentPagerAdapter(fm){
+    private val mFragmentList: MutableList<Fragment> = ArrayList()
+    private val mFragmentTitleList: MutableList<String> = ArrayList()
+
     override fun getItem(position: Int): Fragment {
-        return when (position){
-            0 -> { Court1Fragment()
-            }
-            1 -> { Court2Fragment()
-            }
-            else -> {
-            return Court3Fragment()
-            }
-        }
+        return mFragmentList[position]
     }
 
     override fun getCount(): Int {
-        return 3
+        return mFragmentList.size
+    }
+
+    fun addFrag(
+        fragment: Fragment,
+        title: String
+    ) {
+        mFragmentList.add(fragment)
+        mFragmentTitleList.add(title)
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return when (position) {
-            0 -> "Court 1"
-            1 -> "Court 2"
-            else -> {
-                return " Court 3"
-            }
-        }
+        return mFragmentTitleList[position]
     }
 }

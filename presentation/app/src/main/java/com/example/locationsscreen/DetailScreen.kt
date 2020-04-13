@@ -18,7 +18,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.activity_booking_detail_demo.*
+
 
 class DetailScreen : AppCompatActivity(){
 
@@ -47,10 +47,8 @@ class DetailScreen : AppCompatActivity(){
 
         // get last intent information
         val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
-        if (bookingInfo != null) {
-            Toast.makeText(this, bookingInfo.time, Toast.LENGTH_LONG).show()
-        }
 
+        Toast.makeText(this, bookingInfo.toString(), Toast.LENGTH_LONG ).show()
         if (bookingInfo != null) {
             DESCRIPTIONS[0] = bookingInfo.date + " " + bookingInfo.week+", " + bookingInfo.time
             DESCRIPTIONS[1] = bookingInfo.center + " " + bookingInfo.city

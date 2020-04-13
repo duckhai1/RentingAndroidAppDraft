@@ -68,13 +68,6 @@ class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context, val m
         if (arrayList[position].slot == 0) {
             holder.itemView.description.setText("Unavailable")
             holder.itemView.description.setBackgroundColor(Color.parseColor("#fa7470"))
-//        } else if (arrayList[position].slot == 2){
-//            holder.itemView.description.setText("Slot is chosen")
-//            holder.itemView.description.setBackgroundColor(Color.parseColor("#bffcc6"))
-//        } else if (arrayList[position].slot == 1) {
-//            holder.itemView.description.setText("Click to choose slot")
-//            holder.itemView.description.setBackgroundColor(Color.parseColor("#ffffff"))
-//        }
         } else {
 
             if (selectedIds.contains(id)) {
