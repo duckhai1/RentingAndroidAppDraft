@@ -3,10 +3,7 @@ package com.example.locationsscreen
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
-import android.widget.CalendarView
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.book2play.MyBookingModel
@@ -17,7 +14,6 @@ import java.util.*
 
 class SearchDayScreen : AppCompatActivity() {
     var calendarView: CalendarView? = null
-    var tv: TextView? = null
     var bt: Button? = null
     var date: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,8 +28,7 @@ class SearchDayScreen : AppCompatActivity() {
             findViewById<View>(R.id.toolbarSD) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar!!.title = "Pick your date!"
-        tv = findViewById<View>(R.id.centerName) as TextView
-        tv!!.text = intent.getStringExtra("CENTERNAME")
+
         val ctnBtn =
             findViewById<ImageView>(R.id.continueButton)
         calendarView = findViewById<View>(R.id.calendarView) as CalendarView

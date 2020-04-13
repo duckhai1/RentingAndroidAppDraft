@@ -6,11 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.example.book2play.MyBookingModel
@@ -42,16 +39,24 @@ class DetailScreen : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.detail_screen)
+
+
+
         val listView =
             findViewById<View>(R.id.listDetail) as ListView
 
-        val bookingModel = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
-        if (bookingModel != null) {
-            DESCRIPTIONS[0] = bookingModel.date + " " + bookingModel.week+", " + bookingModel.time
-            DESCRIPTIONS[1] = bookingModel.center
-            DESCRIPTIONS[2] = bookingModel.court
+        // get last intent information
+        val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
+        if (bookingInfo != null) {
+            Toast.makeText(this, bookingInfo.time, Toast.LENGTH_LONG).show()
+        }
 
-            DESCRIPTIONS[3] = if (bookingModel.status == 0) "Unpaid" else "Paid"
+        if (bookingInfo != null) {
+            DESCRIPTIONS[0] = bookingInfo.date + " " + bookingInfo.week+", " + bookingInfo.time
+            DESCRIPTIONS[1] = bookingInfo.center + " " + bookingInfo.city
+            DESCRIPTIONS[2] = bookingInfo.court
+
+            DESCRIPTIONS[3] = if (bookingInfo.status == 0) "Unpaid" else "Paid"
         }
 
         val toolbar = findViewById<View>(R.id.toolbarLS2) as Toolbar

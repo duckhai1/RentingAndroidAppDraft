@@ -11,4 +11,10 @@ class MyBookingModel(
     var court : String = "",    // booking court
     var player: String = "",    // booking player name
     var status: Int = 0         // status 0: unpaid; 1:paid
-) :Serializable {}
+) :Serializable {
+    override fun toString(): String {
+        return "Date: " +date + "\nWeek: " + week + "\nTime: "+time +
+                "\nCity: "+city+"\nCenter: " +center+"\nCourt: "+ court+"\nPlayer: "+player+
+                "\nStatus: " + if(status == 0) "Unpaid" else "Paid"
+    }
+}
