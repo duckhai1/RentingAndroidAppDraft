@@ -7,7 +7,7 @@ CREATE PROCEDURE getCities (
 BEGIN
 	SET statusCode = 200; 
 	SELECT cityId
-	FROM cities
+	FROM cities;
 END//
 
 DELIMITER ;
