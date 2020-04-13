@@ -5,13 +5,14 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS getBookingInfo//
 CREATE PROCEDURE getBookingInfo (
-    IN inBookingId INT
+    IN inBookingId VARCHAR(100),
+    OUT statusCode INT
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
 	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO, @p2 = MESSAGE_TEXT;
-		SELECT @p1 AS `STATUS_CODE`, @p2 AS `STATUS_MESSAGE`;
+		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
+		SET statusCode = @p1;
 		ROLLBACK;
 	END;
 
@@ -19,8 +20,10 @@ BEGIN
 
     IF inBookingId NOT IN (SELECT bookingId FROM bookings ) THEN
 		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 410; -- booking not found
+			SET MYSQL_ERRNO = 465; -- invalid booking id
 	END IF;
+
+    SET statusCode = 200;
 
 	SELECT *
 	FROM bookings

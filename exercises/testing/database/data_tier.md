@@ -54,12 +54,12 @@
         + _Preconditions_:
             + `cityId` does not identify a row in the `Player` relation
         + _Pass conditions_:
-            + `errorCode` is equal to *461 - INVALID CITY ID*
+            + `errorCode` is equal to *460 - INVALID CITY ID*
     + **`testGetPlayerBookingInvalidDate`**: test if the request `date` is invalid
         + _Preconditions_:
             + `date` is not in `DATE` format
         + _Pass conditions_:
-            + `errorCode` is equal to *463 - INVALID DATE*
+            + `errorCode` is equal to *466 - INVALID DATE*
 
 
 
@@ -97,12 +97,12 @@
         + _Preconditions_:
             + `cityId` does not identify a row in the `Player` relation
         + _Pass conditions_:
-            + `errorCode` is equal to *461 - INVALID CITY ID*
+            + `errorCode` is equal to *460 - INVALID CITY ID*
     + **`testGetPlayerBookingInvalidDate`**: test if the request `date` is invalid
         + _Preconditions_:
             + `date` is not in `DATE` format
         + _Pass conditions_:
-            + `errorCode` is equal to *463 - INVALID DATE*
+            + `errorCode` is equal to *466 - INVALID DATE*
 
 #### getSportCenterBooking
 - **Description:** request database for all booking of a sportCenter by a given date
@@ -132,12 +132,12 @@
         + _Preconditions_:
             + `sportCentreId` does not identify a row in the `SportCentre` relation
         + _Pass conditions_:
-            + ```errorCode``` is equal to *462 - INVALID SPORT CENTRE ID*
+            + ```errorCode``` is equal to *461 - INVALID SPORT CENTRE ID*
     + **`testGetSportCentreBookingInvalidDate`**: test if the request is rejected when `date` is invalid
         + _Preconditions_:
             + `date` is not in `DATE` format
         + _Pass conditions_:
-            + ```errorCode``` is equal to *463 - INVALID DATE*
+            + ```errorCode``` is equal to *466 - INVALID DATE*
 
 #### getPlayerInfo
 - **Description:** request database for all information of a player by a given playerId
@@ -243,7 +243,7 @@
             + The player does not have three upcomming bookings
             + There does not exist another booking with the same `courtId` and the same `date`, but its `startTime` and `endTime` overlapping with the new booking
         + _Pass conditions_:
-            + ```errorCode``` is equal to *413 - UNPAID BOOKING FOUND*
+            + ```errorCode``` is equal to *412 - UNPAID BOOKING FOUND*
     + **`testMakeBookingLimitExceed`**: test if the server behaves as expected when the player has already had 3 future bookings
         + _Preconditions_:
             + `playerId` uniquely identifies a row in `Player` relation
@@ -269,22 +269,22 @@
         + _Preconditions_:
             + `date` is not in `DATE` format
         + _Pass conditions_:
-            + ```errorCode``` is equal to *463 - INVALID DATE*
+            + ```errorCode``` is equal to *466 - INVALID DATE*
     + **`testMakeBookingInvalidDuration`**: test if the request is rejected when the duration between `startTime` and `endTime` is invalid
         + _Preconditions_:
             + The period between `startTime` and `endTime` is not *45 minutes*, *1 hour*, *1 hour and 15 minutes*, or *1 hour and 30 minutes*
         + _Pass conditions_:
-            + ```errorCode``` is equal to *465 - INVALID DURATION*
+            + ```errorCode``` is equal to *467 - INVALID DURATION*
     + **`testMakeBookingInvalidStartTime`**: test if the request is rejected when `startTime` is invalid
         + _Preconditions_:
             + `startTime` is not in `TIMESTAMP` format **OR** `startTime` does not come before `endTime` **OR** `startTime` does not come after the time when the interface is called
         + _Pass conditions_:
-            + ```errorCode``` is equal to *470 - INVALID START TIME*
+            + ```errorCode``` is equal to *468 - INVALID START TIME*
     + **`testMakeBookingInvalidEndTime`**: test if the request is rejected when `endTime` is invalid
         + _Preconditions_:
             + `startTime` is not in `TIMESTAMP` format
         + _Pass conditions_:
-            + ```errorCode``` is equal to *471 - INVALID END TIME*
+            + ```errorCode``` is equal to *469 - INVALID END TIME*
 
 #### cancelBooking
 - **Description:** delete from database a existed booking by a given bookingId
@@ -306,12 +306,12 @@
             + `bookingId` uniquely identifies a row in `Booking` relation
             + The request is made in less than 24 hours before the start time of the booking
         + _Pass conditions_:
-            + ``errorCode`` is equal to *412 - BOOKING CANCELLATION REJECTED*
+            + ``errorCode`` is equal to *411 - BOOKING CANCELLATION REJECTED*
     + **`testCancelBookingInvalidId`**: test if the request is rejected when `bookingId` is invalid
         + _Preconditions_:
             + `bookingId` does not identify a row in `Booking` relation
         + _Pass conditions_:
-            + ``errorCode`` is equal to *410 - BOOKING NOT FOUND*
+            + ``errorCode`` is equal to *467 - BOOKING NOT FOUND*
 
 #### changeBookingState
 - **Description:** update to database a new booking state by a given bookingId and a state
@@ -334,7 +334,7 @@
         + _Preconditions_:
             + `bookingId` does not identify a row in `Booking` relation
         + _Pass conditions_:
-            + ``errorCode`` is equal to *410 - BOOKING NOT FOUND*
+            + ``errorCode`` is equal to *467 - BOOKING NOT FOUND*
     + **`testChangeBookingStateInvalidState`**: test if the request is rejected when `state` is invalid
         + _Preconditions_:
             + Given the row uniquely identified by `bookingId`, `state` is invalid when none of the following is satisfied:
@@ -365,7 +365,7 @@
         + _Preconditions_:
             + `playerId` doest not identify a row in `Player` relation
         + _Pass conditions_:
-            + ```errorCode``` is equal to *478 - INVALID PLAYER ID*
+            + ```errorCode``` is equal to *464 - INVALID PLAYER ID*
     + **`testUpdatePlayerFirstNameInvalid`**: test if the request is rejected when `firstName` is invalid
         + _Preconditions_:
             + `firstName` is not in `VARCHAR(32)` format, or not contains only alphabetic characters and spaces, or has leading/trailing spaces
@@ -381,7 +381,7 @@
         + _Preconditions_:
             + `playerId` doest not identify a row in `Player` relation
         + _Pass conditions_:
-            + ```errorCode``` is equal to *478 - INVALID PLAYER ID*
+            + ```errorCode``` is equal to *464 - INVALID PLAYER ID*
     + **`testUpdatePlayerLastNameInvalid`**: test if the request is rejected when `lastName` is invalid
         + _Preconditions_:
             + `lastName` is not in `VARCHAR(32)` format, or not contains only alphabetic characters and spaces, or has leading/trailing spaces
@@ -397,7 +397,7 @@
         + _Preconditions_:
             + `playerId` doest not identify a row in `Player` relation
         + _Pass conditions_:
-            + ```errorCode``` is equal to *478 - INVALID PLAYER ID*
+            + ```errorCode``` is equal to *464 - INVALID PLAYER ID*
     + **`testUpdatePlayerBirthdayInvalid`**: test if the request is rejected when `birthday` is invalid
         + _Preconditions_:
             + `birthday` is no in `DATE` format
@@ -413,7 +413,7 @@
         + _Preconditions_:
             + `playerId` doest not identify a row in `Player` relation
         + _Pass conditions_:
-            + ```errorCode``` is equal to *478 - INVALID PLAYER ID*
+            + ```errorCode``` is equal to *464 - INVALID PLAYER ID*
     + **`testUpdatePlayerPhoneNumberInvalid`**: test if the request is rejected when `phoneNumber` is invalid
         + _Preconditions_:
             + `phoneNumber` is not in `VARCHAR(16)` format or does not contain only numeric characters
@@ -440,7 +440,7 @@
         + _Preconditions_:
             + `sportCentreId` does not identify a row in `SportCentre` relation
         + _Pass conditions_:
-            + ``errorCode`` is equal to *462 - INVALID SPORT CENTRE ID*
+            + ``errorCode`` is equal to *461 - INVALID SPORT CENTRE ID*
     + **`testUpdateNameInvalid`**: test if the request is rejected when `name` is invalid
         + _Preconditions_:
             + `name` is not in `VARCHAR(64)` format, or does not contain only alphanumeric characters and spaces, or has leading/trailing spaces
@@ -457,12 +457,12 @@
         + _Preconditions_:
             + `sportCentreId` does not identify a row in `SportCentre` relation
         + _Pass conditions_:
-            + ``errorCode`` is equal to *462 - INVALID SPORT CENTRE ID*
+            + ``errorCode`` is equal to *461 - INVALID SPORT CENTRE ID*
     + **`testUpdateCityInvalid`**: test if the request is rejected when `cityId` is invalid
         + _Preconditions_:
             + `cityId` does not identify a row in `City` relation
         + _Pass conditions_:
-            + ``errorCode`` is equal to *461 - INVALID CITY ID*
+            + ``errorCode`` is equal to *460 - INVALID CITY ID*
 
     + **`testUpdateAddress`**: test if the request is accepted and the sport centre's `address` is changed according to the provided information when all the paratemeters are valid
         + _Preconditions_:
@@ -474,7 +474,7 @@
         + _Preconditions_:
             + `sportCentreId` does not identify a row in `SportCentre` relation
         + _Pass conditions_:
-            + ``errorCode`` is equal to *462 - INVALID SPORT CENTRE ID*
+            + ``errorCode`` is equal to *461 - INVALID SPORT CENTRE ID*
     + **`testUpdateAddressInvalid`**: test if the request is rejected when `address` is invalid
         + _Preconditions_:
             + `address` is not in `VARCHAR(64)` format, or does not contain only alphanumeric characters, spaces, and the following special characters `-/,`, or has leading/trailing spaces
@@ -491,7 +491,7 @@
         + _Preconditions_:
             + `sportCentreId` does not identify a row in `SportCentre` relation
         + _Pass conditions_:
-            + ``errorCode`` is equal to *462 - INVALID SPORT CENTRE ID*
+            + ``errorCode`` is equal to *461 - INVALID SPORT CENTRE ID*
     + **`testUpdatePhoneNumberInvalid`**: test if the request is rejected when `phoneNumber` is invalid
         + _Preconditions_:
             + `phoneNumber` is not in `VARCHAR(16)` format or does no contain only numeric characters

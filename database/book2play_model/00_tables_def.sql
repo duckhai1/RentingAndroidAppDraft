@@ -1,65 +1,79 @@
 CREATE TABLE IF NOT EXISTS cities (
-  cityId INT NOT NULL AUTO_INCREMENT,
-  cityName VARCHAR(64) NOT NULL,
+    cityPk INT NOT NULL AUTO_INCREMENT,
+    cityId VARCHAR(100) NOT NULL,
 
-  PRIMARY KEY (cityId)
+    PRIMARY KEY (cityPk),
+    CONSTRAINT cities
+        UNIQUE (cityId)
 );
 
 CREATE TABLE IF NOT EXISTS sportcenters (
-    sportcenterId INT NOT NULL AUTO_INCREMENT,
-    sportcenterName VARCHAR(64) NOT NULL,
-	cityId INT NOT NULL,
+    sportcenterPk INT NOT NULL AUTO_INCREMENT,
+    sportcenterId VARCHAR(100) NOT NULL,
+	cityPk INT NOT NULL,
 
-    PRIMARY KEY (sportcenterId),
-	FOREIGN KEY (cityId)
-		REFERENCES cities (cityId)
-		ON DELETE CASCADE
+    PRIMARY KEY (sportcenterPk),
+	FOREIGN KEY (cityPk)
+		REFERENCES cities (cityPk)
+		ON DELETE CASCADE,
+    CONSTRAINT sportcentersInCity
+        UNIQUE (cityPk, sportcenterId)
 ); 
 
 CREATE TABLE IF NOT EXISTS courts (
-    courtId INT NOT NULL AUTO_INCREMENT,
-    courtName VARCHAR(64) NOT NULL UNIQUE,
-    sportcenterId INT NOT NULL,
+    courtPk INT NOT NULL AUTO_INCREMENT,
+    courtId VARCHAR(100) NOT NULL,
+    sportcenterPk INT NOT NULL,
 
-    PRIMARY KEY (courtId),
-	FOREIGN KEY (sportcenterId)
-		REFERENCES sportcenters (sportcenterId)
-		ON DELETE CASCADE
+    PRIMARY KEY (courtPk),
+	FOREIGN KEY (sportcenterPk)
+		REFERENCES sportcenters (sportcenterPk)
+		ON DELETE CASCADE,
+    CONSTRAINT courtsInSportcenter
+        UNIQUE (sportcenterPk, courtId)
 );
 
 CREATE TABLE IF NOT EXISTS staffs (
-    staffId INT NOT NULL AUTO_INCREMENT,
-    staffName VARCHAR(64) NOT NULL,
-    sportcenterId INT NOT NULL,
+    staffPk INT NOT NULL AUTO_INCREMENT,
+    staffId VARCHAR(100) NOT NULL,
+    sportcenterPk INT NOT NULL,
 
-    PRIMARY KEY (staffId),
-	FOREIGN KEY (sportcenterId)
-		REFERENCES sportcenters (sportcenterId)
-		ON DELETE CASCADE
+    PRIMARY KEY (staffPk),
+	FOREIGN KEY (sportcenterPk)
+		REFERENCES sportcenters (sportcenterPk)
+		ON DELETE CASCADE,
+    CONSTRAINT staffsInSportcenter
+        UNIQUE (sportcenterPk, staffId)
 ); 
 
 CREATE TABLE IF NOT EXISTS players (
-    playerId INT NOT NULL AUTO_INCREMENT,
-    playerName VARCHAR(64) NOT NULL,
+    playerPk INT NOT NULL AUTO_INCREMENT,
+    playerId VARCHAR(100) NOT NULL,
 
-    PRIMARY KEY (playerId)
+    PRIMARY KEY (playerPk),
+    CONSTRAINT player
+        UNIQUE (playerId)
 ); 
 
 CREATE TABLE IF NOT EXISTS bookings (
-    bookingId INT NOT NULL AUTO_INCREMENT,
+    bookingPk INT NOT NULL AUTO_INCREMENT,
+    bookingId VARCHAR(100) NOT NULL,
     bookingDate DATE NOT NULL,
     bookingStartTime TIME NOT NULL,
     bookingEndTime TIME NOT NULL,
     createdAt TIMESTAMP NOT NULL,
     isPaid BOOLEAN DEFAULT FALSE, -- FALSE-unpaid; TRUE-paid
-    playerId INT NOT NULL,
-    courtId INT NULL,
+    playerPk INT NOT NULL,
+    courtPk INT NULL,
 
-    PRIMARY KEY(bookingId),
-	FOREIGN KEY (playerId)
-		REFERENCES players(playerId)
+    PRIMARY KEY(bookingPk),
+	FOREIGN KEY (playerPk)
+		REFERENCES players(playerPk)
 		ON DELETE CASCADE,
-	FOREIGN KEY(courtId)
-		REFERENCES courts (courtId)
-		ON DELETE SET NULL
+	FOREIGN KEY(courtPk)
+		REFERENCES courts (courtPk)
+		ON DELETE SET NULL,
+
+    CONSTRAINT bookings
+        UNIQUE (bookingId)
 ); 
