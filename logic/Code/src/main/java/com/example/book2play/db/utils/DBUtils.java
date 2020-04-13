@@ -46,7 +46,7 @@ public class DBUtils {
             courts.add(new Court(
                     rs.getString("courtId"),
                     rs.getString("cityId"),
-                    rs.getString("sportcenterId")
+                    rs.getString("sportCenterId")
             ));
         }
         return courts;

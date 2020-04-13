@@ -100,7 +100,7 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
 
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL getSportcenterBookings(?, ?, ?)}");
+            stm = conn.prepareCall("{CALL getSportCenterBookings(?, ?, ?)}");
             stm.setString(1, sportCenterId);
             stm.setDate(2, date);
             stm.registerOutParameter(2, Types.INTEGER);

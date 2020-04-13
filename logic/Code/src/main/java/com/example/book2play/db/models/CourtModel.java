@@ -43,7 +43,7 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
             return new Court(
                     rs.getString("courtId"),
                     rs.getString("cityId"),
-                    rs.getString("sportcenterId")
+                    rs.getString("sportCenterId")
             );
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
@@ -152,7 +152,7 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
 
                         rs.getString("courtId"),
                         rs.getString("cityId"),
-                        rs.getString("sportcenterId")
+                        rs.getString("sportCenterId")
 
                 ));
             }

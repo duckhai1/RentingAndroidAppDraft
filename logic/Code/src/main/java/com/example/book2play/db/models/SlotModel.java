@@ -29,7 +29,7 @@ public class SlotModel extends MySQLModel {
 
         for (int i = 0; i < courts.size(); i++) {
             Time availableTime = openTime;
-            String sportCenterId = courts.get(i).getSportcenterId();
+            String sportCenterId = courts.get(i).getSportCenterId();
             String courtId = courts.get(i).getCourtId();
             ArrayList<Booking> bookings = (ArrayList<Booking>) bookingModel.getBookingsInCourt(cityId, sportCenterId, courtId, date);
 

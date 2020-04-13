@@ -25,7 +25,7 @@ public class SportCenterModel extends MySQLModel implements SportCenterProcedure
         try {
             conn = this.db.getConnection();
 
-            stm = conn.prepareCall("{call getSportcenterInfo(?,?,?)");
+            stm = conn.prepareCall("{call getSportCenterInfo(?,?,?)");
             stm.setString(1, sportCenterId);
             stm.setString(2, cityId);
             stm.registerOutParameter(3, Types.INTEGER);
@@ -39,7 +39,7 @@ public class SportCenterModel extends MySQLModel implements SportCenterProcedure
                 throw new MySQLException(statusCode);
             }
             return new SportCenter(
-                    rs.getString("sportcenterId"),
+                    rs.getString("sportCenterId"),
                     rs.getString("cityId")
             );
         } catch (SQLException e) {
@@ -116,7 +116,7 @@ public class SportCenterModel extends MySQLModel implements SportCenterProcedure
         try {
             conn = this.db.getConnection();
             stm = conn.createStatement();
-            stm.executeUpdate("DELETE FROM sportcenters");
+            stm.executeUpdate("DELETE FROM sportCenters");
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {

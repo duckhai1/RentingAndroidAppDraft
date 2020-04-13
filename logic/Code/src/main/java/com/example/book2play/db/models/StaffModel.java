@@ -37,7 +37,7 @@ public class StaffModel extends MySQLModel implements StaffProcedures {
 
             return new Staff(
                     rs.getString("staffId"),
-                    rs.getString("sportcenterId")
+                    rs.getString("sportCenterId")
             );
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
@@ -111,7 +111,7 @@ public class StaffModel extends MySQLModel implements StaffProcedures {
         try {
             conn = this.db.getConnection();
             stm = conn.createStatement();
-            stm.executeUpdate("DELETE FROM sportcenters");
+            stm.executeUpdate("DELETE FROM sportCenters");
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
         } finally {
