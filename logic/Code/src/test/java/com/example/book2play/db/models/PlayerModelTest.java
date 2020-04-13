@@ -18,11 +18,14 @@ public class PlayerModelTest extends ModelTestSetup {
 
     @Test
     public void createPlayerWithInvalidPlayerId() throws Exception{
-        var expectedCode = 464
+        var expectedCode = 464;
         var playerId = "Ph@t";
 
         try{
             PLAYER.createPlayer(playerId);
+            fail("Expecting MySQLException with statusCode " + expectedCode);
+        }catch( MySQLException e){
+            assertEquals(expectedCode, e.getStatusCode());
         }
     }
 }

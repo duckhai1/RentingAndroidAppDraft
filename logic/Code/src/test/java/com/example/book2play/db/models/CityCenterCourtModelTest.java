@@ -31,7 +31,9 @@ public class CityCenterCourtModelTest extends ModelTestSetup {
         SPORT_CENTER.createCityCenter(sportCenterId, cityId);
 
         //test
-        courtModel.createCityCenterCourt(courtId, cityId, sportCenterId);
+        COURT.createCityCenterCourt(courtId, cityId, sportCenterId);
+
+
 
     }
 
@@ -47,9 +49,9 @@ public class CityCenterCourtModelTest extends ModelTestSetup {
         SPORT_CENTER.createCityCenter(sportCenterId, cityId);
 
         //test
-        courtModel.createCityCenterCourt(courtId,cityId,sportCenterId);
+        COURT.createCityCenterCourt(courtId,cityId,sportCenterId);
         try{
-            courtModel.createCityCenterCourt(courtId,cityId,sportCenterId);
+            COURT.createCityCenterCourt(courtId,cityId,sportCenterId);
             fail("Expecting MySQLException with statusCode " + expectedCode);
         }catch (MySQLException e){
             assertEquals(expectedCode, e.getStatusCode());
@@ -69,7 +71,7 @@ public class CityCenterCourtModelTest extends ModelTestSetup {
 
         //test
         try{
-            courtModel.createCityCenterCourt(courtId,cityId,sportCenterId);
+            COURT.createCityCenterCourt(courtId,cityId,sportCenterId);
             fail("Expecting MySQLException with statusCode " + expectedCode);
         }catch (MySQLException e){
             assertEquals(expectedCode, e.getStatusCode());
@@ -86,7 +88,8 @@ public class CityCenterCourtModelTest extends ModelTestSetup {
         try{
             CITY.createCity(cityId);
             SPORT_CENTER.createCityCenter(sportCenterId,cityId);
-            courtModel.createCityCenterCourt(courtId,cityId,sportCenterId);
+            COURT.createCityCenterCourt(courtId,cityId,sportCenterId);
+
             fail("Expecting MySQLException with statusCode " + expectedCode);
         }catch(MySQLException e){
             assertEquals(expectedCode, e.getStatusCode());
@@ -103,7 +106,7 @@ public class CityCenterCourtModelTest extends ModelTestSetup {
         try {
             CITY.createCity(cityId);
             SPORT_CENTER.createCityCenter(sportCenterId,cityId);
-            courtModel.createCityCenterCourt(courtId,cityId,sportCenterId);
+            COURT.createCityCenterCourt(courtId,cityId,sportCenterId);
             fail("Expecting MySQLException with statusCode " + expectedCode);
         }catch(MySQLException e){
             assertEquals(expectedCode, e.getStatusCode());
