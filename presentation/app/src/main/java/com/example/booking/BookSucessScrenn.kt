@@ -20,7 +20,7 @@ class BookSucessScrenn : AppCompatActivity() {
         if (bookingInfo != null) {
             result_court.text = bookingInfo.court
             result_date.text = bookingInfo.date
-            result_hour.text = bookingInfo.time
+            result_hour.text = "Period: " + bookingInfo.time
             result_center.text = bookingInfo.center
         }
 
