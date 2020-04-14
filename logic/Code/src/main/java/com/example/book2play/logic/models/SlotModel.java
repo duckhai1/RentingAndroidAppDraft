@@ -1,6 +1,5 @@
 package com.example.book2play.logic.models;
 
-import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.types.Booking;
 import com.example.book2play.types.Court;
 import com.example.book2play.types.Slot;
@@ -20,7 +19,7 @@ public class SlotModel {
     public SlotModel(String openTime, String closeTime, long minDurationInMinutes) {
         this.openTime = Time.valueOf(openTime);
         this.closeTime = Time.valueOf(closeTime);
-        this.minDuration = minDurationInMinutes * 60 * 1000; // seconds to milliseconds
+        this.minDuration = minDurationInMinutes * 60 * 1000; // minutes to milliseconds
     }
 
     public List<Slot> getAvailableSlots(List<Booking> courtBookings, String cityId, String sportCenterId, String courtId) {
@@ -40,7 +39,7 @@ public class SlotModel {
         return slots;
     }
 
-    public List<Slot> getCityAvailableSlots(Map<Court, List<Booking>> cityBookings, String cityId, Date date) throws MySQLException {
+    public List<Slot> getCityAvailableSlots(Map<Court, List<Booking>> cityBookings, String cityId, Date date) {
         var slots = new ArrayList<Slot>();
         for (var court : cityBookings.keySet()) {
             slots.addAll(getAvailableSlots(

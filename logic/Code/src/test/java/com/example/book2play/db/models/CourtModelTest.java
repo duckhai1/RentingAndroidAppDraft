@@ -1,13 +1,12 @@
 package com.example.book2play.db.models;
 
 import com.example.book2play.db.exceptions.MySQLException;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class CityCenterCourtTest extends ModelTestSetup {
+public class CourtModelTest extends ModelTestSetup {
 
     @Test
     public void createCourtOnEmptyDatabase() throws Exception {
@@ -68,16 +67,16 @@ public class CityCenterCourtTest extends ModelTestSetup {
     }
 
     @Test
-    public void createCourtWithInvalidCityId() throws Exception{
+    public void createCourtWithInvalidCityId() {
         var cityId = "HoChiMinh@";
         var sportCenterId = "DinhHoa";
         var courtId = "courtA";
         var expectedCode = 460;
 
-        try{
+        try {
             CITY.createCity(cityId);
-            SPORT_CENTER.createCityCenter(sportCenterId,cityId);
-            COURT.createCityCenterCourt(courtId,cityId,sportCenterId);
+            SPORT_CENTER.createCityCenter(sportCenterId, cityId);
+            COURT.createCityCenterCourt(courtId, cityId, sportCenterId);
 
             fail("Expecting MySQLException with statusCode " + expectedCode);
         }catch(MySQLException e){
@@ -86,7 +85,7 @@ public class CityCenterCourtTest extends ModelTestSetup {
     }
 
     @Test
-    public void createCourtWithInvalidCenterId() throws Exception{
+    public void createCourtWithInvalidCenterId() {
         var cityId = "HoChiMinh";
         var sportCenterId = "DinhHo@";
         var courtId = "courtA";
@@ -94,8 +93,8 @@ public class CityCenterCourtTest extends ModelTestSetup {
 
         try {
             CITY.createCity(cityId);
-            SPORT_CENTER.createCityCenter(sportCenterId,cityId);
-            COURT.createCityCenterCourt(courtId,cityId,sportCenterId);
+            SPORT_CENTER.createCityCenter(sportCenterId, cityId);
+            COURT.createCityCenterCourt(courtId, cityId, sportCenterId);
             fail("Expecting MySQLException with statusCode " + expectedCode);
         }catch(MySQLException e){
             assertEquals(expectedCode, e.getStatusCode());

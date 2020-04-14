@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class BookingModelTest extends ModelTestSetup {
+public class BookingModelCreateBookingTest extends ModelTestSetup {
 
     private static int BOOKINGS_LIMIT = 3;
 
