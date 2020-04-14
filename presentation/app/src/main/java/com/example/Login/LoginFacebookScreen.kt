@@ -46,7 +46,7 @@ class LoginFacebookScreen : AppCompatActivity() {
 
         button?.setOnClickListener(View.OnClickListener {
             LoginManager.getInstance().logOut()
-            val intent = Intent(this@LoginFacebookScreen, LoginScreen::class.java)
+            val intent = Intent(this@LoginFacebookScreen, LoginFragment::class.java)
             startActivity(intent)
             finish()
         })

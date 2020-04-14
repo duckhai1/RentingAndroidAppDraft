@@ -29,7 +29,7 @@ class ChooseLocationScreen : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.choose_location_screen,container, false)
+        val v = inflater.inflate(R.layout.activity_choose_location,container, false)
 
         citySpinner = v.findViewById(R.id.CitySpinner) as Spinner
         val btnContinue = v.findViewById(R.id.btnContinue) as Button

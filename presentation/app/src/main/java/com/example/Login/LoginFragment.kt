@@ -19,7 +19,7 @@ import org.json.JSONObject
 import java.net.MalformedURLException
 import java.net.URL
 
-class LoginScreen : AppCompatActivity() {
+class LoginFragment : AppCompatActivity() {
     private var loginButton: LoginButton? = null
     private var callbackManager: CallbackManager? = null
     var profile_pic: URL? = null
@@ -63,7 +63,7 @@ class LoginScreen : AppCompatActivity() {
                     val email = bFacebookData.getString("email")
                     val profilepic = bFacebookData.getString("profile_pic")
                     val intent =
-                        Intent(this@LoginScreen, LoginFacebookScreen::class.java)
+                        Intent(this@LoginFragment, LoginFacebookScreen::class.java)
                     intent.putExtra("firstname", firstname)
                     intent.putExtra("lastname", lastname)
                     intent.putExtra("email", email)
