@@ -37,16 +37,18 @@ public class BookingModel extends MySQLModel implements com.example.book2play.db
                 throw new MySQLException("Data not found");
             }
 
-            // TODO: fix
-            // return new Booking(
-            //         rs.getString("bookingId"),
-            //         rs.getDate("bookingDate"),
-            //         rs.getTime("bookingStartTime"),
-            //         rs.getTime("bookingEndTime"),
-            //         rs.getTimestamp("createdAt"),
-            //         rs.getBoolean("isPaid")
-            // );
-            return null;
+            return new Booking(
+                    rs.getString("bookingId"),
+                    rs.getTimestamp("createdAt"),
+                    rs.getDate("bookingDate"),
+                    rs.getTime("bookingStartTime"),
+                    rs.getTime("bookingEndTime"),
+                    rs.getBoolean("isPaid"),
+                    rs.getString("cityId"),
+                    rs.getString("sportCenterId"),
+                    rs.getString("courtId"),
+                    rs.getString("playerId")
+            );
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {

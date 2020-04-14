@@ -14,11 +14,12 @@ BEGIN
 		SET statusCode = 460; -- invalid city id
     ELSE
 		SET statusCode = 200;
-		SELECT bookingId, bookingDate, bookingStartTime, bookingEndTime, createdAt, isPaid
+		SELECT bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId
 		FROM bookings
-		NATURAL JOIN courts
-		NATURAL JOIN sportCenters
-		NATURAL JOIN cities
+			NATURAL JOIN players
+			NATURAL JOIN courts
+			NATURAL JOIN sportCenters
+			NATURAL JOIN cities
 		WHERE cityId = inCityId
 			AND bookingDate = inBookingDate ;
 	END IF;

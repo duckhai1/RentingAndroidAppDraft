@@ -29,16 +29,17 @@ BEGIN
 		SET statusCode = 462; -- invalid court id
     ELSE
 		SET statusCode = 200;
-		SELECT bookingId, bookingStartTime, bookingEndTime, courtId, sportCenterId, cityId
+		SELECT bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId
 		FROM bookings
-		NATURAL JOIN courts
-		NATURAL JOIN sportCenters
-		NATURAL JOIN cities
+			NATURAL JOIN players
+			NATURAL JOIN courts
+			NATURAL JOIN sportCenters
+			NATURAL JOIN cities
 		WHERE cityId = inCityId
 			AND sportCenterId = inSportCenterId
 			AND courtId = inCourtId
 			AND bookingDate = inBookingDate
-			ORDER BY bookingStartTime ASC;
+		ORDER BY bookingStartTime ASC;
 	END IF;
 END//
 

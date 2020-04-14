@@ -13,8 +13,12 @@ BEGIN
 		SET statusCode = 465; -- invalid booking id
 	ELSE
 		SET statusCode = 200; 
-		SELECT bookingId, bookingDate, bookingStartTime, bookingEndTime, createdAt, isPaid
+		SELECT bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId
 		FROM bookings
+			NATURAL JOIN players
+			NATURAL JOIN courts
+			NATURAL JOIN sportCenters
+			NATURAL JOIN cities
 		WHERE bookingId = inBookingId;
 	END IF;
 END//
