@@ -16,15 +16,15 @@ public class SlotModel {
     private final Time OPEN_TIME = Time.valueOf("07:00:00");
     private final Time CLOSE_TIME = Time.valueOf("21:00:00");
     private final long MIN_DURATION = 46 * 60; // seconds (60 minutes)
-    private com.example.book2play.db.models.utils.CourtModel courtModel;
-    private com.example.book2play.db.models.utils.BookingModel bookingModel;
+    private CourtModel courtModel;
+    private BookingModel bookingModel;
 
     public SlotModel(DBManager db) {
         courtModel = new CourtModel(db);
         bookingModel = new BookingModel(db);
     }
 
-    public SlotModel(com.example.book2play.db.models.utils.CourtModel courtModel, com.example.book2play.db.models.utils.BookingModel bookingModel) {
+    public SlotModel(CourtModel courtModel, BookingModel bookingModel) {
         this.courtModel = courtModel;
         this.bookingModel = bookingModel;
     }
