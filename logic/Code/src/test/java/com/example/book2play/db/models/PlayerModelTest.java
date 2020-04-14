@@ -105,7 +105,7 @@ public class PlayerModelTest extends ModelTestSetup {
     public void updatePlayerIdWithNotExistPlayerId() throws Exception {
         var oldPlayerId = "Phat";
         var oldInvalidPlayerId = "Phat@";
-        var newPlayerId = "Tung@";
+        var newPlayerId = "Tung";
         var expectedCode = 464;
 
         PLAYER.createPlayer(oldPlayerId);
