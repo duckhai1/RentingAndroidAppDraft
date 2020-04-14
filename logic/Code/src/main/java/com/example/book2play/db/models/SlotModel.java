@@ -33,23 +33,19 @@ public class SlotModel extends MySQLModel {
             String courtId = courts.get(i).getCourtId();
             ArrayList<Booking> bookings = (ArrayList<Booking>) bookingModel.getBookingsInCourt(cityId, sportCenterId, courtId, date);
 
-            if (bookings.size() == 0) {
-                slots.get(i).add(new Slot(courtId, cityId, sportCenterId, openTime, closeTime));
-            } else {
-                for (Booking booking : bookings) {
-                    Time bookingStartTime = booking.getBookingStartTime();
-                    Time bookingEndTime = booking.getBookingEndTime();
+            for (Booking booking : bookings) {
+                Time bookingStartTime = booking.getBookingStartTime();
+                Time bookingEndTime = booking.getBookingEndTime();
 
-                    if (bookingStartTime.getTime() - availableTime.getTime() >= range) {
-                        slots.get(i).add(new Slot(courtId, cityId, sportCenterId, availableTime, bookingStartTime));
-                        availableTime = bookingEndTime;
-                    }
-                    if (closeTime.getTime() - availableTime.getTime() >= range) {
-                        slots.get(i).add(new Slot(courtId, cityId, sportCenterId, availableTime, closeTime));
-                    }
+                if (bookingStartTime.getTime() - availableTime.getTime() >= range) {
+                    slots.get(i).add(new Slot(courtId, cityId, sportCenterId, availableTime, bookingStartTime));
+                    availableTime = bookingEndTime;
                 }
             }
 
+            if (closeTime.getTime() - availableTime.getTime() >= range) {
+                slots.get(i).add(new Slot(courtId, cityId, sportCenterId, availableTime, closeTime));
+            }
         }
         return slots;
     }
