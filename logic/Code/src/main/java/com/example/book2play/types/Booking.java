@@ -3,6 +3,7 @@ package com.example.book2play.types;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.Objects;
 
 public class Booking {
     private String bookingId;
@@ -77,6 +78,29 @@ public class Booking {
 
     public String getPlayerId() {
         return playerId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookingId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        var other = (Booking) obj;
+        return bookingId.equals(other.getBookingId());
     }
 }
 

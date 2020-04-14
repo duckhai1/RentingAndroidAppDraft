@@ -1,6 +1,7 @@
 package com.example.book2play.types;
 
 import java.sql.Time;
+import java.util.Objects;
 
 public class Slot {
     private String courtId;
@@ -35,5 +36,39 @@ public class Slot {
 
     public Time getEndTime() {
         return endTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Slot(" +
+                courtId + ", " + sportCenterId + ", " + cityId + ", " + startTime + ", " + endTime +
+                ")";
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(courtId, sportCenterId, cityId, startTime, endTime);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        var other = (Slot) obj;
+        return cityId.equals(other.getCityId())
+                && sportCenterId.equals(other.getSportCenterId())
+                && courtId.equals(other.getCourtId())
+                && startTime.equals(other.getStartTime())
+                && endTime.equals(other.getEndTime());
     }
 }

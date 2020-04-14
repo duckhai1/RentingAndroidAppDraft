@@ -10,16 +10,12 @@ CREATE PROCEDURE updatePlayerId (
     OUT statusCode INT
 )
 BEGIN
-    START TRANSACTION;
-
-	IF newPlayerId REGEXP '[^a-zA-Z0-9]+$' THEN
+	IF newPlayerId REGEXP '[^a-zA-Z0-9]+' THEN
 		SET statusCode = 464; -- invalid player id
 	ELSEIF inPlayerId NOT IN (SELECT playerId FROM players) THEN 
-        SIGNAL SQLSTATE '45000'
-            SET MYSQL_ERRNO = 464; -- invalid player id
+		SET statusCode = 464; -- invalid player id
     ELSEIF newPlayerId IN (SELECT playerId FROM players) THEN 
-        SIGNAL SQLSTATE '45000'
-            SET MYSQL_ERRNO = 405; -- player Id already exists
+		SET statusCode = 405; -- invalid player id
     ELSE
         SET statusCode = 200;
         UPDATE players

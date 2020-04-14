@@ -1,15 +1,15 @@
 package com.example.book2play.db.models;
 
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.utils.DBManager;
+import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.utils.DBUtils;
 import com.example.book2play.types.Player;
 
 import java.sql.*;
 
-public class PlayerModel extends MySQLModel implements com.example.book2play.db.models.utils.PlayerModel {
+public class PlayerModel extends MySQLModel implements com.example.book2play.db.PlayerModel {
 
-    public PlayerModel(DBManager db) {
+    public PlayerModel(AppDataSource db) {
         super(db);
     }
 

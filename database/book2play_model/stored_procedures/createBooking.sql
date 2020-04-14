@@ -26,7 +26,7 @@ BEGIN
     SET openTime = '07:00:00';
     SET closeTime = '21:00:00';
 
-	IF inBookingId REGEXP '[^a-zA-Z0-9]+$' THEN
+	IF inBookingId REGEXP '[^a-zA-Z0-9]+' THEN
 		SET statusCode = 465 ; -- invalid booking id 
 	ELSEIF inDate < CURDATE() THEN
 		SET statusCode = 466; -- booking date is invalid (past date)

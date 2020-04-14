@@ -9,16 +9,6 @@ import static org.junit.Assert.fail;
 
 public class CityCenterCourtTest extends ModelTestSetup {
 
-    //create cityId, sportCenterId
-    @Before
-    public void createScenario() throws Exception {
-        var cityId = "HoChiMinh";
-        var sportCenterId = "DinhHoa";
-
-        CITY.createCity(cityId);
-        SPORT_CENTER.createCityCenter(sportCenterId, cityId);
-    }
-
     @Test
     public void createCourtOnEmptyDatabase() throws Exception {
         var courtId = "courtA";

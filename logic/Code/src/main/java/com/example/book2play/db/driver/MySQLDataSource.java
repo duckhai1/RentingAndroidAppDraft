@@ -1,6 +1,6 @@
-package com.example.book2play.db;
+package com.example.book2play.db.driver;
 
-import com.example.book2play.db.utils.DBManager;
+import com.example.book2play.db.AppDataSource;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 import javax.sql.DataSource;
@@ -8,12 +8,12 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class MySQLServer implements DBManager {
+public class MySQLDataSource implements AppDataSource {
     private String url;
     private Properties props;
     private DataSource ds;
 
-    public MySQLServer(Properties props) {
+    public MySQLDataSource(Properties props) {
         setupDataSource(props);
         this.props = props;
     }

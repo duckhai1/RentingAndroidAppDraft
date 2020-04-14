@@ -1,5 +1,7 @@
 package com.example.book2play.types;
 
+import java.util.Objects;
+
 public class SportCenter {
     private String sportCenterId;
     private String cityId;
@@ -15,5 +17,29 @@ public class SportCenter {
 
     public String getCityId() {
         return cityId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cityId, sportCenterId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        var other = (SportCenter) obj;
+        return cityId.equals(other.getCityId())
+                && sportCenterId.equals(other.getSportCenterId());
     }
 }

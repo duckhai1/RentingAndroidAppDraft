@@ -11,7 +11,7 @@ CREATE PROCEDURE createStaff (
     OUT statusCode INT
 )
 BEGIN
-	IF inStaffId REGEXP '[^a-zA-Z0-9]+$' THEN
+	IF inStaffId REGEXP '[^a-zA-Z0-9]+' THEN
 		SET statusCode = 463; -- invalid staff id 
 	ELSEIF inCityId NOT IN (SELECT cityId FROM cities) THEN
 		SET statusCode = 460; -- invalid city id

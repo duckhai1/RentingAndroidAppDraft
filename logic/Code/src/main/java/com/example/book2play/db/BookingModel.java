@@ -1,4 +1,4 @@
-package com.example.book2play.db.models.utils;
+package com.example.book2play.db;
 
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.types.Booking;

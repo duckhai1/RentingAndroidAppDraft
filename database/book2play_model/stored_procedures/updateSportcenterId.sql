@@ -11,7 +11,7 @@ CREATE PROCEDURE updateSportCenterId (
     OUT statusCode INT
 )
 BEGIN
-	IF newSportCenterId REGEXP '[^a-zA-Z0-9]+$' THEN
+	IF newSportCenterId REGEXP '[^a-zA-Z0-9]+' THEN
 		SET statusCode = 461; -- invalid sportCenter id 
 	ELSEIF inCityId NOT IN (SELECT cityId FROM cities) THEN
 		SET statusCode = 460; -- invalid city id

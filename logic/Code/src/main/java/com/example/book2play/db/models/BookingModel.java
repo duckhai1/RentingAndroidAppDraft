@@ -1,16 +1,16 @@
 package com.example.book2play.db.models;
 
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.utils.DBManager;
+import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.utils.DBUtils;
 import com.example.book2play.types.Booking;
 
 import java.sql.*;
 import java.util.Collection;
 
-public class BookingModel extends MySQLModel implements com.example.book2play.db.models.utils.BookingModel {
+public class BookingModel extends MySQLModel implements com.example.book2play.db.BookingModel {
 
-    public BookingModel(DBManager db) {
+    public BookingModel(AppDataSource db) {
         super(db);
     }
 

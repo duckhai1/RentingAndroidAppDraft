@@ -1,13 +1,12 @@
 package com.example.book2play.db.models;
 
 import com.example.book2play.App;
-import com.example.book2play.db.MySQLServer;
+import com.example.book2play.db.driver.MySQLDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
 import java.io.InputStream;
-import java.util.Calendar;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -21,7 +20,7 @@ public abstract class ModelTestSetup {
     protected static PlayerModel PLAYER;
     protected static SportCenterModel SPORT_CENTER;
     protected static StaffModel STAFF;
-    protected static MySQLServer DB;
+    protected static MySQLDataSource DB;
 
     @BeforeClass
     public static void setupTest() {
@@ -35,7 +34,7 @@ public abstract class ModelTestSetup {
             LOG.warning("Could not get configurations for the test database");
         }
 
-        DB = new MySQLServer(mySqlProps);
+        DB = new MySQLDataSource(mySqlProps);
 
         BOOKING = new BookingModel(DB);
         CITY = new CityModel(DB);
@@ -55,35 +54,6 @@ public abstract class ModelTestSetup {
         STAFF.clearStaff();
     }
 
-    protected java.sql.Timestamp getTimestamp() {
-        var cal = Calendar.getInstance();
-        cal.setTime(new java.util.Date());
-
-        var date = new java.sql.Timestamp(cal.getTimeInMillis());
-        LOG.info("getDate() " + date);
-        return date;
-    }
-
-    protected java.sql.Date getDate(int delta) {
-        var cal = Calendar.getInstance();
-        cal.setTime(new java.util.Date());
-        cal.add(Calendar.DATE, delta);
-
-        var date = new java.sql.Date(cal.getTimeInMillis());
-        LOG.info("getDate() " + date);
-        return date;
-    }
-
-    protected java.sql.Time getTime(int hours, int minutes, int seconds) {
-        var cal = Calendar.getInstance();
-        cal.set(Calendar.HOUR_OF_DAY, hours);
-        cal.set(Calendar.MINUTE, minutes);
-        cal.set(Calendar.SECOND, seconds);
-
-        var time = new java.sql.Time(cal.getTimeInMillis());
-        LOG.info("getTime() " + time);
-        return time;
-    }
 
 
 }

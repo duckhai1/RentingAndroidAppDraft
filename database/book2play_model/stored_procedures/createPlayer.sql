@@ -9,7 +9,7 @@ CREATE PROCEDURE createPlayer (
     OUT statusCode INT
 )
 BEGIN
-	IF inPlayerId REGEXP '[^a-zA-Z0-9]+$' THEN
+	IF inPlayerId REGEXP '[^a-zA-Z0-9]+' THEN
 		SET statusCode = 464; -- invalid player id 
 	ELSEIF inPlayerId IN (SELECT playerId FROM players) THEN
 		SET statusCode = 405; -- Player already exists

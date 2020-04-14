@@ -1,15 +1,15 @@
 package com.example.book2play.db.models;
 
-import com.example.book2play.db.utils.DBManager;
+import com.example.book2play.db.AppDataSource;
 
 import java.util.logging.Logger;
 
 class MySQLModel {
 
     final static protected Logger LOG = Logger.getLogger("DB_MODEL");
-    protected DBManager db;
+    protected AppDataSource db;
 
-    public MySQLModel(DBManager db) {
+    public MySQLModel(AppDataSource db) {
         this.db = db;
     }
 }

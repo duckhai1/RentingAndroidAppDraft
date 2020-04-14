@@ -13,32 +13,43 @@ import java.util.Map;
 
 public class SlotModel {
 
-    private final Time OPEN_TIME = Time.valueOf("07:00:00");
-    private final Time CLOSE_TIME = Time.valueOf("21:00:00");
-    private final long MIN_DURATION = 46 * 60; // seconds (60 minutes)
+    private final Time openTime;
+    private final Time closeTime;
+    private final long minDuration; // milliseconds
+
+    public SlotModel(String openTime, String closeTime, long minDurationInMinutes) {
+        this.openTime = Time.valueOf(openTime);
+        this.closeTime = Time.valueOf(closeTime);
+        this.minDuration = minDurationInMinutes * 60 * 1000; // seconds to milliseconds
+    }
 
     public List<Slot> getAvailableSlots(List<Booking> courtBookings, String cityId, String sportCenterId, String courtId) {
         var slots = new ArrayList<Slot>();
-        var prevEndTime = OPEN_TIME;
+        var prevEndTime = openTime;
         for (var booking : courtBookings) {
             var currStartTime = booking.getBookingStartTime();
-            if (currStartTime.getTime() - prevEndTime.getTime() >= MIN_DURATION) {
+            if (currStartTime.getTime() - prevEndTime.getTime() >= minDuration) {
                 slots.add(new Slot(courtId, sportCenterId, cityId, prevEndTime, currStartTime));
             }
             prevEndTime = booking.getBookingEndTime();
         }
 
-        if (CLOSE_TIME.getTime() - prevEndTime.getTime() >= MIN_DURATION) {
-            slots.add(new Slot(courtId, sportCenterId, cityId, prevEndTime, CLOSE_TIME));
+        if (closeTime.getTime() - prevEndTime.getTime() >= minDuration) {
+            slots.add(new Slot(courtId, sportCenterId, cityId, prevEndTime, closeTime));
         }
         return slots;
     }
 
     public List<Slot> getCityAvailableSlots(Map<Court, List<Booking>> cityBookings, String cityId, Date date) throws MySQLException {
         var slots = new ArrayList<Slot>();
-        // for (var court : courts) {
-        //     slots.addAll(getAvailableSlots(cityId, court.getSportCenterId(), court.getCourtId(), date));
-        // }
+        for (var court : cityBookings.keySet()) {
+            slots.addAll(getAvailableSlots(
+                    cityBookings.get(court),
+                    court.getCityId(),
+                    court.getSportCenterId(),
+                    court.getCourtId()
+            ));
+        }
         return slots;
     }
 }

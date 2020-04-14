@@ -1,6 +1,6 @@
 package com.example.book2play;
 
-import com.example.book2play.db.MySQLServer;
+import com.example.book2play.db.driver.MySQLDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.CityModel;
 
@@ -32,7 +32,7 @@ public class App {
     public void runExample() {
         LOG.info("Connection to MySQL database at " + mySqlProps.getProperty("url"));
 
-        var srv = new MySQLServer(mySqlProps);
+        var srv = new MySQLDataSource(mySqlProps);
         var cityModel = new CityModel(srv);
 
         try {

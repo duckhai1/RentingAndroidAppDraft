@@ -1,16 +1,16 @@
 package com.example.book2play.db.models;
 
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.utils.DBManager;
+import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.utils.DBUtils;
 import com.example.book2play.types.Court;
 
 import java.sql.*;
 import java.util.Collection;
 
-public class CourtModel extends MySQLModel implements com.example.book2play.db.models.utils.CourtModel {
+public class CourtModel extends MySQLModel implements com.example.book2play.db.CourtModel {
 
-    public CourtModel(DBManager db) {
+    public CourtModel(AppDataSource db) {
         super(db);
     }
 

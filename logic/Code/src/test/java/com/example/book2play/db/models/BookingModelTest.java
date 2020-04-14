@@ -1,6 +1,7 @@
 package com.example.book2play.db.models;
 
 import com.example.book2play.db.exceptions.MySQLException;
+import com.example.book2play.utils.TimeUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,10 +25,10 @@ public class BookingModelTest extends ModelTestSetup {
         for (int i = 0; i < BOOKINGS_LIMIT; i++) {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice" + i,
-                    getTimestamp(),
-                    getDate(7 + i),
-                    getTime(11, 0, 0),
-                    getTime(12, 0, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7 + i),
+                    TimeUtils.getTime(11, 0, 0),
+                    TimeUtils.getTime(12, 0, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
         }
@@ -38,20 +39,20 @@ public class BookingModelTest extends ModelTestSetup {
         final int EXPECTED_CODE = 407;
         BOOKING.createBooking(
                 "HCMQ1Court1Alice",
-                getTimestamp(),
-                getDate(7),
-                getTime(11, 0, 0),
-                getTime(12, 0, 0),
+                TimeUtils.getTimestamp(),
+                TimeUtils.getDate(7),
+                TimeUtils.getTime(11, 0, 0),
+                TimeUtils.getTime(12, 0, 0),
                 "HCM", "Q1", "Court1", "Alice"
         );
 
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice",
-                    getTimestamp(),
-                    getDate(8),
-                    getTime(11, 0, 0),
-                    getTime(12, 0, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(8),
+                    TimeUtils.getTime(11, 0, 0),
+                    TimeUtils.getTime(12, 0, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -67,10 +68,10 @@ public class BookingModelTest extends ModelTestSetup {
         for (int i = 0; i < BOOKINGS_LIMIT; i++) {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice" + i,
-                    getTimestamp(),
-                    getDate(7 + i),
-                    getTime(11, 0, 0),
-                    getTime(12, 0, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7 + i),
+                    TimeUtils.getTime(11, 0, 0),
+                    TimeUtils.getTime(12, 0, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
         }
@@ -78,10 +79,10 @@ public class BookingModelTest extends ModelTestSetup {
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice" + (BOOKINGS_LIMIT + 1),
-                    getTimestamp(),
-                    getDate(7 + BOOKINGS_LIMIT + 1),
-                    getTime(11, 0, 0),
-                    getTime(12, 0, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7 + BOOKINGS_LIMIT + 1),
+                    TimeUtils.getTime(11, 0, 0),
+                    TimeUtils.getTime(12, 0, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -95,19 +96,19 @@ public class BookingModelTest extends ModelTestSetup {
     public void testCreateABookingWhenPlayerHasOnePaidPastBooking() throws Exception {
         rawInsertBooking(
                 "HCMQ1Court1Alice1",
-                getDate(-7),
-                getTime(11, 0, 0),
-                getTime(12, 0, 0),
+                TimeUtils.getDate(-7),
+                TimeUtils.getTime(11, 0, 0),
+                TimeUtils.getTime(12, 0, 0),
                 true,
                 "HCM", "Q1", "Court1", "Alice"
         );
 
         BOOKING.createBooking(
                 "HCMQ1Court1Alice2",
-                getTimestamp(),
-                getDate(7),
-                getTime(11, 0, 0),
-                getTime(12, 0, 0),
+                TimeUtils.getTimestamp(),
+                TimeUtils.getDate(7),
+                TimeUtils.getTime(11, 0, 0),
+                TimeUtils.getTime(12, 0, 0),
                 "HCM", "Q1", "Court1", "Alice"
         );
     }
@@ -119,9 +120,9 @@ public class BookingModelTest extends ModelTestSetup {
 
         rawInsertBooking(
                 "HCMQ1Court1Alice1",
-                getDate(-7),
-                getTime(11, 0, 0),
-                getTime(12, 0, 0),
+                TimeUtils.getDate(-7),
+                TimeUtils.getTime(11, 0, 0),
+                TimeUtils.getTime(12, 0, 0),
                 false,
                 "HCM", "Q1", "Court1", "Alice"
         );
@@ -129,10 +130,10 @@ public class BookingModelTest extends ModelTestSetup {
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice2",
-                    getTimestamp(),
-                    getDate(7),
-                    getTime(11, 0, 0),
-                    getTime(12, 0, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7),
+                    TimeUtils.getTime(11, 0, 0),
+                    TimeUtils.getTime(12, 0, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -146,10 +147,10 @@ public class BookingModelTest extends ModelTestSetup {
         for (int i = 0; i < BOOKINGS_LIMIT; i++) {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice" + i,
-                    getTimestamp(),
-                    getDate(7),
-                    getTime(9 + i, 0, 0),
-                    getTime(10 + i, 0, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7),
+                    TimeUtils.getTime(9 + i, 0, 0),
+                    TimeUtils.getTime(10 + i, 0, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
         }
@@ -160,20 +161,20 @@ public class BookingModelTest extends ModelTestSetup {
         final int EXPECTED_CODE = 413;
         BOOKING.createBooking(
                 "HCMQ1Court1Alice1",
-                getTimestamp(),
-                getDate(7),
-                getTime(9, 0, 0),
-                getTime(10, 30, 0),
+                TimeUtils.getTimestamp(),
+                TimeUtils.getDate(7),
+                TimeUtils.getTime(9, 0, 0),
+                TimeUtils.getTime(10, 30, 0),
                 "HCM", "Q1", "Court1", "Alice"
         );
 
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice2",
-                    getTimestamp(),
-                    getDate(7),
-                    getTime(10, 0, 0),
-                    getTime(11, 30, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7),
+                    TimeUtils.getTime(10, 0, 0),
+                    TimeUtils.getTime(11, 30, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -187,20 +188,20 @@ public class BookingModelTest extends ModelTestSetup {
         final int EXPECTED_CODE = 413;
         BOOKING.createBooking(
                 "HCMQ1Court1Alice1",
-                getTimestamp(),
-                getDate(7),
-                getTime(9, 0, 0),
-                getTime(10, 30, 0),
+                TimeUtils.getTimestamp(),
+                TimeUtils.getDate(7),
+                TimeUtils.getTime(9, 0, 0),
+                TimeUtils.getTime(10, 30, 0),
                 "HCM", "Q1", "Court1", "Alice"
         );
 
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice2",
-                    getTimestamp(),
-                    getDate(7),
-                    getTime(8, 30, 0),
-                    getTime(10, 0, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7),
+                    TimeUtils.getTime(8, 30, 0),
+                    TimeUtils.getTime(10, 0, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -214,20 +215,20 @@ public class BookingModelTest extends ModelTestSetup {
         final int EXPECTED_CODE = 413;
         BOOKING.createBooking(
                 "HCMQ1Court1Alice1",
-                getTimestamp(),
-                getDate(7),
-                getTime(9, 0, 0),
-                getTime(10, 30, 0),
+                TimeUtils.getTimestamp(),
+                TimeUtils.getDate(7),
+                TimeUtils.getTime(9, 0, 0),
+                TimeUtils.getTime(10, 30, 0),
                 "HCM", "Q1", "Court1", "Alice"
         );
 
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice2",
-                    getTimestamp(),
-                    getDate(7),
-                    getTime(9, 0, 0),
-                    getTime(10, 30, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7),
+                    TimeUtils.getTime(9, 0, 0),
+                    TimeUtils.getTime(10, 30, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -241,20 +242,20 @@ public class BookingModelTest extends ModelTestSetup {
         final int EXPECTED_CODE = 413;
         BOOKING.createBooking(
                 "HCMQ1Court1Alice1",
-                getTimestamp(),
-                getDate(7),
-                getTime(9, 0, 0),
-                getTime(10, 30, 0),
+                TimeUtils.getTimestamp(),
+                TimeUtils.getDate(7),
+                TimeUtils.getTime(9, 0, 0),
+                TimeUtils.getTime(10, 30, 0),
                 "HCM", "Q1", "Court1", "Alice"
         );
 
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice2",
-                    getTimestamp(),
-                    getDate(7),
-                    getTime(9, 0, 0),
-                    getTime(10, 0, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7),
+                    TimeUtils.getTime(9, 0, 0),
+                    TimeUtils.getTime(10, 0, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -268,20 +269,20 @@ public class BookingModelTest extends ModelTestSetup {
         final int EXPECTED_CODE = 413;
         BOOKING.createBooking(
                 "HCMQ1Court1Alice1",
-                getTimestamp(),
-                getDate(7),
-                getTime(9, 0, 0),
-                getTime(10, 30, 0),
+                TimeUtils.getTimestamp(),
+                TimeUtils.getDate(7),
+                TimeUtils.getTime(9, 0, 0),
+                TimeUtils.getTime(10, 30, 0),
                 "HCM", "Q1", "Court1", "Alice"
         );
 
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice2",
-                    getTimestamp(),
-                    getDate(7),
-                    getTime(9, 30, 0),
-                    getTime(10, 30, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7),
+                    TimeUtils.getTime(9, 30, 0),
+                    TimeUtils.getTime(10, 30, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -297,10 +298,10 @@ public class BookingModelTest extends ModelTestSetup {
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice1",
-                    getTimestamp(),
-                    getDate(7),
-                    getTime(9, 30, 0),
-                    getTime(10, 30, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7),
+                    TimeUtils.getTime(9, 30, 0),
+                    TimeUtils.getTime(10, 30, 0),
                     "HaNoi", "Q1", "Court1", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -316,10 +317,10 @@ public class BookingModelTest extends ModelTestSetup {
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice1",
-                    getTimestamp(),
-                    getDate(7),
-                    getTime(9, 30, 0),
-                    getTime(10, 30, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7),
+                    TimeUtils.getTime(9, 30, 0),
+                    TimeUtils.getTime(10, 30, 0),
                     "HCM", "Q13", "Court1", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -335,10 +336,10 @@ public class BookingModelTest extends ModelTestSetup {
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice1",
-                    getTimestamp(),
-                    getDate(7),
-                    getTime(9, 30, 0),
-                    getTime(10, 30, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7),
+                    TimeUtils.getTime(9, 30, 0),
+                    TimeUtils.getTime(10, 30, 0),
                     "HCM", "Q1", "Court2", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -354,10 +355,10 @@ public class BookingModelTest extends ModelTestSetup {
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Bob1",
-                    getTimestamp(),
-                    getDate(7),
-                    getTime(9, 30, 0),
-                    getTime(10, 30, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7),
+                    TimeUtils.getTime(9, 30, 0),
+                    TimeUtils.getTime(10, 30, 0),
                     "HCM", "Q1", "Court1", "Bob"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -373,10 +374,10 @@ public class BookingModelTest extends ModelTestSetup {
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice1",
-                    getTimestamp(),
-                    getDate(-7),
-                    getTime(9, 30, 0),
-                    getTime(10, 30, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(-7),
+                    TimeUtils.getTime(9, 30, 0),
+                    TimeUtils.getTime(10, 30, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -392,10 +393,10 @@ public class BookingModelTest extends ModelTestSetup {
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice1",
-                    getTimestamp(),
-                    getDate(7),
-                    getTime(9, 0, 0),
-                    getTime(9, 30, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7),
+                    TimeUtils.getTime(9, 0, 0),
+                    TimeUtils.getTime(9, 30, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -410,10 +411,10 @@ public class BookingModelTest extends ModelTestSetup {
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice1",
-                    getTimestamp(),
-                    getDate(7),
-                    getTime(9, 0, 0),
-                    getTime(11, 0, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7),
+                    TimeUtils.getTime(9, 0, 0),
+                    TimeUtils.getTime(11, 0, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -429,10 +430,10 @@ public class BookingModelTest extends ModelTestSetup {
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice1",
-                    getTimestamp(),
-                    getDate(7),
-                    getTime(9, 10, 0),
-                    getTime(10, 30, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7),
+                    TimeUtils.getTime(9, 10, 0),
+                    TimeUtils.getTime(10, 30, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -448,10 +449,10 @@ public class BookingModelTest extends ModelTestSetup {
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice1",
-                    getTimestamp(),
-                    getDate(7),
-                    getTime(6, 0, 0),
-                    getTime(7, 30, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7),
+                    TimeUtils.getTime(6, 0, 0),
+                    TimeUtils.getTime(7, 30, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -467,10 +468,10 @@ public class BookingModelTest extends ModelTestSetup {
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice1",
-                    getTimestamp(),
-                    getDate(7),
-                    getTime(9, 0, 0),
-                    getTime(10, 20, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7),
+                    TimeUtils.getTime(9, 0, 0),
+                    TimeUtils.getTime(10, 20, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -486,10 +487,10 @@ public class BookingModelTest extends ModelTestSetup {
         try {
             BOOKING.createBooking(
                     "HCMQ1Court1Alice1",
-                    getTimestamp(),
-                    getDate(7),
-                    getTime(20, 0, 0),
-                    getTime(21, 30, 0),
+                    TimeUtils.getTimestamp(),
+                    TimeUtils.getDate(7),
+                    TimeUtils.getTime(20, 0, 0),
+                    TimeUtils.getTime(21, 30, 0),
                     "HCM", "Q1", "Court1", "Alice"
             );
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
@@ -537,7 +538,7 @@ public class BookingModelTest extends ModelTestSetup {
                 "bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, courtPk, playerPk" +
                 ")" + " VALUES " + "(?, ?, ?, ?, ?, ?, ?, ?)");
         stmt.setString(1, "HCMQ1Court1Alice1");
-        stmt.setTimestamp(2, getTimestamp());
+        stmt.setTimestamp(2, TimeUtils.getTimestamp());
         stmt.setDate(3, bookingDate);
         stmt.setTime(4, bookingStartTime);
         stmt.setTime(5, bookingEndTime);

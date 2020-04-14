@@ -31,10 +31,10 @@ BEGIN
 		SET statusCode = 463; -- staff id does not exists
     ELSE
 		SET statusCode = 200;
-		SELECT staffId, sportCenterId
+		SELECT staffId, sportCenterId, cityId
 		FROM staffs
-		NATURAL JOIN sportCenters
-		NATURAL JOIN cities
+			NATURAL JOIN sportCenters
+			NATURAL JOIN cities
 		WHERE cityId = inCityId
 			AND sportCenterId = inSportCenterId
 			AND staffId = inStaffId;
