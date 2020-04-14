@@ -1,4 +1,4 @@
-package com.example.book2play.db.types;
+package com.example.book2play.types;
 
 import java.sql.Date;
 import java.sql.Time;

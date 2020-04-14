@@ -1,9 +1,9 @@
 package com.example.book2play.db.models;
 
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.types.City;
 import com.example.book2play.db.utils.DBManager;
 import com.example.book2play.db.utils.DBUtils;
+import com.example.book2play.types.City;
 
 import java.sql.*;
 import java.util.Collection;

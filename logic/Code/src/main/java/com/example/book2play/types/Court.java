@@ -1,4 +1,4 @@
-package com.example.book2play.db.types;
+package com.example.book2play.types;
 
 public class Court {
     private String courtId;

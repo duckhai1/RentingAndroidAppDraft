@@ -1,4 +1,4 @@
-package com.example.book2play.logic.types;
+package com.example.book2play.types;
 
 import java.sql.Time;
 

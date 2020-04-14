@@ -1,7 +1,7 @@
 package com.example.book2play.db.models.utils;
 
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.types.Booking;
+import com.example.book2play.types.Booking;
 
 import java.sql.Date;
 import java.sql.Time;

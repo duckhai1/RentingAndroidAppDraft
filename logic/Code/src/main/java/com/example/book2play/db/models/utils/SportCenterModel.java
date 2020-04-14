@@ -1,7 +1,7 @@
 package com.example.book2play.db.models.utils;
 
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.types.SportCenter;
+import com.example.book2play.types.SportCenter;
 
 public interface SportCenterModel {
 

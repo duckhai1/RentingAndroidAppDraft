@@ -1,9 +1,9 @@
 package com.example.book2play.db.models;
 
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.types.Staff;
 import com.example.book2play.db.utils.DBManager;
 import com.example.book2play.db.utils.DBUtils;
+import com.example.book2play.types.Staff;
 
 import java.sql.*;
 
@@ -34,7 +34,7 @@ public class StaffModel extends MySQLModel implements com.example.book2play.db.m
                 throw new MySQLException(statusCode);
             }
 
-            return new com.example.book2play.db.types.Staff(
+            return new com.example.book2play.types.Staff(
                     rs.getString("staffId"),
                     rs.getString("sportCenterId")
             );

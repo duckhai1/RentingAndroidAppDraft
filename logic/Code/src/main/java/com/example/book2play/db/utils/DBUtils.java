@@ -1,8 +1,8 @@
 package com.example.book2play.db.utils;
 
-import com.example.book2play.db.types.Booking;
-import com.example.book2play.db.types.City;
-import com.example.book2play.db.types.Court;
+import com.example.book2play.types.Booking;
+import com.example.book2play.types.City;
+import com.example.book2play.types.Court;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -20,11 +20,15 @@ public class DBUtils {
         while (rs.next()) {
             bookings.add(new Booking(
                     rs.getString("bookingId"),
+                    rs.getTimestamp("createdAt"),
                     rs.getDate("bookingDate"),
                     rs.getTime("bookingStartTime"),
                     rs.getTime("bookingEndTime"),
-                    rs.getTimestamp("createdAt"),
-                    rs.getBoolean("isPaid")
+                    rs.getBoolean("isPaid"),
+                    rs.getString("cityId"),
+                    rs.getString("sportCenterId"),
+                    rs.getString("courtId"),
+                    rs.getString("playerId")
             ));
         }
         return bookings;
