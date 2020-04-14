@@ -1,8 +1,9 @@
 package com.example.book2play.db.models;
 
-import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.AppDataSource;
+import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.utils.DBUtils;
+import com.example.book2play.types.City;
 import com.example.book2play.types.SportCenter;
 
 import java.sql.*;
@@ -33,9 +34,9 @@ public class SportCenterModel extends MySQLModel implements com.example.book2pla
                 throw new MySQLException(statusCode);
             }
 
-            return new com.example.book2play.types.SportCenter(
+            return new SportCenter(
                     rs.getString("sportCenterId"),
-                    rs.getString("cityId")
+                    new City(rs.getString("cityId"))
             );
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);

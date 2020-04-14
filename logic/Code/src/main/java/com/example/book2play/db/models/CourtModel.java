@@ -1,7 +1,7 @@
 package com.example.book2play.db.models;
 
-import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.AppDataSource;
+import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.utils.DBUtils;
 import com.example.book2play.types.Court;
 
@@ -38,12 +38,7 @@ public class CourtModel extends MySQLModel implements com.example.book2play.db.C
             if (!rs.next()) {
                 throw new MySQLException("Data not found");
             }
-
-            return new com.example.book2play.types.Court(
-                    rs.getString("courtId"),
-                    rs.getString("cityId"),
-                    rs.getString("sportCenterId")
-            );
+            return DBUtils.singleCourtFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {

@@ -1,7 +1,7 @@
 package com.example.book2play.db.models;
 
-import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.AppDataSource;
+import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.utils.DBUtils;
 import com.example.book2play.types.Booking;
 
@@ -37,18 +37,7 @@ public class BookingModel extends MySQLModel implements com.example.book2play.db
                 throw new MySQLException("Data not found");
             }
 
-            return new Booking(
-                    rs.getString("bookingId"),
-                    rs.getTimestamp("createdAt"),
-                    rs.getDate("bookingDate"),
-                    rs.getTime("bookingStartTime"),
-                    rs.getTime("bookingEndTime"),
-                    rs.getBoolean("isPaid"),
-                    rs.getString("cityId"),
-                    rs.getString("sportCenterId"),
-                    rs.getString("courtId"),
-                    rs.getString("playerId")
-            );
+            return DBUtils.singleBookingFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {

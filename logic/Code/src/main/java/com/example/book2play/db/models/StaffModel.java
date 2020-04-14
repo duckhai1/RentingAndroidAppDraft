@@ -1,7 +1,7 @@
 package com.example.book2play.db.models;
 
-import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.AppDataSource;
+import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.utils.DBUtils;
 import com.example.book2play.types.Staff;
 
@@ -34,11 +34,10 @@ public class StaffModel extends MySQLModel implements com.example.book2play.db.S
                 throw new MySQLException(statusCode);
             }
 
-            return new Staff(
-                    rs.getString("staffId"),
-                    rs.getString("sportCenterId"),
-                    rs.getString("cityId")
-            );
+            if (!rs.next()) {
+                throw new MySQLException("Data not found");
+            }
+            return DBUtils.singleStaffFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
         } finally {

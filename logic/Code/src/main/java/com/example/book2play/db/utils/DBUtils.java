@@ -1,8 +1,6 @@
 package com.example.book2play.db.utils;
 
-import com.example.book2play.types.Booking;
-import com.example.book2play.types.City;
-import com.example.book2play.types.Court;
+import com.example.book2play.types.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -15,45 +13,63 @@ import java.util.logging.Logger;
 public class DBUtils {
     private final static Logger LOG = Logger.getLogger("UTILS");
 
+    public static Booking singleBookingFromResultSet(ResultSet rs) throws SQLException {
+        return new Booking(
+                rs.getString("bookingId"),
+                rs.getTimestamp("createdAt"),
+                rs.getDate("bookingDate"),
+                rs.getTime("bookingStartTime"),
+                rs.getTime("bookingEndTime"),
+                rs.getBoolean("isPaid"),
+                new Court(rs.getString("courtId"),
+                        new SportCenter(rs.getString("sportCenterId"),
+                                new City(rs.getString("cityId")))),
+                new Player(rs.getString("playerId"))
+        );
+    }
+
     public static Collection<Booking> bookingsFromResultSet(ResultSet rs) throws SQLException {
         var bookings = new LinkedList<Booking>();
         while (rs.next()) {
-            bookings.add(new Booking(
-                    rs.getString("bookingId"),
-                    rs.getTimestamp("createdAt"),
-                    rs.getDate("bookingDate"),
-                    rs.getTime("bookingStartTime"),
-                    rs.getTime("bookingEndTime"),
-                    rs.getBoolean("isPaid"),
-                    rs.getString("cityId"),
-                    rs.getString("sportCenterId"),
-                    rs.getString("courtId"),
-                    rs.getString("playerId")
-            ));
+            bookings.add(singleBookingFromResultSet(rs));
         }
         return bookings;
+    }
+
+    public static City singleCityFromResultSet(ResultSet rs) throws SQLException {
+        return new City(rs.getString("cityId"));
     }
 
     public static Collection<City> citiesFromResultSet(ResultSet rs) throws SQLException {
         var cities = new LinkedList<City>();
         while (rs.next()) {
-            cities.add(new City(
-                    rs.getString("cityId")
-            ));
+            cities.add(singleCityFromResultSet(rs));
         }
         return cities;
+    }
+
+    public static Court singleCourtFromResultSet(ResultSet rs) throws SQLException {
+        return new Court(
+                rs.getString("courtId"),
+                new SportCenter(rs.getString("sportCenterId"),
+                        new City(rs.getString("cityId")))
+        );
     }
 
     public static Collection<Court> courtsFromResultSet(ResultSet rs) throws SQLException {
         var courts = new LinkedList<Court>();
         while (rs.next()) {
-            courts.add(new Court(
-                    rs.getString("courtId"),
-                    rs.getString("cityId"),
-                    rs.getString("sportCenterId")
-            ));
+            courts.add(singleCourtFromResultSet(rs));
         }
         return courts;
+    }
+
+    public static Staff singleStaffFromResultSet(ResultSet rs) throws SQLException {
+        return new Staff(
+                rs.getString("staffId"),
+                new SportCenter(rs.getString("sportCenterId"),
+                        new City(rs.getString("cityId")))
+        );
     }
 
     public static void quietCloseConnection(Connection conn) {

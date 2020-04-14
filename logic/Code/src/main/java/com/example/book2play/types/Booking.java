@@ -12,10 +12,8 @@ public class Booking {
     private Time bookingStartTime;
     private Time bookingEndTime;
     private boolean isPaid;
-    private String courtId;
-    private String sportCenterId;
-    private String cityId;
-    private String playerId;
+    private Court court;
+    private Player player;
 
     public Booking(String bookingId,
                    Timestamp createdAt,
@@ -23,10 +21,8 @@ public class Booking {
                    Time bookingStartTime,
                    Time bookingEndTime,
                    boolean isPaid,
-                   String cityId,
-                   String sportCenterId,
-                   String courtId,
-                   String playerId
+                   Court court,
+                   Player player
     ) {
         this.bookingId = bookingId;
         this.createdAt = createdAt;
@@ -34,10 +30,8 @@ public class Booking {
         this.bookingStartTime = bookingStartTime;
         this.bookingEndTime = bookingEndTime;
         this.isPaid = isPaid;
-        this.cityId = cityId;
-        this.sportCenterId = sportCenterId;
-        this.courtId = courtId;
-        this.playerId = playerId;
+        this.court = court;
+        this.player = player;
     }
 
     public String getBookingId() {
@@ -64,20 +58,12 @@ public class Booking {
         return isPaid;
     }
 
-    public String getCourtId() {
-        return courtId;
+    public Court getCourt() {
+        return court;
     }
 
-    public String getSportCenterId() {
-        return sportCenterId;
-    }
-
-    public String getCityId() {
-        return cityId;
-    }
-
-    public String getPlayerId() {
-        return playerId;
+    public Player getPlayer() {
+        return player;
     }
 
     @Override

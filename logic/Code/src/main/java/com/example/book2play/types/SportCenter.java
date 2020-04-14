@@ -4,24 +4,24 @@ import java.util.Objects;
 
 public class SportCenter {
     private String sportCenterId;
-    private String cityId;
+    private City city;
 
-    public SportCenter(String sportCenterId, String cityId) {
+    public SportCenter(String sportCenterId, City city) {
         this.sportCenterId = sportCenterId;
-        this.cityId = cityId;
+        this.city = city;
     }
 
     public String getSportCenterId() {
         return sportCenterId;
     }
 
-    public String getCityId() {
-        return cityId;
+    public City getCity() {
+        return city;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(cityId, sportCenterId);
+        return Objects.hash(city, sportCenterId);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class SportCenter {
         }
 
         var other = (SportCenter) obj;
-        return cityId.equals(other.getCityId())
+        return city.equals(other.getCity())
                 && sportCenterId.equals(other.getSportCenterId());
     }
 }

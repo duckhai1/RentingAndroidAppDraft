@@ -4,30 +4,18 @@ import java.sql.Time;
 import java.util.Objects;
 
 public class Slot {
-    private String courtId;
-    private String sportCenterId;
-    private String cityId;
+    private Court court;
     private Time startTime;
     private Time endTime;
 
-    public Slot(String courtId, String sportCenterId, String cityId, Time startTime, Time endTime) {
-        this.courtId = courtId;
-        this.sportCenterId = sportCenterId;
-        this.cityId = cityId;
+    public Slot(Court court, Time startTime, Time endTime) {
+        this.court = court;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
-    public String getCourtId() {
-        return courtId;
-    }
-
-    public String getSportCenterId() {
-        return sportCenterId;
-    }
-
-    public String getCityId() {
-        return cityId;
+    public Court getCourt() {
+        return court;
     }
 
     public Time getStartTime() {
@@ -40,14 +28,12 @@ public class Slot {
 
     @Override
     public String toString() {
-        return "Slot(" +
-                courtId + ", " + sportCenterId + ", " + cityId + ", " + startTime + ", " + endTime +
-                ")";
+        return String.format("Slot(%s, %s, %s)", court, startTime, endTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(courtId, sportCenterId, cityId, startTime, endTime);
+        return Objects.hash(court, startTime, endTime);
     }
 
     @Override
@@ -65,9 +51,7 @@ public class Slot {
         }
 
         var other = (Slot) obj;
-        return cityId.equals(other.getCityId())
-                && sportCenterId.equals(other.getSportCenterId())
-                && courtId.equals(other.getCourtId())
+        return court.equals(other.getCourt())
                 && startTime.equals(other.getStartTime())
                 && endTime.equals(other.getEndTime());
     }
