@@ -1,9 +1,9 @@
-package com.example.book2play.db.utils;
+package com.example.book2play.db.models.utils;
 
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.types.Staff;
 
-public interface StaffProcedures {
+public interface StaffModel {
 
     Staff getStaffInfo(String staffId, String cityId, String sportCenterId) throws MySQLException;
 

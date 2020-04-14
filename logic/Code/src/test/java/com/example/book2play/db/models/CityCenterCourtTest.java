@@ -1,18 +1,17 @@
 package com.example.book2play.db.models;
+
 import com.example.book2play.db.exceptions.MySQLException;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class CityCenterCourtModelTest extends ModelTestSetup {
+public class CityCenterCourtTest extends ModelTestSetup {
 
     //create cityId, sportCenterId
     @Before
-    public void createScenario() throws Exception{
+    public void createScenario() throws Exception {
         var cityId = "HoChiMinh";
         var sportCenterId = "DinhHoa";
 

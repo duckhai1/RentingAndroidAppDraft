@@ -1,9 +1,9 @@
-package com.example.book2play.db.utils;
+package com.example.book2play.db.models.utils;
 
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.types.Player;
 
-public interface PlayerProcedures {
+public interface PlayerModel {
 
     Player getPlayerInfo(String playerId) throws MySQLException;
 

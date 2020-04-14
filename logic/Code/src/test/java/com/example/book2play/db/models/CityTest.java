@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class CityModelTest extends ModelTestSetup {
+public class CityTest extends ModelTestSetup {
     @Test
     public void testCreateCityOnEmptyDatabase() throws Exception {
         var cityId = "HoChiMinh";

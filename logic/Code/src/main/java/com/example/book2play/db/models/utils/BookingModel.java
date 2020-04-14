@@ -1,17 +1,16 @@
-package com.example.book2play.db.utils;
+package com.example.book2play.db.models.utils;
 
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.types.Booking;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Collection;
 
-public interface BookingProcedures {
+public interface BookingModel {
 
-    Booking getBookingInfo(String bookingId) throws MySQLException, SQLException;
+    Booking getBookingInfo(String bookingId) throws MySQLException;
 
     Collection<Booking> getBookingsInCourt(String courtId, String cityId, String sportCenterId, Date date) throws MySQLException;
 

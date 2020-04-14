@@ -1,17 +1,15 @@
 package com.example.book2play.db.models;
 
-import com.example.book2play.db.MySQLModel;
-import com.example.book2play.db.MySQLServer;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.types.Player;
+import com.example.book2play.db.utils.DBManager;
 import com.example.book2play.db.utils.DBUtils;
-import com.example.book2play.db.utils.PlayerProcedures;
 
 import java.sql.*;
 
-public class PlayerModel extends MySQLModel implements PlayerProcedures {
+public class PlayerModel extends MySQLModel implements com.example.book2play.db.models.utils.PlayerModel {
 
-    public PlayerModel(MySQLServer db) {
+    public PlayerModel(DBManager db) {
         super(db);
     }
 
@@ -38,7 +36,7 @@ public class PlayerModel extends MySQLModel implements PlayerProcedures {
                 throw new MySQLException("Data not found");
             }
 
-            return new Player(
+            return new com.example.book2play.db.types.Player(
                     rs.getString("playerId")
             );
         } catch (SQLException e) {

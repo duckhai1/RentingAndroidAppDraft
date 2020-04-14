@@ -1,19 +1,16 @@
 package com.example.book2play.db.models;
 
-import com.example.book2play.db.MySQLModel;
-import com.example.book2play.db.MySQLServer;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.types.Court;
-import com.example.book2play.db.utils.CourtProcedures;
+import com.example.book2play.db.utils.DBManager;
 import com.example.book2play.db.utils.DBUtils;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Collection;
 
-public class CourtModel extends MySQLModel implements CourtProcedures {
+public class CourtModel extends MySQLModel implements com.example.book2play.db.models.utils.CourtModel {
 
-    public CourtModel(MySQLServer db) {
+    public CourtModel(DBManager db) {
         super(db);
     }
 
@@ -42,7 +39,7 @@ public class CourtModel extends MySQLModel implements CourtProcedures {
                 throw new MySQLException("Data not found");
             }
 
-            return new Court(
+            return new com.example.book2play.db.types.Court(
                     rs.getString("courtId"),
                     rs.getString("cityId"),
                     rs.getString("sportCenterId")

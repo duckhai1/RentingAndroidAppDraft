@@ -1,5 +1,6 @@
 package com.example.book2play.db;
 
+import com.example.book2play.db.utils.DBManager;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 import javax.sql.DataSource;
@@ -7,7 +8,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
-public class MySQLServer {
+public class MySQLServer implements DBManager {
     private String url;
     private Properties props;
     private DataSource ds;

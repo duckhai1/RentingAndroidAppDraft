@@ -1,19 +1,16 @@
 package com.example.book2play.db.models;
 
-import com.example.book2play.db.MySQLModel;
-import com.example.book2play.db.MySQLServer;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.types.Booking;
-import com.example.book2play.db.utils.BookingProcedures;
+import com.example.book2play.db.utils.DBManager;
 import com.example.book2play.db.utils.DBUtils;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.Collection;
 
-public class BookingModel extends MySQLModel implements BookingProcedures {
+public class BookingModel extends MySQLModel implements com.example.book2play.db.models.utils.BookingModel {
 
-    public BookingModel(MySQLServer db) {
+    public BookingModel(DBManager db) {
         super(db);
     }
 
@@ -40,14 +37,16 @@ public class BookingModel extends MySQLModel implements BookingProcedures {
                 throw new MySQLException("Data not found");
             }
 
-            return new Booking(
-                    rs.getString("bookingId"),
-                    rs.getDate("bookingDate"),
-                    rs.getTime("bookingStartTime"),
-                    rs.getTime("bookingEndTime"),
-                    rs.getTimestamp("createdAt"),
-                    rs.getBoolean("isPaid")
-            );
+            // TODO: fix
+            // return new Booking(
+            //         rs.getString("bookingId"),
+            //         rs.getDate("bookingDate"),
+            //         rs.getTime("bookingStartTime"),
+            //         rs.getTime("bookingEndTime"),
+            //         rs.getTimestamp("createdAt"),
+            //         rs.getBoolean("isPaid")
+            // );
+            return null;
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {

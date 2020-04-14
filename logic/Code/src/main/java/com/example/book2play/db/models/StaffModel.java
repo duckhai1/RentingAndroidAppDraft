@@ -1,17 +1,15 @@
 package com.example.book2play.db.models;
 
-import com.example.book2play.db.MySQLModel;
-import com.example.book2play.db.MySQLServer;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.types.Staff;
+import com.example.book2play.db.utils.DBManager;
 import com.example.book2play.db.utils.DBUtils;
-import com.example.book2play.db.utils.StaffProcedures;
 
 import java.sql.*;
 
-public class StaffModel extends MySQLModel implements StaffProcedures {
+public class StaffModel extends MySQLModel implements com.example.book2play.db.models.utils.StaffModel {
 
-    public StaffModel(MySQLServer db) {
+    public StaffModel(DBManager db) {
         super(db);
     }
 
@@ -36,7 +34,7 @@ public class StaffModel extends MySQLModel implements StaffProcedures {
                 throw new MySQLException(statusCode);
             }
 
-            return new Staff(
+            return new com.example.book2play.db.types.Staff(
                     rs.getString("staffId"),
                     rs.getString("sportCenterId")
             );

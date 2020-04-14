@@ -1,17 +1,15 @@
 package com.example.book2play.db.models;
 
-import com.example.book2play.db.MySQLModel;
-import com.example.book2play.db.MySQLServer;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.types.SportCenter;
+import com.example.book2play.db.utils.DBManager;
 import com.example.book2play.db.utils.DBUtils;
-import com.example.book2play.db.utils.SportCenterProcedures;
 
 import java.sql.*;
 
-public class SportCenterModel extends MySQLModel implements SportCenterProcedures {
+public class SportCenterModel extends MySQLModel implements com.example.book2play.db.models.utils.SportCenterModel {
 
-    public SportCenterModel(MySQLServer db) {
+    public SportCenterModel(DBManager db) {
         super(db);
     }
 
@@ -35,7 +33,7 @@ public class SportCenterModel extends MySQLModel implements SportCenterProcedure
                 throw new MySQLException(statusCode);
             }
 
-            return new SportCenter(
+            return new com.example.book2play.db.types.SportCenter(
                     rs.getString("sportCenterId"),
                     rs.getString("cityId")
             );

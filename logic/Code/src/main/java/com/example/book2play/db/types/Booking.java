@@ -6,31 +6,37 @@ import java.sql.Timestamp;
 
 public class Booking {
     private String bookingId;
+    private Timestamp createdAt;
     private Date bookingDate;
     private Time bookingStartTime;
     private Time bookingEndTime;
-    private Timestamp createAt;
     private boolean isPaid;
     private String courtId;
     private String sportCenterId;
     private String cityId;
+    private String playerId;
 
-    public Booking(String bookingId, Date bookingDate, Time bookingStartTime, Time bookingEndTime, Timestamp createAt, boolean isPaid) {
+    public Booking(String bookingId,
+                   Timestamp createdAt,
+                   Date bookingDate,
+                   Time bookingStartTime,
+                   Time bookingEndTime,
+                   boolean isPaid,
+                   String cityId,
+                   String sportCenterId,
+                   String courtId,
+                   String playerId
+    ) {
         this.bookingId = bookingId;
+        this.createdAt = createdAt;
         this.bookingDate = bookingDate;
         this.bookingStartTime = bookingStartTime;
         this.bookingEndTime = bookingEndTime;
-        this.createAt = createAt;
         this.isPaid = isPaid;
-    }
-
-    public Booking(String bookingId, Time bookingStartTime, Time bookingEndTime, String courtId, String sportCenterId, String cityId) {
-        this.bookingId = bookingId;
-        this.bookingStartTime = bookingStartTime;
-        this.bookingEndTime = bookingEndTime;
-        this.courtId = courtId;
-        this.sportCenterId = sportCenterId;
         this.cityId = cityId;
+        this.sportCenterId = sportCenterId;
+        this.courtId = courtId;
+        this.playerId = playerId;
     }
 
     public String getBookingId() {
@@ -49,8 +55,8 @@ public class Booking {
         return bookingEndTime;
     }
 
-    public Timestamp getCreateAt() {
-        return createAt;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
     public boolean isPaid() {
@@ -63,6 +69,14 @@ public class Booking {
 
     public String getSportCenterId() {
         return sportCenterId;
+    }
+
+    public String getCityId() {
+        return cityId;
+    }
+
+    public String getPlayerId() {
+        return playerId;
     }
 }
 
