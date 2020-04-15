@@ -126,6 +126,5 @@ class LoginScreen : AppCompatActivity() {
     ) {
         super.onActivityResult(requestCode, resultCode, data)
         callbackManager!!.onActivityResult(requestCode, resultCode, data)
-        loginButton!!.visibility = View.GONE
     }
 }

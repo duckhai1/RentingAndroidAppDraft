@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.book2play.MyBookingModel
+import com.example.LogicConnection.Type.MyBookingModel
 import com.example.book2play.R
 import kotlinx.android.synthetic.main.fragment_completed.*
 

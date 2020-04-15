@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.example.book2play.MyBookingModel
+import com.example.LogicConnection.Type.MyBookingModel
 import com.example.book2play.R
 import com.example.book2play.DetailScreen
 import kotlinx.android.synthetic.main.upcomming_row.view.*
