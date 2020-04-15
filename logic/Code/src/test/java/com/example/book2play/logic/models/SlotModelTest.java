@@ -19,6 +19,16 @@ public class SlotModelTest {
     private final static Court court = new Court("Court1", new SportCenter("Q1", new City("HCM")));
     private final static Player player = new Player("Alice");
 
+    @Test public void testGetAvailableSlotWithNoBooking() {
+        var bookings = new ArrayList<Booking>();
+
+        var expectedSlots = new ArrayList<Slot>();
+        expectedSlots.add(createMockSlot("07:00:00", "21:00:00"));
+
+        var slots = SLOT.getAvailableSlots(bookings, court);
+        assertEquals("incorrect slots returned", expectedSlots, slots);
+    }
+
     @Test
     public void testGetAvailableSlotsWithOneBookingWithin30MinOfTheOpenTime() {
         var bookings = new ArrayList<Booking>();
