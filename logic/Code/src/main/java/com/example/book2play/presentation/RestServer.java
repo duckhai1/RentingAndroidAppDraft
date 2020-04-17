@@ -1,6 +1,7 @@
 package com.example.book2play.presentation;
 
-import com.example.book2play.types.Booking;
+import com.example.book2play.logic.models.SlotModel;
+import com.example.book2play.types.*;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.BasicAuthenticator;
 import com.sun.net.httpserver.HttpContext;
@@ -9,18 +10,22 @@ import com.sun.net.httpserver.HttpServer;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.URLDecoder;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.regex.Pattern;
 
 import static java.util.stream.Collectors.*;
 
 public class RestServer {
-
     // start server
     public static void run() throws IOException {
+        // TODO replace this with real database
+        MockDatabase db = MockDatabase.getInstance();
+
         int serverPort = 8000;
         HttpServer server = HttpServer.create(new InetSocketAddress(serverPort), 0);
-
         // For processing /api/bookings
         HttpContext booking_context = server.createContext("/api/bookings", (exchange -> {
             if ("GET".equals(exchange.getRequestMethod())) {
@@ -31,11 +36,11 @@ public class RestServer {
 
                 // get all list of booking
                 ArrayList<Booking> bookings = new ArrayList<Booking>();
-                for (String bookingId : params.get("booking")){
-                    /* TODO
-                     Booking b = getBooking(bookingID)
-                     bookings.add(b)
-                     */
+                for (String bookingId : params.get("bookingId")){
+                    // TODO replace this with real access database
+                    Booking b = db.getBooking(bookingId);  // <---- Booking b = getBooking(bookingID)
+                    bookings.add(b);
+
                 }
 
                 // handle response
@@ -56,9 +61,9 @@ public class RestServer {
 
                 // process request
                 Booking b = new Gson().fromJson(stringBuilder.toString(), Booking.class);
-                /* TODO
-                createBooking(b)
-                 */
+
+                // TODO replace this with real create booking in database
+                db.putBooking(b); // <----- createBooking(b)
 
                 // handle response
                 String responseJson = new Gson().toJson(b);
@@ -82,7 +87,7 @@ public class RestServer {
         });
 
         // For processing api/center
-        HttpContext center_context = server.createContext("/api/bookings", (exchange -> {
+        HttpContext center_context = server.createContext("/api/centers", (exchange -> {
             if ("GET".equals(exchange.getRequestMethod())) {
                 // TODO
             }
