@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7d65f3c8-344b-4325-83b0-4a37689ecf53" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/book2play/presentation/RestServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/book2play/presentation/RestServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/BookingList/CancelledFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/BookingList/CancelledFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/BookingList/CompletedFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/BookingList/CompletedFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/BookingList/UpcommingFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/BookingList/UpcommingFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Handler/ConnectionHandler.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Handler/ConnectionHandler.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Handler/TestConnection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Handler/TestConnection.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Type/MyBookingModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Type/MyBookingModel.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,21 +127,21 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="548" y="171" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1587137609205" />
-    <state width="724" height="206" key="GridCell.Tab.0.bottom" timestamp="1587184951544">
+    <state width="724" height="206" key="GridCell.Tab.0.bottom" timestamp="1587185147836">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="724" height="206" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1587184951544" />
-    <state width="724" height="206" key="GridCell.Tab.0.center" timestamp="1587184951544">
+    <state width="724" height="206" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1587185147836" />
+    <state width="724" height="206" key="GridCell.Tab.0.center" timestamp="1587185147836">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="724" height="206" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1587184951544" />
-    <state width="724" height="206" key="GridCell.Tab.0.left" timestamp="1587184951544">
+    <state width="724" height="206" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1587185147836" />
+    <state width="724" height="206" key="GridCell.Tab.0.left" timestamp="1587185147836">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="724" height="206" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1587184951544" />
-    <state width="724" height="206" key="GridCell.Tab.0.right" timestamp="1587184951544">
+    <state width="724" height="206" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1587185147836" />
+    <state width="724" height="206" key="GridCell.Tab.0.right" timestamp="1587185147836">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="724" height="206" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1587184951544" />
+    <state width="724" height="206" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1587185147836" />
   </component>
 </project>

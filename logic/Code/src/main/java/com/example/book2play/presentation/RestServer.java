@@ -63,7 +63,7 @@ public class RestServer {
                 System.out.println("requestJSON: " + stringBuilder);
 
                 // process request
-                // TODO process the comming and create booking in database
+                // TODO process the request and create booking in database
                 JsonObject request = new Gson().fromJson(stringBuilder.toString(), JsonObject.class);
                 String bookingId = "booking5";
                 Timestamp createdAt = new Timestamp(System.currentTimeMillis());
