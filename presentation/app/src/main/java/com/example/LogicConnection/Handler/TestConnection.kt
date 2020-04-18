@@ -3,11 +3,15 @@ package com.example.LogicConnection.Handler
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import com.example.LogicConnection.Type.MyBookingModel
 import com.example.book2play.R
+import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_test_connection.*
+import java.sql.Timestamp
 
 class TestConnection : AppCompatActivity() {
 
@@ -27,17 +31,29 @@ class TestConnection : AppCompatActivity() {
     inner class RequestAsync : AsyncTask<String?, String?, String?>(){
         override fun doInBackground(vararg params: String?): String? {
             return try {
-                //GET Request
-                return ConnectionHandler.sendGet("http://10.0.2.2:8000/api/bookings");
+//                //GET Request
+//                return ConnectionHandler.sendGet("http://10.0.2.2:8000/api/bookings?bookingId=booking1");
 
-//                // POST Request
-//                val postDataParams = JsonObject()
-//                postDataParams.addProperty("name", "Manjeet")
-//                postDataParams.addProperty("id", "10")
-//                ConnectionHandler.sendPost(
-//                    "http://10.0.2.2:8000/api/bookings",
-//                    postDataParams
-//                )
+                // POST Request
+                val newBooking = MyBookingModel(
+                    "2007-09-23",
+                    "",
+                    "08:00:00",
+                    "09:00:00",
+                    "City1",
+                    "Center1",
+                    "Court1",
+                    "Alan"
+                )
+                val postJson = Gson().toJson(newBooking)
+                Log.d("java_connection", "postJson $postJson")
+                val postDataParams = Gson().fromJson(postJson, JsonObject::class.java)
+//                postDataParams.addProperty("bookingId", "booking5")
+//                postDataParams.addProperty("createAt", Timestamp.valueOf("2007-09-23 10:10:10.0"))
+                ConnectionHandler.sendPost(
+                    "http://10.0.2.2:8000/api/bookings",
+                    postDataParams
+                )
             } catch (e: Exception) {
                 "Exception: " + e.message
             }

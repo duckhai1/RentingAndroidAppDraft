@@ -51,7 +51,9 @@ class UpcommingFragment : Fragment() {
             MyBookingModel(
                 "Apr 2",
                 "Fri",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"
@@ -61,7 +63,9 @@ class UpcommingFragment : Fragment() {
             MyBookingModel(
                 "Apr 24",
                 "Mon",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"
@@ -71,7 +75,9 @@ class UpcommingFragment : Fragment() {
             MyBookingModel(
                 "May 5",
                 "Mon",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"
@@ -81,7 +87,9 @@ class UpcommingFragment : Fragment() {
             MyBookingModel(
                 "May 18",
                 "Tue",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"
@@ -91,7 +99,9 @@ class UpcommingFragment : Fragment() {
             MyBookingModel(
                 "Jun 29",
                 "Fri",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"
@@ -101,7 +111,9 @@ class UpcommingFragment : Fragment() {
             MyBookingModel(
                 "Jul 21",
                 "Sun",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"

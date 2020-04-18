@@ -18,22 +18,21 @@ class ConnectionHandler {
         // GET method request
         fun sendGet(url: String?): String {
             val obj = URL(url)
-            val con = obj.openConnection() as HttpURLConnection
+            val conn = obj.openConnection() as HttpURLConnection
 
             // authentication
             val username = "admin"
             val pass = "admin"
             val userPassword: String = username.toString() + ":" + pass
             val data: ByteArray = userPassword.toByteArray(Charsets.UTF_8)
-
             val encoding: String = Base64.encodeToString(data, Base64.DEFAULT)
-            con.setRequestProperty("Authorization", "Basic " + encoding)
-            con.requestMethod = "GET"
+            conn.setRequestProperty("Authorization", "Basic " + encoding)
+            conn.requestMethod = "GET"
 
-            val responseCode = con.responseCode
+            val responseCode = conn.responseCode
             return if (responseCode == HttpURLConnection.HTTP_OK) { // connection ok
                 Log.d("java_connection", "Successful connect")
-                val input = BufferedReader(InputStreamReader(con.inputStream))
+                val input = BufferedReader(InputStreamReader(conn.inputStream))
 
                 var inputLine: String?
                 val response = StringBuffer()
@@ -53,6 +52,13 @@ class ConnectionHandler {
 
             // setup connection
             val conn = url.openConnection() as HttpURLConnection
+            // authentication
+            val username = "admin"
+            val pass = "admin"
+            val userPassword: String = username.toString() + ":" + pass
+            val data: ByteArray = userPassword.toByteArray(Charsets.UTF_8)
+            val encoding: String = Base64.encodeToString(data, Base64.DEFAULT)
+            conn.setRequestProperty("Authorization", "Basic " + encoding)
             conn.readTimeout = 20000
             conn.connectTimeout = 20000
             conn.requestMethod = "POST"

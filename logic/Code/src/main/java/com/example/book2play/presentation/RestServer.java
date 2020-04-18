@@ -3,6 +3,9 @@ package com.example.book2play.presentation;
 import com.example.book2play.logic.models.SlotModel;
 import com.example.book2play.types.*;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.sun.net.httpserver.BasicAuthenticator;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
@@ -60,13 +63,24 @@ public class RestServer {
                 System.out.println("requestJSON: " + stringBuilder);
 
                 // process request
-                Booking b = new Gson().fromJson(stringBuilder.toString(), Booking.class);
-
-                // TODO replace this with real create booking in database
+                // TODO process the comming and create booking in database
+                JsonObject request = new Gson().fromJson(stringBuilder.toString(), JsonObject.class);
+                String bookingId = "booking5";
+                Timestamp createdAt = new Timestamp(System.currentTimeMillis());
+                Date bookingDate = Date.valueOf(request.get("date").getAsString());
+                Time bookingStartTime = Time.valueOf((request.get("start")).getAsString());
+                Time bookingEndTime = Time.valueOf((request.get("end")).getAsString());
+                boolean isPaid = request.get("status").getAsBoolean();
+                Court court = new Court(request.get("court").getAsString(),
+                        new SportCenter(request.get("center").getAsString(),
+                                new City(request.get("city").getAsString())));      // TODO create court
+                Player player = new Player(request.get("player").getAsString());
+                Booking b = new Booking(bookingId, createdAt,bookingDate,bookingStartTime, bookingEndTime, isPaid, court, player);
                 db.putBooking(b); // <----- createBooking(b)
 
                 // handle response
                 String responseJson = new Gson().toJson(b);
+                System.out.println("responseJson: " + responseJson);
                 exchange.sendResponseHeaders(200, responseJson.getBytes().length);
                 // make a response body
                 OutputStream output = exchange.getResponseBody();

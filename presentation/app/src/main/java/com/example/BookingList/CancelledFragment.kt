@@ -49,7 +49,9 @@ class CancelledFragment : Fragment() {
             MyBookingModel(
                 "Jan 2",
                 "Thu",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"
@@ -59,7 +61,9 @@ class CancelledFragment : Fragment() {
             MyBookingModel(
                 "Mar 13",
                 "Mon",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"
@@ -69,7 +73,9 @@ class CancelledFragment : Fragment() {
             MyBookingModel(
                 "Mar 25",
                 "Mon",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"
@@ -79,7 +85,9 @@ class CancelledFragment : Fragment() {
             MyBookingModel(
                 "May 8",
                 "Tue",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"
@@ -89,7 +97,9 @@ class CancelledFragment : Fragment() {
             MyBookingModel(
                 "Jul 29",
                 "Fri",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"
@@ -99,7 +109,9 @@ class CancelledFragment : Fragment() {
             MyBookingModel(
                 "Dec 1",
                 "Sun",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"
