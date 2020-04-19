@@ -33,6 +33,7 @@ public class apiBookingsHandler extends apiHandler {
         }
         MySQLDataSource db= new MySQLDataSource(mySqlProps);
         BookingModel bookingModel = new BookingModel(db);
+
         if ("GET".equals(exchange.getRequestMethod())) {
             // handle request
             Map<String, List<String>> params = splitQuery(exchange.getRequestURI().getRawQuery());
@@ -78,28 +79,27 @@ public class apiBookingsHandler extends apiHandler {
             Date bookingDate = Date.valueOf(request.get("date").getAsString());
             Time bookingStartTime = Time.valueOf((request.get("start")).getAsString());
             Time bookingEndTime = Time.valueOf((request.get("end")).getAsString());
-            //boolean isPaid = request.get("status").getAsBoolean();
-            String court = request.get("court").getAsString();
-            String sportCenter = request.get("center").getAsString();
-            String city = request.get("city").getAsString();
-            String player = request.get("player").getAsString();
-            /*
-            Court court = new Court(request.get("court").getAsString(),
-                    new SportCenter(request.get("center").getAsString(),
-                            new City(request.get("city").getAsString())));      // TODO create court
-            Player player = new Player(request.get("player").getAsString());
-            */
-            //Booking b = new Booking(bookingId, createdAt,bookingDate,bookingStartTime, bookingEndTime, isPaid, court, player);
+            boolean isPaid = request.get("status").getAsBoolean();
+            String courtId = request.get("court").getAsString();
+            String sportCenterId = request.get("center").getAsString();
+            String cityId = request.get("city").getAsString();
+            String playerId = request.get("player").getAsString();
+            City city = new City(cityId);
+            SportCenter sportCenter = new SportCenter(sportCenterId, city);
+            Court court = new Court(courtId, sportCenter);     // TODO create court
+            Player player = new Player(playerId);
+
+            Booking b = new Booking(bookingId, createdAt,bookingDate,bookingStartTime, bookingEndTime, isPaid, court, player);
 
             try {
-                bookingModel.createBooking(bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, city, sportCenter, court, player);
+                bookingModel.createBooking(bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, cityId, sportCenterId, courtId, playerId);
             } catch (MySQLException e) {
                 e.printStackTrace();
             }
             // createBooking(b)
 
             // handle response
-            String responseJson = new Gson().toJson(bookingModel);
+            String responseJson = new Gson().toJson(b);
             System.out.println("responseJson: " + responseJson);
             exchange.sendResponseHeaders(200, responseJson.getBytes().length);
             // make a response body
