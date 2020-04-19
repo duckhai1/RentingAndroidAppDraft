@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args){
-        System.out.println("Hello world");
+        System.out.println("Comming to me my book2play guest, come on!!");
         try {
             RestServer.run();
         } catch (IOException e) {
