@@ -22,6 +22,17 @@ import java.util.Properties;
 public class apiBookingsHandler extends apiHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+        //create connection with db
+        ClassLoader loader = App.class.getClassLoader();
+        InputStream stream = loader.getResourceAsStream("mysql_database.properties");
+        var mySqlProps = new Properties();
+        try {
+            mySqlProps.load(stream);
+        } catch (Exception e) {
+            System.out.println("Could not get configurations for the database");
+        }
+        MySQLDataSource db= new MySQLDataSource(mySqlProps);
+        BookingModel bookingModel = new BookingModel(db);
         if ("GET".equals(exchange.getRequestMethod())) {
             // handle request
             Map<String, List<String>> params = splitQuery(exchange.getRequestURI().getRawQuery());
@@ -32,17 +43,6 @@ public class apiBookingsHandler extends apiHandler {
             ArrayList<Booking> bookings = new ArrayList<>();
             for (String bookingId : params.get("bookingId")){
                 // TODO replace this with real access database
-                //Create connection with db
-                ClassLoader loader = App.class.getClassLoader();
-                InputStream stream = loader.getResourceAsStream("mysql_database.properties");
-                var mySqlProps = new Properties();
-                try {
-                    mySqlProps.load(stream);
-                } catch (Exception e) {
-                    System.out.println("Could not get configurations for the database");
-                }
-                MySQLDataSource db= new MySQLDataSource(mySqlProps);
-                BookingModel bookingModel = new BookingModel(db);
                 try {
                     Booking b = bookingModel.getBookingInfo(bookingId);
                     bookings.add(b);
@@ -91,17 +91,6 @@ public class apiBookingsHandler extends apiHandler {
             */
             //Booking b = new Booking(bookingId, createdAt,bookingDate,bookingStartTime, bookingEndTime, isPaid, court, player);
 
-            //Create connection with db
-            ClassLoader loader = App.class.getClassLoader();
-            InputStream stream = loader.getResourceAsStream("mysql_database.properties");
-            var mySqlProps = new Properties();
-            try {
-                mySqlProps.load(stream);
-            } catch (Exception e) {
-                System.out.println("Could not get configurations for the database");
-            }
-            MySQLDataSource db= new MySQLDataSource(mySqlProps);
-            BookingModel bookingModel = new BookingModel(db);
             try {
                 bookingModel.createBooking(bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, city, sportCenter, court, player);
             } catch (MySQLException e) {
