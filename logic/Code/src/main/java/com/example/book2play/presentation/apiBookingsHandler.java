@@ -1,5 +1,9 @@
 package com.example.book2play.presentation;
 
+import com.example.book2play.App;
+import com.example.book2play.db.driver.MySQLDataSource;
+import com.example.book2play.db.exceptions.MySQLException;
+import com.example.book2play.db.models.BookingModel;
 import com.example.book2play.types.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -13,6 +17,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 public class apiBookingsHandler extends apiHandler {
     @Override
@@ -24,9 +29,26 @@ public class apiBookingsHandler extends apiHandler {
             System.out.println("requestJSON: " + requestJSON);
 
             // get all list of booking
-            ArrayList<Booking> bookings = new ArrayList<Booking>();
+            ArrayList<Booking> bookings = new ArrayList<>();
             for (String bookingId : params.get("bookingId")){
                 // TODO replace this with real access database
+                //Create connection with db
+                ClassLoader loader = App.class.getClassLoader();
+                InputStream stream = loader.getResourceAsStream("mysql_database.properties");
+                var mySqlProps = new Properties();
+                try {
+                    mySqlProps.load(stream);
+                } catch (Exception e) {
+                    System.out.println("Could not get configurations for the database");
+                }
+                MySQLDataSource db= new MySQLDataSource(mySqlProps);
+                BookingModel bookingModel = new BookingModel(db);
+                try {
+                    Booking b = bookingModel.getBookingInfo(bookingId);
+                    bookings.add(b);
+                } catch (MySQLException e) {
+                    e.printStackTrace();
+                }
                 // Booking b = getBooking(bookingID)
                 // bookings.add(b);
 
@@ -56,16 +78,39 @@ public class apiBookingsHandler extends apiHandler {
             Date bookingDate = Date.valueOf(request.get("date").getAsString());
             Time bookingStartTime = Time.valueOf((request.get("start")).getAsString());
             Time bookingEndTime = Time.valueOf((request.get("end")).getAsString());
-            boolean isPaid = request.get("status").getAsBoolean();
+            //boolean isPaid = request.get("status").getAsBoolean();
+            String court = request.get("court").getAsString();
+            String sportCenter = request.get("center").getAsString();
+            String city = request.get("city").getAsString();
+            String player = request.get("player").getAsString();
+            /*
             Court court = new Court(request.get("court").getAsString(),
                     new SportCenter(request.get("center").getAsString(),
                             new City(request.get("city").getAsString())));      // TODO create court
             Player player = new Player(request.get("player").getAsString());
-            Booking b = new Booking(bookingId, createdAt,bookingDate,bookingStartTime, bookingEndTime, isPaid, court, player);
+            */
+            //Booking b = new Booking(bookingId, createdAt,bookingDate,bookingStartTime, bookingEndTime, isPaid, court, player);
+
+            //Create connection with db
+            ClassLoader loader = App.class.getClassLoader();
+            InputStream stream = loader.getResourceAsStream("mysql_database.properties");
+            var mySqlProps = new Properties();
+            try {
+                mySqlProps.load(stream);
+            } catch (Exception e) {
+                System.out.println("Could not get configurations for the database");
+            }
+            MySQLDataSource db= new MySQLDataSource(mySqlProps);
+            BookingModel bookingModel = new BookingModel(db);
+            try {
+                bookingModel.createBooking(bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, city, sportCenter, court, player);
+            } catch (MySQLException e) {
+                e.printStackTrace();
+            }
             // createBooking(b)
 
             // handle response
-            String responseJson = new Gson().toJson(b);
+            String responseJson = new Gson().toJson(bookingModel);
             System.out.println("responseJson: " + responseJson);
             exchange.sendResponseHeaders(200, responseJson.getBytes().length);
             // make a response body
