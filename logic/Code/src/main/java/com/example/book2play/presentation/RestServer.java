@@ -3,9 +3,7 @@ package com.example.book2play.presentation;
 import com.example.book2play.logic.models.SlotModel;
 import com.example.book2play.types.*;
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.sun.net.httpserver.BasicAuthenticator;
 import com.sun.net.httpserver.HttpContext;
 import com.sun.net.httpserver.HttpServer;
@@ -63,8 +61,8 @@ public class RestServer {
                 System.out.println("requestJSON: " + stringBuilder);
 
                 // process request
-                // TODO process the request and create booking in database
                 JsonObject request = new Gson().fromJson(stringBuilder.toString(), JsonObject.class);
+                // TODO process the request and create booking in database
                 String bookingId = "booking5";
                 Timestamp createdAt = new Timestamp(System.currentTimeMillis());
                 Date bookingDate = Date.valueOf(request.get("date").getAsString());
