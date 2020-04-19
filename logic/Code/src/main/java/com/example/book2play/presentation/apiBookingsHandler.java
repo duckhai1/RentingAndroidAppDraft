@@ -84,15 +84,21 @@ public class apiBookingsHandler extends apiHandler {
             String sportCenterId = request.get("center").getAsString();
             String cityId = request.get("city").getAsString();
             String playerId = request.get("player").getAsString();
-            City city = new City(cityId);
-            SportCenter sportCenter = new SportCenter(sportCenterId, city);
-            Court court = new Court(courtId, sportCenter);     // TODO create court
-            Player player = new Player(playerId);
+            //City city = new City(cityId);
+            //SportCenter sportCenter = new SportCenter(sportCenterId, city);
+            //Court court = new Court(courtId, sportCenter);     // TODO create court
+            //Player player = new Player(playerId);
 
-            Booking b = new Booking(bookingId, createdAt,bookingDate,bookingStartTime, bookingEndTime, isPaid, court, player);
 
             try {
                 bookingModel.createBooking(bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, cityId, sportCenterId, courtId, playerId);
+            } catch (MySQLException e) {
+                e.printStackTrace();
+            }
+            // get booking from data base if successful;
+            Booking b = null;
+            try {
+                b = bookingModel.getBookingInfo(bookingId);
             } catch (MySQLException e) {
                 e.printStackTrace();
             }
