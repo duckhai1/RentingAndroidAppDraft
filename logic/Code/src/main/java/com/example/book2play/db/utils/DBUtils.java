@@ -1,6 +1,7 @@
 package com.example.book2play.db.utils;
 
 import com.example.book2play.types.*;
+import com.mysql.cj.protocol.Resultset;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -70,6 +71,21 @@ public class DBUtils {
                 new SportCenter(rs.getString("sportCenterId"),
                         new City(rs.getString("cityId")))
         );
+    }
+
+    public static SportCenter singleSportCenterFromResultSet(ResultSet rs) throws SQLException {
+        return new SportCenter(
+                rs.getString("sportCenterId"),
+                new City(rs.getString("cityId"))
+        );
+    }
+
+    public static Collection<SportCenter> sportCentersFromResultSet(ResultSet rs) throws SQLException {
+        var sportCenters = new LinkedList<SportCenter>();
+        while (rs.next()) {
+            sportCenters.add(singleSportCenterFromResultSet(rs));
+        }
+        return sportCenters;
     }
 
     public static void quietCloseConnection(Connection conn) {

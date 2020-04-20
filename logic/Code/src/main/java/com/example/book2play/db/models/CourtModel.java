@@ -151,4 +151,33 @@ public class CourtModel extends MySQLModel implements com.example.book2play.db.C
             DBUtils.quietCloseResultSet(rs);
         }
     }
+
+    public Collection<Court> getCourtsFromSportCenter(String sportCenterId, String cityId) throws MySQLException {
+        Connection conn = null;
+        CallableStatement stm = null;
+        ResultSet rs = null;
+
+        try{
+            conn = this.db.getConnection();
+            stm  = conn.prepareCall("{call getCourtsInSportCenter(?, ?, ?)}");
+            stm.setString(1, sportCenterId);
+            stm.setString(2, cityId);
+            stm.registerOutParameter(2, Types.INTEGER);
+
+            rs = stm.executeQuery();
+            var statusCode = stm.getInt(2);
+            LOG.info("Received status code " + statusCode);
+            if (statusCode >= 400 && statusCode < 500) {
+                throw new MySQLException(statusCode);
+            }
+
+            return DBUtils.courtsFromResultSet(rs);
+        } catch (SQLException e){
+            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+        } finally {
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
+            DBUtils.quietCloseResultSet(rs);
+        }
+    }
 }
