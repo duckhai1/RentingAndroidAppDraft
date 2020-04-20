@@ -56,9 +56,9 @@ public class App {
                     Date.valueOf("2020-05-20"),
                     Time.valueOf("08:30:00"),
                     Time.valueOf("09:30:00"),
-                    "court1",
-                    "center1",
                     "city1",
+                    "center1",
+                    "court1",
                     "player1"
             );
         } catch (MySQLException e) {

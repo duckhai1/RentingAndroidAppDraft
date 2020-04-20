@@ -4,6 +4,7 @@ package com.example.book2play.api;
 import com.example.book2play.api.handler.BookingsHandler;
 import com.example.book2play.api.handler.SportCentersHandler;
 import com.example.book2play.db.AppDataSource;
+import com.example.book2play.db.models.BookingModel;
 import com.example.book2play.db.models.SportCenterModel;
 import com.sun.net.httpserver.BasicAuthenticator;
 import com.sun.net.httpserver.HttpServer;
@@ -35,7 +36,8 @@ public class Server {
     }
 
     private void setBookingsRoutes() {
-        var ctx = srv.createContext(BOOKINGS_BASE_URL, new BookingsHandler());
+        var model = new BookingModel(ds);
+        var ctx = srv.createContext(BOOKINGS_BASE_URL, new BookingsHandler(model));
         ctx.setAuthenticator(new BasicAuthenticator("myrealm") {
             @Override
             public boolean checkCredentials(String user, String pwd) {

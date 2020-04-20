@@ -171,17 +171,13 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
                 throw new MySQLException(statusCode);
             }
 
-            return DBUtils.courtsFromResultSet(rs);
+            return ResultSetUtils.courtsFromResultSet(rs);
         } catch (SQLException e){
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
-            DBUtils.quietCloseResultSet(rs);
-||||||| merged common ancestors
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
-            DBUtils.quietCloseResultSet(rs);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseResultSet(rs);
         }
     }
 }

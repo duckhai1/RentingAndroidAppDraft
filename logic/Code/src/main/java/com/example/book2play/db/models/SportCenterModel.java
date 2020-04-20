@@ -135,16 +135,13 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
                 throw new MySQLException(statusCode);
             }
 
-            return DBUtils.sportCentersFromResultSet(rs);
+            return ResultSetUtils.sportCentersFromResultSet(rs);
         } catch(SQLDataException e){
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
-            DBUtils.quietCloseResultSet(rs);
-||||||| merged common ancestors
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseResultSet(rs);
         }
     }
 }
