@@ -3,7 +3,6 @@ package com.example.book2play.db.models;
 import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.utils.DBUtils;
-import com.example.book2play.types.City;
 import com.example.book2play.types.SportCenter;
 
 import java.sql.*;
@@ -34,10 +33,7 @@ public class SportCenterModel extends MySQLModel implements com.example.book2pla
                 throw new MySQLException(statusCode);
             }
 
-            return new SportCenter(
-                    rs.getString("sportCenterId"),
-                    new City(rs.getString("cityId"))
-            );
+            return DBUtils.singleSportCenterFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
         } finally {
@@ -81,7 +77,7 @@ public class SportCenterModel extends MySQLModel implements com.example.book2pla
 
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareCall("{call updateSprtCenterId(?,?,?,?)}");
+            stm = conn.prepareCall("{call updateSportCenterId(?,?,?,?)}");
             stm.setString(1, newSportCenterId);
             stm.setString(2, oldSportCenterId);
             stm.setString(3, cityId);

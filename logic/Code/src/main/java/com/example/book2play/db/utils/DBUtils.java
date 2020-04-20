@@ -21,10 +21,10 @@ public class DBUtils {
                 rs.getTime("bookingStartTime"),
                 rs.getTime("bookingEndTime"),
                 rs.getBoolean("isPaid"),
-                new Court(rs.getString("courtId"),
-                        new SportCenter(rs.getString("sportCenterId"),
-                                new City(rs.getString("cityId")))),
-                new Player(rs.getString("playerId"))
+                rs.getString("cityId"),
+                rs.getString("sportCenterId"),
+                rs.getString("courtId"),
+                rs.getString("playerId")
         );
     }
 
@@ -48,11 +48,26 @@ public class DBUtils {
         return cities;
     }
 
+    public static SportCenter singleSportCenterFromResultSet(ResultSet rs) throws SQLException {
+        return new SportCenter(
+                rs.getString("sportCenterId"),
+                rs.getString("cityId")
+        );
+    }
+
+    public static Collection<SportCenter> sportCentersFromResultSet(ResultSet rs) throws SQLException {
+        var sportCenters = new LinkedList<SportCenter>();
+        while (rs.next()) {
+            sportCenters.add(singleSportCenterFromResultSet(rs));
+        }
+        return sportCenters;
+    }
+
     public static Court singleCourtFromResultSet(ResultSet rs) throws SQLException {
         return new Court(
                 rs.getString("courtId"),
-                new SportCenter(rs.getString("sportCenterId"),
-                        new City(rs.getString("cityId")))
+                rs.getString("cityId"),
+                rs.getString("sportCenterId")
         );
     }
 
@@ -67,8 +82,14 @@ public class DBUtils {
     public static Staff singleStaffFromResultSet(ResultSet rs) throws SQLException {
         return new Staff(
                 rs.getString("staffId"),
-                new SportCenter(rs.getString("sportCenterId"),
-                        new City(rs.getString("cityId")))
+                rs.getString("cityId"),
+                rs.getString("sportCenterId")
+        );
+    }
+
+    public static Player singlePlayerFromResultSet(ResultSet rs) throws SQLException {
+        return new Player(
+                rs.getString("playerId")
         );
     }
 
