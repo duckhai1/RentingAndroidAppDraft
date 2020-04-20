@@ -178,6 +178,10 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
             DBUtils.quietCloseConnection(conn);
             DBUtils.quietCloseStatement(stm);
             DBUtils.quietCloseResultSet(rs);
+||||||| merged common ancestors
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
+            DBUtils.quietCloseResultSet(rs);
         }
     }
 }

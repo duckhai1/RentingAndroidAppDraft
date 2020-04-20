@@ -142,6 +142,9 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
             DBUtils.quietCloseConnection(conn);
             DBUtils.quietCloseStatement(stm);
             DBUtils.quietCloseResultSet(rs);
+||||||| merged common ancestors
+            DBUtils.quietCloseConnection(conn);
+            DBUtils.quietCloseStatement(stm);
         }
     }
 }
