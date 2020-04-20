@@ -9,12 +9,15 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.book2play.R
 import kotlinx.android.synthetic.main.court1_row.view.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context, val mainInterface: MainInterface) :
     RecyclerView.Adapter<Court1Adapter.ViewHolder>() {
     var mContext = context
-    val selectedIds: MutableList<String> = ArrayList<String>()
+    val selectedIds: MutableList<Date> = ArrayList<Date>()
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
         var myItemClickListener : MyItemClickListener?=null
@@ -61,7 +64,7 @@ class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context, val m
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItems(arrayList[position])
 
-        val id = arrayList[position].time
+        val id = SimpleDateFormat("HH:mm:ss").parse(arrayList[position].time)
 
 
         if (arrayList[position].slot == 0) {
@@ -99,7 +102,7 @@ class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context, val m
     }
 
     fun addIDIntoSelectedIds(index: Int){
-        val id = arrayList[index].time
+        val id = SimpleDateFormat("HH:mm:ss").parse(arrayList[index].time)
         if (selectedIds.contains(id))
             selectedIds.remove(id)
         else
@@ -117,14 +120,33 @@ class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context, val m
     }
 
     fun chooseSelectedIds(): MutableList<String>? {
+        val slotInterval : Long = 1000*60*15
         if (selectedIds.size < 4 || selectedIds.size > 6) {
             Toast.makeText(context, "Ammount of booking must between 45m and 1h30m", Toast.LENGTH_SHORT).show()
             return null
         }
         // TODO Check the condition pick time must be consecutive
-
-
-        return selectedIds
+        selectedIds.sortDescending()
+        var isConsecutive = true
+        var curTime = selectedIds[0].time - slotInterval
+        for (slot in selectedIds){
+            if (slot.time - curTime > slotInterval) {
+                isConsecutive = false
+                break
+            }
+            curTime = slot.time
+        }
+        if (isConsecutive){
+            val start = selectedIds.first().toString()
+            val end = selectedIds.last().toString()
+            val result = ArrayList<String>()
+            result.add(start)
+            result.add(end)
+            return result
+        } else {
+            return null
+        }
+        
     }
 
     interface MyItemClickListener{

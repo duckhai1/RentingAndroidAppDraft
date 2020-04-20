@@ -4,6 +4,7 @@ package com.example.SelectTime
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 
@@ -52,7 +53,7 @@ class Court1Fragment : Fragment(), MainInterface {
             time[count] = "0$i:00"
             for (y in 15..45 step 15) {
                 count += 1
-                time[count] = "0$i:$y"
+                time[count] = "0$i:$y:00"
             }
             count += 1
         }
@@ -60,7 +61,7 @@ class Court1Fragment : Fragment(), MainInterface {
             time[count] = "$i:00"
             for (y in 15..45 step 15) {
                 count += 1
-                time[count] = "$i:$y"
+                time[count] = "$i:$y:00"
             }
             count += 1
         }
@@ -109,16 +110,16 @@ class Court1Fragment : Fragment(), MainInterface {
                     val timeArray = myAdapter?.chooseSelectedIds()
                     var timeText = " "
 
-                    val selectedIdIteration = timeArray?.listIterator()
-                    if (selectedIdIteration != null) {
-                        while (selectedIdIteration.hasNext()) {
-                            val selectedItemID = selectedIdIteration.next()
-                            // make a test store time of slots
-                            timeText = timeText + " " + selectedItemID
-                        }
-                    }
+//                    val selectedIdIteration = timeArray?.listIterator()
+//                    if (selectedIdIteration != null) {
+//                        while (selectedIdIteration.hasNext()) {
+//                            val selectedItemID = selectedIdIteration.next()
+//                            // make a test store time of slots
+//                            timeText = timeText + " " + selectedItemID
+//                        }
+//                    }
 
-//                    Toast.makeText(context, timeText, Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, timeArray?.get(0) +" "+timeArray?.get(1), Toast.LENGTH_LONG).show()
 
                     // move to next screen
                     val intent =
