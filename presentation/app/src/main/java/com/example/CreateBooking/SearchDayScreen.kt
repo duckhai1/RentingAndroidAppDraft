@@ -36,7 +36,8 @@ class SearchDayScreen : AppCompatActivity() {
         val sdf = SimpleDateFormat("dd/MM/yyyy")
         val currentDate = sdf.format(Date(calendarView!!.date))
         calendarView!!.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            date = dayOfMonth.toString() + "/" + (month + 1) + "/" + year
+//            date = dayOfMonth.toString() + "/" + (month + 1) + "/" + year
+            date = "" + year + "-" +  (month + 1) + "-" + dayOfMonth.toString()
         }
         ctnBtn.setOnClickListener {
             val intent = Intent(

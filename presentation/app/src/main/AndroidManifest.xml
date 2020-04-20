@@ -21,15 +21,15 @@
 
         <activity android:name="com.example.LogicConnection.Handler.TestConnection">
 
+
+        </activity>
+
+        <activity android:name="com.example.Login.LoginScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <activity android:name="com.example.Login.LoginScreen">
-
         </activity>
         <activity android:name=".MainActivity" />
 

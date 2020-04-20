@@ -37,7 +37,7 @@ class ChooseLocationScreen : Fragment() {
         val btnCurrentLoc = v.findViewById(R.id.btnCurrentLoc) as Button
 
 
-        val cities = arrayOf("Ho Chi Minh city", "My Tho city", "Vung Tau city", "Binh Duong city")
+        val cities = arrayOf("Ho Chi Minh city", "My Tho city", "Vung Tau city", "Binh Duong city", "city1")  // <--- change this
         val adapter = activity?.let { ArrayAdapter(it, R.layout.spinner_textview, cities) }
         citySpinner.adapter = adapter
 
@@ -47,7 +47,7 @@ class ChooseLocationScreen : Fragment() {
                 Toast.makeText(activity, "Please wait for the update!", Toast.LENGTH_SHORT).show()
             } else {
                 val intent = Intent(activity, Location2Screen::class.java)
-                val bookingInfor = MyBookingModel(city = text)
+                val bookingInfor = MyBookingModel(player= "player1",city = text) // <--- change this
                 intent.putExtra("BookingInfo", bookingInfor)
                 startActivity(intent)
             }

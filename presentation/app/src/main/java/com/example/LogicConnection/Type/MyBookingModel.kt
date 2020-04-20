@@ -8,30 +8,30 @@ import java.util.*
 class MyBookingModel(
     @SerializedName("bookingDate")
     @Expose
-    var date : String = "",     // date of booking
+    var date : String? = "",     // date of booking
     @SerializedName("bookingStartTime")
     @Expose
-    var start: String = "",     // start time of the booking
+    var start: String? = "",     // start time of the booking
     @SerializedName("bookingEndTime")
     @Expose
-    val end: String = "",       // end time of the booking
+    var end: String? = "",       // end time of the booking
     @SerializedName("city")
     @Expose
-    var city: String = "",      // booking city
+    var city: String? = "",      // booking city
     @SerializedName("center")
     @Expose
-    var center: String= "",     // booking sport center
+    var center: String?= "",     // booking sport center
     @SerializedName("court")
     @Expose
-    var court : String = "",    // booking court
+    var court : String? = "",    // booking court
     @SerializedName("player")
     @Expose
-    var player: String = "",    // booking player name
+    var player: String?= "",    // booking player name
     @SerializedName("isPaid")
     @Expose
     var status: Int = 0,        // status 0: unpaid; 1:paid
 
-    var week: String  = SimpleDateFormat("EE").format(SimpleDateFormat("yyyy-MM-dd").parse(date)),      // date of the week of the booking
+    var week: String  = if (date == "") "" else SimpleDateFormat("EE").format(SimpleDateFormat("yyyy-MM-dd").parse(date)),      // date of the week of the booking
     var time: String = start + " " + end        // deprecated later
 
 ) :MyDataModel {

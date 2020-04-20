@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.LogicConnection.Type.MyBookingModel
 import com.example.book2play.R
 import com.example.CreateBooking.BookSucessScrenn
+import com.example.LogicConnection.Handler.ApiHandler
 import kotlinx.android.synthetic.main.fragment_court1.*
 
 
@@ -128,16 +129,20 @@ class Court1Fragment : Fragment(), MainInterface {
 
                     // update bookingInfo
                     if (bookingInfo != null) {
-                        bookingInfo.time = timeText
-                        bookingInfo.court = bookingCourtName
+                        bookingInfo.start = "09:00:00"
+                        bookingInfo.end = "10:00:00"
+//                        bookingInfo.court = bookingCourtName
+                        bookingInfo.court = "court1"   // <--- change this
                     }
                     else {
                         bookingInfo = MyBookingModel(
-                            time = timeText,
+                            start = "09:00:00",
+                            end = "10:00:00",
                             court = bookingCourtName
                         )
                     }
                     intent.putExtra("BookingInfo", bookingInfo)
+                    ApiHandler.createBooking(bookingInfo)
                     startActivity(intent)
                 }
             }
