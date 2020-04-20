@@ -1,14 +1,14 @@
 package com.example.book2play.db.models;
 
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.utils.TimeUtils;
+import com.example.test_utils.TimeUtils;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class BookingModelCreateBookingTest extends ModelTestSetup {
+public class BookingModelTest extends AbstractModelTest {
 
     private static int BOOKINGS_LIMIT = 3;
 
@@ -498,6 +498,7 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
             assertEquals("Unexpected error code", EXPECTED_CODE, e.getStatusCode());
         }
     }
+
 
     private void rawInsertBooking(
             String bookingId,

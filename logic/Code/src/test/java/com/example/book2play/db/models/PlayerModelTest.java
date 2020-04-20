@@ -1,15 +1,12 @@
 package com.example.book2play.db.models;
 
 import com.example.book2play.db.exceptions.MySQLException;
-import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class PlayerModelTest extends ModelTestSetup {
+public class PlayerModelTest extends AbstractModelTest {
 
     @Test
     public void createPlayerOnEmptyDatabase() throws Exception {
@@ -19,7 +16,7 @@ public class PlayerModelTest extends ModelTestSetup {
     }
 
     @Test
-    public void createPlayerWithInvalidPlayerId() throws Exception {
+    public void createPlayerWithInvalidPlayerId() {
         var expectedCode = 464;
         var playerId = "Phat@@";
 

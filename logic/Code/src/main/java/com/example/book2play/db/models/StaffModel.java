@@ -2,12 +2,12 @@ package com.example.book2play.db.models;
 
 import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.utils.DBUtils;
+import com.example.book2play.db.models.utils.ResultSetUtils;
 import com.example.book2play.types.Staff;
 
 import java.sql.*;
 
-public class StaffModel extends MySQLModel implements com.example.book2play.db.StaffModel {
+public class StaffModel extends AbstractModel implements com.example.book2play.db.StaffModel {
 
     public StaffModel(AppDataSource db) {
         super(db);
@@ -37,13 +37,13 @@ public class StaffModel extends MySQLModel implements com.example.book2play.db.S
             if (!rs.next()) {
                 throw new MySQLException("Data not found");
             }
-            return DBUtils.singleStaffFromResultSet(rs);
+            return ResultSetUtils.singleStaffFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
-            DBUtils.quietCloseResultSet(rs);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseResultSet(rs);
         }
     }
 
@@ -70,8 +70,8 @@ public class StaffModel extends MySQLModel implements com.example.book2play.db.S
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 
@@ -100,8 +100,8 @@ public class StaffModel extends MySQLModel implements com.example.book2play.db.S
             e.printStackTrace();
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 
@@ -118,8 +118,8 @@ public class StaffModel extends MySQLModel implements com.example.book2play.db.S
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 }

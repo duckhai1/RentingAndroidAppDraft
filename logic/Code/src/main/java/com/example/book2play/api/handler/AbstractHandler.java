@@ -1,9 +1,9 @@
-package com.example.book2play.presentation.handler;
+package com.example.book2play.api.handler;
 
 import com.sun.net.httpserver.HttpHandler;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -12,11 +12,11 @@ import java.util.regex.Pattern;
 
 import static java.util.stream.Collectors.*;
 
-public abstract class apiHandler implements HttpHandler {
+public abstract class AbstractHandler implements HttpHandler {
 
     // convert from query in URI to Json
     protected static Map<String, List<String>> splitQuery(String query) {
-        if (query == null || "".equals(query)) {
+        if (query == null || query.isBlank()) {
             return Collections.emptyMap();
         }
 
@@ -26,10 +26,6 @@ public abstract class apiHandler implements HttpHandler {
 
     }
     private static String decode(final String encoded) {
-        try {
-            return encoded == null ? null : URLDecoder.decode(encoded, "UTF-8");
-        } catch (final UnsupportedEncodingException e) {
-            throw new RuntimeException("UTF-8 is a required encoding", e);
-        }
+        return encoded == null ? null : URLDecoder.decode(encoded, StandardCharsets.UTF_8);
     }
 }

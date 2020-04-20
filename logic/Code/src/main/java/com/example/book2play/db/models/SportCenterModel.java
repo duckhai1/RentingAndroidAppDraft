@@ -2,13 +2,13 @@ package com.example.book2play.db.models;
 
 import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.utils.DBUtils;
+import com.example.book2play.db.models.utils.ResultSetUtils;
 import com.example.book2play.types.SportCenter;
 
 import java.sql.*;
 import java.util.Collection;
 
-public class SportCenterModel extends MySQLModel implements com.example.book2play.db.SportCenterModel {
+public class SportCenterModel extends AbstractModel implements com.example.book2play.db.SportCenterModel {
 
     public SportCenterModel(AppDataSource db) {
         super(db);
@@ -34,13 +34,13 @@ public class SportCenterModel extends MySQLModel implements com.example.book2pla
                 throw new MySQLException(statusCode);
             }
 
-            return DBUtils.singleSportCenterFromResultSet(rs);
+            return ResultSetUtils.singleSportCenterFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
-            DBUtils.quietCloseResultSet(rs);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseResultSet(rs);
         }
     }
 
@@ -66,8 +66,8 @@ public class SportCenterModel extends MySQLModel implements com.example.book2pla
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 
@@ -94,8 +94,8 @@ public class SportCenterModel extends MySQLModel implements com.example.book2pla
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 
@@ -112,8 +112,8 @@ public class SportCenterModel extends MySQLModel implements com.example.book2pla
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 

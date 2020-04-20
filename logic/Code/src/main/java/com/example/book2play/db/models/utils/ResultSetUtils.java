@@ -1,4 +1,4 @@
-package com.example.book2play.db.utils;
+package com.example.book2play.db.models.utils;
 
 import com.example.book2play.types.*;
 import com.mysql.cj.protocol.Resultset;
@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.logging.Logger;
 
-public class DBUtils {
+public class ResultSetUtils {
     private final static Logger LOG = Logger.getLogger("UTILS");
 
     public static Booking singleBookingFromResultSet(ResultSet rs) throws SQLException {
