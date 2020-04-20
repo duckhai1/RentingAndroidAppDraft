@@ -1,7 +1,6 @@
 /*
 The staff member identified by staffPk updates the status of the booking identified by bookingPk.
 */
-USE book2play_test;
 DELIMITER //
 
 DROP PROCEDURE IF EXISTS updateBookingStatus //
