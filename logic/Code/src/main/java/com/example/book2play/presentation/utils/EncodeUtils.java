@@ -4,8 +4,10 @@ import com.example.book2play.types.Booking;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
+
 public class EncodeUtils {
-    public static String encodeBooking(Booking b){
+    public static JsonObject encodeBooking(Booking b){
         JsonObject responseJson = new JsonObject();
         responseJson.addProperty("bookingId", b.getBookingId());
         responseJson.addProperty("bookingDate", b.getBookingDate().toString());
@@ -17,6 +19,14 @@ public class EncodeUtils {
         responseJson.addProperty("player", b.getPlayer().getPlayerId());
         responseJson.addProperty("isPaid", b.isPaid());
 
-        return new Gson().toJson(responseJson);
+        return responseJson;
+    }
+
+    public static ArrayList<JsonObject> encodeBookings(ArrayList<Booking> b_array){
+        ArrayList<JsonObject> jsonObjectArray = new ArrayList<JsonObject>();
+        for (Booking b : b_array){
+            jsonObjectArray.add(encodeBooking(b));
+        }
+        return jsonObjectArray;
     }
 }

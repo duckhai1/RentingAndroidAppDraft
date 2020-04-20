@@ -15,8 +15,7 @@ import java.util.Properties;
 public class Main {
     public static void main(String[] args){
         runExample();
-
-        System.out.println("Comming to me my book2play guest, come on!!");
+        System.out.println("Starting server ...");
         try {
             RestServer.run();
         } catch (IOException e) {
