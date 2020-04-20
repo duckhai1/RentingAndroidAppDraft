@@ -152,7 +152,7 @@ public class CourtModel extends MySQLModel implements com.example.book2play.db.C
         }
     }
 
-    public Collection<Court> getCourtsFromSportCenter(String sportCenterId, String cityId) throws MySQLException {
+    public Collection<Court> getCourtsInSportCenter(String sportCenterId, String cityId) throws MySQLException {
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
