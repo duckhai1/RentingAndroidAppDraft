@@ -9,6 +9,11 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class MySQLDataSource implements AppDataSource {
+
+    public final String DEFAULT_URL = "jdbc:mysql://localhost:3306/book2play";
+    public final String DEFAULT_USERNAME = "root";
+    public final String DEFAULT_PASSWORD = "root";
+
     private String url;
     private Properties props;
     private DataSource ds;
@@ -24,9 +29,9 @@ public class MySQLDataSource implements AppDataSource {
 
     private void setupDataSource(Properties props) {
         var newDs = new MysqlDataSource();
-        newDs.setURL(props.getProperty("url"));
-        newDs.setUser(props.getProperty("user"));
-        newDs.setPassword(props.getProperty("password"));
+        newDs.setURL(props.getProperty("url", DEFAULT_URL));
+        newDs.setUser(props.getProperty("user", DEFAULT_USERNAME));
+        newDs.setPassword(props.getProperty("password", DEFAULT_PASSWORD));
         ds = newDs;
     }
 }

@@ -4,11 +4,11 @@ package com.example.book2play.presentation;
 import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.models.SportCenterModel;
 import com.example.book2play.presentation.handler.BookingsHandler;
-import com.example.book2play.presentation.handler.SportCenterHandler;
+import com.example.book2play.presentation.handler.SportCentersHandler;
 import com.sun.net.httpserver.BasicAuthenticator;
 import com.sun.net.httpserver.HttpServer;
 
-import java.io.*;
+import java.io.IOException;
 import java.net.InetSocketAddress;
 
 public class RestServer {
@@ -24,7 +24,7 @@ public class RestServer {
         this.srv = HttpServer.create(new InetSocketAddress(port), 0);
     }
 
-    public void run() throws IOException {
+    public void listen() throws IOException {
         setBookingsHandler();
         srv.setExecutor(null); // creates a default executor
         srv.start();
@@ -42,6 +42,6 @@ public class RestServer {
 
     private void setSportCentersHandler() {
         var model = new SportCenterModel(ds);
-        var ctx = srv.createContext(SPORT_CENTER_BASE_URL, new SportCenterHandler(model));
+        var ctx = srv.createContext(SPORT_CENTER_BASE_URL, new SportCentersHandler(model));
     }
 }
