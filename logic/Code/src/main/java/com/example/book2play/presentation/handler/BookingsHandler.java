@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-public class apiBookingsHandler extends apiHandler {
+public class BookingsHandler extends apiHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         //create connection with db

@@ -2,23 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7d65f3c8-344b-4325-83b0-4a37689ecf53" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/book2play/presentation/utils/EncodeUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/book2play/presentation/MockDatabase.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/book2play/presentation/RestServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/book2play/presentation/RestServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/book2play/presentation/apiBookingsHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/book2play/presentation/handler/apiBookingsHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/book2play/presentation/apiCentersHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/book2play/presentation/handler/apiCentersHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/book2play/presentation/apiHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/book2play/presentation/handler/apiHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/BookingList/CancelledFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/BookingList/CancelledFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/BookingList/CompletedFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/BookingList/CompletedFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/BookingList/UpcommingFragment.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/BookingList/UpcommingFragment.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Handler/TestConnection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Handler/TestConnection.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Type/MyBookingModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Type/MyBookingModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Type/MyCenterModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Type/MyCenterModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Type/MyCityModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Type/MyCityModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Type/MyCourtModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Type/MyCourtModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Type/MyPlayerModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Type/MyPlayerModel.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Type/MySlotModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/../../presentation/app/src/main/java/com/example/LogicConnection/Type/MySlotModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/book2play/presentation/handler/apiBookingsHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/book2play/presentation/handler/BookingsHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/book2play/presentation/handler/apiCentersHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/book2play/presentation/handler/SportCenterHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,18 +99,6 @@
         <item itemvalue="JUnit.BookingModelCreateBookingTest.testCreateBookingWithDuplicateId" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
