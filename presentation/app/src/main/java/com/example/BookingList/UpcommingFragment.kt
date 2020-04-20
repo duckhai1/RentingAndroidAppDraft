@@ -50,7 +50,6 @@ class UpcommingFragment : Fragment() {
         arrayList.add(
             MyBookingModel(
                 "Apr 2",
-                "Fri",
                 "10h30",
                 "11h30",
                 "city1",
@@ -62,7 +61,6 @@ class UpcommingFragment : Fragment() {
         arrayList.add(
             MyBookingModel(
                 "Apr 24",
-                "Mon",
                 "10h30",
                 "11h30",
                 "city1",
@@ -74,7 +72,6 @@ class UpcommingFragment : Fragment() {
         arrayList.add(
             MyBookingModel(
                 "May 5",
-                "Mon",
                 "10h30",
                 "11h30",
                 "city1",
@@ -86,7 +83,6 @@ class UpcommingFragment : Fragment() {
         arrayList.add(
             MyBookingModel(
                 "May 18",
-                "Tue",
                 "10h30",
                 "11h30",
                 "city1",
@@ -98,7 +94,6 @@ class UpcommingFragment : Fragment() {
         arrayList.add(
             MyBookingModel(
                 "Jun 29",
-                "Fri",
                 "10h30",
                 "11h30",
                 "city1",
@@ -110,7 +105,6 @@ class UpcommingFragment : Fragment() {
         arrayList.add(
             MyBookingModel(
                 "Jul 21",
-                "Sun",
                 "10h30",
                 "11h30",
                 "city1",

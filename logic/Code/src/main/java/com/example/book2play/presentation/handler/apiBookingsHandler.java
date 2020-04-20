@@ -1,14 +1,14 @@
-package com.example.book2play.presentation;
+package com.example.book2play.presentation.handler;
 
 import com.example.book2play.App;
 import com.example.book2play.db.driver.MySQLDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.BookingModel;
+import com.example.book2play.presentation.utils.EncodeUtils;
 import com.example.book2play.types.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
 import java.io.*;
 import java.sql.Date;
@@ -74,12 +74,12 @@ public class apiBookingsHandler extends apiHandler {
             // process request
             // TODO process the request and create booking in database
             JsonObject request = new Gson().fromJson(stringBuilder.toString(), JsonObject.class);
-            String bookingId = "booking5";
+            String bookingId = "bookingId";
             Timestamp createdAt = new Timestamp(System.currentTimeMillis());
-            Date bookingDate = Date.valueOf(request.get("date").getAsString());
-            Time bookingStartTime = Time.valueOf((request.get("start")).getAsString());
-            Time bookingEndTime = Time.valueOf((request.get("end")).getAsString());
-            boolean isPaid = request.get("status").getAsBoolean();
+            Date bookingDate = Date.valueOf(request.get("bookingDate").getAsString());
+            Time bookingStartTime = Time.valueOf((request.get("bookingStartTime")).getAsString());
+            Time bookingEndTime = Time.valueOf((request.get("bookingEndTime")).getAsString());
+            boolean isPaid = request.get("isPaid").getAsBoolean();
             String courtId = request.get("court").getAsString();
             String sportCenterId = request.get("center").getAsString();
             String cityId = request.get("city").getAsString();
@@ -105,7 +105,7 @@ public class apiBookingsHandler extends apiHandler {
             // createBooking(b)
 
             // handle response
-            String responseJson = new Gson().toJson(b);
+            String responseJson = EncodeUtils.encodeBooking(b);
             System.out.println("responseJson: " + responseJson);
             exchange.sendResponseHeaders(200, responseJson.getBytes().length);
             // make a response body
