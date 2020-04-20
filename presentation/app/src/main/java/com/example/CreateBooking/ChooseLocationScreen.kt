@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+
 import com.example.LogicConnection.Type.MyBookingModel
 import com.example.book2play.R
 
@@ -29,8 +30,8 @@ class ChooseLocationScreen : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.activity_choose_location,container, false)
 
+        val v = inflater.inflate(R.layout.activity_choose_location,container, false)
         citySpinner = v.findViewById(R.id.CitySpinner) as Spinner
         val btnContinue = v.findViewById(R.id.btnContinue) as Button
         val btnCurrentLoc = v.findViewById(R.id.btnCurrentLoc) as Button

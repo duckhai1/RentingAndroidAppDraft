@@ -10,6 +10,7 @@ import com.example.BookingList.BookingHistoryScreen
 import com.example.CreateBooking.ChooseLocationScreen
 import com.example.book2play.HomeFragment
 import com.example.book2play.R
+
 import com.facebook.login.LoginManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -95,7 +96,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.logout_menu -> {
                 LoginManager.getInstance().logOut()
-
                 logoutFragment =
                     LogoutFragment()  // --> change this one
                 supportFragmentManager
