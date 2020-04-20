@@ -21,7 +21,7 @@ class MyBookingModel(
     var player: String = "",    // booking player name
     @SerializedName("isPaid")
     var status: Int = 0,        // status 0: unpaid; 1:paid
-    var week: String  = SimpleDateFormat("EE").format(SimpleDateFormat("dd/M/yyyy").parse(date)),      // date of the week of the booking
+    var week: String  = SimpleDateFormat("EE").format(SimpleDateFormat("yyyy-MM-dd").parse(date)),      // date of the week of the booking
     var time: String = start + " " + end        // deprecated later
 
 ) :MyDataModel {

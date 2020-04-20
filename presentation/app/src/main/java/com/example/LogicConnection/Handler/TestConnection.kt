@@ -31,28 +31,28 @@ class TestConnection : AppCompatActivity() {
     inner class RequestAsync : AsyncTask<String?, String?, String?>(){
         override fun doInBackground(vararg params: String?): String? {
             return try {
-//                //GET Request
-//                return ConnectionHandler.sendGet("http://10.0.2.2:8000/api/bookings?bookingId=booking1");
+                //GET Request
+                return ConnectionHandler.sendGet("http://10.0.2.2:8000/api/bookings?bookingId=booking1");
 
-                // POST Request
-                val newBooking = MyBookingModel(
-                    "2007-09-23",
-                    "08:00:00",
-                    "09:00:00",
-                    "City1",
-                    "Center1",
-                    "Court1",
-                    "Alan"
-                )
-                val postJson = Gson().toJson(newBooking)
-                Log.d("java_connection", "postJson $postJson")
-                val postDataParams = Gson().fromJson(postJson, JsonObject::class.java)
-//                postDataParams.addProperty("bookingId", "booking5")
-//                postDataParams.addProperty("createAt", Timestamp.valueOf("2007-09-23 10:10:10.0"))
-                ConnectionHandler.sendPost(
-                    "http://10.0.2.2:8000/api/bookings",
-                    postDataParams
-                )
+//                // POST Request
+//                val newBooking = MyBookingModel(
+//                    "2007-09-23",
+//                    "08:00:00",
+//                    "09:00:00",
+//                    "City1",
+//                    "Center1",
+//                    "Court1",
+//                    "Alan"
+//                )
+//                val postJson = Gson().toJson(newBooking)
+//                Log.d("java_connection", "postJson $postJson")
+//                val postDataParams = Gson().fromJson(postJson, JsonObject::class.java)
+////                postDataParams.addProperty("bookingId", "booking5")
+////                postDataParams.addProperty("createAt", Timestamp.valueOf("2007-09-23 10:10:10.0"))
+//                ConnectionHandler.sendPost(
+//                    "http://10.0.2.2:8000/api/bookings",
+//                    postDataParams
+//                )
             } catch (e: Exception) {
                 "Exception: " + e.message
             }
