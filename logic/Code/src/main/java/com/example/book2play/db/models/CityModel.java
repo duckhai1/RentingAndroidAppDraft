@@ -1,14 +1,14 @@
 package com.example.book2play.db.models;
 
-import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.AppDataSource;
-import com.example.book2play.db.utils.DBUtils;
+import com.example.book2play.db.exceptions.MySQLException;
+import com.example.book2play.db.models.utils.ResultSetUtils;
 import com.example.book2play.types.City;
 
 import java.sql.*;
 import java.util.Collection;
 
-public class CityModel extends MySQLModel implements com.example.book2play.db.CityModel {
+public class CityModel extends AbstractModel implements com.example.book2play.db.CityModel {
 
     public CityModel(AppDataSource db) {
         super(db);
@@ -31,13 +31,13 @@ public class CityModel extends MySQLModel implements com.example.book2play.db.Ci
                 throw new MySQLException(statusCode);
             }
 
-            return DBUtils.citiesFromResultSet(rs);
+            return ResultSetUtils.citiesFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
-            DBUtils.quietCloseResultSet(rs);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseResultSet(rs);
         }
     }
 
@@ -60,8 +60,8 @@ public class CityModel extends MySQLModel implements com.example.book2play.db.Ci
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 
@@ -78,8 +78,8 @@ public class CityModel extends MySQLModel implements com.example.book2play.db.Ci
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 }

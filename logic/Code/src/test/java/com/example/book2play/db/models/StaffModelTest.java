@@ -4,20 +4,18 @@ import com.example.book2play.db.exceptions.MySQLException;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class StaffModelTest extends ModelTestSetup {
+public class StaffModelTest extends AbstractModelTest {
 
     @Before
-    public void createScenario() throws Exception{
+    public void createScenario() throws Exception {
         var cityId = "HoChiMinh";
         var sportCenterId = "DinhHoa";
 
         CITY.createCity(cityId);
-        SPORT_CENTER.createCityCenter(sportCenterId,cityId);
+        SPORT_CENTER.createCityCenter(sportCenterId, cityId);
     }
 
     @Test
@@ -44,7 +42,7 @@ public class StaffModelTest extends ModelTestSetup {
     }
 
     @Test
-    public void createStaffWithInvalidStaffId() throws Exception{
+    public void createStaffWithInvalidStaffId() {
         var staffId = "Phat@@";
         var expectedCode = 463;
 
@@ -58,7 +56,7 @@ public class StaffModelTest extends ModelTestSetup {
     }
 
     @Test
-    public void createStaffWithInvalidCityId() throws Exception{
+    public void createStaffWithInvalidCityId() {
         var expectedCode = 460;
         var staffId = "Phat";
         var cityId = "HoChiMinh@";
@@ -77,7 +75,7 @@ public class StaffModelTest extends ModelTestSetup {
     }
 
     @Test
-    public void createStaffWithInvalidSportCenterId() throws Exception{
+    public void createStaffWithInvalidSportCenterId() {
         var expectedCode = 461;
         var staffId = "Phat";
         var cityId = "HoChiMinh2";

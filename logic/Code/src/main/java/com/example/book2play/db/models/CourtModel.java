@@ -2,13 +2,13 @@ package com.example.book2play.db.models;
 
 import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.utils.DBUtils;
+import com.example.book2play.db.models.utils.ResultSetUtils;
 import com.example.book2play.types.Court;
 
 import java.sql.*;
 import java.util.Collection;
 
-public class CourtModel extends MySQLModel implements com.example.book2play.db.CourtModel {
+public class CourtModel extends AbstractModel implements com.example.book2play.db.CourtModel {
 
     public CourtModel(AppDataSource db) {
         super(db);
@@ -38,13 +38,13 @@ public class CourtModel extends MySQLModel implements com.example.book2play.db.C
             if (!rs.next()) {
                 throw new MySQLException("Data not found");
             }
-            return DBUtils.singleCourtFromResultSet(rs);
+            return ResultSetUtils.singleCourtFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
-            DBUtils.quietCloseResultSet(rs);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseResultSet(rs);
         }
     }
 
@@ -71,8 +71,8 @@ public class CourtModel extends MySQLModel implements com.example.book2play.db.C
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 
@@ -100,8 +100,8 @@ public class CourtModel extends MySQLModel implements com.example.book2play.db.C
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 
@@ -119,8 +119,8 @@ public class CourtModel extends MySQLModel implements com.example.book2play.db.C
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 
@@ -142,8 +142,37 @@ public class CourtModel extends MySQLModel implements com.example.book2play.db.C
                 throw new MySQLException(statusCode);
             }
 
-            return DBUtils.courtsFromResultSet(rs);
+            return ResultSetUtils.courtsFromResultSet(rs);
         } catch (SQLException e) {
+            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+        } finally {
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseResultSet(rs);
+        }
+    }
+
+    public Collection<Court> getCourtsInSportCenter(String sportCenterId, String cityId) throws MySQLException {
+        Connection conn = null;
+        CallableStatement stm = null;
+        ResultSet rs = null;
+
+        try{
+            conn = this.db.getConnection();
+            stm  = conn.prepareCall("{call getCourtsInSportCenter(?, ?, ?)}");
+            stm.setString(1, sportCenterId);
+            stm.setString(2, cityId);
+            stm.registerOutParameter(2, Types.INTEGER);
+
+            rs = stm.executeQuery();
+            var statusCode = stm.getInt(2);
+            LOG.info("Received status code " + statusCode);
+            if (statusCode >= 400 && statusCode < 500) {
+                throw new MySQLException(statusCode);
+            }
+
+            return DBUtils.courtsFromResultSet(rs);
+        } catch (SQLException e){
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
             DBUtils.quietCloseConnection(conn);

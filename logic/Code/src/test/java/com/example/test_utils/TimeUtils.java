@@ -1,4 +1,4 @@
-package com.example.book2play.utils;
+package com.example.test_utils;
 
 import java.util.Calendar;
 import java.util.logging.Logger;

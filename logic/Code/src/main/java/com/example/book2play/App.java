@@ -1,10 +1,10 @@
 package com.example.book2play;
 
+import com.example.book2play.api.Server;
 import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.driver.MySQLDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.*;
-import com.example.book2play.presentation.RestServer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,8 +75,8 @@ public class App {
 
         try {
             System.out.println("Starting server on port " + SRV_PORT);
-            var srv = new RestServer(ds, SRV_PORT);
-            srv.listen();
+            var srv = new Server(ds, SRV_PORT);
+            srv.start();
         } catch (IOException e) {
             LOG.severe(e.getMessage());
             e.printStackTrace();
