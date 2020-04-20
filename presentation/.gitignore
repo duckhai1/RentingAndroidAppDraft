@@ -1,4 +1,3 @@
-
 # Built application files
 *.apk
 *.aar
@@ -83,9 +82,7 @@ lint/intermediates/
 lint/generated/
 lint/outputs/
 lint/tmp/
-<<<<<<< HEAD
 # lint/reports/
-=======
 # lint/reports/
 © 2020 GitHub, Inc.
 Terms
@@ -99,4 +96,4 @@ API
 Training
 Blog
 About
->>>>>>> 30a6805526ea5714ff7d6a4a6df51344de579f3a
+

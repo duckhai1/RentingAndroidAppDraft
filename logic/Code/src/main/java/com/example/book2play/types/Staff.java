@@ -4,24 +4,30 @@ import java.util.Objects;
 
 public class Staff {
     private String staffId;
-    private SportCenter sportCenter;
+    private String cityId;
+    private String sportCenterId;
 
-    public Staff(String staffId, SportCenter sportCenter) {
+    public Staff(String staffId, String cityId, String sportCenterId) {
         this.staffId = staffId;
-        this.sportCenter = sportCenter;
+        this.cityId = cityId;
+        this.sportCenterId = sportCenterId;
     }
 
     public String getStaffId() {
         return staffId;
     }
 
-    public SportCenter getSportCenter() {
-        return sportCenter;
+    public String getCityId() {
+        return cityId;
+    }
+
+    public String getSportCenterId() {
+        return sportCenterId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sportCenter, staffId);
+        return Objects.hash(cityId, sportCenterId, staffId);
     }
 
     @Override
@@ -39,7 +45,8 @@ public class Staff {
         }
 
         var other = (Staff) obj;
-        return sportCenter.equals(other.getSportCenter())
+        return cityId.equals(other.getCityId())
+                && sportCenterId.equals(other.getSportCenterId())
                 && staffId.equals(other.getStaffId());
     }
 }

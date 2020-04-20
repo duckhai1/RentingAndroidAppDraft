@@ -27,13 +27,13 @@ public class SlotModel {
         for (var booking : courtBookings) {
             var currStartTime = booking.getBookingStartTime();
             if (currStartTime.getTime() - prevEndTime.getTime() >= minDuration) {
-                slots.add(new Slot(court, prevEndTime, currStartTime));
+                slots.add(new Slot(prevEndTime, currStartTime, court.getCityId(), court.getSportCenterId(), court.getCourtId() ));
             }
             prevEndTime = booking.getBookingEndTime();
         }
 
         if (closeTime.getTime() - prevEndTime.getTime() >= minDuration) {
-            slots.add(new Slot(court, prevEndTime, closeTime));
+            slots.add(new Slot(prevEndTime, closeTime, court.getCityId(), court.getSportCenterId(), court.getCourtId()));
         }
         return slots;
     }

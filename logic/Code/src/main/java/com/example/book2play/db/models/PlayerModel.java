@@ -1,7 +1,7 @@
 package com.example.book2play.db.models;
 
-import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.AppDataSource;
+import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.utils.DBUtils;
 import com.example.book2play.types.Player;
 
@@ -36,9 +36,7 @@ public class PlayerModel extends MySQLModel implements com.example.book2play.db.
                 throw new MySQLException("Data not found");
             }
 
-            return new com.example.book2play.types.Player(
-                    rs.getString("playerId")
-            );
+            return DBUtils.singlePlayerFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
