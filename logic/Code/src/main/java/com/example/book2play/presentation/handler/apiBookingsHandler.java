@@ -105,7 +105,7 @@ public class apiBookingsHandler extends apiHandler {
             // createBooking(b)
 
             // handle response
-            String responseJson = EncodeUtils.encodeBooking(b);
+            String responseJson = new Gson().toJson(b);
             System.out.println("responseJson: " + responseJson);
             exchange.sendResponseHeaders(200, responseJson.getBytes().length);
             // make a response body

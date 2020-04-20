@@ -21,7 +21,7 @@ class TestConnection : AppCompatActivity() {
 
         submit_button.setOnClickListener(object : View.OnClickListener{
             override fun onClick(v: View?) {
-                Toast.makeText(applicationContext, "Cliked", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Clicked", Toast.LENGTH_SHORT).show()
                 RequestAsync().execute()
             }
 
