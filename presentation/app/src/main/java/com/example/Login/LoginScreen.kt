@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.CreateBooking.ChooseLocationScreen
 import com.example.book2play.R
 import com.facebook.*
+import com.facebook.login.LoginBehavior
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import org.json.JSONException
@@ -46,9 +48,11 @@ class LoginScreen : AppCompatActivity() {
         //FACEBOOK PART
         FacebookSdk.sdkInitialize(applicationContext)
         loginButton = findViewById<View>(R.id.FBSigninBtn) as LoginButton
+        LoginManager.getInstance().setLoginBehavior(LoginBehavior.WEB_VIEW_ONLY)
         callbackManager = CallbackManager.Factory.create()
         loginButton!!.setReadPermissions("email")
-        loginButton!!.registerCallback(callbackManager, object :
+        LoginManager.getInstance().registerCallback(callbackManager, object :
+//        loginButton!!.registerCallback(callbackManager, object :
             FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 val accessToken = loginResult.accessToken.token
