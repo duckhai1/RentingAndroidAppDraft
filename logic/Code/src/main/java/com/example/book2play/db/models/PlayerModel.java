@@ -2,12 +2,12 @@ package com.example.book2play.db.models;
 
 import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.utils.DBUtils;
+import com.example.book2play.db.models.utils.ResultSetUtils;
 import com.example.book2play.types.Player;
 
 import java.sql.*;
 
-public class PlayerModel extends MySQLModel implements com.example.book2play.db.PlayerModel {
+public class PlayerModel extends AbstractModel implements com.example.book2play.db.PlayerModel {
 
     public PlayerModel(AppDataSource db) {
         super(db);
@@ -36,13 +36,13 @@ public class PlayerModel extends MySQLModel implements com.example.book2play.db.
                 throw new MySQLException("Data not found");
             }
 
-            return DBUtils.singlePlayerFromResultSet(rs);
+            return ResultSetUtils.singlePlayerFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
-            DBUtils.quietCloseResultSet(rs);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseResultSet(rs);
         }
     }
 
@@ -67,8 +67,8 @@ public class PlayerModel extends MySQLModel implements com.example.book2play.db.
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 
@@ -94,8 +94,8 @@ public class PlayerModel extends MySQLModel implements com.example.book2play.db.
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 
@@ -112,8 +112,8 @@ public class PlayerModel extends MySQLModel implements com.example.book2play.db.
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 }

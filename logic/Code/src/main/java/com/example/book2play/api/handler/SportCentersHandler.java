@@ -1,4 +1,4 @@
-package com.example.book2play.presentation.handler;
+package com.example.book2play.api.handler;
 
 import com.example.book2play.db.SportCenterModel;
 import com.sun.net.httpserver.HttpExchange;
@@ -17,24 +17,27 @@ public class SportCentersHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         if ("GET".equals(exchange.getRequestMethod())) {
-            handleGet(exchange);
-            return;
+            execGet(exchange);
+        } else if ("POST".equals(exchange.getRequestMethod())) {
+            execPost(exchange);
+        } else if ("PUT".equals(exchange.getRequestMethod())) {
+            execPut(exchange);
+        } else if ("DELETE".equals(exchange.getRequestMethod())) {
+            execDelete(exchange);
         }
-
-        if ("POST".equals(exchange.getRequestMethod())) {
-        }
-
-        if ("PUT".equals(exchange.getRequestMethod())) {
-        }
-
-        if ("DELETE".equals(exchange.getRequestMethod())) {
-        }
-
         exchange.sendResponseHeaders(405, -1);// 405 Method Not Allowed
         exchange.close();
     }
 
-    private void handleGet(HttpExchange exchange) throws IOException {
+    private void execGet(HttpExchange exchange) {
+    }
 
+    private void execPost(HttpExchange exchange) {
+    }
+
+    private void execPut(HttpExchange exchange) {
+    }
+
+    private void execDelete(HttpExchange exchange) {
     }
 }

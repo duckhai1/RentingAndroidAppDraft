@@ -1,17 +1,17 @@
-package com.example.book2play.presentation;
+package com.example.book2play.api;
 
 
+import com.example.book2play.api.handler.BookingsHandler;
+import com.example.book2play.api.handler.SportCentersHandler;
 import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.models.SportCenterModel;
-import com.example.book2play.presentation.handler.BookingsHandler;
-import com.example.book2play.presentation.handler.SportCentersHandler;
 import com.sun.net.httpserver.BasicAuthenticator;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-public class RestServer {
+public class Server {
 
     public static String BOOKINGS_BASE_URL = "/api/bookings";
     public static String SPORT_CENTER_BASE_URL = "/api/centers";
@@ -19,18 +19,22 @@ public class RestServer {
     private AppDataSource ds;
     private HttpServer srv;
 
-    public RestServer(AppDataSource ds, int port) throws IOException {
+    public Server(AppDataSource ds, int port) throws IOException {
         this.ds = ds;
         this.srv = HttpServer.create(new InetSocketAddress(port), 0);
+        setRoutes();
     }
 
-    public void listen() throws IOException {
-        setBookingsHandler();
+    public void start() {
         srv.setExecutor(null); // creates a default executor
         srv.start();
     }
 
-    private void setBookingsHandler() {
+    private void setRoutes() {
+        setBookingsRoutes();
+    }
+
+    private void setBookingsRoutes() {
         var ctx = srv.createContext(BOOKINGS_BASE_URL, new BookingsHandler());
         ctx.setAuthenticator(new BasicAuthenticator("myrealm") {
             @Override

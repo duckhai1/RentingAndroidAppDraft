@@ -10,7 +10,7 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Logger;
 
-public abstract class ModelTestSetup {
+public abstract class AbstractModelTest {
 
     protected final static Logger LOG = Logger.getLogger("TEST");
 

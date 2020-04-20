@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class SportCenterModelTest extends ModelTestSetup {
+public class SportCenterModelTest extends AbstractModelTest {
 
     @Test
     public void testCreateCityCenterOnEmptyDatabase() throws Exception {

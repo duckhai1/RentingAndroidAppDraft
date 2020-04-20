@@ -2,13 +2,13 @@ package com.example.book2play.db.models;
 
 import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.utils.DBUtils;
+import com.example.book2play.db.models.utils.ResultSetUtils;
 import com.example.book2play.types.Booking;
 
 import java.sql.*;
 import java.util.Collection;
 
-public class BookingModel extends MySQLModel implements com.example.book2play.db.BookingModel {
+public class BookingModel extends AbstractModel implements com.example.book2play.db.BookingModel {
 
     public BookingModel(AppDataSource db) {
         super(db);
@@ -37,13 +37,13 @@ public class BookingModel extends MySQLModel implements com.example.book2play.db
                 throw new MySQLException("Data not found");
             }
 
-            return DBUtils.singleBookingFromResultSet(rs);
+            return ResultSetUtils.singleBookingFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
-            DBUtils.quietCloseResultSet(rs);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseResultSet(rs);
         }
     }
 
@@ -69,13 +69,13 @@ public class BookingModel extends MySQLModel implements com.example.book2play.db
                 throw new MySQLException(statusCode);
             }
 
-            return DBUtils.bookingsFromResultSet(rs);
+            return ResultSetUtils.bookingsFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
-            DBUtils.quietCloseResultSet(rs);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseResultSet(rs);
         }
     }
 
@@ -100,13 +100,13 @@ public class BookingModel extends MySQLModel implements com.example.book2play.db
                 throw new MySQLException(statusCode);
             }
 
-            return DBUtils.bookingsFromResultSet(rs);
+            return ResultSetUtils.bookingsFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
-            DBUtils.quietCloseResultSet(rs);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseResultSet(rs);
         }
     }
 
@@ -130,13 +130,13 @@ public class BookingModel extends MySQLModel implements com.example.book2play.db
                 throw new MySQLException(statusCode);
             }
 
-            return DBUtils.bookingsFromResultSet(rs);
+            return ResultSetUtils.bookingsFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
-            DBUtils.quietCloseResultSet(rs);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseResultSet(rs);
         }
     }
 
@@ -179,8 +179,8 @@ public class BookingModel extends MySQLModel implements com.example.book2play.db
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 
@@ -208,8 +208,8 @@ public class BookingModel extends MySQLModel implements com.example.book2play.db
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 
@@ -235,8 +235,8 @@ public class BookingModel extends MySQLModel implements com.example.book2play.db
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 
@@ -254,8 +254,8 @@ public class BookingModel extends MySQLModel implements com.example.book2play.db
         } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 }

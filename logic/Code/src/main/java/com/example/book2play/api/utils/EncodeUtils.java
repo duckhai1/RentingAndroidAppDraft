@@ -1,4 +1,4 @@
-package com.example.book2play.presentation.utils;
+package com.example.book2play.api.utils;
 
 import com.example.book2play.types.Booking;
 import com.google.gson.JsonObject;
