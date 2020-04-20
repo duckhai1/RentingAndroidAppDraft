@@ -4,7 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.book2play.MainActivity
+
 import com.example.LogicConnection.Type.MyBookingModel
+
+
 import com.example.book2play.R
 import kotlinx.android.synthetic.main.book_sucess_screen.*
 
