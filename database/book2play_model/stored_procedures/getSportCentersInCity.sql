@@ -3,9 +3,9 @@
 */
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS getCentersInCity //
-CREATE PROCEDURE getCentersInCity (
-	IN InCityId VARCHAR(100),
+DROP PROCEDURE IF EXISTS getSportCentersInCity  //
+CREATE PROCEDURE getSportCentersInCity  (
+	IN inCityId VARCHAR(100),
     OUT statusCode INT
 )
 BEGIN
@@ -18,7 +18,7 @@ BEGIN
         SELECT sportCenterId, cityId
 		FROM sportCenters
 		NATURAL JOIN cities
-		WHERE cityId = InCityId;
+		WHERE cityId = inCityId;
 	END IF;
 END//
 
