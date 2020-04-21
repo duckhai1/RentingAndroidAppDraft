@@ -1,5 +1,6 @@
 package com.example.book2play.api.handler;
 
+import com.example.book2play.api.handler.utils.IdUtils;
 import com.example.book2play.api.utils.HTTPStatus;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.BookingModel;
@@ -96,7 +97,7 @@ public class BookingsHandler extends AbstractHandler {
         try {
             var booking = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Booking.class);
             model.createBooking(
-                    booking.getBookingId(),
+                    IdUtils.generateBookingId(booking),
                     new Timestamp(System.currentTimeMillis()),
                     booking.getBookingDate(),
                     booking.getBookingStartTime(),

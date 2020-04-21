@@ -10,7 +10,7 @@ import java.util.Properties;
 
 public class MySQLDataSource implements AppDataSource {
 
-    public final String DEFAULT_URL = "jdbc:mysql://localhost:3306/book2play";
+    public final String DEFAULT_URL = "jdbc:mysql://localhost:3307/book2play";
     public final String DEFAULT_USERNAME = "root";
     public final String DEFAULT_PASSWORD = "root";
 
