@@ -5,8 +5,10 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
-public class SportCentersHandler implements HttpHandler {
+public class SportCentersHandler extends AbstractHandler {
 
     SportCenterModel model;
 
@@ -30,6 +32,10 @@ public class SportCentersHandler implements HttpHandler {
     }
 
     private void execGet(HttpExchange exchange) {
+        var params = splitQuery(exchange.getRequestURI().getRawQuery());
+        if (!params.containsKey("cityId")) {
+
+        }
     }
 
     private void execPost(HttpExchange exchange) {

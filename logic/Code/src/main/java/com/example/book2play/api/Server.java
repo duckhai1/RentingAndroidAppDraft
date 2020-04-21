@@ -32,10 +32,11 @@ public class Server {
     }
 
     private void setRoutes() {
-        setBookingsRoutes();
+        setBookingsHandler();
+        setSportCentersHandler();
     }
 
-    private void setBookingsRoutes() {
+    private void setBookingsHandler() {
         var model = new BookingModel(ds);
         var ctx = srv.createContext(BOOKINGS_BASE_URL, new BookingsHandler(model));
         ctx.setAuthenticator(new BasicAuthenticator("myrealm") {
