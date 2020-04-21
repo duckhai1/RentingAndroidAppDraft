@@ -10,6 +10,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Date;
 import java.util.Collection;
+||||||| merged common ancestors
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 public class BookingsHandler extends AbstractHandler {
 
@@ -53,6 +60,27 @@ public class BookingsHandler extends AbstractHandler {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
+||||||| merged common ancestors
+    // TODO: this make no sense
+    private void execGet(HttpExchange exchange) {
+        // // handle request
+        // Map<String, List<String>> params = splitQuery(exchange.getRequestURI().getRawQuery());
+        // String requestJSON = new Gson().toJson(params);
+        // System.out.println("requestJSON: " + requestJSON);
+
+        // // get all list of booking
+        // ArrayList<Booking> bookings = new ArrayList<>();
+        // for (String bookingId : params.get("bookingId")){
+        //     try {
+        //         Booking b = model.getBookingInfo(bookingId);
+        //         bookings.add(b);
+        //     } catch (MySQLException e) {
+        //         e.printStackTrace();
+        //     }
+        //     // Booking b = getBooking(bookingID)
+        //     // bookings.add(b);
+
+        // }
 
         try {
             Collection<Booking> bookings;
@@ -83,6 +111,15 @@ public class BookingsHandler extends AbstractHandler {
         } catch (MySQLException | IllegalArgumentException e) {
             responseWithJSON(exchange, HTTPStatus.BAD_REQUEST, e);
         }
+||||||| merged common ancestors
+        // // handle response
+        // ArrayList<JsonObject> responseJsonList = EncodeUtils.encodeBookings(bookings);
+        // String responseJson = new Gson().toJson(responseJsonList);
+        // exchange.sendResponseHeaders(200, responseJson.getBytes().length);
+        // // make a response body
+        // OutputStream output = exchange.getResponseBody();
+        // output.write(responseJson.getBytes());
+        // output.flush();
     }
 
     private void execPost(HttpExchange exchange) throws IOException {
