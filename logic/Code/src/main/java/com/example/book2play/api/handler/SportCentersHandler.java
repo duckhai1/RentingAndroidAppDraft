@@ -17,17 +17,23 @@ public class SportCentersHandler extends AbstractHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        if ("GET".equals(exchange.getRequestMethod())) {
-            execGet(exchange);
-        } else if ("POST".equals(exchange.getRequestMethod())) {
-            execPost(exchange);
-        } else if ("PUT".equals(exchange.getRequestMethod())) {
-            execPut(exchange);
-        } else if ("DELETE".equals(exchange.getRequestMethod())) {
-            execDelete(exchange);
-        } else {
-            exchange.sendResponseHeaders(HTTPStatus.METHOD_NOT_ALLOWED, -1);// 405 Method Not Allowed
+        try {
+            if ("GET".equals(exchange.getRequestMethod())) {
+                execGet(exchange);
+            } else if ("POST".equals(exchange.getRequestMethod())) {
+                execPost(exchange);
+            } else if ("PUT".equals(exchange.getRequestMethod())) {
+                execPut(exchange);
+            } else if ("DELETE".equals(exchange.getRequestMethod())) {
+                execDelete(exchange);
+            } else {
+                exchange.sendResponseHeaders(HTTPStatus.METHOD_NOT_ALLOWED, -1);// 405 Method Not Allowed
+            }
+        } catch (RuntimeException e) {
+            LOG.severe("Unexpected exception " + e.getMessage());
+            responseWithJsonException(exchange, HTTPStatus.INTERNAL_SERVER_ERROR, e);
         }
+
         exchange.close();
     }
 
