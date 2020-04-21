@@ -62,20 +62,20 @@ public class App {
         SportCenterModel sportCenterModel = new SportCenterModel(ds);
 
         try {
-            cityModel.createCity("HCM");
-            sportCenterModel.createCityCenter("Q1", "HCM");
-            courtModel.createCityCenterCourt("P1", "HCM", "Q1");
-            playerModel.createPlayer("Alice");
+            cityModel.createCity("city1");
+            sportCenterModel.createCityCenter("center1", "city1");
+            courtModel.createCityCenterCourt("court1", "city1", "center1");
+            playerModel.createPlayer("player1");
             bookingModel.createBooking(
                     "booking1",
                     new Timestamp(System.currentTimeMillis()),
                     Date.valueOf("2020-05-20"),
                     Time.valueOf("08:30:00"),
                     Time.valueOf("09:30:00"),
-                    "HCM",
-                    "Q1",
-                    "P1",
-                    "Alice"
+                    "city1",
+                    "center1",
+                    "court1",
+                    "player1"
             );
         } catch (MySQLException e) {
             LOG.warning("Error while setting up example " + e.getMessage());

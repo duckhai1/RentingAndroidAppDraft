@@ -9,6 +9,7 @@ import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Collection;
 
 public class BookingsHandler extends AbstractHandler {
@@ -96,7 +97,7 @@ public class BookingsHandler extends AbstractHandler {
             var booking = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Booking.class);
             model.createBooking(
                     booking.getBookingId(),
-                    booking.getCreatedAt(),
+                    new Timestamp(System.currentTimeMillis()),
                     booking.getBookingDate(),
                     booking.getBookingStartTime(),
                     booking.getBookingEndTime(),
