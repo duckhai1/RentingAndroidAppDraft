@@ -122,13 +122,14 @@ public class BookingModel extends AbstractModel implements com.example.book2play
 
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL getPlayerBookings(?, ?, ?)}");
+            stm = conn.prepareCall("{CALL getPlayerBookings(?, ?, ?, ?)}");
             stm.setString(1, playerId);
             stm.setString(2, cityId);
-            stm.registerOutParameter(3, Types.INTEGER);
+            stm.setDate(3, date);
+            stm.registerOutParameter(4, Types.INTEGER);
 
             rs = stm.executeQuery();
-            var statusCode = stm.getInt(3);
+            var statusCode = stm.getInt(4);
             LOG.info("Received status code " + statusCode);
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);

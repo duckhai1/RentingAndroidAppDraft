@@ -2,6 +2,7 @@ package com.example.book2play.api.handler;
 
 import com.example.book2play.api.utils.HTTPStatus;
 import com.example.book2play.db.SportCenterModel;
+import com.example.book2play.db.exceptions.MySQLException;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
@@ -16,17 +17,23 @@ public class SportCentersHandler extends AbstractHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        if ("GET".equals(exchange.getRequestMethod())) {
-            execGet(exchange);
-        } else if ("POST".equals(exchange.getRequestMethod())) {
-            execPost(exchange);
-        } else if ("PUT".equals(exchange.getRequestMethod())) {
-            execPut(exchange);
-        } else if ("DELETE".equals(exchange.getRequestMethod())) {
-            execDelete(exchange);
-        } else {
-            exchange.sendResponseHeaders(HTTPStatus.METHOD_NOT_ALLOWED, -1);// 405 Method Not Allowed
+        try {
+            if ("GET".equals(exchange.getRequestMethod())) {
+                execGet(exchange);
+            } else if ("POST".equals(exchange.getRequestMethod())) {
+                execPost(exchange);
+            } else if ("PUT".equals(exchange.getRequestMethod())) {
+                execPut(exchange);
+            } else if ("DELETE".equals(exchange.getRequestMethod())) {
+                execDelete(exchange);
+            } else {
+                exchange.sendResponseHeaders(HTTPStatus.METHOD_NOT_ALLOWED, -1);// 405 Method Not Allowed
+            }
+        } catch (RuntimeException e) {
+            LOG.severe("Unexpected exception " + e.getMessage());
+            responseWithJsonException(exchange, HTTPStatus.INTERNAL_SERVER_ERROR, e);
         }
+
         exchange.close();
     }
 
@@ -40,8 +47,9 @@ public class SportCentersHandler extends AbstractHandler {
         }
 
         try {
-            model.getCitySportCenters(cityId.get(0));
-        } catch (Exception e) {
+            var sportCenters = model.getCitySportCenters(cityId.get(0));
+            responseWithJson(exchange, HTTPStatus.OK, sportCenters);
+        } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
         }

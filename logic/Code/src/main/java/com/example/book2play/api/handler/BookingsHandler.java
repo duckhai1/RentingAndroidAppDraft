@@ -22,16 +22,21 @@ public class BookingsHandler extends AbstractHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        if ("GET".equals(exchange.getRequestMethod())) {
-            execGet(exchange);
-        } else if ("POST".equals(exchange.getRequestMethod())) {
-            execPost(exchange);
-        } else if ("PUT".equals(exchange.getRequestMethod())) {
-            execPut(exchange);
-        } else if ("DELETE".equals(exchange.getRequestMethod())) {
-            execDelete(exchange);
-        } else {
-            exchange.sendResponseHeaders(405, -1); // NOT ALLOWED
+        try {
+            if ("GET".equals(exchange.getRequestMethod())) {
+                execGet(exchange);
+            } else if ("POST".equals(exchange.getRequestMethod())) {
+                execPost(exchange);
+            } else if ("PUT".equals(exchange.getRequestMethod())) {
+                execPut(exchange);
+            } else if ("DELETE".equals(exchange.getRequestMethod())) {
+                execDelete(exchange);
+            } else {
+                exchange.sendResponseHeaders(HTTPStatus.METHOD_NOT_ALLOWED, -1); // NOT ALLOWED
+            }
+        } catch (RuntimeException e) {
+            LOG.severe("Unexpected exception " + e.getMessage());
+            responseWithJsonException(exchange, HTTPStatus.INTERNAL_SERVER_ERROR, e);
         }
         exchange.close();
     }
@@ -54,8 +59,8 @@ public class BookingsHandler extends AbstractHandler {
             return;
         }
 
+        Collection<Booking> bookings;
         try {
-            Collection<Booking> bookings;
             if (playerId == null && cityId != null && sportCenterId != null && courtId != null) {
                 bookings = model.getCourtBookings(
                         courtId.get(0),
@@ -87,8 +92,8 @@ public class BookingsHandler extends AbstractHandler {
     }
 
     private void execPost(HttpExchange exchange) throws IOException {
-        var booking = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Booking.class);
         try {
+            var booking = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Booking.class);
             model.createBooking(
                     booking.getBookingId(),
                     booking.getCreatedAt(),
@@ -104,9 +109,6 @@ public class BookingsHandler extends AbstractHandler {
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
-        } catch (RuntimeException e) {
-            LOG.warning("Unexpected error" + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 
