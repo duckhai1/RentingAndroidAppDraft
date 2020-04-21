@@ -1,6 +1,6 @@
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS getBookingsInCourt//
+DROP PROCEDURE IF EXISTS getCourtBookings//
 CREATE PROCEDURE getBookingsInCourt(
 	IN inCourtId VARCHAR(100),
 	IN inCityId VARCHAR(100),

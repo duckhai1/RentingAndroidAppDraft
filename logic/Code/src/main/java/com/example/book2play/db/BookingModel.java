@@ -12,9 +12,9 @@ public interface BookingModel {
 
     Booking getBookingInfo(String bookingId) throws MySQLException;
 
-    Collection<Booking> getBookingsInCourt(String courtId, String cityId, String sportCenterId, Date date) throws MySQLException;
+    Collection<Booking> getCourtBookings(String courtId, String cityId, String sportCenterId, Date date) throws MySQLException;
 
-    Collection<Booking> getSportCenterBookings(String sportCenterId, Date date) throws MySQLException;
+    Collection<Booking> getSportCenterBookings(String sportCenterId, String cityId, Date date) throws MySQLException;
 
     Collection<Booking> getPlayerBookings(String playerId, String cityId, Date date) throws MySQLException;
 
