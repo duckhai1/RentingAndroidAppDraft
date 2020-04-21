@@ -41,17 +41,16 @@ public abstract class AbstractHandler implements HttpHandler {
         var headers = exchange.getResponseHeaders();
         headers.add("content-type", "application/json");
 
-        var ostream = exchange.getResponseBody();
         var bodyBuf = GSON.toJson(body).getBytes(StandardCharsets.UTF_8);
-
         exchange.sendResponseHeaders(statusCode, bodyBuf.length);
+
+        var ostream = exchange.getResponseBody();
         ostream.write(bodyBuf);
         ostream.flush();
         ostream.close();
     }
 
     protected void responseWithJsonException(HttpExchange exchange, int statusCode, Exception e) throws IOException {
-        var ostream = exchange.getResponseBody();
         var jsonObj = new JsonObject();
         jsonObj.addProperty("error", true);
         jsonObj.addProperty("message", e.getMessage());
