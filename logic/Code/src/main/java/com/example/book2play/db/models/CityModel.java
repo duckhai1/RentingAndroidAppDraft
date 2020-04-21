@@ -15,6 +15,7 @@ public class CityModel extends AbstractModel implements com.example.book2play.db
     }
 
     public Collection<City> getCities() throws MySQLException {
+        LOG.info("Calling getCities");
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
@@ -42,6 +43,7 @@ public class CityModel extends AbstractModel implements com.example.book2play.db
     }
 
     public void createCity(String cityId) throws MySQLException {
+        LOG.info("Calling createCity");
         Connection conn = null;
         CallableStatement stm = null;
         try {
@@ -67,6 +69,7 @@ public class CityModel extends AbstractModel implements com.example.book2play.db
 
     @Override
     public void clearCity() throws MySQLException {
+        LOG.info("Calling clearCity");
         Connection conn = null;
         Statement stm = null;
         try {

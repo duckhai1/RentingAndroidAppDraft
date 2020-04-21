@@ -57,7 +57,6 @@ public class BookingsHandler extends AbstractHandler {
         try {
             Collection<Booking> bookings;
             if (playerId == null && cityId != null && sportCenterId != null && courtId != null) {
-                LOG.info("CALL getCourtBookings");
                 bookings = model.getCourtBookings(
                         courtId.get(0),
                         cityId.get(0),
@@ -65,14 +64,12 @@ public class BookingsHandler extends AbstractHandler {
                         Date.valueOf(date.get(0))
                 );
             } else if (playerId == null && cityId != null && sportCenterId != null) {
-                LOG.info("CALL getSportCenterBookings");
                 bookings = model.getSportCenterBookings(
                         sportCenterId.get(0),
                         cityId.get(0),
                         Date.valueOf(date.get(0))
                 );
             } else if (playerId != null && cityId != null && sportCenterId == null) {
-                LOG.info("CALL getPlayerBookings");
                 bookings = model.getPlayerBookings(
                         playerId.get(0),
                         cityId.get(0),

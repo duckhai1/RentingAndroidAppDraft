@@ -16,6 +16,7 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
 
     @Override
     public SportCenter getSportCenterInfo(String sportCenterId, String cityId) throws MySQLException {
+        LOG.info("Calling getSportCenterInfo");
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
@@ -46,6 +47,7 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
 
     @Override
     public void createCityCenter(String sportCenterId, String cityId) throws MySQLException {
+        LOG.info("Calling createCityCenter");
         Connection conn = null;
         CallableStatement stm = null;
 
@@ -73,6 +75,7 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
 
     @Override
     public void updateSportCenterId(String newSportCenterId, String oldSportCenterId, String cityId) throws MySQLException {
+        LOG.info("Calling updateSportCenterId");
         Connection conn = null;
         CallableStatement stm = null;
 
@@ -101,6 +104,7 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
 
     @Override
     public void clearSportCenter() throws MySQLException {
+        LOG.info("Calling clearSportCenter");
         Connection conn = null;
         Statement stm = null;
         try {
@@ -119,6 +123,7 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
 
     @Override
     public Collection<SportCenter> getCitySportCenters(String cityId) throws MySQLException {
+        LOG.info("Calling getCitySportCenters");
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;

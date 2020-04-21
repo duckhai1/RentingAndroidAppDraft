@@ -15,6 +15,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
 
     @Override
     public Staff getStaffInfo(String staffId, String cityId, String sportCenterId) throws MySQLException {
+        LOG.info("Calling getStaffInfo");
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
@@ -49,6 +50,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
 
     @Override
     public void createStaff(String staffId, String cityId, String sportCenterId) throws MySQLException {
+        LOG.info("Calling createStaff");
         Connection conn = null;
         CallableStatement stm = null;
         try {
@@ -77,6 +79,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
 
     @Override
     public void updateStaffId(String newStaffId, String oldStaffId, String cityId, String sportCenterId) throws MySQLException {
+        LOG.info("Calling updateStaffId");
         Connection conn = null;
         CallableStatement stm = null;
         try {
@@ -107,6 +110,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
 
     @Override
     public void clearStaff() throws MySQLException {
+        LOG.info("Calling clearStaff");
         Connection conn = null;
         Statement stm = null;
         try {

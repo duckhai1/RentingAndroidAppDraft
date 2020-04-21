@@ -16,6 +16,7 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
 
     @Override
     public Court getCourtInfo(String courtId, String cityId, String sportCenterId) throws MySQLException {
+        LOG.info("Calling getCourtInfo");
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
@@ -50,6 +51,7 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
 
     @Override
     public void createCityCenterCourt(String courtId, String cityId, String sportCenterId) throws MySQLException {
+        LOG.info("Calling createCityCenterCourt");
         Connection conn = null;
         CallableStatement stm = null;
 
@@ -78,6 +80,7 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
 
     @Override
     public void updateCourtId(String newCourtId, String oldCourtId, String cityId, String sportCenterId) throws MySQLException {
+        LOG.info("Calling updateCourtId");
         Connection conn = null;
         CallableStatement stm = null;
 
@@ -107,6 +110,7 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
 
     @Override
     public void clearCourt() throws MySQLException {
+        LOG.info("Calling clearCourt");
         Connection conn = null;
         Statement stm = null;
 
@@ -126,6 +130,7 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
 
     @Override
     public Collection<Court> getCityCourts(String cityId) throws MySQLException {
+        LOG.info("Calling getCityCourts");
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
@@ -154,6 +159,7 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
     }
 
     public Collection<Court> getSportCenterCourts(String sportCenterId, String cityId) throws MySQLException {
+        LOG.info("Calling getSportCenterCourts");
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
