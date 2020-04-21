@@ -1,12 +1,12 @@
 package com.example.book2play.api.handler;
 
+import com.example.book2play.api.utils.HTTPStatus;
 import com.example.book2play.db.SportCenterModel;
+import com.example.book2play.db.exceptions.MySQLException;
+import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
 public class SportCentersHandler extends AbstractHandler {
 
@@ -26,15 +26,28 @@ public class SportCentersHandler extends AbstractHandler {
             execPut(exchange);
         } else if ("DELETE".equals(exchange.getRequestMethod())) {
             execDelete(exchange);
+        } else {
+            exchange.sendResponseHeaders(HTTPStatus.METHOD_NOT_ALLOWED, -1);// 405 Method Not Allowed
         }
-        exchange.sendResponseHeaders(405, -1);// 405 Method Not Allowed
         exchange.close();
     }
 
-    private void execGet(HttpExchange exchange) {
+    private void execGet(HttpExchange exchange) throws IOException {
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
-        if (!params.containsKey("cityId")) {
+        var cityId = params.get("cityId");
 
+        if (cityId == null || cityId.size() != 1) {
+            exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+            return;
+        }
+
+        try {
+            model.getSportCentersInCity(cityId.get(0));
+        } catch (MySQLException e) {
+            var statusCode = e.getStatusCode();
+            var body = new JsonObject();
+            body.addProperty("statusCode", e.getStatusCode());
+            responseWithJSON(exchange, HTTPStatus.BAD_REQUEST, body);
         }
     }
 

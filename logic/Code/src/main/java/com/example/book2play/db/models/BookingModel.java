@@ -48,14 +48,14 @@ public class BookingModel extends AbstractModel implements com.example.book2play
     }
 
     @Override
-    public Collection<Booking> getBookingsInCourt(String courtId, String cityId, String sportCenterId, Date date) throws MySQLException {
+    public Collection<Booking> getCourtBookings(String courtId, String cityId, String sportCenterId, Date date) throws MySQLException {
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
 
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL getBookingsInCourt(?, ?, ?, ?, ?)}");
+            stm = conn.prepareCall("{CALL getCourtBookings(?, ?, ?, ?, ?)}");
             stm.setString(1, courtId);
             stm.setString(2, cityId);
             stm.setString(3, sportCenterId);
@@ -80,7 +80,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
     }
 
     @Override
-    public Collection<Booking> getSportCenterBookings(String sportCenterId, Date date) throws MySQLException {
+    public Collection<Booking> getSportCenterBookings(String sportCenterId, String cityId, Date date) throws MySQLException {
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
