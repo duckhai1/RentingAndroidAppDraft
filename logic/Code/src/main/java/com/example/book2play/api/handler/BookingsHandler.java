@@ -57,6 +57,7 @@ public class BookingsHandler extends AbstractHandler {
         try {
             Collection<Booking> bookings;
             if (playerId == null && cityId != null && sportCenterId != null && courtId != null) {
+                LOG.info("CALL getCourtBookings");
                 bookings = model.getCourtBookings(
                         courtId.get(0),
                         cityId.get(0),
@@ -64,12 +65,14 @@ public class BookingsHandler extends AbstractHandler {
                         Date.valueOf(date.get(0))
                 );
             } else if (playerId == null && cityId != null && sportCenterId != null) {
+                LOG.info("CALL getSportCenterBookings");
                 bookings = model.getSportCenterBookings(
                         sportCenterId.get(0),
                         cityId.get(0),
                         Date.valueOf(date.get(0))
                 );
             } else if (playerId != null && cityId != null && sportCenterId == null) {
+                LOG.info("CALL getPlayerBookings");
                 bookings = model.getPlayerBookings(
                         playerId.get(0),
                         cityId.get(0),
@@ -79,9 +82,10 @@ public class BookingsHandler extends AbstractHandler {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }
-            responseWithJSON(exchange, HTTPStatus.OK, bookings);
+            responseWithJson(exchange, HTTPStatus.OK, bookings);
         } catch (MySQLException | IllegalArgumentException e) {
-            responseWithJSON(exchange, HTTPStatus.BAD_REQUEST, e);
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
         }
     }
 
@@ -102,7 +106,8 @@ public class BookingsHandler extends AbstractHandler {
             );
             exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
         } catch (MySQLException e) {
-            responseWithJSON(exchange, HTTPStatus.BAD_REQUEST, e);
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
         }
     }
 

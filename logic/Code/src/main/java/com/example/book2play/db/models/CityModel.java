@@ -33,7 +33,7 @@ public class CityModel extends AbstractModel implements com.example.book2play.db
 
             return ResultSetUtils.citiesFromResultSet(rs);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -58,7 +58,7 @@ public class CityModel extends AbstractModel implements com.example.book2play.db
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -76,7 +76,7 @@ public class CityModel extends AbstractModel implements com.example.book2play.db
             var updateCount = stm.executeUpdate("DELETE FROM cities");
             LOG.info("Update count " + updateCount);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);

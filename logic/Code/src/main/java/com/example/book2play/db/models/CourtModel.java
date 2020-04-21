@@ -40,7 +40,7 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
             }
             return ResultSetUtils.singleCourtFromResultSet(rs);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -69,7 +69,7 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -98,7 +98,7 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -117,21 +117,22 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
             var updateCount = stm.executeUpdate("DELETE FROM courts");
             LOG.info("Update count " + updateCount);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
         }
     }
 
-    public Collection<Court> getCourtsInCity(String cityId) throws MySQLException {
+    @Override
+    public Collection<Court> getCityCourts(String cityId) throws MySQLException {
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
 
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL getCourtInCities(?, ?)}");
+            stm = conn.prepareCall("{CALL getCityCourts(?, ?)}");
             stm.setString(1, cityId);
             stm.registerOutParameter(2, Types.INTEGER);
 
@@ -144,7 +145,7 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
 
             return ResultSetUtils.courtsFromResultSet(rs);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -152,14 +153,14 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
         }
     }
 
-    public Collection<Court> getCourtsInSportCenter(String sportCenterId, String cityId) throws MySQLException {
+    public Collection<Court> getSportCenterCourts(String sportCenterId, String cityId) throws MySQLException {
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
 
-        try{
+        try {
             conn = this.db.getConnection();
-            stm  = conn.prepareCall("{call getCourtsInSportCenter(?, ?, ?)}");
+            stm = conn.prepareCall("{call getSportCenterCourts(?, ?, ?)}");
             stm.setString(1, sportCenterId);
             stm.setString(2, cityId);
             stm.registerOutParameter(2, Types.INTEGER);
@@ -173,7 +174,7 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
 
             return ResultSetUtils.courtsFromResultSet(rs);
         } catch (SQLException e){
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);

@@ -2,8 +2,6 @@ package com.example.book2play.api.handler;
 
 import com.example.book2play.api.utils.HTTPStatus;
 import com.example.book2play.db.SportCenterModel;
-import com.example.book2play.db.exceptions.MySQLException;
-import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
@@ -42,12 +40,10 @@ public class SportCentersHandler extends AbstractHandler {
         }
 
         try {
-            model.getSportCentersInCity(cityId.get(0));
-        } catch (MySQLException e) {
-            var statusCode = e.getStatusCode();
-            var body = new JsonObject();
-            body.addProperty("statusCode", e.getStatusCode());
-            responseWithJSON(exchange, HTTPStatus.BAD_REQUEST, body);
+            model.getCitySportCenters(cityId.get(0));
+        } catch (Exception e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
         }
     }
 

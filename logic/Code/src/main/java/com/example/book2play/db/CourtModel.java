@@ -15,5 +15,7 @@ public interface CourtModel {
 
     void clearCourt() throws MySQLException;
 
-    Collection<Court> getCourtsInCity(String cityId) throws MySQLException;
+    Collection<Court> getCityCourts(String cityId) throws MySQLException;
+
+    Collection<Court> getSportCenterCourts(String sportCenterId, String cityId) throws MySQLException;
 }

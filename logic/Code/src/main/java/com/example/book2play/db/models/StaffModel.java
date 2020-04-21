@@ -39,7 +39,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
             }
             return ResultSetUtils.singleStaffFromResultSet(rs);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -68,7 +68,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -98,7 +98,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -116,7 +116,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
             var updateCount= stm.executeUpdate("DELETE FROM sportCenters");
             LOG.info("Update count " + updateCount);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
