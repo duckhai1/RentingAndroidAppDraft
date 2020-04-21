@@ -34,13 +34,9 @@ public class SportCentersHandler extends AbstractHandler {
 
     private void execGet(HttpExchange exchange) throws IOException {
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
-        if (!params.containsKey("cityId")) {
-            exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
-            return;
-        }
-
         var cityId = params.get("cityId");
-        if (cityId.size() != 1) {
+
+        if (cityId == null || cityId.size() != 1) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }

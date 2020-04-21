@@ -7,7 +7,6 @@ import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.*;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -22,7 +21,7 @@ public class App {
     private Properties mySqlProps = new Properties();
 
     public App() {
-        InputStream stream = App.class
+        var stream = App.class
                 .getClassLoader()
                 .getResourceAsStream("mysql_database.properties");
 
@@ -63,20 +62,20 @@ public class App {
         SportCenterModel sportCenterModel = new SportCenterModel(ds);
 
         try {
-            cityModel.createCity("city1");
-            sportCenterModel.createCityCenter("center1", "city1");
-            courtModel.createCityCenterCourt("court1", "city1", "center1");
-            playerModel.createPlayer("player1");
+            cityModel.createCity("HCM");
+            sportCenterModel.createCityCenter("Q1", "HCM");
+            courtModel.createCityCenterCourt("P1", "HCM", "Q1");
+            playerModel.createPlayer("Alice");
             bookingModel.createBooking(
                     "booking1",
                     new Timestamp(System.currentTimeMillis()),
                     Date.valueOf("2020-05-20"),
                     Time.valueOf("08:30:00"),
                     Time.valueOf("09:30:00"),
-                    "city1",
-                    "center1",
-                    "court1",
-                    "player1"
+                    "HCM",
+                    "Q1",
+                    "P1",
+                    "Alice"
             );
         } catch (MySQLException e) {
             LOG.warning("Error while setting up example " + e.getMessage());
