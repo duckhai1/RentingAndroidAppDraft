@@ -15,21 +15,24 @@ class MyBookingModel(
     @SerializedName("bookingEndTime")
     @Expose
     var end: String? = "",       // end time of the booking
-    @SerializedName("city")
+    @SerializedName("cityId")
     @Expose
     var city: String? = "",      // booking city
-    @SerializedName("center")
+    @SerializedName("centerId")
     @Expose
     var center: String?= "",     // booking sport center
-    @SerializedName("court")
+    @SerializedName("courtId")
     @Expose
     var court : String? = "",    // booking court
-    @SerializedName("player")
+    @SerializedName("playerId")
     @Expose
     var player: String?= "",    // booking player name
     @SerializedName("isPaid")
-    @Expose
+    @Expose(serialize = false)
     var status: Int = 0,        // status 0: unpaid; 1:paid
+    @SerializedName("createdAt")
+    @Expose(deserialize = false)
+    var createdAt :String? = "",
 
     var week: String  = if (date == "") "" else SimpleDateFormat("EE").format(SimpleDateFormat("yyyy-MM-dd").parse(date)),      // date of the week of the booking
     var time: String = start + " " + end        // deprecated later

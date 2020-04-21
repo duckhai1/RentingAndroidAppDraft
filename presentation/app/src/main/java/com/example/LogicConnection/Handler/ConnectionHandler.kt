@@ -69,7 +69,7 @@ class ConnectionHandler {
             val os = conn.outputStream
             val writer = BufferedWriter(OutputStreamWriter(os, "UTF-8"))
             val requestJson = postDataParams.toString()
-            Log.d("java_connection", "requestJson: $postDataParams")
+            Log.d("server_connect", "requestJson: $postDataParams")
             writer.write(requestJson)
             writer.flush()
             writer.close()
@@ -77,20 +77,22 @@ class ConnectionHandler {
 
             // handle response
             val responseCode = conn.responseCode
+            Log.d("server_connect", "responseCode: $responseCode")
             // check if request success
             if (responseCode == HttpsURLConnection.HTTP_OK) {
-                Log.d("java_connection", "Successful connect")
-                val input = BufferedReader(InputStreamReader(conn.inputStream))
-                val response = StringBuffer("")
-                var line: String? = input.readLine()
-                while (line != null) {
-                    response.append(line)
-                    line = input.readLine()
-                }
-                input.close()
-                return response.toString()
+//                Log.d("java_connection", "Successful connect")
+//                val input = BufferedReader(InputStreamReader(conn.inputStream))
+//                val response = StringBuffer("")
+//                var line: String? = input.readLine()
+//                while (line != null) {
+//                    response.append(line)
+//                    line = input.readLine()
+//                }
+//                input.close()
+//                return response.toString()
+                return "Success"
             }
-            return null
+            return "Unsuccess"
         }
 
         // convert jsonObject to query in url

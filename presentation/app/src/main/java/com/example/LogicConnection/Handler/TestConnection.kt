@@ -24,6 +24,16 @@ class TestConnection : AppCompatActivity() {
             override fun onClick(v: View?) {
                 Toast.makeText(applicationContext, "Clicked", Toast.LENGTH_SHORT).show()
                 RequestAsync().execute()
+//                val newBooking = MyBookingModel(
+//                    "2020-09-23",
+//                    "08:00:00",
+//                    "09:00:00",
+//                    "city1",
+//                    "center1",
+//                    "court1",
+//                    "player1"
+//                )
+//                ApiHandler.createBooking(newBooking)
             }
 
         })
@@ -39,8 +49,8 @@ class TestConnection : AppCompatActivity() {
                 // POST Request
                 val newBooking = MyBookingModel(
                     "2020-09-23",
-                    "08:00:00",
-                    "09:00:00",
+                    "08:00:00 AM",
+                    "09:00:00 AM",
                     "city1",
                     "center1",
                     "court1",
