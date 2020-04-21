@@ -1,11 +1,13 @@
 package com.example.book2play.api.handler;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
+import java.lang.reflect.Modifier;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -20,11 +22,18 @@ import static java.util.stream.Collectors.*;
 public abstract class AbstractHandler implements HttpHandler {
 
     protected final static Logger LOG = Logger.getLogger("HTTPHandler");
-    protected final static Gson GSON = new Gson();
+    protected final static Gson GSON = new GsonBuilder()
+            .excludeFieldsWithModifiers(Modifier.STATIC)
+            .setDateFormat("yyyy-MM-dd")
+            .create();
 
     protected void responseWithJson(HttpExchange exchange, int statusCode, Object body) throws IOException {
+        var headers = exchange.getResponseHeaders();
+        headers.add("content-type", "application/json");
+
         var ostream = exchange.getResponseBody();
         var bodyBuf = GSON.toJson(body).getBytes(StandardCharsets.UTF_8);
+
         exchange.sendResponseHeaders(statusCode, bodyBuf.length);
         ostream.write(bodyBuf);
         ostream.flush();
@@ -32,6 +41,9 @@ public abstract class AbstractHandler implements HttpHandler {
     }
 
     protected void responseWithJsonException(HttpExchange exchange, int statusCode, Exception e) throws IOException {
+        var headers = exchange.getResponseHeaders();
+        headers.add("content-type", "application/json");
+
         var ostream = exchange.getResponseBody();
         var jsonObj = new JsonObject();
         jsonObj.addProperty("error", true);
