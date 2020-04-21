@@ -68,7 +68,7 @@ public class StaffModelTest extends AbstractModelTest {
 
             STAFF.createStaff(staffId, cityId, sportCenterId);
             fail("Expected code: " + expectedCode);
-        }catch (MySQLException e){
+        } catch (MySQLException e){
             assertEquals(expectedCode, e.getStatusCode());
         }
 

@@ -15,5 +15,5 @@ public interface SportCenterModel {
 
     void clearSportCenter() throws MySQLException;
 
-    Collection<SportCenter> getSportCentersInCity(String cityId) throws MySQLException;
+    Collection<SportCenter> getCitySportCenters(String cityId) throws MySQLException;
 }

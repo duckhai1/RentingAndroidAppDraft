@@ -1,7 +1,7 @@
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS getCourtsInCity//
-CREATE PROCEDURE getCourtsInCity(
+DROP PROCEDURE IF EXISTS getCityCourts//
+CREATE PROCEDURE getCityCourts(
 	IN inCityId VARCHAR(100),
     OUT statusCode INT
 )

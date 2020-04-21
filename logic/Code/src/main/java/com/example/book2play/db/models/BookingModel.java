@@ -16,6 +16,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
 
     @Override
     public Booking getBookingInfo(String bookingId) throws MySQLException {
+        LOG.info("Calling getBookingInfo");
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
@@ -39,7 +40,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
 
             return ResultSetUtils.singleBookingFromResultSet(rs);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -49,6 +50,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
 
     @Override
     public Collection<Booking> getCourtBookings(String courtId, String cityId, String sportCenterId, Date date) throws MySQLException {
+        LOG.info("Calling getCourtBookings");
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
@@ -71,7 +73,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
 
             return ResultSetUtils.bookingsFromResultSet(rs);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -81,6 +83,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
 
     @Override
     public Collection<Booking> getSportCenterBookings(String sportCenterId, String cityId, Date date) throws MySQLException {
+        LOG.info("Calling getSportCenterBookings");
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
@@ -102,7 +105,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
 
             return ResultSetUtils.bookingsFromResultSet(rs);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -112,6 +115,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
 
     @Override
     public Collection<Booking> getPlayerBookings(String playerId, String cityId, Date date) throws MySQLException {
+        LOG.info("Calling getPlayerBookings");
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
@@ -132,7 +136,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
 
             return ResultSetUtils.bookingsFromResultSet(rs);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -152,6 +156,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
             String courtId,
             String playerId
     ) throws MySQLException {
+        LOG.info("Calling createBooking");
         Connection conn = null;
         CallableStatement stm = null;
 
@@ -177,7 +182,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -186,6 +191,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
 
     @Override
     public void updateBookingStatus(Boolean status, String bookingId, String playerId, String staffId) throws MySQLException {
+        LOG.info("Calling updateBookingStatus");
         Connection conn = null;
         CallableStatement stm = null;
 
@@ -206,7 +212,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -215,6 +221,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
 
     @Override
     public void cancelBooking(String bookingId, String playerId) throws MySQLException {
+        LOG.info("Calling cancelBooking");
         Connection conn = null;
         CallableStatement stm = null;
 
@@ -233,7 +240,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -242,6 +249,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
 
     @Override
     public void clearBooking() throws MySQLException {
+        LOG.info("Calling clearBooking");
         Connection conn = null;
         Statement stm = null;
 
@@ -252,7 +260,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
             var updateCount = stm.executeUpdate("DELETE FROM bookings");
             LOG.info("Update count " + updateCount);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);

@@ -499,7 +499,6 @@ public class BookingModelTest extends AbstractModelTest {
         }
     }
 
-
     private void rawInsertBooking(
             String bookingId,
             java.sql.Date bookingDate,
