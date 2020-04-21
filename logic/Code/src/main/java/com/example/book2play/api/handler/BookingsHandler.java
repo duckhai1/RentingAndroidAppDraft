@@ -32,7 +32,7 @@ public class BookingsHandler extends AbstractHandler {
             } else if ("DELETE".equals(exchange.getRequestMethod())) {
                 execDelete(exchange);
             } else {
-                exchange.sendResponseHeaders(405, -1); // NOT ALLOWED
+                exchange.sendResponseHeaders(HTTPStatus.METHOD_NOT_ALLOWED, -1); // NOT ALLOWED
             }
         } catch (RuntimeException e) {
             LOG.severe("Unexpected exception " + e.getMessage());
