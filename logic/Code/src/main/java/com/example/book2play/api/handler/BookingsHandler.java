@@ -54,8 +54,8 @@ public class BookingsHandler extends AbstractHandler {
             return;
         }
 
+        Collection<Booking> bookings;
         try {
-            Collection<Booking> bookings;
             if (playerId == null && cityId != null && sportCenterId != null && courtId != null) {
                 bookings = model.getCourtBookings(
                         courtId.get(0),
@@ -87,8 +87,8 @@ public class BookingsHandler extends AbstractHandler {
     }
 
     private void execPost(HttpExchange exchange) throws IOException {
-        var booking = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Booking.class);
         try {
+            var booking = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Booking.class);
             model.createBooking(
                     booking.getBookingId(),
                     booking.getCreatedAt(),
