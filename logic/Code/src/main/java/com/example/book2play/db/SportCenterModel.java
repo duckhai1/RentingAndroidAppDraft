@@ -3,7 +3,6 @@ package com.example.book2play.db;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.types.SportCenter;
 
-import java.sql.SQLException;
 import java.util.Collection;
 
 public interface SportCenterModel {
@@ -16,5 +15,5 @@ public interface SportCenterModel {
 
     void clearSportCenter() throws MySQLException;
 
-    Collection<SportCenter> getSportCentersInCity(String cityId) throws MySQLException, SQLException;
+    Collection<SportCenter> getCitySportCenters(String cityId) throws MySQLException;
 }

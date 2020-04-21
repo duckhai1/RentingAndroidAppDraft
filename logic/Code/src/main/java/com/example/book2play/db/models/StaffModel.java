@@ -15,6 +15,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
 
     @Override
     public Staff getStaffInfo(String staffId, String cityId, String sportCenterId) throws MySQLException {
+        LOG.info("Calling getStaffInfo");
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
@@ -39,7 +40,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
             }
             return ResultSetUtils.singleStaffFromResultSet(rs);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -49,6 +50,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
 
     @Override
     public void createStaff(String staffId, String cityId, String sportCenterId) throws MySQLException {
+        LOG.info("Calling createStaff");
         Connection conn = null;
         CallableStatement stm = null;
         try {
@@ -68,7 +70,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -77,6 +79,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
 
     @Override
     public void updateStaffId(String newStaffId, String oldStaffId, String cityId, String sportCenterId) throws MySQLException {
+        LOG.info("Calling updateStaffId");
         Connection conn = null;
         CallableStatement stm = null;
         try {
@@ -98,7 +101,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -107,6 +110,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
 
     @Override
     public void clearStaff() throws MySQLException {
+        LOG.info("Calling clearStaff");
         Connection conn = null;
         Statement stm = null;
         try {
@@ -116,7 +120,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
             var updateCount= stm.executeUpdate("DELETE FROM sportCenters");
             LOG.info("Update count " + updateCount);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);

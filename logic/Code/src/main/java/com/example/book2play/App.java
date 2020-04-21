@@ -7,7 +7,6 @@ import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.*;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -16,13 +15,13 @@ import java.util.logging.Logger;
 
 public class App {
 
-    final static Logger LOG = Logger.getAnonymousLogger();
-    final static int SRV_PORT = 8000;
+    private final static Logger LOG = Logger.getAnonymousLogger();
+    private final static int SRV_PORT = 8000;
 
     private Properties mySqlProps = new Properties();
 
     public App() {
-        InputStream stream = App.class
+        var stream = App.class
                 .getClassLoader()
                 .getResourceAsStream("mysql_database.properties");
 
@@ -38,7 +37,24 @@ public class App {
         app.start();
     }
 
-    public void setupExample(AppDataSource ds) {
+    private void start() {
+        LOG.info("Connecting to MySQL at " + mySqlProps.getProperty("url"));
+        var ds = new MySQLDataSource(mySqlProps);
+
+        setupExample(ds);
+
+        try {
+            System.out.println("Starting server on port " + SRV_PORT);
+            var srv = new Server(ds, SRV_PORT);
+            srv.start();
+        } catch (IOException e) {
+            LOG.severe(e.getMessage());
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    private void setupExample(AppDataSource ds) {
         BookingModel bookingModel = new BookingModel(ds);
         CityModel cityModel = new CityModel(ds);
         CourtModel courtModel = new CourtModel(ds);
@@ -56,31 +72,14 @@ public class App {
                     Date.valueOf("2020-05-20"),
                     Time.valueOf("08:30:00"),
                     Time.valueOf("09:30:00"),
-                    "court1",
-                    "center1",
                     "city1",
+                    "center1",
+                    "court1",
                     "player1"
             );
         } catch (MySQLException e) {
             LOG.warning("Error while setting up example " + e.getMessage());
             e.printStackTrace();
-        }
-    }
-
-    public void start() {
-        LOG.info("Connecting to MySQL at " + mySqlProps.getProperty("url"));
-        var ds = new MySQLDataSource(mySqlProps);
-
-        setupExample(ds);
-
-        try {
-            System.out.println("Starting server on port " + SRV_PORT);
-            var srv = new Server(ds, SRV_PORT);
-            srv.start();
-        } catch (IOException e) {
-            LOG.severe(e.getMessage());
-            e.printStackTrace();
-            System.exit(1);
         }
     }
 }

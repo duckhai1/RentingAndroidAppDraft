@@ -15,6 +15,7 @@ public class PlayerModel extends AbstractModel implements com.example.book2play.
 
     @Override
     public Player getPlayerInfo(String playerId) throws MySQLException {
+        LOG.info("Calling getPlayerInfo");
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
@@ -38,7 +39,7 @@ public class PlayerModel extends AbstractModel implements com.example.book2play.
 
             return ResultSetUtils.singlePlayerFromResultSet(rs);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -48,6 +49,7 @@ public class PlayerModel extends AbstractModel implements com.example.book2play.
 
     @Override
     public void createPlayer(String playerId) throws MySQLException {
+        LOG.info("Calling createPlayer");
         Connection conn = null;
         CallableStatement stm = null;
 
@@ -65,7 +67,7 @@ public class PlayerModel extends AbstractModel implements com.example.book2play.
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -74,6 +76,7 @@ public class PlayerModel extends AbstractModel implements com.example.book2play.
 
     @Override
     public void updatePlayerId(String newPlayerId, String oldPlayerId) throws MySQLException {
+        LOG.info("Calling updatePlayerId");
         Connection conn = null;
         CallableStatement stm = null;
 
@@ -92,7 +95,7 @@ public class PlayerModel extends AbstractModel implements com.example.book2play.
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -101,6 +104,7 @@ public class PlayerModel extends AbstractModel implements com.example.book2play.
 
     @Override
     public void clearPlayer() throws MySQLException {
+        LOG.info("Calling clearPlayer");
         Connection conn = null;
         Statement stm = null;
         try {
@@ -110,7 +114,7 @@ public class PlayerModel extends AbstractModel implements com.example.book2play.
             var updateCount = stm.executeUpdate("DELETE FROM players");
             LOG.info("Update count " + updateCount);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);

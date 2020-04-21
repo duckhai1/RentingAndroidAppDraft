@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
-public class SlotModelTest {
+public class SlotServiceTest {
 
     private final static SlotService SLOT = new SlotService("07:00:00", "21:00:00", 45);
     private final static Timestamp timestamp = TimeUtils.getTimestamp();
@@ -139,7 +139,6 @@ public class SlotModelTest {
         var slots = SLOT.getAvailableSlots(bookings, cityId, sportCenterId, courtId);
         assertEquals("incorrect slots returned", expectedSlots, slots);
     }
-
 
     private Slot createMockSlot(String startTime, String endTime) {
         return new com.example.book2play.types.Slot(Time.valueOf(startTime), Time.valueOf(endTime), cityId, sportCenterId, courtId);

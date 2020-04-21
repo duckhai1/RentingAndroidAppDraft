@@ -3,8 +3,8 @@
 */
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS getCourtsInSportCenter //
-CREATE PROCEDURE getCourtsInSportCenter (
+DROP PROCEDURE IF EXISTS getSportCenterCourts //
+CREATE PROCEDURE getSportCenterCourts (
 	IN inCityId VARCHAR(100),
 	IN inSportCenterId VARCHAR(100),
     OUT statusCode INT

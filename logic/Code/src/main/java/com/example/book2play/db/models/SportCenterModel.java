@@ -16,6 +16,7 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
 
     @Override
     public SportCenter getSportCenterInfo(String sportCenterId, String cityId) throws MySQLException {
+        LOG.info("Calling getSportCenterInfo");
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
@@ -36,7 +37,7 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
 
             return ResultSetUtils.singleSportCenterFromResultSet(rs);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -46,6 +47,7 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
 
     @Override
     public void createCityCenter(String sportCenterId, String cityId) throws MySQLException {
+        LOG.info("Calling createCityCenter");
         Connection conn = null;
         CallableStatement stm = null;
 
@@ -64,7 +66,7 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -73,6 +75,7 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
 
     @Override
     public void updateSportCenterId(String newSportCenterId, String oldSportCenterId, String cityId) throws MySQLException {
+        LOG.info("Calling updateSportCenterId");
         Connection conn = null;
         CallableStatement stm = null;
 
@@ -92,7 +95,7 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -101,6 +104,7 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
 
     @Override
     public void clearSportCenter() throws MySQLException {
+        LOG.info("Calling clearSportCenter");
         Connection conn = null;
         Statement stm = null;
         try {
@@ -110,7 +114,7 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
             var updateCount = stm.executeUpdate("DELETE FROM sportCenters");
             LOG.info("Update count " + updateCount);
         } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception" + e.getMessage(), e);
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
@@ -118,13 +122,14 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
     }
 
     @Override
-    public Collection<SportCenter> getSportCentersInCity(String cityId) throws MySQLException, SQLException {
+    public Collection<SportCenter> getCitySportCenters(String cityId) throws MySQLException {
+        LOG.info("Calling getCitySportCenters");
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareCall("{call getSportCentersInCity(?,?)}");
+            stm = conn.prepareCall("{call getCitySportCenters(?,?)}");
             stm.setString(1, cityId);
             stm.registerOutParameter(2, Types.INTEGER);
 
@@ -135,16 +140,13 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
                 throw new MySQLException(statusCode);
             }
 
-            return DBUtils.sportCentersFromResultSet(rs);
-        } catch(SQLDataException e){
-            throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
+            return ResultSetUtils.sportCentersFromResultSet(rs);
+        } catch (SQLException e) {
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
-            DBUtils.quietCloseResultSet(rs);
-||||||| merged common ancestors
-            DBUtils.quietCloseConnection(conn);
-            DBUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseResultSet(rs);
         }
     }
 }
