@@ -87,7 +87,6 @@ public class BookingsHandler extends AbstractHandler {
     }
 
     private void execPost(HttpExchange exchange) throws IOException {
-        // handle request
         var booking = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Booking.class);
         try {
             model.createBooking(
@@ -105,6 +104,9 @@ public class BookingsHandler extends AbstractHandler {
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+        } catch (RuntimeException e) {
+            LOG.warning("Unexpected error" + e.getMessage());
+            responseWithJsonException(exchange, HTTPStatus.INTERNAL_SERVER_ERROR, e);
         }
     }
 

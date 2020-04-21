@@ -1,5 +1,9 @@
 package com.example.book2play.api.handler;
 
+import com.example.book2play.api.utils.SqlTimeGsonDeserializer;
+import com.example.book2play.api.utils.SqlTimeGsonSerializer;
+import com.example.book2play.api.utils.SqlTimestampGsonDeserializer;
+import com.example.book2play.api.utils.SqlTimestampGsonSerializer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -10,6 +14,8 @@ import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +30,11 @@ public abstract class AbstractHandler implements HttpHandler {
     protected final static Logger LOG = Logger.getLogger("HTTPHandler");
     protected final static Gson GSON = new GsonBuilder()
             .excludeFieldsWithModifiers(Modifier.STATIC)
-            .setDateFormat("yyyy-MM-dd HH:mm:ss")
+            .setDateFormat("yyyy-MM-dd")
+            .registerTypeAdapter(Time.class, new SqlTimeGsonSerializer())
+            .registerTypeAdapter(Time.class, new SqlTimeGsonDeserializer())
+            .registerTypeAdapter(Timestamp.class, new SqlTimestampGsonSerializer())
+            .registerTypeAdapter(Timestamp.class, new SqlTimestampGsonDeserializer())
             .create();
 
     protected void responseWithJson(HttpExchange exchange, int statusCode, Object body) throws IOException {
