@@ -1,10 +1,15 @@
 package com.example.book2play.types;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.Objects;
 
 public class Staff {
+    @Expose
     private String staffId;
+    @Expose
     private String cityId;
+    @Expose
     private String sportCenterId;
 
     public Staff(String staffId, String cityId, String sportCenterId) {

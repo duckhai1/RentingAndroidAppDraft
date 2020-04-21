@@ -1,9 +1,13 @@
 package com.example.book2play.types;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.Objects;
 
 public class SportCenter {
+    @Expose
     private String sportCenterId;
+    @Expose
     private String cityId;
 
     public SportCenter(String sportCenterId, String cityId) {

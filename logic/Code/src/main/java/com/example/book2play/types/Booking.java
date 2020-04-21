@@ -1,20 +1,32 @@
 package com.example.book2play.types;
 
+import com.google.gson.annotations.Expose;
+
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Booking {
+    @Expose(deserialize = false)
     private String bookingId;
-    private transient Timestamp createdAt;
+
+    private Timestamp createdAt;
+    @Expose
     private Date bookingDate;
+    @Expose
     private Time bookingStartTime;
+    @Expose
     private Time bookingEndTime;
+    @Expose(deserialize = false)
     private boolean isPaid;
+    @Expose
     private String cityId;
+    @Expose
     private String sportCenterId;
+    @Expose
     private String courtId;
+    @Expose
     private String playerId;
 
     public Booking(String bookingId,

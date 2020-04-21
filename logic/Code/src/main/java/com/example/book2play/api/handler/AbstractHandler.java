@@ -29,7 +29,7 @@ public abstract class AbstractHandler implements HttpHandler {
 
     protected final static Logger LOG = Logger.getLogger("HTTPHandler");
     protected final static Gson GSON = new GsonBuilder()
-            .excludeFieldsWithModifiers(Modifier.STATIC, Modifier.TRANSIENT)
+            .excludeFieldsWithoutExposeAnnotation()
             .setDateFormat("yyyy-MM-dd")
             .registerTypeAdapter(Time.class, new SqlTimeGsonSerializer())
             .registerTypeAdapter(Time.class, new SqlTimeGsonDeserializer())

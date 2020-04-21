@@ -1,10 +1,15 @@
 package com.example.book2play.types;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.Objects;
 
 public class Court {
+    @Expose
     private String courtId;
+    @Expose
     private String cityId;
+    @Expose
     private String sportCenterId;
 
     public Court(String courtId, String cityId, String sportCenterId) {

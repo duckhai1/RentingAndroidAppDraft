@@ -1,13 +1,20 @@
 package com.example.book2play.types;
 
+import com.google.gson.annotations.Expose;
+
 import java.sql.Time;
 import java.util.Objects;
 
 public class Slot {
+    @Expose
     private Time startTime;
+    @Expose
     private Time endTime;
+    @Expose
     private String cityId;
+    @Expose
     private String sportCenterId;
+    @Expose
     private String courtId;
 
     public Slot(Time startTime, Time endTime, String cityId, String sportCenterId, String courtId) {

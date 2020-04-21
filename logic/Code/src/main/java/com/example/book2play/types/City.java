@@ -1,8 +1,11 @@
 package com.example.book2play.types;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.Objects;
 
 public class City {
+    @Expose
     private String cityId;
 
     public City(String cityId) {
