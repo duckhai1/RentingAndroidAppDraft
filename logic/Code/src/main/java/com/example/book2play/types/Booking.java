@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class Booking {
     private String bookingId;
-    private Timestamp createdAt;
+    private transient Timestamp createdAt;
     private Date bookingDate;
     private Time bookingStartTime;
     private Time bookingEndTime;

@@ -49,8 +49,8 @@ class TestConnection : AppCompatActivity() {
                 // POST Request
                 val newBooking = MyBookingModel(
                     "2020-09-23",
-                    "08:00:00 AM",
-                    "09:00:00 AM",
+                    "08:00:00",
+                    "09:00:00",
                     "city1",
                     "center1",
                     "court1",
