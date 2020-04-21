@@ -1,5 +1,6 @@
 package com.example.book2play.api.handler;
 
+import com.example.book2play.api.handler.utils.IdUtils;
 import com.example.book2play.api.utils.HTTPStatus;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.BookingModel;
@@ -11,7 +12,6 @@ import java.io.InputStreamReader;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.UUID;
 
 public class BookingsHandler extends AbstractHandler {
 

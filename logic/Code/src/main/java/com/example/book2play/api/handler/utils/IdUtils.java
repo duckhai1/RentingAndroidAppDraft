@@ -1,4 +1,4 @@
-package com.example.book2play.api.handler;
+package com.example.book2play.api.handler.utils;
 
 import com.example.book2play.types.Booking;
 
