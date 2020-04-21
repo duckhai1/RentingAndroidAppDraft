@@ -16,8 +16,8 @@ import java.util.logging.Logger;
 
 public class App {
 
-    final static Logger LOG = Logger.getAnonymousLogger();
-    final static int SRV_PORT = 8000;
+    private final static Logger LOG = Logger.getAnonymousLogger();
+    private final static int SRV_PORT = 8000;
 
     private Properties mySqlProps = new Properties();
 
@@ -38,7 +38,24 @@ public class App {
         app.start();
     }
 
-    public void setupExample(AppDataSource ds) {
+    private void start() {
+        LOG.info("Connecting to MySQL at " + mySqlProps.getProperty("url"));
+        var ds = new MySQLDataSource(mySqlProps);
+
+        setupExample(ds);
+
+        try {
+            System.out.println("Starting server on port " + SRV_PORT);
+            var srv = new Server(ds, SRV_PORT);
+            srv.start();
+        } catch (IOException e) {
+            LOG.severe(e.getMessage());
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    private void setupExample(AppDataSource ds) {
         BookingModel bookingModel = new BookingModel(ds);
         CityModel cityModel = new CityModel(ds);
         CourtModel courtModel = new CourtModel(ds);
@@ -64,23 +81,6 @@ public class App {
         } catch (MySQLException e) {
             LOG.warning("Error while setting up example " + e.getMessage());
             e.printStackTrace();
-        }
-    }
-
-    public void start() {
-        LOG.info("Connecting to MySQL at " + mySqlProps.getProperty("url"));
-        var ds = new MySQLDataSource(mySqlProps);
-
-        setupExample(ds);
-
-        try {
-            System.out.println("Starting server on port " + SRV_PORT);
-            var srv = new Server(ds, SRV_PORT);
-            srv.start();
-        } catch (IOException e) {
-            LOG.severe(e.getMessage());
-            e.printStackTrace();
-            System.exit(1);
         }
     }
 }
