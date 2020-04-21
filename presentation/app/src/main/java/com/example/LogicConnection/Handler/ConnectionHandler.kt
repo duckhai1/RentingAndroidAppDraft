@@ -17,21 +17,13 @@ class ConnectionHandler {
     companion object{
         // GET method request
         fun sendGet(url: String?): String {
-            val obj = URL(url)
-            val conn = obj.openConnection() as HttpURLConnection
+            // setup connection
+            val conn = setupConnection(url, "GET")
 
-            // authentication
-            val username = "admin"
-            val pass = "admin"
-            val userPassword: String = username.toString() + ":" + pass
-            val data: ByteArray = userPassword.toByteArray(Charsets.UTF_8)
-            val encoding: String = Base64.encodeToString(data, Base64.DEFAULT)
-            conn.setRequestProperty("Authorization", "Basic " + encoding)
-            conn.requestMethod = "GET"
-
+            // handle response
             val responseCode = conn.responseCode
             return if (responseCode == HttpURLConnection.HTTP_OK) { // connection ok
-                Log.d("java_connection", "Successful connect")
+                Log.d("server_connect", "Successful connect")
                 val input = BufferedReader(InputStreamReader(conn.inputStream))
 
                 var inputLine: String?
@@ -47,23 +39,9 @@ class ConnectionHandler {
         }
 
         // POST method request
-        fun sendPost(r_url: String?, postDataParams: JsonObject): String? {
-            val url = URL(r_url)
-
+        fun sendPost(url: String?, postDataParams: JsonObject): String? {
             // setup connection
-            val conn = url.openConnection() as HttpURLConnection
-            // authentication
-            val username = "admin"
-            val pass = "admin"
-            val userPassword: String = username.toString() + ":" + pass
-            val data: ByteArray = userPassword.toByteArray(Charsets.UTF_8)
-            val encoding: String = Base64.encodeToString(data, Base64.DEFAULT)
-            conn.setRequestProperty("Authorization", "Basic " + encoding)
-            conn.readTimeout = 20000
-            conn.connectTimeout = 20000
-            conn.requestMethod = "POST"
-            conn.doInput = true
-            conn.doOutput = true
+            val conn = setupConnection(url, "POST")
 
             // handle request
             val os = conn.outputStream
@@ -77,23 +55,39 @@ class ConnectionHandler {
 
             // handle response
             val responseCode = conn.responseCode
-            Log.d("server_connect", "responseCode: $responseCode")
             // check if request success
-            if (responseCode == HttpsURLConnection.HTTP_OK) {
-//                Log.d("java_connection", "Successful connect")
-//                val input = BufferedReader(InputStreamReader(conn.inputStream))
-//                val response = StringBuffer("")
-//                var line: String? = input.readLine()
-//                while (line != null) {
-//                    response.append(line)
-//                    line = input.readLine()
-//                }
-//                input.close()
-//                return response.toString()
-                return "Success"
+            if (responseCode == HttpURLConnection.HTTP_CREATED) {
+                Log.d("server_connect", "Successful connect")
+                return "Create resource successful"
             }
-            return "Unsuccess"
+            return "Fail to create resource"
         }
+
+        private fun setupConnection(url: String?, method: String) : HttpURLConnection{
+            val url = URL(url)
+            val conn = url.openConnection() as HttpURLConnection
+            conn.readTimeout = 20000
+            conn.connectTimeout = 20000
+            conn.requestMethod = method
+            if (method == "GET"){
+                conn.doInput = true
+            } else {
+                conn.doOutput = true
+            }
+            setupAuthorize(conn)
+            return conn
+        }
+
+        private fun setupAuthorize(conn: HttpURLConnection){
+            val username = "admin"
+            val pass = "admin"
+            // authentication
+            val userPassword: String = username.toString() + ":" + pass
+            val data: ByteArray = userPassword.toByteArray(Charsets.UTF_8)
+            val encoding: String = Base64.encodeToString(data, Base64.DEFAULT)
+            conn.setRequestProperty("Authorization", "Basic " + encoding)
+        }
+
 
         // convert jsonObject to query in url
         private fun encodeParams(params: JsonObject): String {

@@ -21,10 +21,11 @@ class BookSucessScrenn : AppCompatActivity() {
         val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
 
         if (bookingInfo != null) {
-            result_court.text = bookingInfo.court
+            result_court.text = "Court: " + bookingInfo.court
             result_date.text = "Date: " + bookingInfo.date
-            result_hour.text = "Period: " + bookingInfo.time
-            result_center.text = bookingInfo.center
+            result_hour.text = "Period: " + bookingInfo.start + " - " +bookingInfo.end
+            result_center.text = "Center: " + bookingInfo.center
+            result_city.text = "City: " + bookingInfo.city
         }
 
 

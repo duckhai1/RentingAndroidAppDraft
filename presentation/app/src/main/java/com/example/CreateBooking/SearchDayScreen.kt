@@ -2,6 +2,7 @@ package com.example.CreateBooking
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -33,18 +34,25 @@ class SearchDayScreen : AppCompatActivity() {
         val ctnBtn =
             findViewById<ImageView>(R.id.continueButton)
         calendarView = findViewById<View>(R.id.calendarView) as CalendarView
-        val sdf = SimpleDateFormat("dd/MM/yyyy")
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
         val currentDate = sdf.format(Date(calendarView!!.date))
         calendarView!!.setOnDateChangeListener { view, year, month, dayOfMonth ->
 //            date = dayOfMonth.toString() + "/" + (month + 1) + "/" + year
-            date = "" + year + "-" +  (month + 1) + "-" + dayOfMonth.toString()
+            val display_month = if (month < 9) "0"+(month+1) else (month+1)
+            date = "" + year + "-" +  display_month + "-" + dayOfMonth.toString()
         }
+//        if (date == null) {
+//            Log.d("calendar", currentDate)
+//        } else {
+//            Log.d("calendar", date)
+//        }
         ctnBtn.setOnClickListener {
             val intent = Intent(
                 applicationContext,
                 SelectTimeScreen::class.java
             )
             val bookingDay = if (date == null) currentDate else date
+            Log.d("calendar", bookingDay)
             // update bookingInfo
             if (bookingInfo != null && bookingDay != null) {
                 bookingInfo.date = bookingDay

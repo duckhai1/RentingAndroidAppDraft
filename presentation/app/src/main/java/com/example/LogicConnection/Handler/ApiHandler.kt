@@ -7,6 +7,7 @@ class ApiHandler {
     companion object{
 
         fun createBooking(myBookingModel: MyBookingModel){
+            val id = myBookingModel.id
             val date = myBookingModel.date
             val start = myBookingModel.start
             val end = myBookingModel.end
@@ -14,7 +15,7 @@ class ApiHandler {
             val center = myBookingModel.center
             val court = myBookingModel.court
             val player = myBookingModel.player
-            createBookingAsync().execute(date, start, end, city, center, court, player)
+            createBookingAsync().execute(date, start, end, city, center, court, player, id)
         }
     }
 }

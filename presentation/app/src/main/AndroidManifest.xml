@@ -20,18 +20,18 @@
         android:theme="@style/AppTheme">
 
         <activity android:name="com.example.LogicConnection.Handler.TestConnection">
+        </activity>
 
+        <activity android:name="com.example.Login.LoginScreen">
+
+        </activity>
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name="com.example.Login.LoginScreen">
-
-        </activity>
-        <activity android:name=".MainActivity" />
 
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -74,13 +74,10 @@
             android:label="@string/title_activity_location2" />
         <activity android:name="com.example.CreateBooking.BookSucessScrenn" />
         <activity android:name="com.example.SelectTime.SelectTimeScreen" />
-
         <activity android:name="com.example.CreateBooking.ChooseLocationScreen" />
         <activity android:name=".DetailScreen" />
         <activity android:name="com.example.CreateBooking.SearchDayScreen" />
         <activity android:name="com.example.Login.LoginFacebookScreen" />
-
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

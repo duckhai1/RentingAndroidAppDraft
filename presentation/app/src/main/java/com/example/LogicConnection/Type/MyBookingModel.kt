@@ -18,7 +18,7 @@ class MyBookingModel(
     @SerializedName("cityId")
     @Expose
     var city: String? = "",      // booking city
-    @SerializedName("centerId")
+    @SerializedName("sportCenterId")
     @Expose
     var center: String?= "",     // booking sport center
     @SerializedName("courtId")
@@ -30,9 +30,12 @@ class MyBookingModel(
     @SerializedName("isPaid")
     @Expose(serialize = false)
     var status: Int = 0,        // status 0: unpaid; 1:paid
-    @SerializedName("createdAt")
-    @Expose(deserialize = false)
-    var createdAt :String? = "",
+    @SerializedName("bookingId")
+    @Expose()
+    var id : String? ="",       // bookingId
+//    @SerializedName("createdAt")
+//    @Expose(deserialize = false)
+//    var createdAt :String? = "",
 
     var week: String  = if (date == "") "" else SimpleDateFormat("EE").format(SimpleDateFormat("yyyy-MM-dd").parse(date)),      // date of the week of the booking
     var time: String = start + " " + end        // deprecated later

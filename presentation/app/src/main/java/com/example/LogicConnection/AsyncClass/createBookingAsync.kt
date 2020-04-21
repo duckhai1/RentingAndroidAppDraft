@@ -21,13 +21,14 @@ class createBookingAsync : AsyncTask<String?, String?, String?>(){
             params[3],
             params[4],
             params[5],
-            params[6]
+            params[6],
+            id = params[7]
         )
         val postJson = gson.toJson(newBooking)
         val postDataParams = gson.fromJson(postJson, JsonObject::class.java)
 
         try {
-            ConnectionHandler.sendPost(
+            result = ConnectionHandler.sendPost(
                 "http://10.0.2.2:8000/api/bookings",
                 postDataParams
             )
@@ -38,7 +39,7 @@ class createBookingAsync : AsyncTask<String?, String?, String?>(){
     }
     override fun onPostExecute(s: String?) {
         if (s != null) {
-//            Toast.makeText(applicationContext, s, Toast.LENGTH_LONG).show()
+            Log.d("server_connect", s)
         }
     }
 

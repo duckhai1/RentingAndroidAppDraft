@@ -53,7 +53,7 @@ class Court1Fragment : Fragment(), MainInterface {
             time[count] = "0$i:00"
             for (y in 15..45 step 15) {
                 count += 1
-                time[count] = "0$i:$y:00"
+                time[count] = "0$i:$y"
             }
             count += 1
         }
@@ -61,7 +61,7 @@ class Court1Fragment : Fragment(), MainInterface {
             time[count] = "$i:00"
             for (y in 15..45 step 15) {
                 count += 1
-                time[count] = "$i:$y:00"
+                time[count] = "$i:$y"
             }
             count += 1
         }
@@ -108,16 +108,6 @@ class Court1Fragment : Fragment(), MainInterface {
                 // select choose slot
                 R.id.action_next -> {
                     val timeArray = myAdapter?.chooseSelectedIds()
-                    var timeText = " "
-
-//                    val selectedIdIteration = timeArray?.listIterator()
-//                    if (selectedIdIteration != null) {
-//                        while (selectedIdIteration.hasNext()) {
-//                            val selectedItemID = selectedIdIteration.next()
-//                            // make a test store time of slots
-//                            timeText = timeText + " " + selectedItemID
-//                        }
-//                    }
 
                     Toast.makeText(context, timeArray?.get(0) +" "+timeArray?.get(1), Toast.LENGTH_LONG).show()
 
@@ -130,15 +120,15 @@ class Court1Fragment : Fragment(), MainInterface {
 
                     // update bookingInfo
                     if (bookingInfo != null) {
-                        bookingInfo.start = "09:00:00"
-                        bookingInfo.end = "10:00:00"
+                        bookingInfo.start = timeArray?.get(0)
+                        bookingInfo.end = timeArray?.get(1)
 //                        bookingInfo.court = bookingCourtName
                         bookingInfo.court = "court1"   // <--- change this
                     }
                     else {
                         bookingInfo = MyBookingModel(
-                            start = "09:00:00",
-                            end = "10:00:00",
+                            start = timeArray?.get(0),
+                            end = timeArray?.get(1),
                             court = bookingCourtName
                         )
                     }

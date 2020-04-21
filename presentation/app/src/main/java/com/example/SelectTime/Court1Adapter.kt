@@ -2,6 +2,7 @@ package com.example.SelectTime
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,7 +65,7 @@ class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context, val m
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItems(arrayList[position])
 
-        val id = SimpleDateFormat("HH:mm:ss").parse(arrayList[position].time)
+        val id = SimpleDateFormat("HH:mm").parse(arrayList[position].time)
 
 
         if (arrayList[position].slot == 0) {
@@ -102,7 +103,8 @@ class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context, val m
     }
 
     fun addIDIntoSelectedIds(index: Int){
-        val id = SimpleDateFormat("HH:mm:ss").parse(arrayList[index].time)
+        val id = SimpleDateFormat("HH:mm").parse(arrayList[index].time)
+        Log.d("select_time", "time selected: " + SimpleDateFormat("HH:mm:ss").format(id))
         if (selectedIds.contains(id))
             selectedIds.remove(id)
         else
@@ -126,7 +128,9 @@ class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context, val m
             return null
         }
         // TODO Check the condition pick time must be consecutive
-        selectedIds.sortDescending()
+        selectedIds.sort()
+        Log.d("select_time", "selectedIds list: " + selectedIds)
+        // check selected id is consecutive
         var isConsecutive = true
         var curTime = selectedIds[0].time - slotInterval
         for (slot in selectedIds){
@@ -137,11 +141,12 @@ class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context, val m
             curTime = slot.time
         }
         if (isConsecutive){
-            val start = selectedIds.first().toString()
-            val end = selectedIds.last().toString()
+            val start = SimpleDateFormat("HH:mm:ss").format(selectedIds.first())
+            val end = SimpleDateFormat("HH:mm:ss").format(selectedIds.last())
             val result = ArrayList<String>()
             result.add(start)
             result.add(end)
+            Log.d("select_time", "result: " + result)
             return result
         } else {
             return null
