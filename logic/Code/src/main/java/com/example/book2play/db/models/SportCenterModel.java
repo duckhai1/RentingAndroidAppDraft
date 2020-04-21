@@ -118,7 +118,7 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
     }
 
     @Override
-    public Collection<SportCenter> getSportCentersInCity(String cityId) throws MySQLException, SQLException {
+    public Collection<SportCenter> getSportCentersInCity(String cityId) throws MySQLException {
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
@@ -136,7 +136,7 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
             }
 
             return ResultSetUtils.sportCentersFromResultSet(rs);
-        } catch(SQLDataException e){
+        } catch (SQLException e) {
             throw new MySQLException("Unexpected Exception" + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
