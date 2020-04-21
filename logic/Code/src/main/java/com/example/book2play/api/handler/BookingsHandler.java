@@ -14,10 +14,7 @@ import java.io.*;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 public class BookingsHandler extends AbstractHandler {
 
@@ -45,15 +42,46 @@ public class BookingsHandler extends AbstractHandler {
     }
 
     // TODO: this make no sense
-    private void execGet(HttpExchange exchange) {
-        // // handle request
-        // Map<String, List<String>> params = splitQuery(exchange.getRequestURI().getRawQuery());
-        // String requestJSON = new Gson().toJson(params);
-        // System.out.println("requestJSON: " + requestJSON);
+    private void execGet(HttpExchange exchange) throws IOException {
+        // handle request
+        Map<String, List<String>> params = splitQuery(exchange.getRequestURI().getRawQuery());
+        String requestJSON = new Gson().toJson(params);
+        System.out.println("requestJSON: " + requestJSON);
 
-        // // get all list of booking
+        // get all list of booking
+        ArrayList<Booking> bookings = new ArrayList<>();
+
+        String courtId = params.get("courtId").toString();
+        String cityId = params.get("cityId").toString();
+        String sportCenterId = params.get("sportCenterId").toString();
+        Date date = Date.valueOf(params.get("date").toString());
+        try {
+            bookings = (ArrayList<Booking>) model.getBookingsInCourt(courtId, cityId, sportCenterId, date);
+        } catch (MySQLException e) {
+            e.printStackTrace();
+        }
+        // handle response
+        ArrayList<JsonObject> responseJsonList = EncodeUtils.encodeBookings(bookings);
+        String responseJson = new Gson().toJson(responseJsonList);
+        exchange.sendResponseHeaders(200, responseJson.getBytes().length);
+        // make a response body
+        OutputStream output = exchange.getResponseBody();
+        output.write(responseJson.getBytes());
+        output.flush();
+        // TODO: This is the original one
+        // handle request
+
+        // InputStream input = exchange.getRequestBody();
+        // StringBuilder stringBuilder = new StringBuilder();
+        // new BufferedReader(new InputStreamReader(input))
+        //        .lines()
+        //        .forEach( (String s) -> stringBuilder.append(s + "\n") );
+        // System.out.println("requestJSON: " + stringBuilder);
+
+        // process request
+        // JsonObject request = new Gson().fromJson(stringBuilder.toString(), JsonObject.class);
         // ArrayList<Booking> bookings = new ArrayList<>();
-        // for (String bookingId : params.get("bookingId")){
+        //  // for (String bookingId : params.get("bookingId")){
         //     try {
         //         Booking b = model.getBookingInfo(bookingId);
         //         bookings.add(b);
@@ -63,13 +91,12 @@ public class BookingsHandler extends AbstractHandler {
         //     // Booking b = getBooking(bookingID)
         //     // bookings.add(b);
 
-        // }
 
         // // handle response
         // ArrayList<JsonObject> responseJsonList = EncodeUtils.encodeBookings(bookings);
         // String responseJson = new Gson().toJson(responseJsonList);
         // exchange.sendResponseHeaders(200, responseJson.getBytes().length);
-        // // make a response body
+        // make a response body
         // OutputStream output = exchange.getResponseBody();
         // output.write(responseJson.getBytes());
         // output.flush();
