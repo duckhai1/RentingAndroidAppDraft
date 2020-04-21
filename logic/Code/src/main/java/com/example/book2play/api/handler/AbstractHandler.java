@@ -24,7 +24,7 @@ public abstract class AbstractHandler implements HttpHandler {
     protected final static Logger LOG = Logger.getLogger("HTTPHandler");
     protected final static Gson GSON = new GsonBuilder()
             .excludeFieldsWithModifiers(Modifier.STATIC)
-            .setDateFormat("yyyy-MM-dd")
+            .setDateFormat("yyyy-MM-dd HH:mm:ss")
             .create();
 
     protected void responseWithJson(HttpExchange exchange, int statusCode, Object body) throws IOException {
