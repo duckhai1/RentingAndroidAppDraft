@@ -1,5 +1,7 @@
 package com.example.LogicConnection.Handler
 
+import android.app.Activity
+import android.content.Context
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -16,6 +18,7 @@ import java.sql.Timestamp
 
 class TestConnection : AppCompatActivity() {
 
+    val mActivity : Activity = this
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test_connection)
@@ -33,7 +36,7 @@ class TestConnection : AppCompatActivity() {
                     "court1",
                     "player1"
                 )
-                ApiHandler.createBooking(newBooking, parent)
+                ApiHandler.createBooking(mActivity, newBooking)
             }
 
         })

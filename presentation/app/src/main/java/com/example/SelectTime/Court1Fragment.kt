@@ -111,16 +111,7 @@ class Court1Fragment : Fragment(), MainInterface {
                 // select choose slot
                 R.id.action_next -> {
                     val timeArray = myAdapter?.chooseSelectedIds()
-
-                    Toast.makeText(context, timeArray?.get(0) +" "+timeArray?.get(1), Toast.LENGTH_LONG).show()
-
-//                    // move to next screen
-//                    val intent =
-//                        Intent(activity, BookSucessScrenn::class.java)
-
-
-
-
+//                    Toast.makeText(context, timeArray?.get(0) +" "+timeArray?.get(1), Toast.LENGTH_LONG).show()
                     // update bookingInfo
                     if (bookingInfo != null) {
                         bookingInfo.start = timeArray?.get(0)
@@ -135,27 +126,8 @@ class Court1Fragment : Fragment(), MainInterface {
                             court = bookingCourtName
                         )
                     }
-                    activity?.let { ApiHandler.createBooking(bookingInfo, it) }  //ApiHandler.createBooking(bookingInfo, activity)
-                    Log.d("server_connect", "Finish booking")
-//                    intent.putExtra("BookingInfo", bookingInfo)
-//                    try {
-//                        activity?.let { ApiHandler.createBooking(bookingInfo, it) }  //ApiHandler.createBooking(bookingInfo, activity)
-//                        Log.d("server_connect", "Finish booking")
-//                        startActivity(intent)
-//                    } catch (e: Exception){
-//                        Log.d("server_connect", "catch fail to connect to server exception")
-//                        val builder = AlertDialog.Builder(activity)
-//
-//                        builder.setTitle("Connection error")
-//                        builder.setMessage("Can not connect to the server. Please check you internet connection")
-//                        builder.setNeutralButton("OK"){dialog, which ->
-//                            val back_intent = Intent(activity, MainActivity::class.java)
-//                            startActivity(back_intent)
-//                        }
-//                        val dialog: AlertDialog = builder.create()
-//                        dialog.show()
-//                    }
-
+                    llProgressBar.visibility = View.VISIBLE
+                    activity?.let { ApiHandler.createBooking(it,bookingInfo) }  //ApiHandler.createBooking(activity, bookingInfo)
                 }
             }
             return false

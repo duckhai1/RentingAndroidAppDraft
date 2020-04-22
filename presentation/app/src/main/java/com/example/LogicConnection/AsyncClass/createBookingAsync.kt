@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.AsyncTask
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.example.CreateBooking.BookSucessScrenn
 import com.example.LogicConnection.Handler.ConnectionHandler
@@ -12,6 +13,7 @@ import com.example.LogicConnection.Type.MyBookingModel
 import com.example.book2play.MainActivity
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
+import kotlinx.android.synthetic.main.fragment_court1.*
 import java.io.IOException
 
 
@@ -48,21 +50,21 @@ class createBookingAsync(activity: Activity) : AsyncTask<String?, String?, Strin
         return result
     }
     override fun onPostExecute(s: String?) {
+        Log.d("server_connect", s)
+        activity.llProgressBar.visibility = View.GONE
         if (error == null) {
-            val intent =
-                Intent(activity, BookSucessScrenn::class.java)
+            val intent = Intent(activity, BookSucessScrenn::class.java)
             intent.putExtra("BookingInfo", newBooking)
             this.activity.startActivity(intent)
-            Log.d("server_connect", s)
-        } else {
-            Log.d("server_connect", "catch fail to connect to server exception")
+        }
+        // can not connect to server
+        else {
             val builder = AlertDialog.Builder(activity)
-
             builder.setTitle("Connection error")
             builder.setMessage("Can not connect to the server. Please check you internet connection")
             builder.setNeutralButton("OK"){dialog, which ->
-                val back_intent = Intent(activity, MainActivity::class.java)
-                activity.startActivity(back_intent)
+                val home_intent = Intent(activity, MainActivity::class.java)
+                activity.startActivity(home_intent)
             }
             val dialog: AlertDialog = builder.create()
             dialog.show()
