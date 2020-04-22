@@ -2,7 +2,7 @@ package com.example.SelectTime
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.book2play.MyBookingModel
+import com.example.LogicConnection.Type.MyBookingModel
 import com.example.book2play.R
 import kotlinx.android.synthetic.main.select_time_screen.*
 

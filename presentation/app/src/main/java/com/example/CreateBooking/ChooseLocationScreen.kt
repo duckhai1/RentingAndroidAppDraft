@@ -14,7 +14,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.example.book2play.MyBookingModel
+import com.example.LogicConnection.Type.MyBookingModel
 import com.example.book2play.R
 
 

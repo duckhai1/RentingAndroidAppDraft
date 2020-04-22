@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.book2play.MyBookingModel
+import com.example.LogicConnection.Type.MyBookingModel
 import com.example.book2play.R
 import com.example.CreateBooking.BookSucessScrenn
 import kotlinx.android.synthetic.main.fragment_court1.*
@@ -18,7 +18,8 @@ import kotlinx.android.synthetic.main.fragment_court1.*
 class Court1Fragment : Fragment(), MainInterface {
 
 
-    var bookingInfo : MyBookingModel = MyBookingModel()
+    var bookingInfo : MyBookingModel =
+        MyBookingModel()
     lateinit var bookingCourtName :String
 
     var actionMode: ActionMode? = null
@@ -128,7 +129,10 @@ class Court1Fragment : Fragment(), MainInterface {
                         bookingInfo.court = bookingCourtName
                     }
                     else {
-                        bookingInfo = MyBookingModel(time = timeText, court = bookingCourtName)
+                        bookingInfo = MyBookingModel(
+                            time = timeText,
+                            court = bookingCourtName
+                        )
                     }
                     intent.putExtra("BookingInfo", bookingInfo)
                     startActivity(intent)
