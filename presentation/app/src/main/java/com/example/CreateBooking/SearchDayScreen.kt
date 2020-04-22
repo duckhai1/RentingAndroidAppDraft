@@ -29,6 +29,9 @@ class SearchDayScreen : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.title = "Pick your date!"
 
+        val textView: TextView = findViewById(R.id.centerName)
+        textView.setText(intent.getStringExtra("CENTERNAME"))
+
         val ctnBtn =
             findViewById<ImageView>(R.id.continueButton)
         calendarView = findViewById<View>(R.id.calendarView) as CalendarView
@@ -38,10 +41,7 @@ class SearchDayScreen : AppCompatActivity() {
             date = dayOfMonth.toString() + "/" + (month + 1) + "/" + year
         }
         ctnBtn.setOnClickListener {
-            val intent = Intent(
-                applicationContext,
-                SelectTimeScreen::class.java
-            )
+            val intent = Intent(applicationContext, SelectTimeScreen::class.java)
             val bookingDay = if (date == null) currentDate else date
             // update bookingInfo
             if (bookingInfo != null && bookingDay != null) {
