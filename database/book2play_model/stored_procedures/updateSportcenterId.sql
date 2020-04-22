@@ -3,63 +3,43 @@
 */
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS updateSportcenterId //
-CREATE PROCEDURE updateSportcenterId (
-    IN newSportcenterId VARCHAR(100),
-    IN inSportcenterId VARCHAR(100),
+DROP PROCEDURE IF EXISTS updateSportCenterId //
+CREATE PROCEDURE updateSportCenterId (
+    IN newSportCenterId VARCHAR(100),
+    IN inSportCenterId VARCHAR(100),
     IN inCityId VARCHAR(100),
     OUT statusCode INT
 )
 BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
-		SET statusCode = @p1;
-		ROLLBACK;
-	END;
-
-    START TRANSACTION;
-
-	IF newSportcenterId REGEXP '[^a-zA-Z0-9]+$' THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 461; -- invalid sportcenter id 
-	END IF;
-
-    IF inCityId NOT IN (SELECT cityId FROM cities) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 460; -- invalid city id
-	END IF;
-    
-    IF inSportcenterId NOT IN (
-		SELECT sportcenterId
-		FROM sportcenters
+	IF newSportCenterId REGEXP '[^a-zA-Z0-9]+' THEN
+		SET statusCode = 461; -- invalid sportCenter id 
+	ELSEIF inCityId NOT IN (SELECT cityId FROM cities) THEN
+		SET statusCode = 460; -- invalid city id
+	ELSEIF inSportCenterId NOT IN (
+		SELECT sportCenterId
+		FROM sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
 	) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 461; -- invalid sportcenter id
-	END IF;
-
-    IF newSportcenterId IN (
-		SELECT sportcenterId
-		FROM sportcenters
+		SET statusCode = 461; -- invalid sportCenter id
+	ELSEIF newSportCenterId IN (
+		SELECT sportCenterId
+		FROM sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
 	) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 403; -- Sportcenter already exists
+		SET statusCode = 403; -- SportCenter already exists
+    ELSE
+		SET statusCode = 200;
+		UPDATE sportCenters
+		SET sportCenterId = newSportCenterId
+		WHERE sportCenterId = inSportCenterId
+			AND cityPk = (
+				SELECT cityPk
+				FROM cities
+				WHERE cityId = inCityID
+			);
 	END IF;
-
-    SET statusCode = 200;
-
-    UPDATE sportcenters
-    SET sportcenterId = newSportcenterId
-    WHERE sportcenterId = inSportcenterId
-        AND cityPk = (
-            SELECT cityPk
-            FROM cities
-            WHERE cityId = inCityID
-        );
 END//
 
 DELIMITER ;

@@ -9,29 +9,15 @@ CREATE PROCEDURE createPlayer (
     OUT statusCode INT
 )
 BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
-		SET statusCode = @p1;
-		ROLLBACK;
-	END;
-
-    START TRANSACTION;
-
-	IF inPlayerId REGEXP '[^a-zA-Z0-9]+$' THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 464; -- invalid player id 
+	IF inPlayerId REGEXP '[^a-zA-Z0-9]+' THEN
+		SET statusCode = 464; -- invalid player id 
+	ELSEIF inPlayerId IN (SELECT playerId FROM players) THEN
+		SET statusCode = 405; -- Player already exists
+    ELSE
+		SET statusCode = 200;
+		INSERT INTO players (playerId) 
+		VALUES (inPlayerId);
 	END IF;
-
-    IF inPlayerId IN (SELECT playerId FROM players) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 405; -- Player already exists
-    END IF;
-
-    SET statusCode = 200;
-           
-    INSERT INTO players (playerId) 
-    VALUES (inPlayerId);
 END//
 
 DELIMITER ;

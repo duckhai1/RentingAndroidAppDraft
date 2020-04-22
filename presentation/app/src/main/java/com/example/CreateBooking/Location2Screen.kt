@@ -13,6 +13,7 @@ import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+
 import com.example.LogicConnection.Type.MyBookingModel
 import com.example.book2play.R
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -64,7 +65,6 @@ class Location2Screen : AppCompatActivity(),
         listView.adapter = adapter
         listView.onItemClickListener =
             OnItemClickListener { parent, view, position, id ->
-
                     val theCenterName = NAMES[position]
                     val intent = Intent(applicationContext, SearchDayScreen::class.java)
                     // update bookingInfo

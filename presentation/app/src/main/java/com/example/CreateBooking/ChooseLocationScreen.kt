@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+
 import com.example.LogicConnection.Type.MyBookingModel
 import com.example.book2play.R
 
@@ -29,14 +30,14 @@ class ChooseLocationScreen : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.activity_choose_location,container, false)
 
+        val v = inflater.inflate(R.layout.activity_choose_location,container, false)
         citySpinner = v.findViewById(R.id.CitySpinner) as Spinner
         val btnContinue = v.findViewById(R.id.btnContinue) as Button
         val btnCurrentLoc = v.findViewById(R.id.btnCurrentLoc) as Button
 
 
-        val cities = arrayOf("Ho Chi Minh city", "My Tho city", "Vung Tau city", "Binh Duong city")
+        val cities = arrayOf("Ho Chi Minh city", "My Tho city", "Vung Tau city", "Binh Duong city", "city1")  // <--- change this
         val adapter = activity?.let { ArrayAdapter(it, R.layout.spinner_textview, cities) }
         citySpinner.adapter = adapter
 
@@ -46,7 +47,7 @@ class ChooseLocationScreen : Fragment() {
                 Toast.makeText(activity, "Please wait for the update!", Toast.LENGTH_SHORT).show()
             } else {
                 val intent = Intent(activity, Location2Screen::class.java)
-                val bookingInfor = MyBookingModel(city = text)
+                val bookingInfor = MyBookingModel(player= "player1",city = text) // <--- change this
                 intent.putExtra("BookingInfo", bookingInfor)
                 startActivity(intent)
             }

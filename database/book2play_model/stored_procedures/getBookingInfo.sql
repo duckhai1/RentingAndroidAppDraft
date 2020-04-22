@@ -9,25 +9,18 @@ CREATE PROCEDURE getBookingInfo (
     OUT statusCode INT
 )
 BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
-		SET statusCode = @p1;
-		ROLLBACK;
-	END;
-
-	START TRANSACTION;
-
     IF inBookingId NOT IN (SELECT bookingId FROM bookings ) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 465; -- invalid booking id
+		SET statusCode = 465; -- invalid booking id
+	ELSE
+		SET statusCode = 200; 
+		SELECT bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId
+		FROM bookings
+			NATURAL JOIN players
+			NATURAL JOIN courts
+			NATURAL JOIN sportCenters
+			NATURAL JOIN cities
+		WHERE bookingId = inBookingId;
 	END IF;
-
-    SET statusCode = 200;
-
-	SELECT *
-	FROM bookings
-	WHERE bookingId = inBookingId;
 END//
 
 DELIMITER ;

@@ -4,7 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.book2play.MainActivity
+
 import com.example.LogicConnection.Type.MyBookingModel
+
+
 import com.example.book2play.R
 import kotlinx.android.synthetic.main.book_sucess_screen.*
 
@@ -18,10 +21,11 @@ class BookSucessScrenn : AppCompatActivity() {
         val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
 
         if (bookingInfo != null) {
-            result_court.text = bookingInfo.court
+            result_court.text = "Court: " + bookingInfo.court
             result_date.text = "Date: " + bookingInfo.date
-            result_hour.text = "Period: " + bookingInfo.time
-            result_center.text = bookingInfo.center
+            result_hour.text = "Period: " + bookingInfo.start + " - " +bookingInfo.end
+            result_center.text = "Center: " + bookingInfo.center
+            result_city.text = "City: " + bookingInfo.city
         }
 
 

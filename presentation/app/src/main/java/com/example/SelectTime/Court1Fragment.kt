@@ -3,13 +3,19 @@ package com.example.SelectTime
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+
 import com.example.LogicConnection.Type.MyBookingModel
 import com.example.book2play.R
 import com.example.CreateBooking.BookSucessScrenn
+import com.example.LogicConnection.Handler.ApiHandler
+import com.example.book2play.MainActivity
 import kotlinx.android.synthetic.main.fragment_court1.*
+import java.lang.Exception
 
 
 /**
@@ -18,8 +24,10 @@ import kotlinx.android.synthetic.main.fragment_court1.*
 class Court1Fragment : Fragment(), MainInterface {
 
 
+
     var bookingInfo : MyBookingModel =
         MyBookingModel()
+
     lateinit var bookingCourtName :String
 
     var actionMode: ActionMode? = null
@@ -103,39 +111,28 @@ class Court1Fragment : Fragment(), MainInterface {
                 // select choose slot
                 R.id.action_next -> {
                     val timeArray = myAdapter?.chooseSelectedIds()
-                    var timeText = " "
+                    if (timeArray == null){
+                        myAdapter?.clearSelectedIds()
 
-                    val selectedIdIteration = timeArray?.listIterator()
-                    if (selectedIdIteration != null) {
-                        while (selectedIdIteration.hasNext()) {
-                            val selectedItemID = selectedIdIteration.next()
-                            // make a test store time of slots
-                            timeText = timeText + " " + selectedItemID
-                        }
+                        return false
                     }
-
-//                    Toast.makeText(context, timeText, Toast.LENGTH_LONG).show()
-
-                    // move to next screen
-                    val intent =
-                        Intent(activity, BookSucessScrenn::class.java)
-
-
-
-
+//                    Toast.makeText(context, timeArray?.get(0) +" "+timeArray?.get(1), Toast.LENGTH_LONG).show()
                     // update bookingInfo
                     if (bookingInfo != null) {
-                        bookingInfo.time = timeText
-                        bookingInfo.court = bookingCourtName
+                        bookingInfo.start = timeArray?.get(0)
+                        bookingInfo.end = timeArray?.get(1)
+//                        bookingInfo.court = bookingCourtName
+                        bookingInfo.court = "court1"   // <--- change this
                     }
                     else {
                         bookingInfo = MyBookingModel(
-                            time = timeText,
+                            start = timeArray?.get(0),
+                            end = timeArray?.get(1),
                             court = bookingCourtName
                         )
                     }
-                    intent.putExtra("BookingInfo", bookingInfo)
-                    startActivity(intent)
+
+                    activity?.let { ApiHandler.createBooking(it,bookingInfo) }  //ApiHandler.createBooking(activity, bookingInfo)
                 }
             }
             return false

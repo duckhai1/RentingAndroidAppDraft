@@ -1,1 +1,3 @@
 .vscode/
+logic/Code/target/classes/mysql_database.properties
+logic/Code/src/main/resources/mysql_database.properties

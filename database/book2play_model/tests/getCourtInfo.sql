@@ -30,7 +30,7 @@ CALL getCourtInfo('C', '@', 'B', @statusCode);
 
 
 /*
-    Test if the court information is not returned when the sportcenter id does not exists
+    Test if the court information is not returned when the sportCenter id does not exists
 */
 CALL createCity('A', @statusCode);
 CALL createCityCenter('B', 'A', @statusCode);

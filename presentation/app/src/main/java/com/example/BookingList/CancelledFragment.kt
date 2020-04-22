@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+
 import com.example.LogicConnection.Type.MyBookingModel
 import com.example.book2play.R
 import kotlinx.android.synthetic.main.fragment_cancelled.*
@@ -48,8 +49,9 @@ class CancelledFragment : Fragment() {
         arrayList.add(
             MyBookingModel(
                 "Jan 2",
-                "Thu",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"
@@ -58,8 +60,9 @@ class CancelledFragment : Fragment() {
         arrayList.add(
             MyBookingModel(
                 "Mar 13",
-                "Mon",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"
@@ -68,8 +71,9 @@ class CancelledFragment : Fragment() {
         arrayList.add(
             MyBookingModel(
                 "Mar 25",
-                "Mon",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"
@@ -78,8 +82,9 @@ class CancelledFragment : Fragment() {
         arrayList.add(
             MyBookingModel(
                 "May 8",
-                "Tue",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"
@@ -88,8 +93,9 @@ class CancelledFragment : Fragment() {
         arrayList.add(
             MyBookingModel(
                 "Jul 29",
-                "Fri",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"
@@ -98,8 +104,9 @@ class CancelledFragment : Fragment() {
         arrayList.add(
             MyBookingModel(
                 "Dec 1",
-                "Sun",
-                "10:30-11h30",
+                "10h30",
+                "11h30",
+                "city1",
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa"

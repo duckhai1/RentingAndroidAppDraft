@@ -1,5 +1,5 @@
 /*
-    Test if the sportcenter id id is updated, when all the provided parameters are valid
+    Test if the sportCenter id id is updated, when all the provided parameters are valid
     
     (1st case)
 */
@@ -8,12 +8,12 @@ CALL createCity('B', @statusCode);
 CALL createCityCenter('X', 'A', @statusCode);
 CALL createCityCenter('Y', 'A', @statusCode);
 CALL createCityCenter('Z', 'B', @statusCode);
-CALL updateSportcenterId('Z', 'X', 'A', @statusCode);
+CALL updateSportCenterId('Z', 'X', 'A', @statusCode);
 -- expected: no error code
 
 
 /*
-    Test if the sportcenter id is updated, when all the provided parameters are valid
+    Test if the sportCenter id is updated, when all the provided parameters are valid
     
     (2nd case)
 */
@@ -22,12 +22,12 @@ CALL createCity('B', @statusCode);
 CALL createCityCenter('X', 'A', @statusCode);
 CALL createCityCenter('Y', 'A', @statusCode);
 CALL createCityCenter('Z', 'B', @statusCode);
-CALL updateSportcenterId('Z', 'Y', 'A', @statusCode);
+CALL updateSportCenterId('Z', 'Y', 'A', @statusCode);
 -- expected: no error code
 
 
 /*
-    Test if the sportcenter id is updated, when all the provided parameters are valid
+    Test if the sportCenter id is updated, when all the provided parameters are valid
     
     (3rd case)
 */
@@ -36,13 +36,13 @@ CALL createCity('B', @statusCode);
 CALL createCityCenter('X', 'A', @statusCode);
 CALL createCityCenter('Y', 'A', @statusCode);
 CALL createCityCenter('Z', 'B', @statusCode);
-CALL updateSportcenterId('X', 'Z', 'B', @statusCode);
+CALL updateSportCenterId('X', 'Z', 'B', @statusCode);
 -- expected: no error code
 
 
 /*
-    Test if the sportcenter id is not updated and an error code is returned,
-    when the new sportcenter id already exists in the database prior to the change
+    Test if the sportCenter id is not updated and an error code is returned,
+    when the new sportCenter id already exists in the database prior to the change
 
     (1st case)
 */
@@ -51,13 +51,13 @@ CALL createCity('B', @statusCode);
 CALL createCityCenter('X', 'A', @statusCode);
 CALL createCityCenter('Y', 'A', @statusCode);
 CALL createCityCenter('Z', 'B', @statusCode);
-CALL updateSportcenterId('Y', 'X', 'A', @statusCode);
+CALL updateSportCenterId('Y', 'X', 'A', @statusCode);
 -- expected: error code 403
 
 
 /*
-    Test if the sportcenter id is not updated and an error code is returned,
-    when the new sportcenter id already exists in the database prior to the change
+    Test if the sportCenter id is not updated and an error code is returned,
+    when the new sportCenter id already exists in the database prior to the change
 
     (2nd case)
 */
@@ -66,37 +66,37 @@ CALL createCity('B', @statusCode);
 CALL createCityCenter('X', 'A', @statusCode);
 CALL createCityCenter('Y', 'A', @statusCode);
 CALL createCityCenter('Z', 'B', @statusCode);
-CALL updateSportcenterId('X', 'Y', 'A', @statusCode);
+CALL updateSportCenterId('X', 'Y', 'A', @statusCode);
 -- expected: error code 403
 
 /*
-    Test if the sportcenter id is not updated and an error code is returned,
-    when the new sportcenter id is in invalid format
+    Test if the sportCenter id is not updated and an error code is returned,
+    when the new sportCenter id is in invalid format
 */
 CALL createCity('A', @statusCode);
 CALL createCity('B', @statusCode);
 CALL createCityCenter('X', 'A', @statusCode);
 CALL createCityCenter('Y', 'A', @statusCode);
 CALL createCityCenter('Z', 'B', @statusCode);
-CALL updateSportcenterId('@', 'Z', 'B', @statusCode);
+CALL updateSportCenterId('@', 'Z', 'B', @statusCode);
 -- expected: error code 461
 
 
 /*
-    Test if the sportcenter id is not updated and an error code is returned,
-    when the old sportcenter id is invalid
+    Test if the sportCenter id is not updated and an error code is returned,
+    when the old sportCenter id is invalid
 */
 CALL createCity('A', @statusCode);
 CALL createCity('B', @statusCode);
 CALL createCityCenter('X', 'A', @statusCode);
 CALL createCityCenter('Y', 'A', @statusCode);
 CALL createCityCenter('Z', 'B', @statusCode);
-CALL updateSportcenterId('X', '@', 'B', @statusCode);
+CALL updateSportCenterId('X', '@', 'B', @statusCode);
 -- expected: error code 461
 
 
 /*
-    Test if the sportcenter id is not updated and an error code is returned,
+    Test if the sportCenter id is not updated and an error code is returned,
     when the city id is in invalid format
 */
 CALL createCity('A', @statusCode);
@@ -104,5 +104,5 @@ CALL createCity('B', @statusCode);
 CALL createCityCenter('X', 'A', @statusCode);
 CALL createCityCenter('Y', 'A', @statusCode);
 CALL createCityCenter('Z', 'B', @statusCode);
-CALL updateSportcenterId('X', 'Z', '@', @statusCode);
+CALL updateSportCenterId('X', 'Z', '@', @statusCode);
 -- expected: error code 460

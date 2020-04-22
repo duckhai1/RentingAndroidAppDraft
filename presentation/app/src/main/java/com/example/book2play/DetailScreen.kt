@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+
 import com.example.LogicConnection.Type.MyBookingModel
+
 
 
 class DetailScreen : AppCompatActivity(){
@@ -43,7 +45,7 @@ class DetailScreen : AppCompatActivity(){
         if (bookingInfo != null) {
             DESCRIPTIONS[0] = bookingInfo.date + " " + bookingInfo.week+", " + bookingInfo.time
             DESCRIPTIONS[1] = bookingInfo.center + " " + bookingInfo.city
-            DESCRIPTIONS[2] = bookingInfo.court
+            DESCRIPTIONS[2] = bookingInfo.court.toString()
             DESCRIPTIONS[3] = if (bookingInfo.status == 0) "Unpaid" else "Paid"
         }
 

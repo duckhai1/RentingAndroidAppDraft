@@ -65,7 +65,7 @@ CALL updateBookingStatus(1,'1','A','B','@', @statusCode);
 /*  
     Test if the request is rejected when all parameters are valid except staffId
 
-    (2nd case: Wrong sportcenter id)
+    (2nd case: Wrong sportCenter id)
 */
 CALL createCity('A', @statusCode);
 CALL createCityCenter('B', 'A', @statusCode);

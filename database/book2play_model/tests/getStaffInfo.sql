@@ -107,7 +107,7 @@ CALL getStaffInfo('S', '@', 'X', @statusCode);
 
 
 /*
-    Test if an error code is returned when to provided sportcenter id is invalid
+    Test if an error code is returned when to provided sportCenter id is invalid
 */
 CALL createCity('A', @statusCode);
 CALL createCity('B', @statusCode);

@@ -12,71 +12,48 @@ CREATE PROCEDURE updateCourtId (
     OUT statusCode INT
 )
 BEGIN
-    DECLARE EXIT HANDLER FOR SQLEXCEPTION
-	BEGIN
-		GET STACKED DIAGNOSTICS CONDITION 1 @p1 = MYSQL_ERRNO;
-		SET statusCode = @p1;
-		ROLLBACK;
-	END;
-
-	START TRANSACTION;
-
-	IF newCourtId REGEXP '[^a-zA-Z0-9]+$' THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 462; -- invalid court id 
-	END IF;
-
-    IF inCityId NOT IN (SELECT cityId FROM cities) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 460; -- invalid city id
-	END IF;
-    
-    IF inSportcenterId NOT IN (
-		SELECT sportcenterId
-		FROM sportcenters
+	IF newCourtId REGEXP '[^a-zA-Z0-9]+' THEN
+		SET statusCode = 462; -- invalid court id 
+	ELSEIF inCityId NOT IN (SELECT cityId FROM cities) THEN
+		SET statusCode = 460; -- invalid city id
+    ELSEIF inSportCenterId NOT IN (
+		SELECT sportCenterId
+		FROM sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
 	) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 461; -- sport center does not exist
-	END IF;
-
-	IF inCourtId NOT IN (
+		SET statusCode = 461; -- sport center does not exist
+	ELSEIF inCourtId NOT IN (
 		SELECT courtId
 		FROM courts
-		NATURAL JOIN sportcenters
+		NATURAL JOIN sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
-			AND sportcenterId = inSportcenterId
+			AND sportCenterId = inSportCenterId
 	) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 462; -- invalid court id
-	END IF;
-
-	IF newCourtId IN (
+		SET statusCode = 462; -- invalid court id
+	ELSEIF newCourtId IN (
 		SELECT courtId
 		FROM courts
-		NATURAL JOIN sportcenters
+		NATURAL JOIN sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId
-			AND sportcenterId = inSportcenterId
+			AND sportCenterId = inSportCenterId
 	) THEN
-		SIGNAL SQLSTATE '45000'
-			SET MYSQL_ERRNO = 404; -- court id exists
+		SET statusCode = 404; -- court id exists
+    ELSE
+		SET statusCode = 200;
+		UPDATE courts 
+		SET courtId = newCourtId
+		WHERE courtId = inCourtId
+			AND sportCenterPk = (
+				SELECT sportCenterPk
+				FROM sportCenters
+				NATURAL JOIN cities
+				WHERE cityId = inCityId
+					AND sportCenterId = inSportCenterId
+			);
 	END IF;
-
-    SET statusCode = 200;
-
-	UPDATE courts 
-	SET courtId = newCourtId
-	WHERE courtId = inCourtId
-		AND sportcenterPk = (
-			SELECT sportcenterPk
-			FROM sportcenters
-			NATURAL JOIN cities
-			WHERE cityId = inCityId
-				AND sportcenterId = inSportCenterId
-		);
 END//
 
 DELIMITER ;
