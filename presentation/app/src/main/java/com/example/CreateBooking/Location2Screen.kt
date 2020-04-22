@@ -59,15 +59,14 @@ class Location2Screen : AppCompatActivity(),
             findViewById<View>(R.id.toolbarLS2) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar!!.title = "Ho Chi Minh city"
-        val adapter =
-            MyAdapter(this, NAMES, DESCRIPTIONS, IMAGES)
+        val adapter = MyAdapter(this, NAMES, DESCRIPTIONS, IMAGES)
+
         listView.adapter = adapter
         listView.onItemClickListener =
             OnItemClickListener { parent, view, position, id ->
-                if (position == 0) {
+
                     val theCenterName = NAMES[position]
-                    val intent =
-                        Intent(applicationContext, SearchDayScreen::class.java)
+                    val intent = Intent(applicationContext, SearchDayScreen::class.java)
                     // update bookingInfo
                     if (bookingInfo != null) {
                         bookingInfo.center = theCenterName
@@ -77,38 +76,9 @@ class Location2Screen : AppCompatActivity(),
                             MyBookingModel(center = theCenterName)
                     }
                     intent.putExtra("BookingInfo", bookingInfo)
+                    intent.putExtra("CENTERNAME", theCenterName)
                     startActivity(intent)
-                }
-                if (position == 1) {
-                    val theCenterName = NAMES[position]
-                    val intent =
-                        Intent(applicationContext, SearchDayScreen::class.java)
-                    // update bookingInfo
-                    if (bookingInfo != null) {
-                        bookingInfo.center = theCenterName
-                    }
-                    else {
-                        val bookingInfo =
-                            MyBookingModel(center = theCenterName)
-                    }
-                    intent.putExtra("BookingInfo", bookingInfo)
-                    startActivity(intent)
-                }
-                if (position == 2) {
-                    val theCenterName = NAMES[position]
-                    val intent =
-                        Intent(applicationContext, SearchDayScreen::class.java)
-                    // update bookingInfo
-                    if (bookingInfo != null) {
-                        bookingInfo.center = theCenterName
-                    }
-                    else {
-                        val bookingInfo =
-                            MyBookingModel(center = theCenterName)
-                    }
-                    intent.putExtra("BookingInfo", bookingInfo)
-                    startActivity(intent)
-                }
+
             }
     }
 
@@ -126,12 +96,9 @@ class Location2Screen : AppCompatActivity(),
             convertView: View?,
             parent: ViewGroup
         ): View {
-            val layoutInflater =
-                applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val row =
-                layoutInflater.inflate(R.layout.rows_listview, parent, false)
-            val images =
-                row.findViewById<ImageView>(R.id.image)
+            val layoutInflater = applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val row = layoutInflater.inflate(R.layout.rows_listview, parent, false)
+            val images = row.findViewById<ImageView>(R.id.image)
             val centerName = row.findViewById<TextView>(R.id.textViewName)
             val description = row.findViewById<TextView>(R.id.textViewDescription)
             images.setImageResource(Images[position])
