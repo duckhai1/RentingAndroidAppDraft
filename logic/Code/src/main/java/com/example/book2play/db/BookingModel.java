@@ -16,7 +16,7 @@ public interface BookingModel {
 
     Collection<Booking> getSportCenterBookings(String sportCenterId, String cityId, Date date) throws MySQLException;
 
-    Collection<Booking> getPlayerBookings(String playerId, Date date) throws MySQLException;
+    Collection<Booking> getPlayerBookings(String playerId) throws MySQLException;
 
     Collection<Booking> getPlayerBookingsInCity(String playerId, String cityId, Date date) throws MySQLException;
 

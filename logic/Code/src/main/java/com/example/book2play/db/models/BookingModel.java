@@ -115,7 +115,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
     }
 
     @Override
-    public Collection<Booking> getPlayerBookings(String playerId, Date date) throws MySQLException {
+    public Collection<Booking> getPlayerBookings(String playerId) throws MySQLException {
         LOG.info("Calling getPlayerBookings");
         Connection conn = null;
         CallableStatement stm = null;
@@ -123,13 +123,12 @@ public class BookingModel extends AbstractModel implements com.example.book2play
 
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL getPlayerBookings(?, ?, ?)}");
+            stm = conn.prepareCall("{CALL getPlayerBookings(?, ?)}");
             stm.setString(1, playerId);
-            stm.setDate(2, date);
-            stm.registerOutParameter(3, Types.INTEGER);
+            stm.registerOutParameter(2, Types.INTEGER);
 
             rs = stm.executeQuery();
-            var statusCode = stm.getInt(3);
+            var statusCode = stm.getInt(2);
             LOG.info("Received status code " + statusCode);
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);

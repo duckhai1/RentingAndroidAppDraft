@@ -84,8 +84,7 @@ public class BookingsHandler extends AbstractHandler {
                 );
             } else if (playerId != null && sportCenterId == null) {
                 bookings = model.getPlayerBookings(
-                        playerId.get(0),
-                        Date.valueOf(date.get(0))
+                        playerId.get(0)
                 );
             } else {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);

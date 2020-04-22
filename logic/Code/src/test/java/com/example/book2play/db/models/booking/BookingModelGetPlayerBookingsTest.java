@@ -85,7 +85,7 @@ public class BookingModelGetPlayerBookingsTest extends ModelTestSetup {
 
         for (var i = 0; i < testInputs.size(); i++) {
             var expected = expectedOutputs.get(i);
-            var output = new HashSet<>(BOOKING.getPlayerBookings(testInputs.get(i), TimeUtils.getDate(7)));
+            var output = new HashSet<>(BOOKING.getPlayerBookings(testInputs.get(i)));
             Assert.assertEquals(expected, output);
         }
     }
@@ -100,24 +100,7 @@ public class BookingModelGetPlayerBookingsTest extends ModelTestSetup {
 
         for (var i = 0; i < testInputs.size(); i++) {
             try {
-                var output = BOOKING.getPlayerBookings(testInputs.get(i), TimeUtils.getDate(7));
-                fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
-            } catch (MySQLException e) {
-                Assert.assertEquals(EXPECTED_CODE, e.getStatusCode());
-            }
-        }
-    }
-
-    @Test
-    public void getPlayerBookingsNoBookingInGivenDate() throws Exception {
-        final int EXPECTED_CODE = 466;
-        var testInputs = new ArrayList<Date>();
-        testInputs.add(TimeUtils.getDate(5));
-        testInputs.add(TimeUtils.getDate(20));
-
-        for (var i = 0; i < testInputs.size(); i++) {
-            try {
-                var output = BOOKING.getPlayerBookings("Alice", testInputs.get(i));
+                var output = BOOKING.getPlayerBookings(testInputs.get(i));
                 fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
             } catch (MySQLException e) {
                 Assert.assertEquals(EXPECTED_CODE, e.getStatusCode());

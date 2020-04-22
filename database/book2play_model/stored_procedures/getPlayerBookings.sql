@@ -6,7 +6,6 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS getPlayerBookings //
 CREATE PROCEDURE getPlayerBookings (
 	IN inPlayerId VARCHAR(100),
-	IN inBookingDate DATE,
     OUT statusCode INT
 )
 BEGIN
@@ -17,7 +16,6 @@ BEGIN
 		FROM bookings
 		NATURAL JOIN players
 		WHERE playerId = inPlayerId
-			AND bookingDate = inBookingDate
 	) THEN
 		SET statusCode = 466; -- no bookings for given player
     ELSE
@@ -28,8 +26,7 @@ BEGIN
 			NATURAL JOIN courts
 			NATURAL JOIN sportCenters
 			NATURAL JOIN cities
-		WHERE playerId = inPlayerId
-			AND bookingDate = inBookingDate;
+		WHERE playerId = inPlayerId;
 	END IF;
 END//
 
