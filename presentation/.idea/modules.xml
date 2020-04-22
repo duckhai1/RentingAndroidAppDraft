@@ -9,7 +9,6 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="Book2Play/app" />
       <module fileurl="file://$PROJECT_DIR$/presentation-Book2Play.iml" filepath="$PROJECT_DIR$/presentation-Book2Play.iml" group="Book2Play" />
       <module fileurl="file://$PROJECT_DIR$/app/presentation-app.iml" filepath="$PROJECT_DIR$/app/presentation-app.iml" group="Book2Play/app" />
-      <module fileurl="file://$PROJECT_DIR$/teamcpe2020-presentation-Book2Play.iml" filepath="$PROJECT_DIR$/teamcpe2020-presentation-Book2Play.iml" group="Book2Play" />
       <module fileurl="file://$PROJECT_DIR$/app/teamcpe2020-presentation-app.iml" filepath="$PROJECT_DIR$/app/teamcpe2020-presentation-app.iml" group="Book2Play/app" />
     </modules>
   </component>
