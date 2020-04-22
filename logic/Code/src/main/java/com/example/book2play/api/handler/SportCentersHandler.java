@@ -1,11 +1,16 @@
 package com.example.book2play.api.handler;
 
+import com.example.book2play.api.handler.utils.IdUtils;
 import com.example.book2play.api.utils.HTTPStatus;
 import com.example.book2play.db.SportCenterModel;
 import com.example.book2play.db.exceptions.MySQLException;
+import com.example.book2play.types.Booking;
+import com.example.book2play.types.SportCenter;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.sql.Timestamp;
 
 public class SportCentersHandler extends AbstractHandler {
 
@@ -55,10 +60,45 @@ public class SportCentersHandler extends AbstractHandler {
         }
     }
 
-    private void execPost(HttpExchange exchange) {
+    private void execPost(HttpExchange exchange) throws IOException {
+        try {
+            var sportCenter = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), SportCenter.class);
+            model.createCityCenter(
+                    sportCenter.getSportCenterId(),
+                    sportCenter.getCityId()
+            );
+            exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
+        } catch (MySQLException | IOException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+        }
     }
 
-    private void execPut(HttpExchange exchange) {
+    private void execPut(HttpExchange exchange) throws IOException {
+        var params = splitQuery(exchange.getRequestURI().getRawQuery());
+        var newSportCenterId = params.get("newSportCenterId");
+        var oldSportCenterId = params.get("oldSportCenterId");
+        var cityId = params.get("cityId");
+
+        if((params != null && params.size() !=1)
+                || (newSportCenterId != null || newSportCenterId.size() !=1)
+                || (oldSportCenterId != null || oldSportCenterId.size() != 1)
+                || (cityId != null || cityId.size() != 1)
+        ){
+            exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+            return;
+        }
+
+        try{
+            model.updateSportCenterId(
+                    newSportCenterId.get(0),
+                    oldSportCenterId.get(1),
+                    cityId.get(0)
+            );
+        } catch (MySQLException | IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+        }
     }
 
     private void execDelete(HttpExchange exchange) {

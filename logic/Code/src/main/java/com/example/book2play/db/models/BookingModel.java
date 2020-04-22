@@ -114,7 +114,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
     }
 
     @Override
-    public Collection<Booking> getPlayerBookings(String playerId, String cityId, Date date) throws MySQLException {
+    public Collection<Booking> getPlayerBookings(String playerId) throws MySQLException {
         LOG.info("Calling getPlayerBookings");
         Connection conn = null;
         CallableStatement stm = null;
