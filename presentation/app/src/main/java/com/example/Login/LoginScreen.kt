@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.CreateBooking.ChooseLocationScreen
 import com.example.book2play.R
 import com.facebook.*
+import com.facebook.login.LoginBehavior
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import org.json.JSONException
@@ -19,7 +21,7 @@ import org.json.JSONObject
 import java.net.MalformedURLException
 import java.net.URL
 
-class LoginFragment : AppCompatActivity() {
+class LoginScreen : AppCompatActivity() {
     private var loginButton: LoginButton? = null
     private var callbackManager: CallbackManager? = null
     var profile_pic: URL? = null
@@ -46,9 +48,11 @@ class LoginFragment : AppCompatActivity() {
         //FACEBOOK PART
         FacebookSdk.sdkInitialize(applicationContext)
         loginButton = findViewById<View>(R.id.FBSigninBtn) as LoginButton
+        LoginManager.getInstance().setLoginBehavior(LoginBehavior.WEB_VIEW_ONLY)
         callbackManager = CallbackManager.Factory.create()
         loginButton!!.setReadPermissions("email")
-        loginButton!!.registerCallback(callbackManager, object :
+        LoginManager.getInstance().registerCallback(callbackManager, object :
+//        loginButton!!.registerCallback(callbackManager, object :
             FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 val accessToken = loginResult.accessToken.token
@@ -63,7 +67,7 @@ class LoginFragment : AppCompatActivity() {
                     val email = bFacebookData.getString("email")
                     val profilepic = bFacebookData.getString("profile_pic")
                     val intent =
-                        Intent(this@LoginFragment, LoginFacebookScreen::class.java)
+                        Intent(this@LoginScreen, LoginFacebookScreen::class.java)
                     intent.putExtra("firstname", firstname)
                     intent.putExtra("lastname", lastname)
                     intent.putExtra("email", email)
@@ -126,6 +130,5 @@ class LoginFragment : AppCompatActivity() {
     ) {
         super.onActivityResult(requestCode, resultCode, data)
         callbackManager!!.onActivityResult(requestCode, resultCode, data)
-        loginButton!!.visibility = View.GONE
     }
 }

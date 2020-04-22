@@ -8,6 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.book2play.MainActivity
 import com.example.book2play.R
+import com.facebook.AccessToken
+import com.facebook.FacebookSdk
+import com.facebook.GraphRequest
+import com.facebook.HttpMethod
 import com.facebook.login.LoginManager
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.facebook_user_info.*
@@ -44,11 +48,24 @@ class LoginFacebookScreen : AppCompatActivity() {
             Toast.makeText(applicationContext, "Data Not Found", Toast.LENGTH_SHORT).show()
         }
 
+        //LOGOUT BUTTON
         button?.setOnClickListener(View.OnClickListener {
-            LoginManager.getInstance().logOut()
-            val intent = Intent(this@LoginFacebookScreen, LoginFragment::class.java)
+            FacebookSdk.sdkInitialize(applicationContext)
+            if (AccessToken.getCurrentAccessToken() == null) {
+                return@OnClickListener  // user already logged out
+            }
+            GraphRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/me/permissions/",
+                null,
+                HttpMethod.DELETE,
+                GraphRequest.Callback {
+                    AccessToken.setCurrentAccessToken(null)
+                    LoginManager.getInstance().logOut()
+                    finish()
+                }).executeAsync()
+            val intent = Intent(this@LoginFacebookScreen, LoginScreen::class.java)
             startActivity(intent)
-            finish()
         })
 
         val ctnBtn =

@@ -1,4 +1,4 @@
-package com.example.book2play
+package com.example.LogicConnection.Type
 
 import java.io.Serializable
 
@@ -12,7 +12,7 @@ class MyBookingModel(
     var player: String = "",    // booking player name
     var status: Int = 0         // status 0: unpaid; 1:paid
 
-) :Serializable {
+) :MyDataModel {
     override fun toString(): String {
         return "Date: " +date + "\nWeek: " + week + "\nTime: "+time +
                 "\nCity: "+city+"\nCenter: " +center+"\nCourt: "+ court+"\nPlayer: "+player+

@@ -10,6 +10,7 @@ import com.example.BookingList.BookingHistoryScreen
 import com.example.CreateBooking.ChooseLocationScreen
 import com.example.book2play.HomeFragment
 import com.example.book2play.R
+import com.facebook.login.LoginManager
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -22,7 +23,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     lateinit var bookingHistoryFragment: BookingHistoryScreen
     lateinit var createBookingFragment : ChooseLocationScreen
     lateinit var settingFragment: HomeFragment
-    lateinit var logoutFragment: HomeFragment
+    lateinit var logoutFragment: LogoutFragment
     lateinit var fragment1: HomeFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,11 +94,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
             }
             R.id.logout_menu -> {
-                fragment1 =
-                    HomeFragment()  // --> change this one
+                LoginManager.getInstance().logOut()
+
+                logoutFragment =
+                    LogoutFragment()  // --> change this one
                 supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.frame_layout, fragment1)
+                    .replace(R.id.frame_layout, logoutFragment)
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
             }
