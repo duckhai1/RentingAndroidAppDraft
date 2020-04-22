@@ -31,11 +31,9 @@ class TestConnection : AppCompatActivity() {
                     "city1",
                     "center1",
                     "court1",
-                    "player1",
-                    0,
-                    "booking1"
+                    "player1"
                 )
-                ApiHandler.createBooking(newBooking)
+                ApiHandler.createBooking(newBooking, parent)
             }
 
         })
@@ -58,9 +56,7 @@ class TestConnection : AppCompatActivity() {
                     "city1",
                     "center1",
                     "court1",
-                    "player1",
-                    0,
-                    "booking1"
+                    "player1"
                 )
                 val postJson = gson.toJson(newBooking)
                 Log.d("java_connection", "postJson $postJson")

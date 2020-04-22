@@ -31,11 +31,9 @@ class MyBookingModel(
     @Expose(serialize = false)
     var status: Int = 0,        // status 0: unpaid; 1:paid
     @SerializedName("bookingId")
-    @Expose()
+    @Expose(serialize = false)
     var id : String? ="",       // bookingId
-//    @SerializedName("createdAt")
-//    @Expose(deserialize = false)
-//    var createdAt :String? = "",
+
 
     var week: String  = if (date == "") "" else SimpleDateFormat("EE").format(SimpleDateFormat("yyyy-MM-dd").parse(date)),      // date of the week of the booking
     var time: String = start + " " + end        // deprecated later

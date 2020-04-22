@@ -3,6 +3,7 @@ package com.example.SelectTime
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -12,7 +13,9 @@ import com.example.LogicConnection.Type.MyBookingModel
 import com.example.book2play.R
 import com.example.CreateBooking.BookSucessScrenn
 import com.example.LogicConnection.Handler.ApiHandler
+import com.example.book2play.MainActivity
 import kotlinx.android.synthetic.main.fragment_court1.*
+import java.lang.Exception
 
 
 /**
@@ -111,9 +114,9 @@ class Court1Fragment : Fragment(), MainInterface {
 
                     Toast.makeText(context, timeArray?.get(0) +" "+timeArray?.get(1), Toast.LENGTH_LONG).show()
 
-                    // move to next screen
-                    val intent =
-                        Intent(activity, BookSucessScrenn::class.java)
+//                    // move to next screen
+//                    val intent =
+//                        Intent(activity, BookSucessScrenn::class.java)
 
 
 
@@ -132,9 +135,27 @@ class Court1Fragment : Fragment(), MainInterface {
                             court = bookingCourtName
                         )
                     }
-                    intent.putExtra("BookingInfo", bookingInfo)
-                    ApiHandler.createBooking(bookingInfo)
-                    startActivity(intent)
+                    activity?.let { ApiHandler.createBooking(bookingInfo, it) }  //ApiHandler.createBooking(bookingInfo, activity)
+                    Log.d("server_connect", "Finish booking")
+//                    intent.putExtra("BookingInfo", bookingInfo)
+//                    try {
+//                        activity?.let { ApiHandler.createBooking(bookingInfo, it) }  //ApiHandler.createBooking(bookingInfo, activity)
+//                        Log.d("server_connect", "Finish booking")
+//                        startActivity(intent)
+//                    } catch (e: Exception){
+//                        Log.d("server_connect", "catch fail to connect to server exception")
+//                        val builder = AlertDialog.Builder(activity)
+//
+//                        builder.setTitle("Connection error")
+//                        builder.setMessage("Can not connect to the server. Please check you internet connection")
+//                        builder.setNeutralButton("OK"){dialog, which ->
+//                            val back_intent = Intent(activity, MainActivity::class.java)
+//                            startActivity(back_intent)
+//                        }
+//                        val dialog: AlertDialog = builder.create()
+//                        dialog.show()
+//                    }
+
                 }
             }
             return false

@@ -66,8 +66,8 @@ class ConnectionHandler {
         private fun setupConnection(url: String?, method: String) : HttpURLConnection{
             val url = URL(url)
             val conn = url.openConnection() as HttpURLConnection
-            conn.readTimeout = 20000
-            conn.connectTimeout = 20000
+            conn.readTimeout = 5000
+            conn.connectTimeout = 5000
             conn.requestMethod = method
             if (method == "GET"){
                 conn.doInput = true
