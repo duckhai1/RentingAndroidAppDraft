@@ -90,13 +90,14 @@ public class BookingModel extends AbstractModel implements com.example.book2play
 
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL getSportCenterBookings(?, ?, ?)}");
+            stm = conn.prepareCall("{CALL getSportCenterBookings(?, ?, ?, ?)}");
             stm.setString(1, sportCenterId);
-            stm.setDate(2, date);
-            stm.registerOutParameter(2, Types.INTEGER);
+            stm.setString(2, cityId);
+            stm.setDate(3, date);
+            stm.registerOutParameter(4, Types.INTEGER);
 
             rs = stm.executeQuery();
-            var statusCode = stm.getInt(2);
+            var statusCode = stm.getInt(4);
             LOG.info("Received status code " + statusCode);
 
             if (statusCode >= 400 && statusCode < 500) {
@@ -114,7 +115,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
     }
 
     @Override
-    public Collection<Booking> getPlayerBookings(String playerId, String cityId, Date date) throws MySQLException {
+    public Collection<Booking> getPlayerBookings(String playerId, Date date) throws MySQLException {
         LOG.info("Calling getPlayerBookings");
         Connection conn = null;
         CallableStatement stm = null;
@@ -122,8 +123,41 @@ public class BookingModel extends AbstractModel implements com.example.book2play
 
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL getPlayerBookings(?, ?)}");
+            stm = conn.prepareCall("{CALL getPlayerBookings(?, ?, ?)}");
             stm.setString(1, playerId);
+            stm.setDate(2, date);
+            stm.registerOutParameter(3, Types.INTEGER);
+
+            rs = stm.executeQuery();
+            var statusCode = stm.getInt(3);
+            LOG.info("Received status code " + statusCode);
+            if (statusCode >= 400 && statusCode < 500) {
+                throw new MySQLException(statusCode);
+            }
+
+            return ResultSetUtils.bookingsFromResultSet(rs);
+        } catch (SQLException e) {
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
+        } finally {
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+            ResultSetUtils.quietCloseResultSet(rs);
+        }
+    }
+
+    @Override
+    public Collection<Booking> getPlayerBookingsInCity(String playerId, String cityId, Date date) throws MySQLException {
+        LOG.info("Calling getPlayerBookingsInCity");
+        Connection conn = null;
+        CallableStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = this.db.getConnection();
+            stm = conn.prepareCall("{CALL getPlayerBookingsInCity(?, ?, ?, ?)}");
+            stm.setString(1, playerId);
+			stm.setString(2, cityId);
+            stm.setDate(3, date);
             stm.registerOutParameter(4, Types.INTEGER);
 
             rs = stm.executeQuery();
@@ -189,22 +223,23 @@ public class BookingModel extends AbstractModel implements com.example.book2play
     }
 
     @Override
-    public void updateBookingStatus(Boolean status, String bookingId, String playerId, String staffId) throws MySQLException {
+    public void updateBookingStatus(Boolean status, String bookingId, String cityId, String sportCenterId, String staffId) throws MySQLException {
         LOG.info("Calling updateBookingStatus");
         Connection conn = null;
         CallableStatement stm = null;
 
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL updateBookingStatus(?, ?, ?, ?, ?)}");
+            stm = conn.prepareCall("{CALL updateBookingStatus(?, ?, ?, ?, ?, ?)}");
             stm.setBoolean(1, status);
             stm.setString(2, bookingId);
-            stm.setString(3, playerId);
-            stm.setString(4, staffId);
-            stm.registerOutParameter(5, Types.INTEGER);
+            stm.setString(3, cityId);
+            stm.setString(4, sportCenterId);
+            stm.setString(5, staffId);
+            stm.registerOutParameter(6, Types.INTEGER);
 
             var updateCount = stm.executeUpdate();
-            var statusCode = stm.getInt(5);
+            var statusCode = stm.getInt(6);
             LOG.info("Received status code " + statusCode);
             LOG.info("Update count " + updateCount);
             if (statusCode >= 400 && statusCode < 500) {

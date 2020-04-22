@@ -16,7 +16,9 @@ public interface BookingModel {
 
     Collection<Booking> getSportCenterBookings(String sportCenterId, String cityId, Date date) throws MySQLException;
 
-    Collection<Booking> getPlayerBookings(String playerId, String cityId, Date date) throws MySQLException;
+    Collection<Booking> getPlayerBookings(String playerId, Date date) throws MySQLException;
+
+    Collection<Booking> getPlayerBookingsInCity(String playerId, String cityId, Date date) throws MySQLException;
 
     void createBooking(
             String bookingId,
@@ -30,7 +32,7 @@ public interface BookingModel {
             String playerId
     ) throws MySQLException;
 
-    void updateBookingStatus(Boolean status, String bookingId, String playerId, String staffId) throws MySQLException;
+    void updateBookingStatus(Boolean status, String bookingId, String cityId, String sportCenterId, String staffId) throws MySQLException;
 
     void cancelBooking(String bookingId, String playerId) throws MySQLException;
 

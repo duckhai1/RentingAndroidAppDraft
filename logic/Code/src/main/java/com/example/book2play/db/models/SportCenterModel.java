@@ -23,7 +23,7 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
 
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareCall("{call getSportCenterInfo(?,?,?)");
+            stm = conn.prepareCall("{CALL getSportCenterInfo(?, ?, ?)}");
             stm.setString(1, sportCenterId);
             stm.setString(2, cityId);
             stm.registerOutParameter(3, Types.INTEGER);
@@ -33,6 +33,10 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
             LOG.info("Received status code " + statusCode);
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
+            }
+
+            if (!rs.next()) {
+                throw new MySQLException("Data not found");
             }
 
             return ResultSetUtils.singleSportCenterFromResultSet(rs);

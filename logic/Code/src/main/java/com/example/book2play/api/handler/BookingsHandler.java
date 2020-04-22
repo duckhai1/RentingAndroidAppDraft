@@ -77,9 +77,14 @@ public class BookingsHandler extends AbstractHandler {
                         Date.valueOf(date.get(0))
                 );
             } else if (playerId != null && cityId != null && sportCenterId == null) {
-                bookings = model.getPlayerBookings(
+                bookings = model.getPlayerBookingsInCity(
                         playerId.get(0),
                         cityId.get(0),
+                        Date.valueOf(date.get(0))
+                );
+            } else if (playerId != null && sportCenterId == null) {
+                bookings = model.getPlayerBookings(
+                        playerId.get(0),
                         Date.valueOf(date.get(0))
                 );
             } else {

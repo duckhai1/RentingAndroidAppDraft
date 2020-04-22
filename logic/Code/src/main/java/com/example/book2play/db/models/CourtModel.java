@@ -39,6 +39,7 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
             if (!rs.next()) {
                 throw new MySQLException("Data not found");
             }
+
             return ResultSetUtils.singleCourtFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception " + e.getMessage(), e);
@@ -169,10 +170,10 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
             stm = conn.prepareCall("{call getSportCenterCourts(?, ?, ?)}");
             stm.setString(1, sportCenterId);
             stm.setString(2, cityId);
-            stm.registerOutParameter(2, Types.INTEGER);
+            stm.registerOutParameter(3, Types.INTEGER);
 
             rs = stm.executeQuery();
-            var statusCode = stm.getInt(2);
+            var statusCode = stm.getInt(3);
             LOG.info("Received status code " + statusCode);
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);

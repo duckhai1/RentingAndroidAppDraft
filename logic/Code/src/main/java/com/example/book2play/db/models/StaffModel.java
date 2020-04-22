@@ -38,6 +38,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
             if (!rs.next()) {
                 throw new MySQLException("Data not found");
             }
+
             return ResultSetUtils.singleStaffFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception " + e.getMessage(), e);
@@ -85,7 +86,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
         try {
             conn = this.db.getConnection();
 
-            stm = conn.prepareCall("{call supdateStaffId(?,?,?,?,?)}");
+            stm = conn.prepareCall("{CALL updateStaffId(?, ?, ?, ?, ?)}");
             stm.setString(1, newStaffId);
             stm.setString(2, oldStaffId);
             stm.setString(3, cityId);
@@ -100,7 +101,6 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
                 throw new MySQLException(statusCode);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);

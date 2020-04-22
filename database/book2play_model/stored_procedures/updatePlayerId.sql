@@ -10,11 +10,11 @@ CREATE PROCEDURE updatePlayerId (
     OUT statusCode INT
 )
 BEGIN
-	IF newPlayerId REGEXP '[^a-zA-Z0-9]+' THEN
+	IF inPlayerId NOT IN (SELECT playerId FROM players) THEN 
 		SET statusCode = 464; -- invalid player id
-	ELSEIF inPlayerId NOT IN (SELECT playerId FROM players) THEN 
+	ELSEIF newPlayerId REGEXP '[^a-zA-Z0-9]+' THEN
 		SET statusCode = 464; -- invalid player id
-    ELSEIF newPlayerId IN (SELECT playerId FROM players) THEN 
+  ELSEIF newPlayerId IN (SELECT playerId FROM players) THEN 
 		SET statusCode = 405; -- invalid player id
     ELSE
         SET statusCode = 200;
