@@ -2,10 +2,11 @@ package com.example.LogicConnection.AsyncClass
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.ProgressDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.AsyncTask
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import com.example.CreateBooking.BookSucessScrenn
 import com.example.LogicConnection.Handler.ConnectionHandler
@@ -13,14 +14,26 @@ import com.example.LogicConnection.Type.MyBookingModel
 import com.example.book2play.MainActivity
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
-import kotlinx.android.synthetic.main.fragment_court1.*
-import java.io.IOException
 
 
 class createBookingAsync(activity: Activity) : AsyncTask<String?, String?, String?>(){
-    var error : Exception? = null
+    val myTask = this
     val activity = activity
     lateinit var newBooking : MyBookingModel
+    var error : Exception? = null
+    val dialog = ProgressDialog(activity)
+
+    override fun onPreExecute() {
+        // make processing dialog
+        dialog.setMessage("Trying to connecting server")
+        dialog.setCancelable(true)
+        dialog.setOnCancelListener(DialogInterface.OnCancelListener {
+            myTask.cancel(true)
+            Toast.makeText(activity,"AsyncTask is stopped",Toast.LENGTH_LONG).show();
+        })
+        dialog.show()
+        super.onPreExecute()
+    }
 
     override fun doInBackground(vararg params: String?): String? {
         val gson = GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
@@ -51,7 +64,10 @@ class createBookingAsync(activity: Activity) : AsyncTask<String?, String?, Strin
     }
     override fun onPostExecute(s: String?) {
         Log.d("server_connect", s)
-        activity.llProgressBar.visibility = View.GONE
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
+        // if connect successful
         if (error == null) {
             val intent = Intent(activity, BookSucessScrenn::class.java)
             intent.putExtra("BookingInfo", newBooking)

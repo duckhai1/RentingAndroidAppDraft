@@ -111,6 +111,11 @@ class Court1Fragment : Fragment(), MainInterface {
                 // select choose slot
                 R.id.action_next -> {
                     val timeArray = myAdapter?.chooseSelectedIds()
+                    if (timeArray == null){
+                        myAdapter?.clearSelectedIds()
+
+                        return false
+                    }
 //                    Toast.makeText(context, timeArray?.get(0) +" "+timeArray?.get(1), Toast.LENGTH_LONG).show()
                     // update bookingInfo
                     if (bookingInfo != null) {
@@ -126,7 +131,7 @@ class Court1Fragment : Fragment(), MainInterface {
                             court = bookingCourtName
                         )
                     }
-                    llProgressBar.visibility = View.VISIBLE
+
                     activity?.let { ApiHandler.createBooking(it,bookingInfo) }  //ApiHandler.createBooking(activity, bookingInfo)
                 }
             }

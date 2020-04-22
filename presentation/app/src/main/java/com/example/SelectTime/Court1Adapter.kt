@@ -149,6 +149,7 @@ class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context, val m
             Log.d("select_time", "result: " + result)
             return result
         } else {
+            Toast.makeText(context, "Select slot must be consecutive", Toast.LENGTH_SHORT).show()
             return null
         }
         
