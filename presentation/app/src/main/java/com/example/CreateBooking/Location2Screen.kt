@@ -65,7 +65,8 @@ class Location2Screen : AppCompatActivity(),
         listView.adapter = adapter
         listView.onItemClickListener =
             OnItemClickListener { parent, view, position, id ->
-                    val theCenterName = NAMES[position]
+//                    val theCenterName = NAMES[position]
+                    val theCenterName = "center1"
                     val intent = Intent(applicationContext, SearchDayScreen::class.java)
                     // update bookingInfo
                     if (bookingInfo != null) {
