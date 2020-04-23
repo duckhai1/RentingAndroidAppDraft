@@ -283,6 +283,7 @@ Create a new booking
 + `inSportCenterId - VARCHAR(100)` is an alphanumeric characters sequence that uniquely identify a sport center in a given city.
 + `inCityId - VARCHAR(100)` is alphanumreic characters sequence that uniquely identify a city.
 + `inCourtId - VARCHAR(100)` is an alphanumeric characters sequence that uniquely identify a court in a sport center.
++ `inPlayerId - VARCHAR(100)` is an alphanumeric characters sequence that uniquely identify a player.
 + `statusCode - INT` is set by the data and indicates whether any error happended during the execution:
     + *200 - SUCCESS*
     + *465 - INVALID BOOKING ID*
