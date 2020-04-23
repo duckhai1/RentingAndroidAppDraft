@@ -18,6 +18,14 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
         super(db);
     }
 
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to create a new sport center
+     *
+     * @param sportCenterId the unique identifier in the city of the new sport center
+     * @param cityId        the unique identifier of the city
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public void createCityCenter(String sportCenterId, String cityId) throws MySQLException {
         LOG.info("Calling createCityCenter");
@@ -46,6 +54,15 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
         }
     }
 
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to update the sport center unique identifier
+     *
+     * @param newSportCenterId the new unique identifier to be assigned to the sport center
+     * @param oldSportCenterId the current unique identifier of the sport center
+     * @param cityId           the unique identifier of the city that the sport centers locates in
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public void updateSportCenterId(String newSportCenterId, String oldSportCenterId, String cityId) throws MySQLException {
         LOG.info("Calling updateSportCenterId");
@@ -75,6 +92,12 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
         }
     }
 
+    /**
+     * Create a new connection to the data source and clear the relation
+     *
+     * @throws MySQLException
+     * @deprecated move to test only
+     */
     @Override
     public void clearSportCenter() throws MySQLException {
         LOG.info("Calling clearSportCenter");
@@ -94,6 +117,14 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
         }
     }
 
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to all the sport centers in the given city
+     *
+     * @param cityId the unique identifier of the city
+     * @return collection of sport centers locate in the city
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public Collection<SportCenter> getCitySportCenters(String cityId) throws MySQLException {
         LOG.info("Calling getCitySportCenters");

@@ -16,6 +16,15 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
         super(db);
     }
 
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to create a new staff for a given sport center
+     *
+     * @param staffId       the unique identifier, in the given sport center, of the new staff
+     * @param cityId        the unique identifier of the city the the sport center locates in
+     * @param sportCenterId the unique identifier, in the city, of the sport center
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public void createStaff(String staffId, String cityId, String sportCenterId) throws MySQLException {
         LOG.info("Calling createStaff");
@@ -45,6 +54,16 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
         }
     }
 
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to update the staff unique identifier
+     *
+     * @param newStaffId    the new unique identifier, in the sport center
+     * @param oldStaffId    the current unique identifier of the staff
+     * @param cityId        the unique identifier of the city that the sport center locates in
+     * @param sportCenterId the unique identifier, in the city, of the sport center
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public void updateStaffId(String newStaffId, String oldStaffId, String cityId, String sportCenterId) throws MySQLException {
         LOG.info("Calling updateStaffId");
@@ -75,6 +94,11 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
         }
     }
 
+    /**
+     * Create a new connection to the data source and clear the relation
+     *
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public void clearStaff() throws MySQLException {
         LOG.info("Calling clearStaff");

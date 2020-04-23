@@ -18,6 +18,17 @@ public class BookingModel extends AbstractModel implements com.example.book2play
         super(db);
     }
 
+    /**
+     * Get a connection the the data source and execute the stored procedure for getting the collection
+     * of bookings that has been made with the given court
+     *
+     * @param courtId       an id that uniquely identifies the court in the given sport center
+     * @param cityId        an id that uniquely identifies the city
+     * @param sportCenterId an id that uniquely identifies the sport center in the given city
+     * @param date          the booking date of all the bookings in the collection
+     * @return the list of booking made with the given court
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public Collection<Booking> getCourtBookings(String courtId, String cityId, String sportCenterId, Date date) throws MySQLException {
         LOG.info("Calling getCourtBookings");
@@ -51,6 +62,16 @@ public class BookingModel extends AbstractModel implements com.example.book2play
         }
     }
 
+    /**
+     * Get a connection the the data source and execute the stored procedure for getting the collection
+     * of bookings that has been made with the given sport center
+     *
+     * @param sportCenterId an id that uniquely identifies the sport center in the given city
+     * @param cityId        an id that uniquely identifies the city
+     * @param date          the booking date of all the bookings in the collection
+     * @return the collection of bookings with the given sport center
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public Collection<Booking> getSportCenterBookings(String sportCenterId, String cityId, Date date) throws MySQLException {
         LOG.info("Calling getSportCenterBookings");
@@ -84,6 +105,14 @@ public class BookingModel extends AbstractModel implements com.example.book2play
         }
     }
 
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to get all bookings made by the given player
+     *
+     * @param playerId an id that uniquely identifies the player
+     * @return collection of bookings made by the player
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public Collection<Booking> getPlayerBookings(String playerId) throws MySQLException {
         LOG.info("Calling getPlayerBookings");
@@ -114,6 +143,16 @@ public class BookingModel extends AbstractModel implements com.example.book2play
         }
     }
 
+    /**
+     * Create a new connection to the data source, and get a collection of bookings made by the player
+     * constraint by the city and the booking date
+     *
+     * @param playerId an id that uniquely identifies the player
+     * @param cityId   an id that uniquely identifies the city
+     * @param date     the booking date of all the bookings in the collection
+     * @return collection of bookings that satisfy the constraints
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public Collection<Booking> getPlayerBookingsInCity(String playerId, String cityId, Date date) throws MySQLException {
         LOG.info("Calling getPlayerBookingsInCity");
@@ -146,6 +185,20 @@ public class BookingModel extends AbstractModel implements com.example.book2play
         }
     }
 
+    /**
+     * Create a new connection to the data source and call the stored procedure to create a booking
+     *
+     * @param bookingId     the unique identifier for the booking
+     * @param timestamp     the date and time of when the booking was created
+     * @param date          the date of the booking
+     * @param startTime     the start time of the booking
+     * @param endTime       the end time of the booking
+     * @param cityId        the unique identifier to the city
+     * @param sportCenterId the unique identifier, in the given city, to a sport center
+     * @param courtId       the unique identifier, in the given sport center, to a court
+     * @param playerId      the unique identifier of the player who made the booking
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public void createBooking(
             String bookingId,
@@ -191,6 +244,18 @@ public class BookingModel extends AbstractModel implements com.example.book2play
         }
     }
 
+    /**
+     * Create a new connection to the data source and call the procedure
+     * to to update status of the booking.
+     * The action should be made by the staff working at an authorized sport center
+     *
+     * @param status        the new status
+     * @param bookingId     the unique identifier of the booking
+     * @param cityId        the unique identifier of the city
+     * @param sportCenterId the unique identifier of the sport center in the given city
+     * @param staffId       the unique identifier of the staff in the given sport center
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public void updateBookingStatus(Boolean status, String bookingId, String cityId, String sportCenterId, String staffId) throws MySQLException {
         LOG.info("Calling updateBookingStatus");
@@ -222,6 +287,15 @@ public class BookingModel extends AbstractModel implements com.example.book2play
         }
     }
 
+    /**
+     * Create a new connection to the data source and call the procedure
+     * to to remove the booking from the relation.
+     * The action should be made by the player who owns the booking
+     *
+     * @param bookingId the unique identifier of the booking that will be removed
+     * @param playerId  the unique identifier of the player performing this action
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public void cancelBooking(String bookingId, String playerId) throws MySQLException {
         LOG.info("Calling cancelBooking");
@@ -250,6 +324,12 @@ public class BookingModel extends AbstractModel implements com.example.book2play
         }
     }
 
+    /**
+     * Get a new connection to the data source and clear the relation
+     *
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     * @deprecated will be moved to test only
+     */
     @Override
     public void clearBooking() throws MySQLException {
         LOG.info("Calling clearBooking");

@@ -10,7 +10,7 @@ public interface StaffModel {
      * @param staffId       the unique identifier, in the given sport center, of the new staff
      * @param cityId        the unique identifier of the city the the sport center locates in
      * @param sportCenterId the unique identifier, in the city, of the sport center
-     * @throws MySQLException
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
     void createStaff(String staffId, String cityId, String sportCenterId) throws MySQLException;
 
@@ -21,14 +21,15 @@ public interface StaffModel {
      * @param oldStaffId    the current unique identifier of the staff
      * @param cityId        the unique identifier of the city that the sport center locates in
      * @param sportCenterId the unique identifier, in the city, of the sport center
-     * @throws MySQLException
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
     void updateStaffId(String newStaffId, String oldStaffId, String cityId, String sportCenterId) throws MySQLException;
 
     /**
      * Empty the staff realtion, for testing
      *
-     * @throws MySQLException
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     * @deprecated will be moved to test only
      */
     void clearStaff() throws MySQLException;
 

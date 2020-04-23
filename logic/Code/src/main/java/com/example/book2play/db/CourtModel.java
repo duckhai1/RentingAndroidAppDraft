@@ -12,7 +12,7 @@ public interface CourtModel {
      *
      * @param cityId the unique identifier of the city
      * @return the collection of courts from the city
-     * @throws MySQLException
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
     Collection<Court> getCityCourts(String cityId) throws MySQLException;
 
@@ -22,7 +22,7 @@ public interface CourtModel {
      * @param sportCenterId the unique identifier for the sport center in the given city
      * @param cityId        the unique identifier of the city
      * @return the collection of courts in the city
-     * @throws MySQLException
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
     Collection<Court> getSportCenterCourts(String sportCenterId, String cityId) throws MySQLException;
 
@@ -32,7 +32,7 @@ public interface CourtModel {
      * @param courtId       the unique identifier of the court in the given sport center
      * @param cityId        the unique identifier of the city
      * @param sportCenterId the unique identifier if the sport center in the given city
-     * @throws MySQLException
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
     void createCityCenterCourt(String courtId, String cityId, String sportCenterId) throws MySQLException;
 
@@ -43,14 +43,15 @@ public interface CourtModel {
      * @param oldCourtId    the current unique identifier of the court in the given sport center
      * @param cityId        the unique identifier of the city
      * @param sportCenterId the unique identifier of the sport center in the given city
-     * @throws MySQLException
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
     void updateCourtId(String newCourtId, String oldCourtId, String cityId, String sportCenterId) throws MySQLException;
 
     /**
      * Empty the court relation, for testing
      *
-     * @throws MySQLException
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     * @deprecated will be moved to test only
      */
     void clearCourt() throws MySQLException;
 

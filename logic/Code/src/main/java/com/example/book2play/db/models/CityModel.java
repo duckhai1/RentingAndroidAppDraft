@@ -18,6 +18,13 @@ public class CityModel extends AbstractModel implements com.example.book2play.db
         super(db);
     }
 
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to get all the cities known by the data source
+     *
+     * @return collection of cities
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     public Collection<City> getCities() throws MySQLException {
         LOG.info("Calling getCities");
         Connection conn = null;
@@ -46,6 +53,13 @@ public class CityModel extends AbstractModel implements com.example.book2play.db
         }
     }
 
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to create a new city with the given unique identifier to the data source
+     *
+     * @param cityId the unique identifier of the city
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     public void createCity(String cityId) throws MySQLException {
         LOG.info("Calling createCity");
         Connection conn = null;
@@ -71,6 +85,12 @@ public class CityModel extends AbstractModel implements com.example.book2play.db
         }
     }
 
+    /**
+     * Get a new connection to the data source and clear the relation
+     *
+     * @throws MySQLException
+     * @deprecated move to test only
+     */
     @Override
     public void clearCity() throws MySQLException {
         LOG.info("Calling clearCity");

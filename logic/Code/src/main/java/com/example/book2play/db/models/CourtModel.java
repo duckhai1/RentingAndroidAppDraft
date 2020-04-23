@@ -18,6 +18,15 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
         super(db);
     }
 
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to create a new court in the given sport center and city
+     *
+     * @param courtId       the unique identifier of the court in the given sport center
+     * @param cityId        the unique identifier of the city
+     * @param sportCenterId the unique identifier if the sport center in the given city
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public void createCityCenterCourt(String courtId, String cityId, String sportCenterId) throws MySQLException {
         LOG.info("Calling createCityCenterCourt");
@@ -47,6 +56,16 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
         }
     }
 
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to update the court id
+     *
+     * @param newCourtId    the new unique identifier in the given sport center to be given to the court
+     * @param oldCourtId    the current unique identifier of the court in the given sport center
+     * @param cityId        the unique identifier of the city
+     * @param sportCenterId the unique identifier of the sport center in the given city
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public void updateCourtId(String newCourtId, String oldCourtId, String cityId, String sportCenterId) throws MySQLException {
         LOG.info("Calling updateCourtId");
@@ -77,6 +96,13 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
         }
     }
 
+
+    /**
+     * Create a new connection to the data source and clear the relation
+     *
+     * @throws MySQLException
+     * @deprecated will be moved to test only
+     */
     @Override
     public void clearCourt() throws MySQLException {
         LOG.info("Calling clearCourt");
@@ -97,6 +123,14 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
         }
     }
 
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to get the all the courts in the given city
+     *
+     * @param cityId the unique identifier of the city
+     * @return collection of courts in the city
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public Collection<Court> getCityCourts(String cityId) throws MySQLException {
         LOG.info("Calling getCityCourts");
@@ -127,6 +161,15 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
         }
     }
 
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to get the all the courts in the given sport center
+     *
+     * @param sportCenterId the unique identifier for the sport center in the given city
+     * @param cityId        the unique identifier of the city
+     * @return collection if courts in the sport centers
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     public Collection<Court> getSportCenterCourts(String sportCenterId, String cityId) throws MySQLException {
         LOG.info("Calling getSportCenterCourts");
         Connection conn = null;
