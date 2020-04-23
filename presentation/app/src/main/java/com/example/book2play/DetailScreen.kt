@@ -9,7 +9,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 
-import com.example.LogicConnection.Type.MyBookingModel
+import com.example.Type.MyBookingModel
 
 
 

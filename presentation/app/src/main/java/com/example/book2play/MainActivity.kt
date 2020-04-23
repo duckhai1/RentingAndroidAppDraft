@@ -6,10 +6,8 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
-import com.example.BookingList.BookingHistoryScreen
-import com.example.CreateBooking.ChooseLocationScreen
-import com.example.book2play.HomeFragment
-import com.example.book2play.R
+import com.example.book2play.BookingList.BookingHistoryScreen
+import com.example.book2play.CreateBooking.ChooseLocationScreen
 
 import com.facebook.login.LoginManager
 import com.google.android.material.navigation.NavigationView

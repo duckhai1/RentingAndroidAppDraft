@@ -8,9 +8,9 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.Toast
-import com.example.CreateBooking.BookSucessScrenn
+import com.example.book2play.CreateBooking.BookSucessScrenn
 import com.example.LogicConnection.Handler.ConnectionHandler
-import com.example.LogicConnection.Type.MyBookingModel
+import com.example.Type.MyBookingModel
 import com.example.book2play.MainActivity
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject

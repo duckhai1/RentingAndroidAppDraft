@@ -1,20 +1,17 @@
 package com.example.LogicConnection.Handler
 
 import android.app.Activity
-import android.content.Context
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.example.LogicConnection.Type.MyBookingModel
+import com.example.Type.MyBookingModel
 import com.example.book2play.R
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_test_connection.*
-import java.sql.Timestamp
 
 class TestConnection : AppCompatActivity() {
 

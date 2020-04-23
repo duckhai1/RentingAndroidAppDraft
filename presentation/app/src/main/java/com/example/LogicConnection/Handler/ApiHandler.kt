@@ -2,10 +2,8 @@ package com.example.LogicConnection.Handler
 
 import android.app.Activity
 import android.util.Log
-import android.view.View
-import androidx.fragment.app.FragmentActivity
 import com.example.LogicConnection.AsyncClass.createBookingAsync
-import com.example.LogicConnection.Type.MyBookingModel
+import com.example.Type.MyBookingModel
 
 class ApiHandler {
     companion object{

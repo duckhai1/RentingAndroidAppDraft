@@ -8,9 +8,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.example.CreateBooking.SearchDayScreen
+import com.example.book2play.CreateBooking.SearchDayScreen
 import kotlinx.android.synthetic.main.home_row.view.*
 
 
@@ -65,7 +64,7 @@ class HomeAdapter(val arrayList:ArrayList<HomeAdvertiseModel>, val context: Cont
             MyItemClickListener (mContext){
             override fun onItemClickListener(view: View, pos: Int)  {
                 // open detail screen
-                val bookingInfo = com.example.LogicConnection.Type.MyBookingModel(player = "player1",
+                val bookingInfo = com.example.Type.MyBookingModel(player = "player1",
                                                     city = arrayList[pos].city.toString(),
                                                     center = arrayList[pos].name.toString()
                 )

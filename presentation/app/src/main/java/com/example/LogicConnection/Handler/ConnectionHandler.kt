@@ -2,8 +2,7 @@ package com.example.LogicConnection.Handler
 
 import android.util.Base64
 import android.util.Log
-import com.example.LogicConnection.Type.MyBookingModel
-import com.example.LogicConnection.Type.MyDataModel
+import com.example.Type.MyDataModel
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import java.io.*
@@ -11,7 +10,6 @@ import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
-import javax.net.ssl.HttpsURLConnection
 
 class ConnectionHandler {
     companion object{

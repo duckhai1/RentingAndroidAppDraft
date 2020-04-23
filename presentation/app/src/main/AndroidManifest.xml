@@ -22,7 +22,7 @@
         <activity android:name="com.example.LogicConnection.Handler.TestConnection">
         </activity>
 
-        <activity android:name="com.example.Login.LoginScreen">
+        <activity android:name="com.example.book2play.Login.LoginScreen">
 
         </activity>
         <activity android:name=".MainActivity" >
@@ -67,17 +67,17 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.BookingList.BookingHistoryScreen"></activity>
+        <activity android:name="com.example.book2play.BookingList.BookingHistoryScreen"></activity>
 
         <activity
-            android:name="com.example.CreateBooking.Location2Screen"
+            android:name="com.example.book2play.CreateBooking.Location2Screen"
             android:label="@string/title_activity_location2" />
-        <activity android:name="com.example.CreateBooking.BookSucessScrenn" />
-        <activity android:name="com.example.SelectTime.SelectTimeScreen" />
-        <activity android:name="com.example.CreateBooking.ChooseLocationScreen" />
+        <activity android:name="com.example.book2play.CreateBooking.BookSucessScrenn" />
+        <activity android:name="com.example.book2play.CreateBooking.SelectTime.SelectTimeScreen" />
+        <activity android:name="com.example.book2play.CreateBooking.ChooseLocationScreen" />
         <activity android:name=".DetailScreen" />
-        <activity android:name="com.example.CreateBooking.SearchDayScreen" />
-        <activity android:name="com.example.Login.LoginFacebookScreen" />
+        <activity android:name="com.example.book2play.CreateBooking.SearchDayScreen" />
+        <activity android:name="com.example.book2play.Login.LoginFacebookScreen" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

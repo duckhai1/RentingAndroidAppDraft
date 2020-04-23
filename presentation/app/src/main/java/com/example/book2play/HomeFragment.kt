@@ -1,23 +1,12 @@
 package com.example.book2play
 
-import android.content.Context
-import android.content.Intent
-import android.graphics.Paint
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.CreateBooking.SearchDayScreen
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.home_row.*
-import kotlinx.android.synthetic.main.home_row.view.*
 
 /**
  * A simple [Fragment] subclass.

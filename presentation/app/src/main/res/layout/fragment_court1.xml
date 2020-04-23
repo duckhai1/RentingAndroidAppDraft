@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.SelectTime.Court1Fragment"
+    tools:context=".CreateBooking.SelectTime.Court1Fragment"
     >
 
     <!-- TODO: Update blank fragment layout -->
