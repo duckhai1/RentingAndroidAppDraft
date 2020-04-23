@@ -2,7 +2,7 @@ package com.example.book2play;
 
 import com.example.book2play.api.Server;
 import com.example.book2play.db.AppDataSource;
-import com.example.book2play.db.driver.MySQLDataSource;
+import com.example.book2play.db.driver.MySqlDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.*;
 
@@ -23,28 +23,13 @@ public class App {
 
     private Properties mySqlProps = new Properties();
 
-    public App() {
-        // reading mysql configurations
-        var stream = App.class
-                .getClassLoader()
-                .getResourceAsStream("mysql_database.properties");
-
-        try {
-            mySqlProps.load(stream);
-        } catch (Exception e) {
-            LOG.warning("Could not read mysql properties, using default values" + e.getMessage());
-        }
-    }
-
     public static void main(String[] args) {
         var app = new App();
         app.start();
     }
 
     private void start() {
-        LOG.info("Connecting to MySQL at " + mySqlProps.getProperty("url"));
-        var ds = new MySQLDataSource(mySqlProps);
-
+        var ds = MySqlDataSource.getInstance();
         setupExample(ds); // set up starting state for testing
 
         try {

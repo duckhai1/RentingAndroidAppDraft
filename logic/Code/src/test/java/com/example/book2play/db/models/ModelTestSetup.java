@@ -1,7 +1,7 @@
 package com.example.book2play.db.models;
 
 import com.example.book2play.App;
-import com.example.book2play.db.driver.MySQLDataSource;
+import com.example.book2play.db.driver.MySqlDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.test_utils.TimeUtils;
 import org.junit.Before;
@@ -21,21 +21,11 @@ public abstract class ModelTestSetup {
     protected static PlayerModel PLAYER;
     protected static SportCenterModel SPORT_CENTER;
     protected static StaffModel STAFF;
-    protected static MySQLDataSource DB;
+    protected static MySqlDataSource DB;
 
     @BeforeClass
     public static void setupTest() {
-        ClassLoader loader = App.class.getClassLoader();
-        InputStream stream = loader.getResourceAsStream("mysql_database.properties");
-
-        var mySqlProps = new Properties();
-        try {
-            mySqlProps.load(stream);
-        } catch (Exception e) {
-            LOG.warning("Could not get configurations for the test database");
-        }
-
-        DB = new MySQLDataSource(mySqlProps);
+        DB = MySqlDataSource.getInstance();
 
         BOOKING = new BookingModel(DB);
         CITY = new CityModel(DB);

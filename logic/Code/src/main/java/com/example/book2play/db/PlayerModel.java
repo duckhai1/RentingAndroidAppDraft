@@ -5,11 +5,10 @@ import com.example.book2play.types.Player;
 
 public interface PlayerModel {
 
-    Player getPlayerInfo(String playerId) throws MySQLException;
-
     void createPlayer(String playerId) throws MySQLException;
 
     void updatePlayerId(String newPlayerId, String oldPlayerId) throws MySQLException;
 
     void clearPlayer() throws MySQLException;
+
 }
