@@ -7,7 +7,7 @@ import java.util.Collection;
 
 public interface SportCenterModel {
 
-    SportCenter getSportCenterInfo(String sportCenterId, String cityId) throws MySQLException;
+    Collection<SportCenter> getCitySportCenters(String cityId) throws MySQLException;
 
     void createCityCenter(String sportCenterId, String cityId) throws MySQLException;
 
@@ -15,5 +15,4 @@ public interface SportCenterModel {
 
     void clearSportCenter() throws MySQLException;
 
-    Collection<SportCenter> getCitySportCenters(String cityId) throws MySQLException;
 }

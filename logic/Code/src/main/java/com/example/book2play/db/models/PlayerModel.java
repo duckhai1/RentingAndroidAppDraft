@@ -14,40 +14,6 @@ public class PlayerModel extends AbstractModel implements com.example.book2play.
     }
 
     @Override
-    public Player getPlayerInfo(String playerId) throws MySQLException {
-        LOG.info("Calling getPlayerInfo");
-        Connection conn = null;
-        CallableStatement stm = null;
-        ResultSet rs = null;
-
-        try {
-            conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL getPlayerInfo(?, ?)}");
-            stm.setString(1, playerId);
-            stm.registerOutParameter(2, Types.INTEGER);
-
-            rs = stm.executeQuery();
-            var statusCode = stm.getInt(2);
-            LOG.info("Received status code " + statusCode);
-            if (statusCode >= 400 && statusCode < 500) {
-                throw new MySQLException(statusCode);
-            }
-
-            if (!rs.next()) {
-                throw new MySQLException("Data not found");
-            }
-
-            return ResultSetUtils.singlePlayerFromResultSet(rs);
-        } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
-        } finally {
-            ResultSetUtils.quietCloseConnection(conn);
-            ResultSetUtils.quietCloseStatement(stm);
-            ResultSetUtils.quietCloseResultSet(rs);
-        }
-    }
-
-    @Override
     public void createPlayer(String playerId) throws MySQLException {
         LOG.info("Calling createPlayer");
         Connection conn = null;

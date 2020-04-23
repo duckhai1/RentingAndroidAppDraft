@@ -10,13 +10,6 @@ import java.util.Collection;
 
 public interface BookingModel {
 
-    /**
-     * @param bookingId
-     * @return
-     * @throws MySQLException
-     */
-    Booking getBookingInfo(String bookingId) throws MySQLException;
-
     Collection<Booking> getCourtBookings(String courtId, String cityId, String sportCenterId, Date date) throws MySQLException;
 
     Collection<Booking> getSportCenterBookings(String sportCenterId, String cityId, Date date) throws MySQLException;
@@ -42,4 +35,5 @@ public interface BookingModel {
     void cancelBooking(String bookingId, String playerId) throws MySQLException;
 
     void clearBooking() throws MySQLException;
+
 }

@@ -12,4 +12,5 @@ public interface CityModel {
     void createCity(String cityId) throws MySQLException;
 
     void clearCity() throws MySQLException;
+
 }

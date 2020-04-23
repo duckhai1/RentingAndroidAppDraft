@@ -15,42 +15,6 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
     }
 
     @Override
-    public Court getCourtInfo(String courtId, String cityId, String sportCenterId) throws MySQLException {
-        LOG.info("Calling getCourtInfo");
-        Connection conn = null;
-        CallableStatement stm = null;
-        ResultSet rs = null;
-
-        try {
-            conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL getCourtInfo(?, ?, ?, ?)}");
-            stm.setString(1, courtId);
-            stm.setString(2, cityId);
-            stm.setString(3, sportCenterId);
-            stm.registerOutParameter(4, Types.INTEGER);
-
-            rs = stm.executeQuery();
-            var statusCode = stm.getInt(4);
-            LOG.info("Received status code " + statusCode);
-            if (statusCode >= 400 && statusCode < 500) {
-                throw new MySQLException(statusCode);
-            }
-
-            if (!rs.next()) {
-                throw new MySQLException("Data not found");
-            }
-
-            return ResultSetUtils.singleCourtFromResultSet(rs);
-        } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
-        } finally {
-            ResultSetUtils.quietCloseConnection(conn);
-            ResultSetUtils.quietCloseStatement(stm);
-            ResultSetUtils.quietCloseResultSet(rs);
-        }
-    }
-
-    @Override
     public void createCityCenterCourt(String courtId, String cityId, String sportCenterId) throws MySQLException {
         LOG.info("Calling createCityCenterCourt");
         Connection conn = null;
