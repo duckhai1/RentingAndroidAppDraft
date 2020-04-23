@@ -33,6 +33,7 @@ public class MySqlDataSource implements AppDataSource {
     }
 
     public Connection getConnection() throws SQLException {
+        LOG.info("Getting connection from: " + ds);
         return ds.getConnection();
     }
 
@@ -48,8 +49,8 @@ public class MySqlDataSource implements AppDataSource {
             sqlDs.setURL(props.getProperty("url", DEFAULT_URL));
             sqlDs.setUser(props.getProperty("user", DEFAULT_USERNAME));
             sqlDs.setPassword(props.getProperty("password", DEFAULT_PASSWORD));
-            LOG.info("Setup connection to MySQL: " + ds);
             ds = sqlDs;
+            LOG.info("Setup connection to MySQL: " + ds);
         } catch (Exception e) {
             LOG.warning("Could not read mysql properties, using default values" + e.getMessage());
         }
