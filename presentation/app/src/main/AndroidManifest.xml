@@ -70,14 +70,14 @@
         <activity android:name="com.example.book2play.BookingList.BookingHistoryScreen"></activity>
 
         <activity
-            android:name="com.example.book2play.CreateBooking.Location2Screen"
+            android:name="com.example.book2play.CreateBooking.ChooseCenterScreen"
             android:label="@string/title_activity_location2" />
-        <activity android:name="com.example.book2play.CreateBooking.BookSucessScrenn" />
-        <activity android:name="com.example.book2play.CreateBooking.SelectTime.SelectTimeScreen" />
-        <activity android:name="com.example.book2play.CreateBooking.ChooseLocationScreen" />
+        <activity android:name="com.example.book2play.CreateBooking.BookSucessScreen" />
+        <activity android:name="com.example.book2play.CreateBooking.SelectTime.ChooseTimeScreen" />
+        <activity android:name="com.example.book2play.CreateBooking.ChooseCitycreen" />
         <activity android:name=".DetailScreen" />
-        <activity android:name="com.example.book2play.CreateBooking.SearchDayScreen" />
-        <activity android:name="com.example.book2play.Login.LoginFacebookScreen" />
+        <activity android:name="com.example.book2play.CreateBooking.ChooseDayScreen" />
+        <activity android:name="com.example.book2play.Login.FacebookDetailScreen" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

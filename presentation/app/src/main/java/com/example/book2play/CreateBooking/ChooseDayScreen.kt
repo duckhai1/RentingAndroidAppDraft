@@ -7,20 +7,20 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.example.book2play.CreateBooking.SelectTime.SelectTimeScreen
+import com.example.book2play.CreateBooking.SelectTime.ChooseTimeScreen
 
 import com.example.Type.MyBookingModel
 import com.example.book2play.R
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SearchDayScreen : AppCompatActivity() {
+class ChooseDayScreen : AppCompatActivity() {
     var calendarView: CalendarView? = null
     var bt: Button? = null
     var date: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_searchday)
+        setContentView(R.layout.screen_choose_day)
 
         // get last intent information
         val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
@@ -51,7 +51,7 @@ class SearchDayScreen : AppCompatActivity() {
 //            Log.d("calendar", date)
 //        }
         ctnBtn.setOnClickListener {
-            val intent = Intent(applicationContext, SelectTimeScreen::class.java)
+            val intent = Intent(applicationContext, ChooseTimeScreen::class.java)
             val bookingDay = if (date == null) currentDate else date
             Log.d("calendar", bookingDay)
             // update bookingInfo

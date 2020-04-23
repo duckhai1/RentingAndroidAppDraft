@@ -10,13 +10,13 @@ import com.example.Type.MyBookingModel
 
 
 import com.example.book2play.R
-import kotlinx.android.synthetic.main.book_sucess_screen.*
+import kotlinx.android.synthetic.main.screen_book_sucess.*
 
-class BookSucessScrenn : AppCompatActivity() {
+class BookSucessScreen : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.book_sucess_screen)
+        setContentView(R.layout.screen_book_sucess)
 
         // get last intent information
         val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel

@@ -7,7 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
 import com.example.book2play.BookingList.BookingHistoryScreen
-import com.example.book2play.CreateBooking.ChooseLocationScreen
+import com.example.book2play.CreateBooking.ChooseCitycreen
+import com.example.book2play.Login.LogoutScreen
 
 import com.facebook.login.LoginManager
 import com.google.android.material.navigation.NavigationView
@@ -18,12 +19,12 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     // fragment for each menu item
-    lateinit var homeFragment: HomeFragment
+    lateinit var homeFragment: HomeScreen
     lateinit var bookingHistoryFragment: BookingHistoryScreen
-    lateinit var createBookingFragment : ChooseLocationScreen
-    lateinit var settingFragment: HomeFragment
-    lateinit var logoutFragment: LogoutFragment
-    lateinit var fragment1: HomeFragment
+    lateinit var createBookingFragment : ChooseCitycreen
+    lateinit var settingFragment: HomeScreen
+    lateinit var logoutFragment: LogoutScreen
+    lateinit var fragment1: HomeScreen
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
 
         // default fragment
-        homeFragment = HomeFragment()
+        homeFragment = HomeScreen()
         supportFragmentManager
             .beginTransaction()
             .replace(R.id.frame_layout, homeFragment)
@@ -58,7 +59,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
             R.id.home_menu -> {
-                homeFragment = HomeFragment()
+                homeFragment = HomeScreen()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, homeFragment)
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.create_booking_menu -> {
                 createBookingFragment =
-                    ChooseLocationScreen()  // --> change this one
+                    ChooseCitycreen()  // --> change this one
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, createBookingFragment)
@@ -85,7 +86,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.setting_menu -> {
                 fragment1 =
-                    HomeFragment()  // --> change this one
+                    HomeScreen()  // --> change this one
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, fragment1)
@@ -95,7 +96,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.logout_menu -> {
                 LoginManager.getInstance().logOut()
                 logoutFragment =
-                    LogoutFragment()  // --> change this one
+                    LogoutScreen()  // --> change this one
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, logoutFragment)

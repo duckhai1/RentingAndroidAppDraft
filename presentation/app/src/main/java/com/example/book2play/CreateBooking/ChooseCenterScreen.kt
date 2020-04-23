@@ -24,7 +24,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
-class Location2Screen : AppCompatActivity(),
+class ChooseCenterScreen : AppCompatActivity(),
     OnMapReadyCallback {
     private var mMap: GoogleMap? = null
     var IMAGES = intArrayOf(
@@ -45,7 +45,7 @@ class Location2Screen : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_location2)
+        setContentView(R.layout.screen_choose_center)
 
         // get last intent information
         val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
@@ -69,7 +69,7 @@ class Location2Screen : AppCompatActivity(),
             OnItemClickListener { parent, view, position, id ->
 //                    val theCenterName = NAMES[position]
                     val theCenterName = "center1"
-                    val intent = Intent(applicationContext, SearchDayScreen::class.java)
+                    val intent = Intent(applicationContext, ChooseDayScreen::class.java)
                     // update bookingInfo
                     if (bookingInfo != null) {
                         bookingInfo.center = theCenterName

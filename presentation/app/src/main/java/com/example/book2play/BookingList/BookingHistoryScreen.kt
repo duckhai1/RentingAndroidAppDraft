@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.book2play.R
-import kotlinx.android.synthetic.main.booking_history_screen.*
+import kotlinx.android.synthetic.main.screen_booking_history.*
 
 class BookingHistoryScreen : Fragment() {
 
@@ -15,7 +15,7 @@ class BookingHistoryScreen : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val v = inflater.inflate(R.layout.booking_history_screen, container, false)
+        val v = inflater.inflate(R.layout.screen_booking_history, container, false)
 
 
         return v

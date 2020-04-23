@@ -9,7 +9,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.book2play.CreateBooking.ChooseLocationScreen
+import com.example.book2play.CreateBooking.ChooseCitycreen
 import com.example.book2play.R
 import com.facebook.*
 import com.facebook.login.LoginBehavior
@@ -28,7 +28,7 @@ class LoginScreen : AppCompatActivity() {
     var id: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.login_layout)
+        setContentView(R.layout.screen_login)
         val appName = "BOOK2PLAY"
         val an = SpannableString(appName)
         an.setSpan(RelativeSizeSpan(2f), 4, 5, 0)
@@ -41,7 +41,7 @@ class LoginScreen : AppCompatActivity() {
         val bt =
             findViewById<View>(R.id.signinBtn) as Button
         bt.setOnClickListener {
-            val intent = Intent(applicationContext, ChooseLocationScreen::class.java)
+            val intent = Intent(applicationContext, ChooseCitycreen::class.java)
             startActivity(intent)
         }
 
@@ -67,7 +67,7 @@ class LoginScreen : AppCompatActivity() {
                     val email = bFacebookData.getString("email")
                     val profilepic = bFacebookData.getString("profile_pic")
                     val intent =
-                        Intent(this@LoginScreen, LoginFacebookScreen::class.java)
+                        Intent(this@LoginScreen, FacebookDetailScreen::class.java)
                     intent.putExtra("firstname", firstname)
                     intent.putExtra("lastname", lastname)
                     intent.putExtra("email", email)

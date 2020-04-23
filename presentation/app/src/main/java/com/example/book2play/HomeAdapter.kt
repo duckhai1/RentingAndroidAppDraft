@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.book2play.CreateBooking.SearchDayScreen
+import com.example.book2play.CreateBooking.ChooseDayScreen
 import kotlinx.android.synthetic.main.home_row.view.*
 
 
@@ -69,7 +69,7 @@ class HomeAdapter(val arrayList:ArrayList<HomeAdvertiseModel>, val context: Cont
                                                     center = arrayList[pos].name.toString()
                 )
                 Log.d("make booking", "Home adapter: "+ bookingInfo.toString())
-                val intent = Intent(mContext, SearchDayScreen::class.java)
+                val intent = Intent(mContext, ChooseDayScreen::class.java)
                 val bundle =Bundle()
                 bundle.putSerializable("BookingInfo", bookingInfo)
                 bundle.putString("CENTERNAME", arrayList[pos].name.toString())

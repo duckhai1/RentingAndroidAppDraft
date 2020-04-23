@@ -50,9 +50,9 @@ class UpcommingFragment : Fragment() {
     fun adding_upcomming_list(arrayList : ArrayList<MyBookingModel>){
         arrayList.add(
             MyBookingModel(
-                "Apr 2",
-                "10h30",
-                "11h30",
+                "2020-03-23",
+                "10:30:00",
+                "11:30:00",
                 "city1",
                 "TA Sport Center",
                 "Court 1",
@@ -61,9 +61,9 @@ class UpcommingFragment : Fragment() {
         )
         arrayList.add(
             MyBookingModel(
-                "Apr 24",
-                "10h30",
-                "11h30",
+                "2020-03-23",
+                "10:30:00",
+                "11:30:00",
                 "city1",
                 "TA Sport Center",
                 "Court 1",
@@ -72,9 +72,9 @@ class UpcommingFragment : Fragment() {
         )
         arrayList.add(
             MyBookingModel(
-                "May 5",
-                "10h30",
-                "11h30",
+                "2020-03-23",
+                "10:30:00",
+                "11:30:00",
                 "city1",
                 "TA Sport Center",
                 "Court 1",
@@ -83,9 +83,9 @@ class UpcommingFragment : Fragment() {
         )
         arrayList.add(
             MyBookingModel(
-                "May 18",
-                "10h30",
-                "11h30",
+                "2020-03-23",
+                "10:30:00",
+                "11:30:00",
                 "city1",
                 "TA Sport Center",
                 "Court 1",
@@ -94,9 +94,9 @@ class UpcommingFragment : Fragment() {
         )
         arrayList.add(
             MyBookingModel(
-                "Jun 29",
-                "10h30",
-                "11h30",
+                "2020-03-23",
+                "10:30:00",
+                "11:30:00",
                 "city1",
                 "TA Sport Center",
                 "Court 1",
@@ -105,9 +105,9 @@ class UpcommingFragment : Fragment() {
         )
         arrayList.add(
             MyBookingModel(
-                "Jul 21",
-                "10h30",
-                "11h30",
+                "2020-03-23",
+                "10:30:00",
+                "11:30:00",
                 "city1",
                 "TA Sport Center",
                 "Court 1",

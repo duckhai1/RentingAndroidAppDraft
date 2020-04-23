@@ -8,7 +8,7 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.Toast
-import com.example.book2play.CreateBooking.BookSucessScrenn
+import com.example.book2play.CreateBooking.BookSucessScreen
 import com.example.LogicConnection.Handler.ConnectionHandler
 import com.example.Type.MyBookingModel
 import com.example.book2play.MainActivity
@@ -69,7 +69,7 @@ class createBookingAsync(activity: Activity) : AsyncTask<String?, String?, Strin
         }
         // if connect successful
         if (error == null) {
-            val intent = Intent(activity, BookSucessScrenn::class.java)
+            val intent = Intent(activity, BookSucessScreen::class.java)
             intent.putExtra("BookingInfo", newBooking)
             this.activity.startActivity(intent)
         }

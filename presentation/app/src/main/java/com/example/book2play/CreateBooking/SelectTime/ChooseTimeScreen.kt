@@ -5,14 +5,14 @@ import android.os.Bundle
 import android.util.Log
 import com.example.Type.MyBookingModel
 import com.example.book2play.R
-import kotlinx.android.synthetic.main.select_time_screen.*
+import kotlinx.android.synthetic.main.screen_choose_time.*
 
-class SelectTimeScreen : AppCompatActivity() {
+class ChooseTimeScreen : AppCompatActivity() {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.select_time_screen)
+        setContentView(R.layout.screen_choose_time)
 
         // get last intent information
         val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel

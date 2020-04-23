@@ -14,9 +14,9 @@ import com.facebook.GraphRequest
 import com.facebook.HttpMethod
 import com.facebook.login.LoginManager
 import de.hdodenhof.circleimageview.CircleImageView
-import kotlinx.android.synthetic.main.facebook_user_info.*
+import kotlinx.android.synthetic.main.screen_facebook_detail.*
 
-class LoginFacebookScreen : AppCompatActivity() {
+class FacebookDetailScreen : AppCompatActivity() {
     private var button: Button? = null
     private var circleImageView: CircleImageView? = null
     private var txtName: TextView? = null
@@ -24,7 +24,7 @@ class LoginFacebookScreen : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.facebook_user_info)
+        setContentView(R.layout.screen_facebook_detail)
         circleImageView = findViewById(R.id.profilePic)
         txtName = findViewById(R.id.profileName)
         txtEmail = findViewById(R.id.profileEmail)
@@ -43,7 +43,7 @@ class LoginFacebookScreen : AppCompatActivity() {
         if (firstname != null && lastname != null && email != null && image != null) {
             txtName?.text = firstname + " " + lastname
             txtEmail?.text = email
-            Glide.with(this@LoginFacebookScreen).load(image).into(circleImageView!!)
+            Glide.with(this@FacebookDetailScreen).load(image).into(circleImageView!!)
         } else {
             Toast.makeText(applicationContext, "Data Not Found", Toast.LENGTH_SHORT).show()
         }
@@ -64,7 +64,7 @@ class LoginFacebookScreen : AppCompatActivity() {
                     LoginManager.getInstance().logOut()
                     finish()
                 }).executeAsync()
-            val intent = Intent(this@LoginFacebookScreen, LoginScreen::class.java)
+            val intent = Intent(this@FacebookDetailScreen, LoginScreen::class.java)
             startActivity(intent)
         })
 
