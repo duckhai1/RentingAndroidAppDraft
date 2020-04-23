@@ -1,63 +1,78 @@
 package com.example.book2play.CreateBooking.SelectTime
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.example.Type.MyBookingModel
+import com.example.Type.MyCourtModel
 import com.example.book2play.R
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.screen_choose_time.*
 
-class ChooseTimeScreen : AppCompatActivity() {
 
+class ChooseTimeScreen : AppCompatActivity() {
+    var bookingInfo : MyBookingModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_choose_time)
 
         // get last intent information
-        val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
+        bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
         Log.d("make booking", "SelectTimeScreen: "+bookingInfo.toString())
+        val bundle = intent.extras
 
         toolBar.setTitle("Booking")
         setSupportActionBar(toolBar)
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
+        val courts = getCourtList()
 
-        // TODO change to more flexible to add court
         val fragmentAdapter = MyPagerAdapter(supportFragmentManager)
-        val bundle = intent.extras
-
-        setupFragment(fragmentAdapter,bundle, "Court 1")
-        setupFragment(fragmentAdapter,bundle, "Court 2")
-        setupFragment(fragmentAdapter,bundle, "Court 3")
+        for (court in courts){
+            val court_frag = CourtFragment()
+            var cbundle = bundle?.clone() as Bundle
+            if (cbundle != null) {
+                cbundle.putString("courtName", court.courtName)
+            }
+            court_frag.arguments = cbundle
+            court.courtName?.let { fragmentAdapter.addFrag(court_frag, it) }
+        }
 
         viewPager.adapter = fragmentAdapter
         tabLayout.setupWithViewPager(viewPager)
+        if (courts.size < 3) {
+            tabLayout.tabMode = TabLayout.MODE_FIXED
+        } else {
+            tabLayout.tabMode = TabLayout.MODE_SCROLLABLE
+        }
 
 
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        var width = displayMetrics.widthPixels
 
     }
 
 
-    fun setupFragment(fragmentAdapter: MyPagerAdapter, bundle: Bundle?, court_name : String){
-        var court_frag = when (court_name){
-            "Court 1" -> Court1Fragment()
-            "Court 2" -> Court1Fragment()   // -> need to change
-            "Court 3" -> Court1Fragment()   // -> need to change
-            else -> Court3Fragment()
-        }
-        var cbundle = bundle?.clone() as Bundle
-        if (cbundle != null) {
-            cbundle.putString("courtName", court_name)
-        }
-        court_frag.arguments = cbundle
-        fragmentAdapter.addFrag(court_frag, court_name)
-    }
-    
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
+    }
+
+    fun getCourtList() : ArrayList<MyCourtModel>{
+        val courts = ArrayList<MyCourtModel>()
+
+        // TODO change with get courts from server
+        // ApiHandler.getCourt
+        courts.add(MyCourtModel("court1", "center1", "city1"))
+        courts.add(MyCourtModel("court2", "center1", "city1"))
+        courts.add(MyCourtModel("court3", "center1", "city1"))
+        courts.add(MyCourtModel("court4", "center1", "city1"))
+
+        return courts
     }
 
 }

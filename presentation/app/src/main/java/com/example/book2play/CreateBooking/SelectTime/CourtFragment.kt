@@ -9,13 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.Type.MyBookingModel
 import com.example.book2play.R
 import com.example.LogicConnection.Handler.ApiHandler
-import kotlinx.android.synthetic.main.fragment_court1.*
+import kotlinx.android.synthetic.main.fragment_court_timeline.*
 
 
 /**
  * A simple [Fragment] subclass.
  */
-class Court1Fragment : Fragment(), MainInterface {
+class CourtFragment : Fragment(), MainInterface {
 
 
 
@@ -25,14 +25,14 @@ class Court1Fragment : Fragment(), MainInterface {
     lateinit var bookingCourtName :String
 
     var actionMode: ActionMode? = null
-    var myAdapter: Court1Adapter? = null
+    var myAdapter: CourtAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val v = inflater.inflate(R.layout.fragment_court1, container, false)
+        val v = inflater.inflate(R.layout.fragment_court_timeline, container, false)
         bookingInfo = this.arguments?.getSerializable("BookingInfo") as MyBookingModel
         bookingCourtName = this.arguments!!.getString("courtName").toString()
         return v
@@ -81,7 +81,7 @@ class Court1Fragment : Fragment(), MainInterface {
 
         recyclerView1.layoutManager = LinearLayoutManager(activity)
         myAdapter = context?.let {
-            Court1Adapter(
+            CourtAdapter(
                 arrayList,
                 it,
                 this

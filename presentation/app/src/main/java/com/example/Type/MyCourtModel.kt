@@ -6,10 +6,13 @@ import com.google.gson.annotations.SerializedName
 class MyCourtModel (
     @SerializedName("courtId")
     @Expose
-    var courtName : String,
-    @SerializedName("sportCenter")
+    var courtName : String?,
+    @SerializedName("sportCenterId")
     @Expose
-    var centerName : String = "",
+    var centerName : String?,
+    @SerializedName("cityId")
+    @Expose
+    var cityName : String?,
 
     var slotList : ArrayList<MySlotModel> = ArrayList<MySlotModel>()
 ): MyDataModel {

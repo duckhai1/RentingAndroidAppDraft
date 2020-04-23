@@ -7,10 +7,10 @@ import com.google.gson.annotations.SerializedName
 class MyCenterModel(
     @SerializedName("sportCenterId")
     @Expose
-    var centerName : String,
-    @SerializedName("city")
+    var centerName : String?,
+    @SerializedName("cityId")
     @Expose
-    var city : String = "",
+    var city : String?,
 
     var address : String = "",                      // center address
     var avatar: Int = R.drawable.sancaulong,        // center image

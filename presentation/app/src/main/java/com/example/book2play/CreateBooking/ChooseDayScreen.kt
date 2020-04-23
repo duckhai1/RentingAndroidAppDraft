@@ -31,7 +31,7 @@ class ChooseDayScreen : AppCompatActivity() {
 
 
         val toolbar = findViewById<View>(R.id.toolbarSD) as Toolbar
-        toolbar.title =  "Pick your date!"
+        toolbar.setTitle("Pick your date!")
         setSupportActionBar(toolbar)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
 

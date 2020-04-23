@@ -24,9 +24,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/tabLayout"
-            app:tabMode="fixed"
+            app:tabMode="scrollable"
             app:tabMaxWidth="0dp"
-            app:tabGravity="fill"
+            app:tabMinWidth="140dp"
+            app:tabGravity="center"
             app:tabIndicatorColor="#000000"
             app:tabTextColor="#000000"
             />

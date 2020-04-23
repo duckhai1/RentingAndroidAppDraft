@@ -15,8 +15,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class Court1Adapter(val arrayList: ArrayList<TimeModel>, val context: Context, val mainInterface: MainInterface) :
-    RecyclerView.Adapter<Court1Adapter.ViewHolder>() {
+class CourtAdapter(val arrayList: ArrayList<TimeModel>, val context: Context, val mainInterface: MainInterface) :
+    RecyclerView.Adapter<CourtAdapter.ViewHolder>() {
     var mContext = context
     val selectedIds: MutableList<Date> = ArrayList<Date>()
 

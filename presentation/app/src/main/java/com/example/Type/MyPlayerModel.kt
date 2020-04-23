@@ -6,8 +6,8 @@ import com.google.gson.annotations.SerializedName
 class MyPlayerModel (
     @SerializedName("playerId")
     @Expose
-
     var playerId : String,
+
     var password : String,
     var playerName: String = "",
     var token : String = ""

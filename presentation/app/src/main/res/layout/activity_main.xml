@@ -23,6 +23,7 @@
         app:menu="@menu/drawer_menu"
         app:headerLayout="@layout/menu_header"
         android:layout_gravity="start"
+
         >
 
     </com.google.android.material.navigation.NavigationView>

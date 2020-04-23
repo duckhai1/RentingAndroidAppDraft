@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 class MyCityModel (
     @SerializedName("cityId")
     @Expose
-    var CityName: String,
+    var CityName: String?,
 
     var centerList : ArrayList<MyCenterModel> = ArrayList<MyCenterModel>()
 ): MyDataModel {

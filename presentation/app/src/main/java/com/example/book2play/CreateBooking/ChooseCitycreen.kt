@@ -78,7 +78,7 @@ class ChooseCitycreen : Fragment() {
         }
     }
 
-    fun getCityNameList() : ArrayList<String>{
+    fun getCityNameList() : ArrayList<String?>{
         val cities = ArrayList<MyCityModel>()
 
         // TODO get city list from server
@@ -89,7 +89,7 @@ class ChooseCitycreen : Fragment() {
         cities.add(MyCityModel("Vung Tau city"))
         cities.add(MyCityModel("Binh Duong city"))
 
-        var citiesName = ArrayList<String>()
+        var citiesName = ArrayList<String?>()
         // get name set from cities
         for (city in cities){
             citiesName.add(city.CityName)

@@ -38,9 +38,11 @@ class ChooseCenterScreen : AppCompatActivity(),OnMapReadyCallback {
         // Map fragment
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
+
         val toolbar = findViewById<View>(R.id.toolbarLS2) as Toolbar
+        toolbar.setTitle("Select court in " + bookingInfo?.city)
         setSupportActionBar(toolbar)
-        supportActionBar!!.title = "Ho Chi Minh city"
+        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
 
         val centers = getCenterList()
         listPlaces.layoutManager = LinearLayoutManager(this)
@@ -65,6 +67,11 @@ class ChooseCenterScreen : AppCompatActivity(),OnMapReadyCallback {
         mMap!!.addMarker(MarkerOptions().position(hcmc).title("Marker in HCMC"))
         val zoomLevel = 11.0f
         mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(hcmc, zoomLevel))
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 
     fun getCenterList() : ArrayList<MyCenterModel>{

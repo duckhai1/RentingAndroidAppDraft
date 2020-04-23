@@ -1,6 +1,7 @@
 package com.example.book2play
 
 import android.os.Bundle
+import android.text.Html
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -29,11 +30,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setContentView(R.layout.activity_main)
+
 
         setSupportActionBar(toolBar)
         val actionBar = supportActionBar
-        actionBar?.title = "Navigation Drawer"
+        actionBar?.setTitle(Html.fromHtml("<font color='#000000'>Let's Book2Play</font>"))
 
         val drawerToggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle (
             this, drawerLayout, toolBar, (R.string.open), (R.string.close)
@@ -68,7 +69,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.create_booking_menu -> {
                 createBookingFragment =
-                    ChooseCitycreen()  // --> change this one
+                    ChooseCitycreen()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, createBookingFragment)
@@ -96,7 +97,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.logout_menu -> {
                 LoginManager.getInstance().logOut()
                 logoutFragment =
-                    LogoutScreen()  // --> change this one
+                    LogoutScreen()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, logoutFragment)
