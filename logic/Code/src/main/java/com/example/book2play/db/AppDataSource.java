@@ -5,9 +5,9 @@ import java.sql.SQLException;
 
 public interface AppDataSource {
     /**
-     * Return turn the connection that is established with the configuration of the object
+     * Return the connection that is established with the configuration stored in the object
      *
-     * @return a connection to the database, guaranteed to be a object
+     * @return a connection to the database
      * @throws SQLException
      */
     Connection getConnection() throws SQLException;

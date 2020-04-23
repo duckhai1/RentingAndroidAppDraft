@@ -9,6 +9,9 @@ import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
+/**
+ * com.java.sql.Timestamp json serializer for use with Gson library
+ */
 public class SqlTimestampGsonSerializer implements JsonSerializer<Timestamp> {
     public JsonElement serialize(Timestamp src, Type typeOfSrc, JsonSerializationContext context) {
         var fmt = new SimpleDateFormat();

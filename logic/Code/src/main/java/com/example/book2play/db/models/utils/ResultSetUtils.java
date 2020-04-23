@@ -1,7 +1,6 @@
 package com.example.book2play.db.models.utils;
 
 import com.example.book2play.types.*;
-import com.mysql.cj.protocol.Resultset;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

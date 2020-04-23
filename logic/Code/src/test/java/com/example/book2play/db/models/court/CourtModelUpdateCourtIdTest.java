@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 import static org.junit.Assert.fail;
 
@@ -34,7 +33,7 @@ public class CourtModelUpdateCourtIdTest extends ModelTestSetup {
     }
 
     @Test
-    public void testGetCourtInfoInvalidCourtId() throws Exception{
+    public void testGetCourtInfoInvalidCourtId() throws Exception {
         final int EXPECTED_CODE = 462;
         var testInputs = new ArrayList<Pair<String, String>>();
         testInputs.add(new Pair("P!", "P3"));
@@ -53,7 +52,7 @@ public class CourtModelUpdateCourtIdTest extends ModelTestSetup {
     }
 
     @Test
-    public void testUpdateCourtInvalidNewCourtId() throws Exception{
+    public void testUpdateCourtInvalidNewCourtId() throws Exception {
         final int EXPECTED_CODE = 462;
         var testInputs = new ArrayList<Pair<String, String>>();
         testInputs.add(new Pair("P1", "P!"));
@@ -72,7 +71,7 @@ public class CourtModelUpdateCourtIdTest extends ModelTestSetup {
     }
 
     @Test
-    public void testGetCourtInfoInvalidCityId() throws Exception{
+    public void testGetCourtInfoInvalidCityId() throws Exception {
         final int EXPECTED_CODE = 460;
         var testInputs = new ArrayList<String>();
         testInputs.add("DaNang");
@@ -91,7 +90,7 @@ public class CourtModelUpdateCourtIdTest extends ModelTestSetup {
     }
 
     @Test
-    public void testUpdateCourtInvalidCitySportCenterId() throws Exception{
+    public void testUpdateCourtInvalidCitySportCenterId() throws Exception {
         final int EXPECTED_CODE = 461;
         var testInputs = new ArrayList<String>();
         testInputs.add("Q!");

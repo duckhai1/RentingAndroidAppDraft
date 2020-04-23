@@ -11,7 +11,6 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
-import java.lang.reflect.Modifier;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.Time;
@@ -25,6 +24,9 @@ import java.util.regex.Pattern;
 
 import static java.util.stream.Collectors.*;
 
+/**
+ * Predefined handler methods for dealing with encoded uri and json data
+ */
 public abstract class AbstractHandler implements HttpHandler {
 
     protected final static Logger LOG = Logger.getLogger("HTTPHandler");

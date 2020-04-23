@@ -1,12 +1,10 @@
 package com.example.book2play.api.utils;
 
 /**
+ * Easy to access HTTP status code
  * https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
  */
 public class HTTPStatus {
-    private HTTPStatus() {
-    }
-
     public final static int CONTINUE = 100;
     public final static int SWITCHING_PROTOCOLS = 101;
     public final static int PROCESSING = 102;
@@ -70,4 +68,7 @@ public class HTTPStatus {
     public final static int LOOP_DETECTED = 508;
     public final static int NOT_EXTENDED = 510;
     public final static int NETWORK_AUTHENTICATION_REQUIRED = 511;
+
+    private HTTPStatus() {
+    }
 }

@@ -405,6 +405,7 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
             assertEquals("Unexpected error code", EXPECTED_CODE, e.getStatusCode());
         }
     }
+
     @Test
     public void testCreateBooking2HourDuration() {
         final int EXPECTED_CODE = 467;

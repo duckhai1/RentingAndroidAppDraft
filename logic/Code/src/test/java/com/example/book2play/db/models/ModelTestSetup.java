@@ -1,14 +1,11 @@
 package com.example.book2play.db.models;
 
-import com.example.book2play.App;
 import com.example.book2play.db.driver.MySqlDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.test_utils.TimeUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import java.io.InputStream;
-import java.util.Properties;
 import java.util.logging.Logger;
 
 public abstract class ModelTestSetup {

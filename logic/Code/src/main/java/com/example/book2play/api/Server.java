@@ -12,6 +12,9 @@ import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
+/**
+ * Simple class to encapsulate the data source, and connection information used for the HTTP API server
+ */
 public class Server {
 
     public static String BOOKINGS_BASE_URL = "/api/bookings";
@@ -26,6 +29,10 @@ public class Server {
         setRoutes();
     }
 
+    /**
+     * Starting the server and listen for requests on the given port
+     * Block the current thread where it is called
+     */
     public void start() {
         srv.setExecutor(null); // creates a default executor
         srv.start();

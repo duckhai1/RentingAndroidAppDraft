@@ -33,7 +33,7 @@ public class StaffModelUpdateStaffIdTest extends ModelTestSetup {
     }
 
     @Test
-    public void testGetStaffInfoInvalidStaffId() throws Exception{
+    public void testGetStaffInfoInvalidStaffId() throws Exception {
         final int EXPECTED_CODE = 463;
         var testInputs = new ArrayList<Pair<String, String>>();
         testInputs.add(new Pair("P!", "P3"));
@@ -52,7 +52,7 @@ public class StaffModelUpdateStaffIdTest extends ModelTestSetup {
     }
 
     @Test
-    public void testUpdateStaffInvalidNewStaffId() throws Exception{
+    public void testUpdateStaffInvalidNewStaffId() throws Exception {
         final int EXPECTED_CODE = 463;
         var testInputs = new ArrayList<Pair<String, String>>();
         testInputs.add(new Pair("P1", "P!"));
@@ -71,7 +71,7 @@ public class StaffModelUpdateStaffIdTest extends ModelTestSetup {
     }
 
     @Test
-    public void testGetStaffInfoInvalidCityId() throws Exception{
+    public void testGetStaffInfoInvalidCityId() throws Exception {
         final int EXPECTED_CODE = 460;
         var testInputs = new ArrayList<String>();
         testInputs.add("DaNang");
@@ -90,7 +90,7 @@ public class StaffModelUpdateStaffIdTest extends ModelTestSetup {
     }
 
     @Test
-    public void testUpdateStaffInvalidCitySportCenterId() throws Exception{
+    public void testUpdateStaffInvalidCitySportCenterId() throws Exception {
         final int EXPECTED_CODE = 461;
         var testInputs = new ArrayList<String>();
         testInputs.add("Q!");

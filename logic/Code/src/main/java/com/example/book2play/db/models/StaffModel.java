@@ -3,7 +3,6 @@ package com.example.book2play.db.models;
 import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.utils.ResultSetUtils;
-import com.example.book2play.types.Staff;
 
 import java.sql.*;
 
@@ -81,7 +80,7 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
             conn = this.db.getConnection();
             stm = conn.createStatement();
 
-            var updateCount= stm.executeUpdate("DELETE FROM sportCenters");
+            var updateCount = stm.executeUpdate("DELETE FROM sportCenters");
             LOG.info("Update count " + updateCount);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception " + e.getMessage(), e);

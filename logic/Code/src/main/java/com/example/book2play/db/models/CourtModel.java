@@ -144,7 +144,7 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
             }
 
             return ResultSetUtils.courtsFromResultSet(rs);
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
