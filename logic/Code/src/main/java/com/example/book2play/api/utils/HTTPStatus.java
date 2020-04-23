@@ -3,7 +3,10 @@ package com.example.book2play.api.utils;
 /**
  * https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
  */
-public abstract class HTTPStatus {
+public class HTTPStatus {
+    private HTTPStatus() {
+    }
+
     public final static int CONTINUE = 100;
     public final static int SWITCHING_PROTOCOLS = 101;
     public final static int PROCESSING = 102;

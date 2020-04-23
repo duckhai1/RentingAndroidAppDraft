@@ -13,6 +13,9 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+/**
+ * Storing configuration for starting an HTTP server on the specified port
+ */
 public class App {
 
     private final static Logger LOG = Logger.getAnonymousLogger();
@@ -21,6 +24,7 @@ public class App {
     private Properties mySqlProps = new Properties();
 
     public App() {
+        // reading mysql configurations
         var stream = App.class
                 .getClassLoader()
                 .getResourceAsStream("mysql_database.properties");
@@ -41,7 +45,7 @@ public class App {
         LOG.info("Connecting to MySQL at " + mySqlProps.getProperty("url"));
         var ds = new MySQLDataSource(mySqlProps);
 
-        setupExample(ds);
+        setupExample(ds); // set up starting state for testing
 
         try {
             System.out.println("Starting server on port " + SRV_PORT);

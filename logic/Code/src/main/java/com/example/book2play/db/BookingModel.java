@@ -10,6 +10,11 @@ import java.util.Collection;
 
 public interface BookingModel {
 
+    /**
+     * @param bookingId
+     * @return
+     * @throws MySQLException
+     */
     Booking getBookingInfo(String bookingId) throws MySQLException;
 
     Collection<Booking> getCourtBookings(String courtId, String cityId, String sportCenterId, Date date) throws MySQLException;
