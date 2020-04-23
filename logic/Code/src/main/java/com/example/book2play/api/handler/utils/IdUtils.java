@@ -7,12 +7,12 @@ import java.util.UUID;
 public class IdUtils {
     public static String generateBookingId(Booking booking) {
         String createBookingId =
-        booking.getPlayerId()
-        + booking.getCourtId()
-        + booking.getSportCenterId()
-        + booking.getCityId()
-        + booking.getBookingStartTime().toString()
-        + booking.getBookingEndTime().toString();
-        return  UUID.nameUUIDFromBytes(createBookingId.getBytes()).toString().replace("-", "");
+                booking.getPlayerId()
+                        + booking.getCourtId()
+                        + booking.getSportCenterId()
+                        + booking.getCityId()
+                        + booking.getBookingStartTime().toString()
+                        + booking.getBookingEndTime().toString();
+        return UUID.nameUUIDFromBytes(createBookingId.getBytes()).toString().replace("-", "");
     }
 }

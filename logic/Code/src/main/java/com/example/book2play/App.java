@@ -23,6 +23,10 @@ public class App {
 
     private Properties mySqlProps = new Properties();
 
+    /**
+     * The main entry point of the application, which initializes a new application
+     * then start the HTTP API server on the default port
+     */
     public static void main(String[] args) {
         var app = new App();
         app.start();
@@ -30,6 +34,7 @@ public class App {
 
     private void start() {
         var ds = MySqlDataSource.getInstance();
+
         setupExample(ds); // set up starting state for testing
 
         try {

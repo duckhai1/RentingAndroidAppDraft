@@ -25,10 +25,14 @@ public class SlotService {
     }
 
     /**
-     * @param courtBookings list of bookings of a given court
+     * Compute the list of available slots for a court based on the list of booking
+     * currently made with the court, which is given to the method
+     * The slot are ensured to follow the constraints given in the class constructor
+     *
+     * @param courtBookings list of bookings of the given court
      * @param cityId        the city that the court is belonged to
      * @param sportCenterId the sport center that the court is belonged to
-     * @param courtId       the identifier of the court
+     * @param courtId       the unique identifier, in the sport center, of the court
      * @return list of available slots based on the given list of bookings
      */
     public List<Slot> getAvailableSlots(List<Booking> courtBookings, String cityId, String sportCenterId, String courtId) {
@@ -60,6 +64,11 @@ public class SlotService {
         return slots;
     }
 
+    /**
+     * Returned the list of available slots in the city
+     * @param cityBookings the list of all bookings made in the city
+     * @return the list of available bookings
+     */
     public List<Slot> getCityAvailableSlots(Map<Court, List<Booking>> cityBookings) {
         var slots = new ArrayList<com.example.book2play.types.Slot>();
         for (var court : cityBookings.keySet()) {

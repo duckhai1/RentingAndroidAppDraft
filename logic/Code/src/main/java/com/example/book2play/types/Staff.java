@@ -4,6 +4,9 @@ import com.google.gson.annotations.Expose;
 
 import java.util.Objects;
 
+/**
+ * Simple class encapsulates the attributes for a sport staff
+ */
 public class Staff {
     @Expose
     private String staffId;

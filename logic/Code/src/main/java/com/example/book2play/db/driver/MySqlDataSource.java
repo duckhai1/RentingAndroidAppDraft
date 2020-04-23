@@ -12,12 +12,11 @@ import java.util.logging.Logger;
 
 public class MySqlDataSource implements AppDataSource {
 
+    private final static Logger LOG = Logger.getLogger("DATA_SOURCE");
+    private static MySqlDataSource myDataSource;
     public final String DEFAULT_URL = "jdbc:mysql://localhost:3307/book2play";
     public final String DEFAULT_USERNAME = "root";
     public final String DEFAULT_PASSWORD = "root";
-
-    private final static Logger LOG = Logger.getLogger("DATA_SOURCE");
-    private static MySqlDataSource myDataSource;
     private DataSource ds;
 
     private MySqlDataSource() {

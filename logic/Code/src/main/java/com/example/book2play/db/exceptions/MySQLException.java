@@ -1,5 +1,9 @@
 package com.example.book2play.db.exceptions;
 
+/**
+ * Main exception type for the package
+ * Encapsulate almost every other exception the happened within the package
+ */
 public class MySQLException extends Exception {
 
     protected Integer statusCode;

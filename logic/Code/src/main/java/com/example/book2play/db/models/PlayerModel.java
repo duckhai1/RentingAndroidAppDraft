@@ -3,7 +3,6 @@ package com.example.book2play.db.models;
 import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.utils.ResultSetUtils;
-import com.example.book2play.types.Player;
 
 import java.sql.*;
 

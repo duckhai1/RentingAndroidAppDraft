@@ -121,7 +121,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
             conn = this.db.getConnection();
             stm = conn.prepareCall("{CALL getPlayerBookingsInCity(?, ?, ?, ?)}");
             stm.setString(1, playerId);
-			stm.setString(2, cityId);
+            stm.setString(2, cityId);
             stm.setDate(3, date);
             stm.registerOutParameter(4, Types.INTEGER);
 

@@ -3,14 +3,12 @@ package com.example.book2play.db.models.booking;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.ModelTestSetup;
 import com.example.book2play.types.Booking;
-import com.example.test_utils.Pair;
 import com.example.test_utils.TimeUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashSet;
 
