@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Set of methods for generating available slots from a given list of bookings
+ */
 public class SlotService {
 
     private final Time openTime;
@@ -21,6 +24,13 @@ public class SlotService {
         this.minDuration = minDurationInMinutes * 60 * 1000; // minutes to milliseconds
     }
 
+    /**
+     * @param courtBookings list of bookings of a given court
+     * @param cityId        the city that the court is belonged to
+     * @param sportCenterId the sport center that the court is belonged to
+     * @param courtId       the identifier of the court
+     * @return list of available slots based on the given list of bookings
+     */
     public List<Slot> getAvailableSlots(List<Booking> courtBookings, String cityId, String sportCenterId, String courtId) {
         var slots = new ArrayList<com.example.book2play.types.Slot>();
         var prevEndTime = openTime;

@@ -15,41 +15,6 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
     }
 
     @Override
-    public SportCenter getSportCenterInfo(String sportCenterId, String cityId) throws MySQLException {
-        LOG.info("Calling getSportCenterInfo");
-        Connection conn = null;
-        CallableStatement stm = null;
-        ResultSet rs = null;
-
-        try {
-            conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL getSportCenterInfo(?, ?, ?)}");
-            stm.setString(1, sportCenterId);
-            stm.setString(2, cityId);
-            stm.registerOutParameter(3, Types.INTEGER);
-
-            rs = stm.executeQuery();
-            var statusCode = stm.getInt(3);
-            LOG.info("Received status code " + statusCode);
-            if (statusCode >= 400 && statusCode < 500) {
-                throw new MySQLException(statusCode);
-            }
-
-            if (!rs.next()) {
-                throw new MySQLException("Data not found");
-            }
-
-            return ResultSetUtils.singleSportCenterFromResultSet(rs);
-        } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
-        } finally {
-            ResultSetUtils.quietCloseConnection(conn);
-            ResultSetUtils.quietCloseStatement(stm);
-            ResultSetUtils.quietCloseResultSet(rs);
-        }
-    }
-
-    @Override
     public void createCityCenter(String sportCenterId, String cityId) throws MySQLException {
         LOG.info("Calling createCityCenter");
         Connection conn = null;

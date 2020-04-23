@@ -15,40 +15,6 @@ public class BookingModel extends AbstractModel implements com.example.book2play
     }
 
     @Override
-    public Booking getBookingInfo(String bookingId) throws MySQLException {
-        LOG.info("Calling getBookingInfo");
-        Connection conn = null;
-        CallableStatement stm = null;
-        ResultSet rs = null;
-
-        try {
-            conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL getBookingInfo(?, ?)}");
-            stm.setString(1, bookingId);
-            stm.registerOutParameter(2, Types.INTEGER);
-
-            rs = stm.executeQuery();
-            var statusCode = stm.getInt(2);
-            LOG.info("Received status code " + statusCode);
-            if (statusCode >= 400 && statusCode < 500) {
-                throw new MySQLException(statusCode);
-            }
-
-            if (!rs.next()) {
-                throw new MySQLException("Data not found");
-            }
-
-            return ResultSetUtils.singleBookingFromResultSet(rs);
-        } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
-        } finally {
-            ResultSetUtils.quietCloseConnection(conn);
-            ResultSetUtils.quietCloseStatement(stm);
-            ResultSetUtils.quietCloseResultSet(rs);
-        }
-    }
-
-    @Override
     public Collection<Booking> getCourtBookings(String courtId, String cityId, String sportCenterId, Date date) throws MySQLException {
         LOG.info("Calling getCourtBookings");
         Connection conn = null;

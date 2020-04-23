@@ -14,42 +14,6 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
     }
 
     @Override
-    public Staff getStaffInfo(String staffId, String cityId, String sportCenterId) throws MySQLException {
-        LOG.info("Calling getStaffInfo");
-        Connection conn = null;
-        CallableStatement stm = null;
-        ResultSet rs = null;
-
-        try {
-            conn = this.db.getConnection();
-            stm = conn.prepareCall("{call getStaffInfo(?,?,?,?)}");
-            stm.setString(1, staffId);
-            stm.setString(2, cityId);
-            stm.setString(3, sportCenterId);
-            stm.registerOutParameter(4, Types.INTEGER);
-
-            rs = stm.executeQuery();
-            var statusCode = stm.getInt(4);
-            LOG.info("Received status code " + statusCode);
-            if (statusCode >= 400 && statusCode < 500) {
-                throw new MySQLException(statusCode);
-            }
-
-            if (!rs.next()) {
-                throw new MySQLException("Data not found");
-            }
-
-            return ResultSetUtils.singleStaffFromResultSet(rs);
-        } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
-        } finally {
-            ResultSetUtils.quietCloseConnection(conn);
-            ResultSetUtils.quietCloseStatement(stm);
-            ResultSetUtils.quietCloseResultSet(rs);
-        }
-    }
-
-    @Override
     public void createStaff(String staffId, String cityId, String sportCenterId) throws MySQLException {
         LOG.info("Calling createStaff");
         Connection conn = null;

@@ -9,27 +9,26 @@ Coding conventions:
 
 | Code | Short description | Long description |
 |:----:|-------------------|------------------|
-| 200 | SUCCESS | The request is accepted and processed by the database |
-| 400 | ERROR FOUND | The request is rejected, because of an error was made on the client |
-| 400 | ERROR FOUND | The request is rejected, because of an error was made on the client |
-| 401 | UNAUTHORIZED | The request is rejected, because the requested content is not accessible by the caller of the interface |
-| 402 | CITY ID ALREADY EXISTS | The request is rejected, because the provided city id already exists | 
-| 403 | SPORTCENTER ID ALREADY EXISTS | The request is rejected, because the provided sportcenter id already exists | 
-| 404 | COURT ID ALREADY EXISTS | The request is rejected because the provided court id already exists |
-| 405 | PLAYER ID ALREADY EXISTS | The request is rejected because the provided player id already exists |
-| 406 | STAFF ID ALREADY EXISTS | The request is rejected because the provided staff id already exists |
-| 407 | BOOKING ID ALREADY EXISTS | The request is rejected because the provided booking id already exists |
-| 410 | BOOKINGS LIMIT REACHED | The request is rejected, because the player has reached the maximum number of allowed bookings |
-| 411 | BOOKING CANCELLATION REJECTED | The request is rejected, because the player makes the cancellation request in less the 24 hours before the start time of the booking|
-| 412 | UNPAID BOOKING FOUND | The request is rejected, because there exists a booking in the past that has not been paid|
-| 413 | OVERLAPPED BOOKING FOUND | The request is rejected, because there exists a booking with overlapping time duration with the new booking|
-| 460 | INVALID CITY ID | The request is rejected, because an invalid city id was provided |
-| 461 | INVALID SPORTCENTER ID | The request is rejected, because an invalid sportcenter id was provided |
-| 462 | INVALID COURT ID | The request is rejected, because an invalid court id was provided |
-| 463 | INVALID STAFF ID | The request is rejected, because an invalid staff id was provided |
-| 464 | INVALID PLAYER ID | The request is rejected, because an invalid player id was provided |
-| 465 | INVALID BOOKING ID | The request is rejected, because an invalid booking id was provided |
-| 466 | INVALID DATE | The request is rejected, because an invalid date was provided |
-| 467 | INVALID DURATION | The request is rejected, because an invalid booking duration was provided |
-| 468 | INVALID START TIME | The request is rejected, because an invalid start time was provided |
-| 469 | INVALID END TIME | The request is rejected, because an invalid end time was provided |
+| 200 | SUCCESS | Accepted and processed by the database |
+| 400 | ERROR FOUND | An error was made on the client |
+| 401 | UNAUTHORIZED | The caller is not authorized to access the requested content |
+| 402 | CITY ID ALREADY EXISTS | Provided city id already exists | 
+| 403 | SPORTCENTER ID ALREADY EXISTS | Provided sport center id already exists | 
+| 404 | COURT ID ALREADY EXISTS |  Provided court id already exists |
+| 405 | PLAYER ID ALREADY EXISTS | Provided player id already exists |
+| 406 | STAFF ID ALREADY EXISTS | Provided staff id already exists |
+| 407 | BOOKING ID ALREADY EXISTS |  Provided booking id already exists |
+| 410 | BOOKINGS LIMIT REACHED | The player has reached the maximum number of allowed bookings |
+| 411 | BOOKING CANCELLATION REJECTED | The cancellation request was made in less the 24 hours before the start time of the booking |
+| 412 | UNPAID BOOKING FOUND | There exists a previous booking that has not been paid |
+| 413 | OVERLAPPED BOOKING FOUND | There exists a booking with overlapping time duration with the new booking |
+| 460 | INVALID CITY ID | An invalid city id was provided |
+| 461 | INVALID SPORTCENTER ID | An invalid sportcenter id was provided |
+| 462 | INVALID COURT ID | An invalid court id was provided |
+| 463 | INVALID STAFF ID | An invalid staff id was provided |
+| 464 | INVALID PLAYER ID | An invalid player id was provided |
+| 465 | INVALID BOOKING ID | An invalid booking id was provided |
+| 466 | INVALID DATE | An invalid date was provided |
+| 467 | INVALID DURATION | An invalid booking duration was provided |
+| 468 | INVALID START TIME | An invalid start time was provided |
+| 469 | INVALID END TIME | An invalid end time was provided |
