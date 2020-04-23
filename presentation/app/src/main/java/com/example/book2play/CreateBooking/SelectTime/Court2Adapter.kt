@@ -11,7 +11,7 @@ import com.example.book2play.R
 import kotlinx.android.synthetic.main.court2_row.view.*
 
 
-class Court2Adapter(val arrayList: ArrayList<Model>, val context: Context) :
+class Court2Adapter(val arrayList: ArrayList<TimeModel>, val context: Context) :
     RecyclerView.Adapter<Court2Adapter.ViewHolder>() {
     var mContext = context
 
@@ -23,7 +23,7 @@ class Court2Adapter(val arrayList: ArrayList<Model>, val context: Context) :
 
         }
 
-        fun bindItems(model: Model){
+        fun bindItems(model: TimeModel){
             itemView.timeDisplay.text = model.time
             itemView.description.text = model.des
 

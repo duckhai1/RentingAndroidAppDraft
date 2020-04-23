@@ -23,7 +23,7 @@ class Court2Fragment : Fragment() {
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val arrayList = ArrayList<Model>()
+        val arrayList = ArrayList<TimeModel>()
         var count = 0
         val time = arrayOfNulls<String>(56)
         for (i in 7..9) {
@@ -51,7 +51,7 @@ class Court2Fragment : Fragment() {
         }
         for (i in 0..55) {
             arrayList.add(
-                Model(
+                TimeModel(
                     time[i],
                     "Unavailable",
                     slot[i]

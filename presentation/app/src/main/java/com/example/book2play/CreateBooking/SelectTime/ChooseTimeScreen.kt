@@ -16,17 +16,16 @@ class ChooseTimeScreen : AppCompatActivity() {
 
         // get last intent information
         val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
-        toolBar.setTitle("Booking")
         Log.d("make booking", "SelectTimeScreen: "+bookingInfo.toString())
 
+        toolBar.setTitle("Booking")
         setSupportActionBar(toolBar)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
+
 
 
         // TODO change to more flexible to add court
-        val fragmentAdapter =
-            MyPagerAdapter(supportFragmentManager)
+        val fragmentAdapter = MyPagerAdapter(supportFragmentManager)
         val bundle = intent.extras
 
         setupFragment(fragmentAdapter,bundle, "Court 1")
@@ -55,27 +54,11 @@ class ChooseTimeScreen : AppCompatActivity() {
         court_frag.arguments = cbundle
         fragmentAdapter.addFrag(court_frag, court_name)
     }
-
-
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.action_mode_menu, menu)
-//        return true
-//    }
+    
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
     }
 
-
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when (item.itemId){
-//            R.id.action_next ->{
-//                val intent = Intent(this,BookSucessScrenn::class.java)
-//                startActivity(intent)
-//            }
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
 }
 

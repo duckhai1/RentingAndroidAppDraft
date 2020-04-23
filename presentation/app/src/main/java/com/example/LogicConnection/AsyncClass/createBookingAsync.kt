@@ -78,7 +78,7 @@ class createBookingAsync(activity: Activity) : AsyncTask<String?, String?, Strin
             val builder = AlertDialog.Builder(activity)
             builder.setTitle("Connection error")
             builder.setMessage("Can not connect to the server. Please check you internet connection")
-            builder.setNeutralButton("OK"){dialog, which ->
+            builder.setPositiveButton("OK"){dialog, which ->
                 val home_intent = Intent(activity, MainActivity::class.java)
                 activity.startActivity(home_intent)
             }

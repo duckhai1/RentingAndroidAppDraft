@@ -43,7 +43,7 @@ class Court1Fragment : Fragment(), MainInterface {
 
 
 
-        val arrayList = ArrayList<Model>()
+        val arrayList = ArrayList<TimeModel>()
         var count = 0
         val time = arrayOfNulls<String>(56)
         for (i in 7..9) {
@@ -71,7 +71,7 @@ class Court1Fragment : Fragment(), MainInterface {
         }
         for (i in 0..55) {
             arrayList.add(
-                Model(
+                TimeModel(
                     time[i],
                     "Unavailable",
                     slot[i]
@@ -134,7 +134,7 @@ class Court1Fragment : Fragment(), MainInterface {
 
         override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
             val inflater = mode?.getMenuInflater()
-            inflater?.inflate(R.menu.action_mode_menu, menu)
+            inflater?.inflate(R.menu.choose_time_action_mode_menu, menu)
             return true
         }
 

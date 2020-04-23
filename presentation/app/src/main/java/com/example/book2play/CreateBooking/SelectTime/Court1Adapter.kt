@@ -15,7 +15,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context, val mainInterface: MainInterface) :
+class Court1Adapter(val arrayList: ArrayList<TimeModel>, val context: Context, val mainInterface: MainInterface) :
     RecyclerView.Adapter<Court1Adapter.ViewHolder>() {
     var mContext = context
     val selectedIds: MutableList<Date> = ArrayList<Date>()
@@ -27,7 +27,7 @@ class Court1Adapter(val arrayList: ArrayList<Model>, val context: Context, val m
 
         }
 
-        fun bindItems(model: Model){
+        fun bindItems(model: TimeModel){
             itemView.timeDisplay.text = model.time
             itemView.description.text = model.des
 

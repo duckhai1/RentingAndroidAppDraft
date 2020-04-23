@@ -12,10 +12,12 @@
         android:id="@+id/imageView3"
         android:layout_width="0dp"
         android:layout_height="194dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarSD"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/searchday_pic" />
 
     <androidx.appcompat.widget.Toolbar
@@ -24,22 +26,27 @@
         android:layout_height="wrap_content"
         android:background="#BFFCC6"
         android:elevation="4dp"
-        app:titleTextColor="@android:color/black"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextColor="@android:color/black"
         tools:ignore="MissingConstraints">
 
         <ImageView
             android:id="@+id/continueButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="370dp"
             android:layout_marginLeft="370dp"
+            android:layout_marginTop="16dp"
             android:clickable="true"
-            android:rotation="180"
-            app:srcCompat="@drawable/quantum_ic_arrow_back_grey600_24"
             android:focusable="true"
-            android:layout_marginStart="370dp" />
+            android:rotation="180"
+            app:srcCompat="@drawable/quantum_ic_arrow_back_grey600_24" />
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -47,17 +54,19 @@
     <TextView
         android:id="@+id/centerName"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="25dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/montserrat"
         android:gravity="center"
         android:text="Center name"
         android:textColor="#000"
         android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        app:layout_constraintVertical_bias="0.0" />
 
     <CalendarView
         android:id="@+id/calendarView"
