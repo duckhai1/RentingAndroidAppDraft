@@ -23,7 +23,6 @@ class CancelledAdapter(val arrayList: ArrayList<MyBookingModel>, val context : C
 
         init {
             itemView.setOnClickListener(this)
-
         }
         fun bindItem(model: MyBookingModel){
             itemView.record_date.text = model.date

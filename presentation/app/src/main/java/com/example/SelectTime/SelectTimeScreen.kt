@@ -2,6 +2,7 @@ package com.example.SelectTime
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.LogicConnection.Type.MyBookingModel
 import com.example.book2play.R
 import kotlinx.android.synthetic.main.select_time_screen.*
@@ -16,7 +17,7 @@ class SelectTimeScreen : AppCompatActivity() {
         // get last intent information
         val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
         toolBar.setTitle("Booking")
-
+        Log.d("make booking", "SelectTimeScreen: "+bookingInfo.toString())
 
         setSupportActionBar(toolBar)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)

@@ -3,6 +3,7 @@ package com.example.CreateBooking
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.book2play.MainActivity
 
 import com.example.LogicConnection.Type.MyBookingModel
@@ -19,6 +20,7 @@ class BookSucessScrenn : AppCompatActivity() {
 
         // get last intent information
         val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
+        Log.d("make booking", "BookSuccessScreen: " +bookingInfo.toString())
 
         if (bookingInfo != null) {
             result_court.text = "Court: " + bookingInfo.court

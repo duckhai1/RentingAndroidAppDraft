@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +49,7 @@ class ChooseLocationScreen : Fragment() {
             } else {
                 val intent = Intent(activity, Location2Screen::class.java)
                 val bookingInfor = MyBookingModel(player= "player1",city = text) // <--- change this
+                Log.d("make booking", "ChooseLocationScreen: "+bookingInfor.toString())
                 intent.putExtra("BookingInfo", bookingInfor)
                 startActivity(intent)
             }

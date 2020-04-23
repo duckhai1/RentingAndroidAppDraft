@@ -3,6 +3,7 @@ package com.example.CreateBooking
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +49,7 @@ class Location2Screen : AppCompatActivity(),
 
         // get last intent information
         val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
+        Log.d("make booking", "Location2Screen: " +bookingInfo.toString())
 
         val listView =
             findViewById<View>(R.id.listPlaces) as ListView
@@ -76,6 +78,7 @@ class Location2Screen : AppCompatActivity(),
                         val bookingInfo =
                             MyBookingModel(center = theCenterName)
                     }
+
                     intent.putExtra("BookingInfo", bookingInfo)
                     intent.putExtra("CENTERNAME", theCenterName)
                     startActivity(intent)

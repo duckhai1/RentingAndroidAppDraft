@@ -24,6 +24,7 @@ class SearchDayScreen : AppCompatActivity() {
 
         // get last intent information
         val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
+        Log.d("make booking", "SearchDayScreen: " +bookingInfo.toString())
 
 
         val toolbar =
@@ -55,6 +56,7 @@ class SearchDayScreen : AppCompatActivity() {
             Log.d("calendar", bookingDay)
             // update bookingInfo
             if (bookingInfo != null && bookingDay != null) {
+                Log.d("calendar", "Everything okay")
                 bookingInfo.date = bookingDay
             }
             else {
