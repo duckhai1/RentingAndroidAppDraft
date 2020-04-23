@@ -6,6 +6,10 @@ import com.example.book2play.db.models.utils.ResultSetUtils;
 
 import java.sql.*;
 
+/**
+ * Implements StaffModel interfaces for working with the stored procedures from MySQL
+ * The connection is establish using MySQL DataSource object
+ */
 public class StaffModel extends AbstractModel implements com.example.book2play.db.StaffModel {
 
     public StaffModel(AppDataSource db) {

@@ -6,8 +6,9 @@ public interface StaffModel {
 
     /**
      * Create a staff the works for the given sport center
-     * @param staffId the unique identifier, in the given sport center, of the new staff
-     * @param cityId the unique identifier of the city the the sport center locates in
+     *
+     * @param staffId       the unique identifier, in the given sport center, of the new staff
+     * @param cityId        the unique identifier of the city the the sport center locates in
      * @param sportCenterId the unique identifier, in the city, of the sport center
      * @throws MySQLException
      */
@@ -15,9 +16,10 @@ public interface StaffModel {
 
     /**
      * Change the unique identifier of the staff to a new one
-     * @param newStaffId the new unique identifier, in the sport center
-     * @param oldStaffId the current unique identifier of the staff
-     * @param cityId the unique identifier of the city that the sport center locates in
+     *
+     * @param newStaffId    the new unique identifier, in the sport center
+     * @param oldStaffId    the current unique identifier of the staff
+     * @param cityId        the unique identifier of the city that the sport center locates in
      * @param sportCenterId the unique identifier, in the city, of the sport center
      * @throws MySQLException
      */
@@ -25,6 +27,7 @@ public interface StaffModel {
 
     /**
      * Empty the staff realtion, for testing
+     *
      * @throws MySQLException
      */
     void clearStaff() throws MySQLException;

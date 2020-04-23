@@ -6,6 +6,10 @@ import com.example.book2play.db.models.utils.ResultSetUtils;
 
 import java.sql.*;
 
+/**
+ * Implements PlayerModel interfaces for working with the stored procedures from MySQL
+ * The connection is establish using MySQL DataSource object
+ */
 public class PlayerModel extends AbstractModel implements com.example.book2play.db.PlayerModel {
 
     public PlayerModel(AppDataSource db) {

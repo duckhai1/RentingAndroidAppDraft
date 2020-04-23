@@ -8,6 +8,10 @@ import com.example.book2play.types.SportCenter;
 import java.sql.*;
 import java.util.Collection;
 
+/**
+ * Implements SportCenterModel interfaces for working with the stored procedures from MySQL
+ * The connection is establish using MySQL DataSource object
+ */
 public class SportCenterModel extends AbstractModel implements com.example.book2play.db.SportCenterModel {
 
     public SportCenterModel(AppDataSource db) {

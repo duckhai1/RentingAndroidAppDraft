@@ -8,6 +8,10 @@ import com.example.book2play.types.Court;
 import java.sql.*;
 import java.util.Collection;
 
+/**
+ * Implements CourtModel interfaces for working with the stored procedures from MySQL
+ * The connection is establish using MySQL DataSource object
+ */
 public class CourtModel extends AbstractModel implements com.example.book2play.db.CourtModel {
 
     public CourtModel(AppDataSource db) {

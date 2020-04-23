@@ -37,6 +37,7 @@ public interface SportCenterModel {
 
     /**
      * Empty the sport center relation, for testing
+     *
      * @throws MySQLException
      */
     void clearSportCenter() throws MySQLException;

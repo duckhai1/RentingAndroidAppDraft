@@ -10,6 +10,13 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+/**
+ * A class the encapsulates the MySQL database connections,
+ * initializes and holds all the information about the data source
+ * <p>
+ * This ensures the user of the class can only access 1 data source object
+ * throughout the lifetime of the process
+ */
 public class MySqlDataSource implements AppDataSource {
 
     private final static Logger LOG = Logger.getLogger("DATA_SOURCE");
@@ -23,6 +30,11 @@ public class MySqlDataSource implements AppDataSource {
         setupDataSource();
     }
 
+    /**
+     * Initialize the object on the first call and return that same object for any subsequent calls
+     *
+     * @return data source for getting entity information
+     */
     public static MySqlDataSource getInstance() {
         if (myDataSource == null) {
             myDataSource = new MySqlDataSource();
@@ -31,6 +43,9 @@ public class MySqlDataSource implements AppDataSource {
         return myDataSource;
     }
 
+    /**
+     * Get the connection for send requests to the database
+     */
     public Connection getConnection() throws SQLException {
         LOG.info("Getting connection from: " + ds);
         return ds.getConnection();
