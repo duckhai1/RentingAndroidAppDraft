@@ -66,6 +66,7 @@ public class SlotService {
 
     /**
      * Returned the list of available slots in the city
+     *
      * @param cityBookings the list of all bookings made in the city
      * @return the list of available bookings
      */
