@@ -76,13 +76,9 @@ class HomeScreen : Fragment() {
             )
         )
 
-
 //        val myAdapter = context?.let { HomeAdapter(arrayList, it) }
         recyclerView4.layoutManager= LinearLayoutManager(activity)
-        recyclerView4.adapter = HomeAdapter(
-            arrayList,
-            requireContext()
-        )
+        recyclerView4.adapter = HomeAdapter(arrayList,requireContext())
     }
 
 

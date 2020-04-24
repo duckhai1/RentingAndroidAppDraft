@@ -20,11 +20,7 @@ import kotlinx.android.synthetic.main.fragment_court_timeline.*
  */
 class ChooseTimeCourtFragment : Fragment(),
     SelectActionModeInterface {
-
-
-
-    var bookingInfo : MyBookingModel =
-        MyBookingModel()
+    var bookingInfo : MyBookingModel = MyBookingModel()
 
     lateinit var bookingCourtName :String
 
@@ -44,6 +40,7 @@ class ChooseTimeCourtFragment : Fragment(),
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        // setup array of time
         val arrayList = ArrayList<TimeModel>()
         var count = 0
         val time = arrayOfNulls<String>(56)

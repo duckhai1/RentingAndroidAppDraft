@@ -19,7 +19,6 @@ import kotlin.collections.ArrayList
 
 class CourtAdapter(val arrayList: ArrayList<TimeModel>, val context: Context, val mainInterface: SelectActionModeInterface) :
     RecyclerView.Adapter<CourtAdapter.ViewHolder>() {
-    var mContext = context
     val selectedIds: MutableList<Date> = ArrayList<Date>()
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
@@ -87,15 +86,12 @@ class CourtAdapter(val arrayList: ArrayList<TimeModel>, val context: Context, va
         holder.setOnMyItemClickListener(object  :
             MyItemClickListener {
             override fun onItemClickListener(view: View, position: Int) {
-//                Toast.makeText(mContext, "Click on item with status: " + arrayList[pos].slot, Toast.LENGTH_SHORT).show()
                 if (arrayList[position].slot == 0){
-                    Toast.makeText(mContext,"This slot is not available now",Toast.LENGTH_LONG).show()
+                    Toast.makeText(context,"This slot is not available now",Toast.LENGTH_LONG).show()
                 } else if (arrayList[position].slot == 1){
-//                    Toast.makeText(context, "Chosen slot clicked", Toast.LENGTH_SHORT).show()
                     arrayList[position].slot = 2
                     addIDIntoSelectedIds(position)
                 } else if (arrayList[position].slot == 2) {
-//                    Toast.makeText(context, "Chosen slot cancelled", Toast.LENGTH_SHORT).show()
                     arrayList[position].slot = 1
                     addIDIntoSelectedIds(position)
                 }
@@ -111,7 +107,6 @@ class CourtAdapter(val arrayList: ArrayList<TimeModel>, val context: Context, va
             selectedIds.remove(id)
         else
             id?.let { selectedIds.add(it) }
-
 
         notifyItemChanged(index)
         mainInterface.ActionModeInterface(selectedIds.size)

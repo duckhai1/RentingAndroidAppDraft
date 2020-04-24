@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.row_completed.view.*
 
 class CompletedAdapter(val arrayList: ArrayList<MyBookingModel>, val context : Context):
     RecyclerView.Adapter<CompletedAdapter.ViewHolder>() {
-    var mContext = context
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
         var myItemClickListener : MyItemClickListener?=null
@@ -65,9 +64,9 @@ class CompletedAdapter(val arrayList: ArrayList<MyBookingModel>, val context : C
             MyItemClickListener {
             override fun onItemClickListener(view: View, pos: Int) {
                 // open detail screen
-                val intent = Intent(mContext, DetailScreen::class.java)
+                val intent = Intent(context, DetailScreen::class.java)
                 intent.putExtra("BookingInfo", arrayList[pos])
-                mContext.startActivity(intent)
+                context.startActivity(intent)
             }
         })
     }

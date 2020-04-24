@@ -69,11 +69,7 @@ class ChooseDayScreen : AppCompatActivity() {
                     bookingInfo!!.date = bookingDay
                 }
                 else {
-                    val bookingInfo = bookingDay?.let { it1 ->
-                        MyBookingModel(
-                            date = it1
-                        )
-                    }
+                    val bookingInfo = bookingDay?.let { it1 ->MyBookingModel(date = it1)}
                 }
                 intent.putExtra("BookingInfo", bookingInfo)
                 startActivity(intent)

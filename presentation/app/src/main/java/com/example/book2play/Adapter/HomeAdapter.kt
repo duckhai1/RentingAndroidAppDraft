@@ -17,8 +17,6 @@ import kotlinx.android.synthetic.main.row_home.view.*
 
 class HomeAdapter(val arrayList:ArrayList<HomeAdvertiseModel>, val context: Context) :
     RecyclerView.Adapter<HomeAdapter.ViewHolder>() {
-    var mContext = context
-
 
     class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
         var myItemClickListener : MyItemClickListener?=null
@@ -57,13 +55,10 @@ class HomeAdapter(val arrayList:ArrayList<HomeAdvertiseModel>, val context: Cont
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItems(arrayList[position])
-//        val myItemClickListener : MyItemClickListener{
-//
-//        }
 
         // real implementation of each button
         holder.setOnMyItemClickListener(object :
-            MyItemClickListener(mContext){
+            MyItemClickListener(context){
             override fun onItemClickListener(view: View, pos: Int)  {
                 // open detail screen
                 val bookingInfo = com.example.Type.MyBookingModel(player = "player1",
@@ -71,14 +66,12 @@ class HomeAdapter(val arrayList:ArrayList<HomeAdvertiseModel>, val context: Cont
                                                     center = arrayList[pos].name.toString()
                 )
                 Log.d("make booking", "Home adapter: "+ bookingInfo.toString())
-                val intent = Intent(mContext, ChooseDayScreen::class.java)
+                val intent = Intent(context, ChooseDayScreen::class.java)
                 val bundle =Bundle()
                 bundle.putSerializable("BookingInfo", bookingInfo)
                 bundle.putString("CENTERNAME", arrayList[pos].name.toString())
                 intent.putExtras(bundle)
-//                intent.putExtra("BookingInfo", bookingInfo)
-//                intent.putExtra("CENTERNAME", arrayList[pos].name.toString())
-                mContext.startActivity(intent)
+                context.startActivity(intent)
             }
         })
     }

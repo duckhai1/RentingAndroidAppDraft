@@ -32,21 +32,12 @@ class DetailScreen : AppCompatActivity(){
         val detailList = setupDetailList(bookingInfo)
         val descriptionList = setupDescriptionList()
 
-        listDetail.layoutManager =
-            CustomLinearLayoutManager(
-                this,
-                LinearLayoutManager.VERTICAL,
-                false
-            )
+        listDetail.layoutManager =CustomLinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
         listDetail.addItemDecoration(
             DividerItemDecoration(listDetail.getContext(),DividerItemDecoration.VERTICAL)
         )
         listDetail.isNestedScrollingEnabled = false
-        listDetail.adapter = DetailAdapter(
-            detailList,
-            descriptionList,
-            this
-        )
+        listDetail.adapter = DetailAdapter(detailList,descriptionList,this)
     }
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()

@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.row_upcomming.view.*
 
 class UpcommingAdapter(val arrayList: ArrayList<MyBookingModel>, val context : Context):
     RecyclerView.Adapter<UpcommingAdapter.ViewHolder>() {
-    var mContext = context
+
 
     class ViewHolder(itemView: View) :RecyclerView.ViewHolder(itemView), View.OnClickListener{
         protected lateinit var detailButton: Button
@@ -76,19 +76,19 @@ class UpcommingAdapter(val arrayList: ArrayList<MyBookingModel>, val context : C
             MyButtonClickListener {
             override fun onDetailButtonClickListener(view: View, pos: Int) {
                 // open detail screen
-                val intent = Intent(mContext, DetailScreen::class.java)
+                val intent = Intent(context, DetailScreen::class.java)
                 intent.putExtra("BookingInfo", arrayList[pos])
-                mContext.startActivity(intent)
+                context.startActivity(intent)
             }
 
             override fun onCancelButtonClickListener(view: View, pos: Int) {
                 // show confirm alert
-                val builder = AlertDialog.Builder(mContext)
+                val builder = AlertDialog.Builder(context)
 
                 builder.setTitle("Confirm")
                 builder.setMessage("Are you sure you want to cancel this booking.\nThis step can not be undo")
                 builder.setPositiveButton("YES"){dialog, which ->
-                    Toast.makeText(mContext, "You have cancel the booking "+pos , Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "You have cancel the booking "+pos , Toast.LENGTH_SHORT).show()
                 }
                 builder.setNegativeButton("NO"){dialog, which ->
                     // do nothing

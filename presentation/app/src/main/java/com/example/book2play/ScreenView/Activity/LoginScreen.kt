@@ -24,7 +24,7 @@ import java.net.URL
 class LoginScreen : AppCompatActivity() {
     private var loginButton: LoginButton? = null
     private var callbackManager: CallbackManager? = null
-    var profile_pic: URL? = null
+    private var profile_pic: URL? = null
     var id: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,11 +123,7 @@ class LoginScreen : AppCompatActivity() {
         return bundle
     }
 
-    override fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?
-    ) {
+    override fun onActivityResult(requestCode: Int,resultCode: Int,data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         callbackManager!!.onActivityResult(requestCode, resultCode, data)
     }

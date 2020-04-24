@@ -40,9 +40,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val drawerToggle: ActionBarDrawerToggle = object : ActionBarDrawerToggle (
             this, drawerLayout, toolBar, (R.string.open), (R.string.close)
-        ) {
-
-        }
+        ) {}
 
         drawerToggle.isDrawerIndicatorEnabled = true
         drawerLayout.addDrawerListener(drawerToggle)
@@ -90,7 +88,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.setting_menu -> {
                 fragment1 =
-                    HomeScreen()  // --> change this one
+                    HomeScreen()  // TODO --> change this one
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, fragment1)

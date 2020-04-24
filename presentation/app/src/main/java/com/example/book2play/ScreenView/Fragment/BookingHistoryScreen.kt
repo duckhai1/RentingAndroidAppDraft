@@ -11,14 +11,8 @@ import kotlinx.android.synthetic.main.screen_booking_history.*
 
 class BookingHistoryScreen : Fragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?): View? {
         val v = inflater.inflate(R.layout.screen_booking_history, container, false)
-
-
         return v
     }
 
@@ -28,8 +22,6 @@ class BookingHistoryScreen : Fragment() {
             BookingHistoryPagerAdapter(this.childFragmentManager)
 
         viewPager.adapter = fragmentAdapter
-
-
         tabLayout.setupWithViewPager(viewPager)
     }
 
