@@ -10,7 +10,7 @@ class MyCenterModel(
     var centerName : String?,
     @SerializedName("cityId")
     @Expose
-    var city : String?,
+    var cityName : String?,
 
     var address : String = "",                      // center address
     var avatar: Int = R.drawable.sancaulong,        // center image

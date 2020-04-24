@@ -30,7 +30,7 @@ class createBookingAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
 
         try {
             result = ConnectionHandler.sendPost(
-                "http://10.0.2.2:8000/api/bookings",
+                BASEURL + "/bookings",
                 requestJson
             )
         } catch (e: Exception) {

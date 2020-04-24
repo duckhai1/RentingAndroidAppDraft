@@ -9,6 +9,8 @@ import android.widget.Toast
 import com.example.Type.MyBookingModel
 
 abstract class MyGeneralAsyncTask (activity: Activity) : AsyncTask<String?, String?, String?>(){
+    val BASEURL = "http://10.0.2.2:8000/api"
+
     val myTask = this
     val activity = activity
     lateinit var newBooking : MyBookingModel

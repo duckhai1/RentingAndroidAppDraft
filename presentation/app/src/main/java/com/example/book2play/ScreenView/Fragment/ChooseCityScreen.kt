@@ -93,7 +93,7 @@ class ChooseCityScreen : Fragment() {
         var citiesName = ArrayList<String?>()
         // get name set from cities
         for (city in cities){
-            citiesName.add(city.CityName)
+            citiesName.add(city.cityName)
         }
         return citiesName
     }
