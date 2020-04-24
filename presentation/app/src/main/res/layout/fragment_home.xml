@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".HomeScreen">
+    tools:context=".ScreenView.Fragment.HomeScreen">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"

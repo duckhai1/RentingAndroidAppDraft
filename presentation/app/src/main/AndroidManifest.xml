@@ -22,10 +22,10 @@
         <activity android:name="com.example.LogicConnection.Handler.TestConnection">
         </activity>
 
-        <activity android:name="com.example.book2play.Login.LoginScreen">
+        <activity android:name="com.example.book2play.ScreenView.Activity.LoginScreen">
 
         </activity>
-        <activity android:name=".MainActivity" >
+        <activity android:name=".ScreenView.Activity.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -67,17 +67,17 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.book2play.BookingList.BookingHistoryScreen"></activity>
+        <activity android:name="com.example.book2play.ScreenView.Fragment.BookingHistoryScreen"></activity>
 
         <activity
-            android:name="com.example.book2play.CreateBooking.ChooseCenterScreen"
+            android:name="com.example.book2play.ScreenView.Activity.ChooseCenterScreen"
             android:label="@string/title_activity_location2" />
-        <activity android:name="com.example.book2play.BookSucessScreen" />
-        <activity android:name="com.example.book2play.CreateBooking.SelectTime.ChooseTimeScreen" />
-        <activity android:name="com.example.book2play.CreateBooking.ChooseCityScreen" />
-        <activity android:name=".DetailScreen" />
-        <activity android:name="com.example.book2play.CreateBooking.ChooseDayScreen" />
-        <activity android:name="com.example.book2play.Login.FacebookDetailScreen" />
+        <activity android:name="com.example.book2play.ScreenView.Activity.BookSucessScreen" />
+        <activity android:name="com.example.book2play.ScreenView.Activity.ChooseTimeScreen" />
+        <activity android:name="com.example.book2play.ScreenView.Fragment.ChooseCityScreen" />
+        <activity android:name=".ScreenView.Activity.DetailScreen" />
+        <activity android:name="com.example.book2play.ScreenView.Activity.ChooseDayScreen" />
+        <activity android:name="com.example.book2play.ScreenView.Activity.FacebookDetailScreen" />
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

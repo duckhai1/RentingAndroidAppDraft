@@ -8,10 +8,10 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.Toast
-import com.example.book2play.BookSucessScreen
+import com.example.book2play.ScreenView.Activity.BookSucessScreen
 import com.example.LogicConnection.Handler.ConnectionHandler
 import com.example.Type.MyBookingModel
-import com.example.book2play.MainActivity
+import com.example.book2play.ScreenView.Activity.MainActivity
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 
@@ -29,7 +29,7 @@ class createBookingAsync(activity: Activity) : AsyncTask<String?, String?, Strin
         dialog.setCancelable(true)
         dialog.setOnCancelListener(DialogInterface.OnCancelListener {
             myTask.cancel(true)
-            Toast.makeText(activity,"AsyncTask is stopped",Toast.LENGTH_LONG).show();
+            Toast.makeText(activity,"Cancel booking process",Toast.LENGTH_LONG).show();
         })
         dialog.show()
         super.onPreExecute()
