@@ -27,7 +27,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewName"
+        android:id="@+id/textViewDescription"
         android:layout_width="276dp"
         android:layout_height="23dp"
         android:layout_margin="15dp"
@@ -35,13 +35,13 @@
         android:text="Main Title"
         android:textColor="#000"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/textViewDescription"
+        app:layout_constraintBottom_toTopOf="@+id/textViewDetail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/image"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewDescription"
+        android:id="@+id/textViewDetail"
         android:layout_width="276dp"
         android:layout_height="17dp"
         android:layout_margin="15dp"

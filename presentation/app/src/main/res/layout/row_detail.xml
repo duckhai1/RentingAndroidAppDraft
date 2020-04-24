@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardPreventCornerOverlap="false"
+    >
+<LinearLayout
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
     android:orientation="horizontal"
@@ -12,7 +19,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textViewName"
+            android:id="@+id/textViewDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Main Title"
@@ -23,7 +30,7 @@
             />
 
         <TextView
-            android:id="@+id/textViewDescription"
+            android:id="@+id/textViewDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sub Ttile"
@@ -37,3 +44,4 @@
 
 
 </LinearLayout>
+</androidx.cardview.widget.CardView>

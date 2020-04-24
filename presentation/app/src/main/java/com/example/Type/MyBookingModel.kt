@@ -35,7 +35,9 @@ class MyBookingModel(
 
 
     var week: String  = if (date == "") "" else SimpleDateFormat("EE").format(SimpleDateFormat("yyyy-MM-dd").parse(date)),      // date of the week of the booking
-    var time: String = start + " " + end        // deprecated later
+    var time: String =
+        SimpleDateFormat("HH:mm").format(SimpleDateFormat("HH:mm:ss").parse(start)) + "-" +
+                SimpleDateFormat("HH:mm").format(SimpleDateFormat("HH:mm:ss").parse(end))
 
 ) :MyDataModel {
 

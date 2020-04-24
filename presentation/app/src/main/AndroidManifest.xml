@@ -72,7 +72,7 @@
         <activity
             android:name="com.example.book2play.CreateBooking.ChooseCenterScreen"
             android:label="@string/title_activity_location2" />
-        <activity android:name="com.example.book2play.CreateBooking.BookSucessScreen" />
+        <activity android:name="com.example.book2play.BookSucessScreen" />
         <activity android:name="com.example.book2play.CreateBooking.SelectTime.ChooseTimeScreen" />
         <activity android:name="com.example.book2play.CreateBooking.ChooseCitycreen" />
         <activity android:name=".DetailScreen" />

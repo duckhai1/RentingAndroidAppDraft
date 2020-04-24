@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.Type.MyBookingModel
 import com.example.Type.MyCenterModel
 import com.example.book2play.R
-import kotlinx.android.synthetic.main.home_row.view.*
 import kotlinx.android.synthetic.main.rows_listview.view.*
 
 class ChooseCenterAdapter(val arrayList: ArrayList<MyCenterModel>, val context: Context, val bookingInfo: MyBookingModel?) :
@@ -24,8 +23,8 @@ class ChooseCenterAdapter(val arrayList: ArrayList<MyCenterModel>, val context: 
 
         fun bindItem(model: MyCenterModel){
             itemView.image.setImageResource(model.avatar)
-            itemView.textViewName.text = model.centerName
-            itemView.textViewDescription.text = model.address
+            itemView.textViewDescription.text = model.centerName
+            itemView.textViewDetail.text = model.address
         }
 
         fun setOnMyItemClickListener(ItemClickListener: MyItemClickListener){

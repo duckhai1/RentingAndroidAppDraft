@@ -1,15 +1,13 @@
-package com.example.book2play.CreateBooking
+package com.example.book2play
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.example.book2play.MainActivity
 
 import com.example.Type.MyBookingModel
 
 
-import com.example.book2play.R
 import kotlinx.android.synthetic.main.screen_book_sucess.*
 
 class BookSucessScreen : AppCompatActivity() {

@@ -8,7 +8,7 @@ import android.content.Intent
 import android.os.AsyncTask
 import android.util.Log
 import android.widget.Toast
-import com.example.book2play.CreateBooking.BookSucessScreen
+import com.example.book2play.BookSucessScreen
 import com.example.LogicConnection.Handler.ConnectionHandler
 import com.example.Type.MyBookingModel
 import com.example.book2play.MainActivity
