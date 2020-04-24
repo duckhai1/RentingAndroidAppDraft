@@ -20,7 +20,7 @@ import com.example.Type.MyCityModel
 import com.example.book2play.R
 
 
-class ChooseCitycreen : Fragment() {
+class ChooseCityScreen : Fragment() {
     internal lateinit var citySpinner : Spinner
     private var mLocationPermissionGranted = false
     private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1

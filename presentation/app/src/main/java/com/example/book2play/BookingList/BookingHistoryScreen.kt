@@ -24,7 +24,7 @@ class BookingHistoryScreen : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val fragmentAdapter =
-            MyPagerAdapter(this.childFragmentManager)
+            BookingHistoryPagerAdapter(this.childFragmentManager)
 
         viewPager.adapter = fragmentAdapter
 

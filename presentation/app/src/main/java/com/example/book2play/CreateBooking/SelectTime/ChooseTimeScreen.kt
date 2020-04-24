@@ -30,7 +30,7 @@ class ChooseTimeScreen : AppCompatActivity() {
 
         val courts = getCourtList()
 
-        val fragmentAdapter = MyPagerAdapter(supportFragmentManager)
+        val fragmentAdapter = ChooseTimePagerAdapter(supportFragmentManager)
         for (court in courts){
             val court_frag = CourtFragment()
             var cbundle = bundle?.clone() as Bundle

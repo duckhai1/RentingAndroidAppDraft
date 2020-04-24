@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.book2play.R
-import kotlinx.android.synthetic.main.court1_row.view.*
+import kotlinx.android.synthetic.main.row_court.view.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -53,7 +53,7 @@ class CourtAdapter(val arrayList: ArrayList<TimeModel>, val context: Context, va
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from (parent.context).inflate(R.layout.court1_row, parent, false)
+        val v = LayoutInflater.from (parent.context).inflate(R.layout.row_court, parent, false)
 
         return ViewHolder(v)
     }

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.Type.MyBookingModel
 import com.example.Type.MyCenterModel
 import com.example.book2play.R
-import kotlinx.android.synthetic.main.rows_listview.view.*
+import kotlinx.android.synthetic.main.rows_court_list.view.*
 
 class ChooseCenterAdapter(val arrayList: ArrayList<MyCenterModel>, val context: Context, val bookingInfo: MyBookingModel?) :
     RecyclerView.Adapter<ChooseCenterAdapter.ViewHolder>(){
@@ -36,7 +36,7 @@ class ChooseCenterAdapter(val arrayList: ArrayList<MyCenterModel>, val context: 
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.rows_listview, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.rows_court_list, parent, false)
         return ViewHolder(v)
     }
 

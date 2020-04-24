@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.book2play.CreateBooking.ChooseDayScreen
-import kotlinx.android.synthetic.main.home_row.view.*
+import kotlinx.android.synthetic.main.row_home.view.*
 
 
 class HomeAdapter(val arrayList:ArrayList<HomeAdvertiseModel>, val context: Context) :
@@ -45,7 +45,7 @@ class HomeAdapter(val arrayList:ArrayList<HomeAdvertiseModel>, val context: Cont
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.home_row,parent,false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.row_home,parent,false)
         return ViewHolder(v)
     }
 

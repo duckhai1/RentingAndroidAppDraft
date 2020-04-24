@@ -11,7 +11,7 @@ import com.example.Type.MyBookingModel
 
 import com.example.book2play.R
 import com.example.book2play.DetailScreen
-import kotlinx.android.synthetic.main.cancelled_row.view.*
+import kotlinx.android.synthetic.main.row_cancelled.view.*
 
 class CancelledAdapter(val arrayList: ArrayList<MyBookingModel>, val context : Context):
     RecyclerView.Adapter<CancelledAdapter.ViewHolder>() {
@@ -43,7 +43,7 @@ class CancelledAdapter(val arrayList: ArrayList<MyBookingModel>, val context : C
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.cancelled_row, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.row_cancelled, parent, false)
         return ViewHolder(v)
     }
 

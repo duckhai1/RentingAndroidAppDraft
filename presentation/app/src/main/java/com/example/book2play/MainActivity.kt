@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
 import com.example.book2play.BookingList.BookingHistoryScreen
-import com.example.book2play.CreateBooking.ChooseCitycreen
+import com.example.book2play.CreateBooking.ChooseCityScreen
 import com.example.book2play.Login.LogoutScreen
 
 import com.facebook.login.LoginManager
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     // fragment for each menu item
     lateinit var homeFragment: HomeScreen
     lateinit var bookingHistoryFragment: BookingHistoryScreen
-    lateinit var createBookingFragment : ChooseCitycreen
+    lateinit var createBookingFragment : ChooseCityScreen
     lateinit var settingFragment: HomeScreen
     lateinit var logoutFragment: LogoutScreen
     lateinit var fragment1: HomeScreen
@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.create_booking_menu -> {
                 createBookingFragment =
-                    ChooseCitycreen()
+                    ChooseCityScreen()
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.frame_layout, createBookingFragment)

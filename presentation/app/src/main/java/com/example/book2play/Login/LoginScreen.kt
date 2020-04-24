@@ -9,7 +9,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.book2play.CreateBooking.ChooseCitycreen
+import com.example.book2play.CreateBooking.ChooseCityScreen
 import com.example.book2play.R
 import com.facebook.*
 import com.facebook.login.LoginBehavior
@@ -41,7 +41,7 @@ class LoginScreen : AppCompatActivity() {
         val bt =
             findViewById<View>(R.id.signinBtn) as Button
         bt.setOnClickListener {
-            val intent = Intent(applicationContext, ChooseCitycreen::class.java)
+            val intent = Intent(applicationContext, ChooseCityScreen::class.java)
             startActivity(intent)
         }
 
