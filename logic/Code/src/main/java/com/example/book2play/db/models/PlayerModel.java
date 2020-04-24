@@ -3,50 +3,26 @@ package com.example.book2play.db.models;
 import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.utils.ResultSetUtils;
-import com.example.book2play.types.Player;
 
 import java.sql.*;
 
+/**
+ * Implements PlayerModel interfaces for working with the stored procedures from MySQL
+ * The connection is establish using MySQL DataSource object
+ */
 public class PlayerModel extends AbstractModel implements com.example.book2play.db.PlayerModel {
 
     public PlayerModel(AppDataSource db) {
         super(db);
     }
 
-    @Override
-    public Player getPlayerInfo(String playerId) throws MySQLException {
-        LOG.info("Calling getPlayerInfo");
-        Connection conn = null;
-        CallableStatement stm = null;
-        ResultSet rs = null;
-
-        try {
-            conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL getPlayerInfo(?, ?)}");
-            stm.setString(1, playerId);
-            stm.registerOutParameter(2, Types.INTEGER);
-
-            rs = stm.executeQuery();
-            var statusCode = stm.getInt(2);
-            LOG.info("Received status code " + statusCode);
-            if (statusCode >= 400 && statusCode < 500) {
-                throw new MySQLException(statusCode);
-            }
-
-            if (!rs.next()) {
-                throw new MySQLException("Data not found");
-            }
-
-            return ResultSetUtils.singlePlayerFromResultSet(rs);
-        } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
-        } finally {
-            ResultSetUtils.quietCloseConnection(conn);
-            ResultSetUtils.quietCloseStatement(stm);
-            ResultSetUtils.quietCloseResultSet(rs);
-        }
-    }
-
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to create a new player with the given unique identifier
+     *
+     * @param playerId the unique identifier for new the player
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public void createPlayer(String playerId) throws MySQLException {
         LOG.info("Calling createPlayer");
@@ -74,6 +50,14 @@ public class PlayerModel extends AbstractModel implements com.example.book2play.
         }
     }
 
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to update the player unique identifier
+     *
+     * @param newPlayerId the new unique identifier
+     * @param oldPlayerId the current unique identifier for the player
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public void updatePlayerId(String newPlayerId, String oldPlayerId) throws MySQLException {
         LOG.info("Calling updatePlayerId");
@@ -102,6 +86,12 @@ public class PlayerModel extends AbstractModel implements com.example.book2play.
         }
     }
 
+    /**
+     * Create a new connection to the data source and clear the relation
+     *
+     * @throws MySQLException
+     * @deprecated will be moved to test only
+     */
     @Override
     public void clearPlayer() throws MySQLException {
         LOG.info("Calling clearPlayer");

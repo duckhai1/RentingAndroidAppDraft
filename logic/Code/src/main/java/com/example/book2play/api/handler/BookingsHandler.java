@@ -76,7 +76,15 @@ public class BookingsHandler extends AbstractHandler {
                         cityId.get(0),
                         Date.valueOf(date.get(0))
                 );
-            } else if (playerId != null && cityId == null && sportCenterId == null) {
+
+            } else if (playerId != null && cityId != null && sportCenterId == null) {
+                bookings = model.getPlayerBookingsInCity(
+                        playerId.get(0),
+                        cityId.get(0),
+                        Date.valueOf(date.get(0))
+
+                );
+            } else if (playerId != null && sportCenterId == null) {
                 bookings = model.getPlayerBookings(
                         playerId.get(0)
                 );
@@ -117,6 +125,7 @@ public class BookingsHandler extends AbstractHandler {
         var playerId = params.get("playerId");
         var bookingId = params.get("bookingId");
         var staffId = params.get("staffId");
+        var sportCenterId = params.get("sportCenterId");
         var bookingStatus = params.get("status");
 
         if((playerId != null && playerId.size() !=1)
@@ -140,6 +149,7 @@ public class BookingsHandler extends AbstractHandler {
                         Boolean.parseBoolean(bookingStatus.get(0)),
                         bookingId.get(0),
                         playerId.get(0),
+                        sportCenterId.get(0),
                         staffId.get(0)
                 );
             } else{

@@ -5,6 +5,9 @@ import com.google.gson.annotations.Expose;
 import java.sql.Time;
 import java.util.Objects;
 
+/**
+ * Simple class encapsulates the attributes for a slot
+ */
 public class Slot {
     @Expose
     private Time startTime;

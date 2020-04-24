@@ -1,6 +1,7 @@
-package com.example.book2play.db.models;
+package com.example.book2play.db.models.city;
 
 import com.example.book2play.db.exceptions.MySQLException;
+import com.example.book2play.db.models.ModelTestSetup;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class CityModelTest extends AbstractModelTest {
+public class CityModelCreateCityTest extends ModelTestSetup {
 
     @Test
     public void testCreateCityOnEmptyDatabase() throws Exception {
@@ -48,6 +49,8 @@ public class CityModelTest extends AbstractModelTest {
         var cities = new ArrayList<String>();
         cities.add("Sai Gon");
         cities.add("@SaiGon");
+        cities.add("SaiGon@");
+        cities.add("!#(lSaiGon@");
 
         for (var city : cities) {
             try {

@@ -8,43 +8,24 @@ import com.example.book2play.types.SportCenter;
 import java.sql.*;
 import java.util.Collection;
 
+/**
+ * Implements SportCenterModel interfaces for working with the stored procedures from MySQL
+ * The connection is establish using MySQL DataSource object
+ */
 public class SportCenterModel extends AbstractModel implements com.example.book2play.db.SportCenterModel {
 
     public SportCenterModel(AppDataSource db) {
         super(db);
     }
 
-    @Override
-    public SportCenter getSportCenterInfo(String sportCenterId, String cityId) throws MySQLException {
-        LOG.info("Calling getSportCenterInfo");
-        Connection conn = null;
-        CallableStatement stm = null;
-        ResultSet rs = null;
-
-        try {
-            conn = this.db.getConnection();
-            stm = conn.prepareCall("{call getSportCenterInfo(?,?,?)");
-            stm.setString(1, sportCenterId);
-            stm.setString(2, cityId);
-            stm.registerOutParameter(3, Types.INTEGER);
-
-            rs = stm.executeQuery();
-            var statusCode = stm.getInt(3);
-            LOG.info("Received status code " + statusCode);
-            if (statusCode >= 400 && statusCode < 500) {
-                throw new MySQLException(statusCode);
-            }
-
-            return ResultSetUtils.singleSportCenterFromResultSet(rs);
-        } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
-        } finally {
-            ResultSetUtils.quietCloseConnection(conn);
-            ResultSetUtils.quietCloseStatement(stm);
-            ResultSetUtils.quietCloseResultSet(rs);
-        }
-    }
-
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to create a new sport center
+     *
+     * @param sportCenterId the unique identifier in the city of the new sport center
+     * @param cityId        the unique identifier of the city
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public void createCityCenter(String sportCenterId, String cityId) throws MySQLException {
         LOG.info("Calling createCityCenter");
@@ -73,6 +54,15 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
         }
     }
 
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to update the sport center unique identifier
+     *
+     * @param newSportCenterId the new unique identifier to be assigned to the sport center
+     * @param oldSportCenterId the current unique identifier of the sport center
+     * @param cityId           the unique identifier of the city that the sport centers locates in
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public void updateSportCenterId(String newSportCenterId, String oldSportCenterId, String cityId) throws MySQLException {
         LOG.info("Calling updateSportCenterId");
@@ -102,6 +92,12 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
         }
     }
 
+    /**
+     * Create a new connection to the data source and clear the relation
+     *
+     * @throws MySQLException
+     * @deprecated move to test only
+     */
     @Override
     public void clearSportCenter() throws MySQLException {
         LOG.info("Calling clearSportCenter");
@@ -121,6 +117,14 @@ public class SportCenterModel extends AbstractModel implements com.example.book2
         }
     }
 
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to all the sport centers in the given city
+     *
+     * @param cityId the unique identifier of the city
+     * @return collection of sport centers locate in the city
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
     @Override
     public Collection<SportCenter> getCitySportCenters(String cityId) throws MySQLException {
         LOG.info("Calling getCitySportCenters");

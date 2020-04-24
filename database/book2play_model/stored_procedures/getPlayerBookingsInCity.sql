@@ -29,7 +29,7 @@ BEGIN
 		SET statusCode = 466; -- no bookings in given date 
     ELSE
 		SET statusCode = 200;
-		SELECT bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, player
+		SELECT bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId
 		FROM bookings
 			NATURAL JOIN players
 			NATURAL JOIN courts

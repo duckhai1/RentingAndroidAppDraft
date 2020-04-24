@@ -1,6 +1,7 @@
-package com.example.book2play.db.models;
+package com.example.book2play.db.models.booking;
 
 import com.example.book2play.db.exceptions.MySQLException;
+import com.example.book2play.db.models.ModelTestSetup;
 import com.example.test_utils.TimeUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class BookingModelTest extends AbstractModelTest {
+public class BookingModelCreateBookingTest extends ModelTestSetup {
 
     private static int BOOKINGS_LIMIT = 3;
 
@@ -404,6 +405,7 @@ public class BookingModelTest extends AbstractModelTest {
             assertEquals("Unexpected error code", EXPECTED_CODE, e.getStatusCode());
         }
     }
+
     @Test
     public void testCreateBooking2HourDuration() {
         final int EXPECTED_CODE = 467;
@@ -499,54 +501,4 @@ public class BookingModelTest extends AbstractModelTest {
         }
     }
 
-    private void rawInsertBooking(
-            String bookingId,
-            java.sql.Date bookingDate,
-            java.sql.Time bookingStartTime,
-            java.sql.Time bookingEndTime,
-            Boolean isPaid,
-            String cityId,
-            String sportCenterId,
-            String courtId,
-            String playerId
-    ) throws Exception {
-        var conn = DB.getConnection();
-
-        // get courtPk
-        var stmt1 = conn.prepareStatement("SELECT courtPk FROM courts NATURAL JOIN sportCenters NATURAL JOIN cities WHERE cityId = ? AND sportCenterId = ? AND courtId = ?");
-        stmt1.setString(1, cityId);
-        stmt1.setString(2, sportCenterId);
-        stmt1.setString(3, courtId);
-        var stmt1RS = stmt1.executeQuery();
-        if (!stmt1RS.next()) {
-            throw new Exception("Data not found");
-        }
-        var courtPk = stmt1RS.getString("courtPk");
-
-        // get playerPk
-        var stmt2 = conn.prepareStatement("SELECT playerPk FROM players WHERE playerId = ?");
-        stmt2.setString(1, playerId);
-        var stmt2RS = stmt2.executeQuery();
-        if (!stmt2RS.next()) {
-            throw new Exception("Data not found");
-        }
-        var playerPk = stmt2RS.getString("playerPk");
-
-        // create booking
-        var stmt = conn.prepareStatement("" +
-                "INSERT INTO bookings (" +
-                "bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, courtPk, playerPk" +
-                ")" + " VALUES " + "(?, ?, ?, ?, ?, ?, ?, ?)");
-        stmt.setString(1, "HCMQ1Court1Alice1");
-        stmt.setTimestamp(2, TimeUtils.getTimestamp());
-        stmt.setDate(3, bookingDate);
-        stmt.setTime(4, bookingStartTime);
-        stmt.setTime(5, bookingEndTime);
-        stmt.setBoolean(6, isPaid);
-        stmt.setString(7, courtPk);
-        stmt.setString(8, playerPk);
-        if (stmt.executeUpdate() != 1) {
-            throw new Exception("Incorrect number of updated rows");
-        }
-    }
 }

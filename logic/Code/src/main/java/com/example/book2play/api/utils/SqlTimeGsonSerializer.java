@@ -9,6 +9,9 @@ import java.lang.reflect.Type;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 
+/**
+ * com.java.sql.Time json serializer for use with Gson library
+ */
 public class SqlTimeGsonSerializer implements JsonSerializer<Time> {
     public JsonElement serialize(Time src, Type typeOfSrc, JsonSerializationContext context) {
         var fmt = new SimpleDateFormat();
