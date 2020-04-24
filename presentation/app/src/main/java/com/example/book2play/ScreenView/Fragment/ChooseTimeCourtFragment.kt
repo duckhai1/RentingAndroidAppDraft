@@ -1,8 +1,10 @@
 package com.example.book2play.ScreenView.Fragment
 
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 
@@ -26,7 +28,12 @@ class ChooseTimeCourtFragment : Fragment(),
 
     var actionMode: ActionMode? = null
     var myAdapter: CourtAdapter? = null
+    var mActivity : AppCompatActivity? = null
 
+    override fun onAttach(context: Context) {
+        mActivity = activity as AppCompatActivity
+        super.onAttach(context)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -132,6 +139,7 @@ class ChooseTimeCourtFragment : Fragment(),
         override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
             val inflater = mode?.getMenuInflater()
             inflater?.inflate(R.menu.choose_time_action_mode_menu, menu)
+            mActivity?.supportActionBar?.hide()
             return true
         }
 
@@ -145,6 +153,7 @@ class ChooseTimeCourtFragment : Fragment(),
                 myAdapter?.selectedIds?.clear()
                 myAdapter?.notifyDataSetChanged()
             }
+            mActivity?.supportActionBar?.show()
             actionMode = null
             shouldResetRecyclerView = true
         }

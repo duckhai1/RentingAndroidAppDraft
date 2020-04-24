@@ -20,18 +20,18 @@
         android:theme="@style/AppTheme">
 
         <activity android:name="com.example.LogicConnection.Handler.TestConnection">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity android:name="com.example.book2play.ScreenView.Activity.LoginScreen">
 
         </activity>
         <activity android:name=".ScreenView.Activity.MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <!--
