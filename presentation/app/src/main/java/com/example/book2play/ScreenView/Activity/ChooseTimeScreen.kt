@@ -54,12 +54,6 @@ class ChooseTimeScreen : AppCompatActivity() {
         } else {
             tabLayout.tabMode = TabLayout.MODE_SCROLLABLE
         }
-
-
-        val displayMetrics = DisplayMetrics()
-        windowManager.defaultDisplay.getMetrics(displayMetrics)
-        var width = displayMetrics.widthPixels
-
     }
 
 

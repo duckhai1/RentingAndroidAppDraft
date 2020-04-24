@@ -14,9 +14,14 @@ import java.net.URLEncoder
 class ConnectionHandler {
     companion object{
         // GET method request
-        fun sendGet(url: String?): String {
+        fun sendGet(url: String?, postDataParams: String): String {
+            // handle request
+
+            val fullUrl = url+"?"+postDataParams
+            Log.d("server_connect", "GET url: "+fullUrl)
+
             // setup connection
-            val conn = setupConnection(url, "GET")
+            val conn = setupConnection(fullUrl, "GET")
 
             // handle response
             val responseCode = conn.responseCode
@@ -32,21 +37,20 @@ class ConnectionHandler {
                 input.close()
                 response.toString()
             } else {
-                ""
+                HttpURLConnection.HTTP_BAD_REQUEST.toString()
             }
         }
 
         // POST method request
-        fun sendPost(url: String?, postDataParams: JsonObject): String? {
+        fun sendPost(url: String?, requestData: String): String? {
             // setup connection
             val conn = setupConnection(url, "POST")
 
             // handle request
             val os = conn.outputStream
             val writer = BufferedWriter(OutputStreamWriter(os, "UTF-8"))
-            val requestJson = postDataParams.toString()
-            Log.d("server_connect", "requestJson: $postDataParams")
-            writer.write(requestJson)
+            Log.d("server_connect", "requestJson: $requestData")
+            writer.write(requestData)
             writer.flush()
             writer.close()
             os.close()
@@ -56,9 +60,23 @@ class ConnectionHandler {
             // check if request success
             if (responseCode == HttpURLConnection.HTTP_CREATED) {
                 Log.d("server_connect", "Successful connect")
-                return "Create resource successful"
+                return HttpURLConnection.HTTP_CREATED.toString()
             }
-            return "Fail to create resource"
+            return HttpURLConnection.HTTP_BAD_REQUEST.toString()
+        }
+
+        // convert jsonObject to query in url
+        fun encodeParams(jsonObject : JsonObject): String {
+            val result = StringBuilder()
+            var first = true
+            val itr: Iterator<String> = jsonObject.keySet().iterator()
+            while (itr.hasNext()) {
+                val key = itr.next()
+                val value = jsonObject[key]
+                if (first) first = false else result.append("&")
+                result.append(key+"="+value.asString)
+            }
+            return result.toString()
         }
 
         private fun setupConnection(url: String?, method: String) : HttpURLConnection{
@@ -85,44 +103,5 @@ class ConnectionHandler {
             val encoding: String = Base64.encodeToString(data, Base64.DEFAULT)
             conn.setRequestProperty("Authorization", "Basic " + encoding)
         }
-
-
-        // convert jsonObject to query in url
-        private fun encodeParams(params: JsonObject): String {
-            val result = StringBuilder()
-            var first = true
-            val itr: Iterator<String> = params.keySet().iterator()
-            while (itr.hasNext()) {
-                val key = itr.next()
-                val value: Any = params[key]
-                if (first) first = false else result.append("&")
-                result.append(URLEncoder.encode(key, "UTF-8"))
-                result.append("=")
-                result.append(URLEncoder.encode(value.toString(), "UTF-8"))
-            }
-            return result.toString()
-        }
-    }
-
-    fun createJson(data : MyDataModel, fileName : String){
-        val gson = Gson()
-        var json : String = gson.toJson(data)
-
-
-        try {
-            var fo = FileWriter(fileName)
-            fo.write(json)
-            fo.close()
-        } catch (ex: Exception){
-            Log.d("File write", ex.message)
-        }
-    }
-
-    // TODO get Json from logic tier
-    fun loadJson(){
-        val gson = Gson()
-        val json : String = ""
-        val data : MyDataModel
-        data = gson.fromJson(json, MyDataModel::class.java)
     }
 }
