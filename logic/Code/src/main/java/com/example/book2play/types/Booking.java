@@ -7,6 +7,9 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+/**
+ * Simple class encapsulates the attributes for a booking
+ */
 public class Booking {
     @Expose(deserialize = false)
     private String bookingId;

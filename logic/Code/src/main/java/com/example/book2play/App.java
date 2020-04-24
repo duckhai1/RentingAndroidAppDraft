@@ -2,7 +2,7 @@ package com.example.book2play;
 
 import com.example.book2play.api.Server;
 import com.example.book2play.db.AppDataSource;
-import com.example.book2play.db.driver.MySQLDataSource;
+import com.example.book2play.db.driver.MySqlDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.*;
 
@@ -13,6 +13,9 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Logger;
 
+/**
+ * Storing configuration for starting an HTTP server on the specified port
+ */
 public class App {
 
     private final static Logger LOG = Logger.getAnonymousLogger();
@@ -20,28 +23,19 @@ public class App {
 
     private Properties mySqlProps = new Properties();
 
-    public App() {
-        var stream = App.class
-                .getClassLoader()
-                .getResourceAsStream("mysql_database.properties");
-
-        try {
-            mySqlProps.load(stream);
-        } catch (Exception e) {
-            LOG.warning("Could not read mysql properties, using default values" + e.getMessage());
-        }
-    }
-
+    /**
+     * The main entry point of the application, which initializes a new application
+     * then start the HTTP API server on the default port
+     */
     public static void main(String[] args) {
         var app = new App();
         app.start();
     }
 
     private void start() {
-        LOG.info("Connecting to MySQL at " + mySqlProps.getProperty("url"));
-        var ds = new MySQLDataSource(mySqlProps);
+        var ds = MySqlDataSource.getInstance();
 
-        setupExample(ds);
+        setupExample(ds); // set up starting state for testing
 
         try {
             System.out.println("Starting server on port " + SRV_PORT);

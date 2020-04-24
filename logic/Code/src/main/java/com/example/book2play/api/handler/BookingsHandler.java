@@ -76,11 +76,17 @@ public class BookingsHandler extends AbstractHandler {
                         cityId.get(0),
                         Date.valueOf(date.get(0))
                 );
+
             } else if (playerId != null && cityId != null && sportCenterId == null) {
-                bookings = model.getPlayerBookings(
+                bookings = model.getPlayerBookingsInCity(
                         playerId.get(0),
                         cityId.get(0),
                         Date.valueOf(date.get(0))
+
+                );
+            } else if (playerId != null && sportCenterId == null) {
+                bookings = model.getPlayerBookings(
+                        playerId.get(0)
                 );
             } else {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
@@ -114,7 +120,47 @@ public class BookingsHandler extends AbstractHandler {
         }
     }
 
-    private void execPut(HttpExchange exchange) {
+    private void execPut(HttpExchange exchange) throws IOException {
+        var params = splitQuery(exchange.getRequestURI().getRawQuery());
+        var playerId = params.get("playerId");
+        var bookingId = params.get("bookingId");
+        var staffId = params.get("staffId");
+        var sportCenterId = params.get("sportCenterId");
+        var bookingStatus = params.get("status");
+
+        if((playerId != null && playerId.size() !=1)
+            || (bookingId != null || bookingId.size() !=1)
+            || (staffId != null || staffId.size() != 1)
+            || (bookingStatus != null || bookingStatus.size() != 1)
+        ){
+            exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+            return;
+        }
+
+        try{
+            if(playerId != null && bookingId != null && staffId == null && bookingStatus == null){
+                model.cancelBooking(
+                        bookingId.get(0),
+                        playerId.get(0)
+                );
+            }
+            else if(playerId == null && bookingId != null && staffId != null && bookingStatus != null){
+                model.updateBookingStatus(
+                        Boolean.parseBoolean(bookingStatus.get(0)),
+                        bookingId.get(0),
+                        playerId.get(0),
+                        sportCenterId.get(0),
+                        staffId.get(0)
+                );
+            } else{
+                exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+                return;
+            }
+            exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
+        } catch (MySQLException | IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+        }
     }
 
     private void execDelete(HttpExchange exchange) {
