@@ -39,14 +39,14 @@ class MyBookingModel(
         SimpleDateFormat("HH:mm").format(SimpleDateFormat("HH:mm:ss").parse(start)) + "-" +
                 SimpleDateFormat("HH:mm").format(SimpleDateFormat("HH:mm:ss").parse(end))
 
-) :MyDataModel {
-
-
-    override fun toString(): String {
-        return "Date: " +date + "\nWeek: " + week + "\nTime: " + time +
-                "\nCity: "+city+"\nCenter: " +center+"\nCourt: "+ court+"\nPlayer: "+player+
-                "\nStatus: " + if(status == 0) "Unpaid" else "Paid"
-    }
+) :MyDataModel() {
+//
+//
+//    override fun toString(): String {
+//        return "Date: " +date + "\nWeek: " + week + "\nTime: " + time +
+//                "\nCity: "+city+"\nCenter: " +center+"\nCourt: "+ court+"\nPlayer: "+player+
+//                "\nStatus: " + if(status == 0) "Unpaid" else "Paid"
+//    }
 
 }
 

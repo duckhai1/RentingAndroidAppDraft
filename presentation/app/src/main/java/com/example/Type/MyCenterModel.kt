@@ -15,5 +15,5 @@ class MyCenterModel(
     var address : String = "",                      // center address
     var avatar: Int = R.drawable.sancaulong,        // center image
     var courtList : ArrayList<MyCourtModel> = ArrayList<MyCourtModel>()
-) : MyDataModel{
+) : MyDataModel() {
 }

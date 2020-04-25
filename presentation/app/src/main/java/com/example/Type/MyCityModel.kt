@@ -9,5 +9,5 @@ class MyCityModel (
     var cityName: String?,
 
     var centerList : ArrayList<MyCenterModel> = ArrayList<MyCenterModel>()
-): MyDataModel {
+): MyDataModel() {
 }

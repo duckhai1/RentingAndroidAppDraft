@@ -13,5 +13,5 @@ class MySlotModel(
     @SerializedName("court")
     @Expose
     var court : String
-) : MyDataModel {
+) : MyDataModel() {
 }

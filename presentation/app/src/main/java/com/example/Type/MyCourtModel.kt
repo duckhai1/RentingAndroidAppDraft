@@ -15,5 +15,5 @@ class MyCourtModel (
     var cityName : String?,
 
     var slotList : ArrayList<MySlotModel> = ArrayList<MySlotModel>()
-): MyDataModel {
+): MyDataModel() {
 }

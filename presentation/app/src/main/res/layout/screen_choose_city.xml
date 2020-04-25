@@ -85,7 +85,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/badminton_logo" />
+        app:srcCompat="@drawable/badminton_logo"
+        android:alpha="0.1"/>
 
     <TextView
         android:id="@+id/txtvOr"
