@@ -54,12 +54,14 @@ public class App {
         CourtModel courtModel = new CourtModel(ds);
         PlayerModel playerModel = new PlayerModel(ds);
         SportCenterModel sportCenterModel = new SportCenterModel(ds);
+        StaffModel staffModel = new StaffModel(ds);
 
         try {
             cityModel.createCity("city1");
             sportCenterModel.createCityCenter("center1", "city1");
             courtModel.createCityCenterCourt("court1", "city1", "center1");
             playerModel.createPlayer("player1");
+            staffModel.createStaff("staff1","city1","center1");
             bookingModel.createBooking(
                     "booking1",
                     new Timestamp(System.currentTimeMillis()),

@@ -51,7 +51,7 @@ public class BookingsHandler extends AbstractHandler {
         var playerId = params.get("playerId");
         var courtId = params.get("courtId");
 
-        if ((date == null || date.size() != 1)
+        if ((date != null && date.size() != 1)
                 || (cityId != null && cityId.size() != 1)
                 || (sportCenterId != null && sportCenterId.size() != 1)
                 || (courtId != null && courtId.size() != 1)
@@ -63,30 +63,28 @@ public class BookingsHandler extends AbstractHandler {
 
         Collection<Booking> bookings;
         try {
-            if (playerId == null && cityId != null && sportCenterId != null && courtId != null) {
+            if (playerId == null && cityId != null && sportCenterId != null && courtId != null && date != null) {
                 bookings = model.getCourtBookings(
                         courtId.get(0),
                         cityId.get(0),
                         sportCenterId.get(0),
                         Date.valueOf(date.get(0))
                 );
-            } else if (playerId == null && cityId != null && sportCenterId != null) {
+            } else if (playerId == null && cityId != null && sportCenterId != null && courtId == null && date != null) {
                 bookings = model.getSportCenterBookings(
                         sportCenterId.get(0),
                         cityId.get(0),
                         Date.valueOf(date.get(0))
                 );
 
-            } else if (playerId != null && cityId != null && sportCenterId == null) {
+            } else if (playerId != null && cityId != null && sportCenterId == null && courtId == null && date != null) {
                 bookings = model.getPlayerBookingsInCity(
                         playerId.get(0),
                         cityId.get(0),
                         Date.valueOf(date.get(0))
                 );
-            } else if (playerId != null && sportCenterId == null) {
-                bookings = model.getPlayerBookings(
-                        playerId.get(0)
-                );
+            } else if (playerId != null && cityId == null && sportCenterId == null && courtId == null && date == null) {
+                bookings = model.getPlayerBookings(playerId.get(0));
             } else {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
@@ -113,7 +111,7 @@ public class BookingsHandler extends AbstractHandler {
                     booking.getPlayerId()
             );
             exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
-        } catch (MySQLException e) {
+        } catch (MySQLException | IllegalArgumentException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
         }
@@ -121,33 +119,28 @@ public class BookingsHandler extends AbstractHandler {
 
     private void execPut(HttpExchange exchange) throws IOException {
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
-        var playerId = params.get("playerId");
-        var bookingId = params.get("bookingId");
-        var staffId = params.get("staffId");
-        var sportCenterId = params.get("sportCenterId");
         var bookingStatus = params.get("status");
+        var bookingId = params.get("bookingId");
+        var cityId = params.get("cityId");
+        var sportCenterId = params.get("sportCenterId");
+        var staffId = params.get("staffId");
 
-        if((playerId != null && playerId.size() !=1)
-            || (bookingId != null || bookingId.size() !=1)
-            || (staffId != null || staffId.size() != 1)
-            || (bookingStatus != null || bookingStatus.size() != 1)
+        if((bookingId != null && bookingId.size() !=1)
+            || (staffId != null && staffId.size() != 1)
+            || (bookingStatus != null && bookingStatus.size() != 1)
+            || (cityId != null && cityId.size() !=1)
+            || (sportCenterId != null && sportCenterId.size() != 1)
         ){
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
         try{
-            if(playerId != null && bookingId != null && staffId == null && bookingStatus == null){
-                model.cancelBooking(
-                        bookingId.get(0),
-                        playerId.get(0)
-                );
-            }
-            else if(playerId == null && bookingId != null && staffId != null && bookingStatus != null){
+            if(bookingId != null && staffId != null && bookingStatus != null){
                 model.updateBookingStatus(
                         Boolean.parseBoolean(bookingStatus.get(0)),
                         bookingId.get(0),
-                        playerId.get(0),
+                        cityId.get(0),
                         sportCenterId.get(0),
                         staffId.get(0)
                 );
@@ -162,6 +155,30 @@ public class BookingsHandler extends AbstractHandler {
         }
     }
 
-    private void execDelete(HttpExchange exchange) {
+    private void execDelete(HttpExchange exchange) throws IOException {
+        var params = splitQuery(exchange.getRequestURI().getRawQuery());
+        var bookingId = params.get("bookingId");
+        var playerId = params.get("playerId");
+
+        if ((bookingId != null && bookingId.size() != 1)
+            || (playerId != null && playerId.size() != 1)
+        ){
+            exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+            return;
+        }
+
+        try{
+            if(playerId != null && bookingId != null){
+                model.cancelBooking(bookingId.get(0), playerId.get(0));
+            }
+            else{
+                exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+                return;
+            }
+            exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
+        } catch (MySQLException | IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+        }
     }
 }
