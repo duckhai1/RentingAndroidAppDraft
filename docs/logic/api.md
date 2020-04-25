@@ -222,7 +222,7 @@ cancelBooking */api/bookings[?bookingId=&playerId=]*
 }
 ```
 
-getCities *api/city[?=]*
+getCities */api/city[?=]*
 ---
 **URL encoded keys**
 
