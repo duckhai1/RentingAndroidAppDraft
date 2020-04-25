@@ -44,15 +44,29 @@ public class CourtsHandler extends AbstractHandler {
     public void execGet(HttpExchange exchange) throws IOException {
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
         var cityId = params.get("cityId");
+        var sportCenterId = params.get("sportCenterId");
 
-        if (cityId != null || cityId.size() != 1){
+        if ((cityId != null || cityId.size() != 1)
+            || (sportCenterId != null || sportCenterId.size() != 1)
+        ) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
         Collection<Court> courts;
         try{
-            courts =  model.getCityCourts(cityId.get(0));
+            if(cityId != null && sportCenterId == null) {
+                courts = model.getCityCourts(cityId.get(0));
+            }
+            else if(cityId != null && sportCenterId != null){
+                courts = model.getSportCenterCourts(
+                        sportCenterId.get(0),
+                        cityId.get(0)
+                );
+            } else {
+                exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+                return;
+            }
             responseWithJson(exchange, HTTPStatus.OK, courts);
         } catch (MySQLException | IllegalArgumentException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());

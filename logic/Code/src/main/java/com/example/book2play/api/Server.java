@@ -2,9 +2,11 @@ package com.example.book2play.api;
 
 
 import com.example.book2play.api.handler.BookingsHandler;
+import com.example.book2play.api.handler.CourtsHandler;
 import com.example.book2play.api.handler.SportCentersHandler;
 import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.models.BookingModel;
+import com.example.book2play.db.models.CourtModel;
 import com.example.book2play.db.models.SportCenterModel;
 import com.sun.net.httpserver.BasicAuthenticator;
 import com.sun.net.httpserver.HttpServer;
@@ -19,6 +21,7 @@ public class Server {
 
     public static String BOOKINGS_BASE_URL = "/api/bookings";
     public static String SPORT_CENTER_BASE_URL = "/api/centers";
+    public static String COURT_BASE_URL = "/api/courts";
 
     private AppDataSource ds;
     private HttpServer srv;
@@ -41,6 +44,7 @@ public class Server {
     private void setRoutes() {
         setBookingsHandler();
         setSportCentersHandler();
+        setCourtsHandler();
     }
 
     private void setBookingsHandler() {
@@ -57,5 +61,10 @@ public class Server {
     private void setSportCentersHandler() {
         var model = new SportCenterModel(ds);
         var ctx = srv.createContext(SPORT_CENTER_BASE_URL, new SportCentersHandler(model));
+    }
+
+    private void setCourtsHandler() {
+        var model = new CourtModel(ds);
+        var ctx = srv.createContext(COURT_BASE_URL, new CourtsHandler(model));
     }
 }

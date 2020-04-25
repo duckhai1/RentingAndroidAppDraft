@@ -82,7 +82,6 @@ public class BookingsHandler extends AbstractHandler {
                         playerId.get(0),
                         cityId.get(0),
                         Date.valueOf(date.get(0))
-
                 );
             } else if (playerId != null && sportCenterId == null) {
                 bookings = model.getPlayerBookings(
