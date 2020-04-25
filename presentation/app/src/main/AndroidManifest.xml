@@ -10,57 +10,49 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:usesCleartextTraffic="true"
-
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
-        <activity android:name="com.example.LogicConnection.Handler.TestConnection">
-
-        </activity>
-
-        <activity android:name="com.example.book2play.ScreenView.Activity.LoginScreen">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ScreenView.Activity.SignUpScreen"></activity>
+        <activity android:name="com.example.LogicConnection.Handler.TestConnection"></activity>
+        <activity android:name=".ScreenView.Activity.LoginScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ScreenView.Activity.MainActivity" >
-
-        </activity>
+        <activity android:name=".ScreenView.Activity.MainActivity"></activity>
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-
             android:label="@string/app_name" />
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name="com.example.book2play.ScreenView.Fragment.BookingHistoryScreen" />
-
+        <activity android:name=".ScreenView.Fragment.BookingHistoryScreen" />
         <activity
-            android:name="com.example.book2play.ScreenView.Activity.ChooseCenterScreen"
+            android:name=".ScreenView.Activity.ChooseCenterScreen"
             android:label="@string/title_activity_location2" />
-        <activity android:name="com.example.book2play.ScreenView.Activity.BookSucessScreen" />
-        <activity android:name="com.example.book2play.ScreenView.Activity.ChooseTimeScreen" />
-        <activity android:name="com.example.book2play.ScreenView.Fragment.ChooseCityScreen" />
+        <activity android:name=".ScreenView.Activity.BookSucessScreen" />
+        <activity android:name=".ScreenView.Activity.ChooseTimeScreen" />
+        <activity android:name=".ScreenView.Fragment.ChooseCityScreen" />
         <activity android:name=".ScreenView.Activity.DetailScreen" />
-        <activity android:name="com.example.book2play.ScreenView.Activity.ChooseDayScreen" />
-        <activity android:name="com.example.book2play.ScreenView.Activity.FacebookDetailScreen" />
-
+        <activity android:name=".ScreenView.Activity.ChooseDayScreen" />
+        <activity android:name=".ScreenView.Activity.FacebookDetailScreen" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -72,12 +64,9 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
-
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

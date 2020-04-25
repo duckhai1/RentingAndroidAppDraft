@@ -17,6 +17,7 @@ import com.facebook.login.LoginBehavior
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
+import kotlinx.android.synthetic.main.screen_login.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.lang.Exception
@@ -37,9 +38,14 @@ class LoginScreen : AppCompatActivity() {
         appNameTxtView.text = an
 
 
-        val bt = findViewById<View>(R.id.signinBtn) as Button
-        bt.setOnClickListener {
+        // TODO check login authorization
+        signinBtn.setOnClickListener {
             val intent = Intent(applicationContext, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+        signupBtn.setOnClickListener {
+            val intent = Intent(applicationContext, SignUpScreen::class.java)
             startActivity(intent)
         }
 
