@@ -53,10 +53,10 @@ public interface BookingModel {
      */
     Collection<Booking> getPlayerBookingsInCity(String playerId, String cityId, Date date) throws MySQLException;
 
+
     /**
      * Create a new booking in the relation with the given attribute values
      *
-     * @param bookingId     the unique identifier for the booking
      * @param timestamp     the date and time of when the booking was created
      * @param date          the date of the booking
      * @param startTime     the start time of the booking
@@ -68,7 +68,6 @@ public interface BookingModel {
      * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
     void createBooking(
-            String bookingId,
             Timestamp timestamp,
             Date date,
             Time startTime,

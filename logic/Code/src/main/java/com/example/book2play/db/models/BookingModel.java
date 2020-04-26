@@ -188,7 +188,6 @@ public class BookingModel extends AbstractModel implements com.example.book2play
     /**
      * Create a new connection to the data source and call the stored procedure to create a booking
      *
-     * @param bookingId     the unique identifier for the booking
      * @param timestamp     the date and time of when the booking was created
      * @param date          the date of the booking
      * @param startTime     the start time of the booking
@@ -201,7 +200,6 @@ public class BookingModel extends AbstractModel implements com.example.book2play
      */
     @Override
     public void createBooking(
-            String bookingId,
             Timestamp timestamp,
             Date date,
             Time startTime,
@@ -217,20 +215,19 @@ public class BookingModel extends AbstractModel implements com.example.book2play
 
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL createBooking(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
-            stm.setString(1, bookingId);
-            stm.setTimestamp(2, timestamp);
-            stm.setDate(3, date);
-            stm.setTime(4, startTime);
-            stm.setTime(5, endTime);
-            stm.setString(6, cityId);
-            stm.setString(7, sportCenterId);
-            stm.setString(8, courtId);
-            stm.setString(9, playerId);
-            stm.registerOutParameter(10, Types.INTEGER);
+            stm = conn.prepareCall("{CALL createBooking(?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            stm.setTimestamp(1, timestamp);
+            stm.setDate(2, date);
+            stm.setTime(3, startTime);
+            stm.setTime(4, endTime);
+            stm.setString(5, cityId);
+            stm.setString(6, sportCenterId);
+            stm.setString(7, courtId);
+            stm.setString(8, playerId);
+            stm.registerOutParameter(9, Types.INTEGER);
 
             var updateCount = stm.executeUpdate();
-            var statusCode = stm.getInt(10);
+            var statusCode = stm.getInt(9);
             LOG.info("Received status code " + statusCode);
             LOG.info("Update count " + updateCount);
             if (statusCode >= 400 && statusCode < 500) {

@@ -1,11 +1,9 @@
 package com.example.book2play.api;
 
 
-import com.example.book2play.api.handler.BookingsHandler;
-import com.example.book2play.api.handler.SportCentersHandler;
+import com.example.book2play.api.handler.*;
 import com.example.book2play.db.AppDataSource;
-import com.example.book2play.db.models.BookingModel;
-import com.example.book2play.db.models.SportCenterModel;
+import com.example.book2play.db.models.*;
 import com.sun.net.httpserver.BasicAuthenticator;
 import com.sun.net.httpserver.HttpServer;
 
@@ -19,6 +17,10 @@ public class Server {
 
     public static String BOOKINGS_BASE_URL = "/api/bookings";
     public static String SPORT_CENTER_BASE_URL = "/api/centers";
+    public static String COURT_BASE_URL = "/api/courts";
+    public static String PLAYER_BASE_URL = "/api/players";
+    public static String CITY_BASE_URL = "/api/cities";
+    public static String STAFF_BASE_URL = "/api/staffs";
 
     private AppDataSource ds;
     private HttpServer srv;
@@ -41,6 +43,10 @@ public class Server {
     private void setRoutes() {
         setBookingsHandler();
         setSportCentersHandler();
+        setCourtsHandler();
+        setPlayerHandler();
+        setCityHandler();
+        setStaffHandler();
     }
 
     private void setBookingsHandler() {
@@ -57,5 +63,25 @@ public class Server {
     private void setSportCentersHandler() {
         var model = new SportCenterModel(ds);
         var ctx = srv.createContext(SPORT_CENTER_BASE_URL, new SportCentersHandler(model));
+    }
+
+    private void setCourtsHandler() {
+        var model = new CourtModel(ds);
+        var ctx = srv.createContext(COURT_BASE_URL, new CourtsHandler(model));
+    }
+
+    private void setPlayerHandler() {
+        var model = new PlayerModel(ds);
+        var ctx = srv.createContext(PLAYER_BASE_URL, new PlayerHandler(model));
+    }
+
+    private void setCityHandler() {
+        var model = new CityModel(ds);
+        var ctx = srv.createContext(CITY_BASE_URL, new CityHandler(model));
+    }
+
+    private void setStaffHandler() {
+        var model = new StaffModel(ds);
+        var ctx = srv.createContext(STAFF_BASE_URL, new StaffHandler(model));
     }
 }
