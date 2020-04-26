@@ -69,7 +69,7 @@ public interface BookingModel {
      * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
     void createBooking(
-            String bookingId,
+            //String bookingId,
             Timestamp timestamp,
             Date date,
             Time startTime,

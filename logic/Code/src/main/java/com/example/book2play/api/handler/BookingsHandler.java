@@ -100,7 +100,7 @@ public class BookingsHandler extends AbstractHandler {
         try {
             var booking = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Booking.class);
             model.createBooking(
-                    IdUtils.generateBookingId(booking),
+                    //IdUtils.generateBookingId(booking),
                     new Timestamp(System.currentTimeMillis()),
                     booking.getBookingDate(),
                     booking.getBookingStartTime(),

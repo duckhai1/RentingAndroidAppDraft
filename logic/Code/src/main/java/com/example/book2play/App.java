@@ -63,11 +63,22 @@ public class App {
             playerModel.createPlayer("player1");
             staffModel.createStaff("staff1","city1","center1");
             bookingModel.createBooking(
-                    "booking1",
+                    //"booking1",
                     new Timestamp(System.currentTimeMillis()),
                     Date.valueOf("2020-05-20"),
                     Time.valueOf("08:30:00"),
                     Time.valueOf("09:30:00"),
+                    "city1",
+                    "center1",
+                    "court1",
+                    "player1"
+            );
+            bookingModel.createBooking(
+                    //"booking1",
+                    new Timestamp(System.currentTimeMillis()),
+                    Date.valueOf("2020-05-20"),
+                    Time.valueOf("09:30:00"),
+                    Time.valueOf("10:30:00"),
                     "city1",
                     "center1",
                     "court1",

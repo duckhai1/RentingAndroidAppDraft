@@ -201,7 +201,7 @@ public class BookingModel extends AbstractModel implements com.example.book2play
      */
     @Override
     public void createBooking(
-            String bookingId,
+            //String bookingId,
             Timestamp timestamp,
             Date date,
             Time startTime,
@@ -217,20 +217,20 @@ public class BookingModel extends AbstractModel implements com.example.book2play
 
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL createBooking(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
-            stm.setString(1, bookingId);
-            stm.setTimestamp(2, timestamp);
-            stm.setDate(3, date);
-            stm.setTime(4, startTime);
-            stm.setTime(5, endTime);
-            stm.setString(6, cityId);
-            stm.setString(7, sportCenterId);
-            stm.setString(8, courtId);
-            stm.setString(9, playerId);
-            stm.registerOutParameter(10, Types.INTEGER);
+            stm = conn.prepareCall("{CALL createBooking(?, ?, ?, ?, ?, ?, ?, ?, ?)}");
+            //stm.setString(1, bookingId);
+            stm.setTimestamp(1, timestamp);
+            stm.setDate(2, date);
+            stm.setTime(3, startTime);
+            stm.setTime(4, endTime);
+            stm.setString(5, cityId);
+            stm.setString(6, sportCenterId);
+            stm.setString(7, courtId);
+            stm.setString(8, playerId);
+            stm.registerOutParameter(9, Types.INTEGER);
 
             var updateCount = stm.executeUpdate();
-            var statusCode = stm.getInt(10);
+            var statusCode = stm.getInt(9);
             LOG.info("Received status code " + statusCode);
             LOG.info("Update count " + updateCount);
             if (statusCode >= 400 && statusCode < 500) {

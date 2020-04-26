@@ -26,7 +26,7 @@ public class BookingModelUpdateBookingStatusTest extends ModelTestSetup {
     @Test
     public void testUpdateOneBookingSuccessfully() throws Exception {
         BOOKING.createBooking(
-                "B1",
+                //"B1",
                 TimeUtils.getTimestamp(),
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(9, 0, 0),
@@ -49,7 +49,7 @@ public class BookingModelUpdateBookingStatusTest extends ModelTestSetup {
         testCases.add("B2");
 
         BOOKING.createBooking(
-                "B1",
+                //"B1",
                 TimeUtils.getTimestamp(),
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(9, 0, 0),
@@ -77,7 +77,7 @@ public class BookingModelUpdateBookingStatusTest extends ModelTestSetup {
         testInputs.add("HaNoi");
 
         BOOKING.createBooking(
-                "B1",
+                //"B1",
                 TimeUtils.getTimestamp(),
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(9, 0, 0),
@@ -106,7 +106,7 @@ public class BookingModelUpdateBookingStatusTest extends ModelTestSetup {
         testInputs.add("Q4");
 
         BOOKING.createBooking(
-                "B1",
+                //"B1",
                 TimeUtils.getTimestamp(),
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(9, 0, 0),
@@ -133,7 +133,7 @@ public class BookingModelUpdateBookingStatusTest extends ModelTestSetup {
         testInputs.add("B__b");
 
         BOOKING.createBooking(
-                "B1",
+                //"B1",
                 TimeUtils.getTimestamp(),
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(9, 0, 0),
@@ -156,7 +156,7 @@ public class BookingModelUpdateBookingStatusTest extends ModelTestSetup {
         final int EXPECTED_CODE = 401;
 
         BOOKING.createBooking(
-                "B1",
+                //"B1",
                 TimeUtils.getTimestamp(),
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(9, 0, 0),
