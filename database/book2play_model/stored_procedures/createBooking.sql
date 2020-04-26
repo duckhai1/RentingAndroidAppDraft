@@ -26,6 +26,7 @@ BEGIN
     SET openTime = '07:00:00';
     SET closeTime = '21:00:00';
 	SET inBookingId = MD5(CONCAT(
+    inDate,
     inStartTime,
     inEndTime,
     inCityId, 

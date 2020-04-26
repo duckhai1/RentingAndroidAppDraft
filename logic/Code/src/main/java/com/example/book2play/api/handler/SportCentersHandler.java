@@ -1,16 +1,13 @@
 package com.example.book2play.api.handler;
 
-import com.example.book2play.api.handler.utils.IdUtils;
 import com.example.book2play.api.utils.HTTPStatus;
 import com.example.book2play.db.SportCenterModel;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.types.Booking;
 import com.example.book2play.types.SportCenter;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.Timestamp;
 
 public class SportCentersHandler extends AbstractHandler {
 

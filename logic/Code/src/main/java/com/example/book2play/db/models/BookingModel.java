@@ -188,7 +188,6 @@ public class BookingModel extends AbstractModel implements com.example.book2play
     /**
      * Create a new connection to the data source and call the stored procedure to create a booking
      *
-     * @param bookingId     the unique identifier for the booking
      * @param timestamp     the date and time of when the booking was created
      * @param date          the date of the booking
      * @param startTime     the start time of the booking
@@ -201,7 +200,6 @@ public class BookingModel extends AbstractModel implements com.example.book2play
      */
     @Override
     public void createBooking(
-            //String bookingId,
             Timestamp timestamp,
             Date date,
             Time startTime,
@@ -218,7 +216,6 @@ public class BookingModel extends AbstractModel implements com.example.book2play
         try {
             conn = this.db.getConnection();
             stm = conn.prepareCall("{CALL createBooking(?, ?, ?, ?, ?, ?, ?, ?, ?)}");
-            //stm.setString(1, bookingId);
             stm.setTimestamp(1, timestamp);
             stm.setDate(2, date);
             stm.setTime(3, startTime);
