@@ -11,7 +11,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 
 
-class createBookingAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
+class CreateBookingAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
 
     override fun doInBackground(vararg params: String?): String? {
         val gson = GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
@@ -31,7 +31,8 @@ class createBookingAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
         try {
             result = ConnectionHandler.sendPost(
                 BASEURL + "/bookings",
-                requestJson
+                requestJson,
+                Token
             )
         } catch (e: Exception) {
             error = e

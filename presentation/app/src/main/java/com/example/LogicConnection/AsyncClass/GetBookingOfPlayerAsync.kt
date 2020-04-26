@@ -6,19 +6,18 @@ import com.example.LogicConnection.Handler.ConnectionHandler
 import com.google.gson.JsonObject
 import java.lang.Exception
 
-class getSportCenterBookingsAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
+class GetBookingOfPlayerAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
 
     override fun doInBackground(vararg params: String?): String? {
         var result : String? = null
         val request = JsonObject()
-        request.addProperty("sportCenterId", params[0])
-        request.addProperty("cityId", params[1])
-        request.addProperty("date", params[2])
+        request.addProperty("playerId", params[0])
         val requestData = ConnectionHandler.encodeParams(request)
         try {
             result = ConnectionHandler.sendGet(
                 BASEURL + "/bookings",
-                requestData
+                requestData,
+                Token
             )
         } catch (e : Exception){
             error = e
@@ -27,7 +26,4 @@ class getSportCenterBookingsAsync(activity: Activity) : MyGeneralAsyncTask(activ
         return result
     }
 
-    override fun jobSuccess() {}
-
-    override fun jobFail() {}
 }

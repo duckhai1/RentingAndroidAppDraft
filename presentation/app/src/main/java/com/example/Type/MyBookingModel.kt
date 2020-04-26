@@ -28,7 +28,7 @@ class MyBookingModel(
     var player: String?= "",    // booking player name
     @SerializedName("isPaid")
     @Expose(serialize = false)
-    var status: Int = 0,        // status 0: unpaid; 1:paid
+    var isPaid: Boolean = false,        // status 0: unpaid; 1:paid
     @SerializedName("bookingId")
     @Expose(serialize = false)
     var id : String? ="",       // bookingId

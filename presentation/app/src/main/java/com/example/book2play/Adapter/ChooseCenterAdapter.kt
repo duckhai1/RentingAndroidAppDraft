@@ -2,6 +2,7 @@ package com.example.book2play.Adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,9 +24,9 @@ class ChooseCenterAdapter(val arrayList: ArrayList<MyCenterModel>, val context: 
         }
 
         fun bindItem(model: MyCenterModel){
-            itemView.image.setImageResource(model.avatar)
+            itemView.image.setImageResource(if (model.avatar == 0) R.drawable.hcmc1 else model.avatar)
             itemView.textViewDescription.text = model.centerName
-            itemView.textViewDetail.text = model.address
+            itemView.textViewDetail.text = if (model.address == null) "I don't know, they don't give me" else model.address
         }
 
         fun setOnMyItemClickListener(ItemClickListener: MyItemClickListener){

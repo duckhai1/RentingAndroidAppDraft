@@ -4,6 +4,8 @@ import android.app.Activity
 import android.util.Log
 import com.example.LogicConnection.AsyncClass.*
 import com.example.Type.*
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class ApiHandler {
     companion object{
@@ -17,43 +19,58 @@ class ApiHandler {
             val court = myBookingModel.court
             val player = myBookingModel.player
             Log.d("server_connect", "try to create booking on server")
-            createBookingAsync(activity).execute(date, start, end, city, center, court, player)
+            CreateBookingAsync(activity).execute(date, start, end, city, center, court, player)
         }
 
-        fun getCourtBookings(activity: Activity, courtModel: MyCourtModel, date: String) : String?{
-            val courtName = courtModel.courtName
-            val centerName = courtModel.centerName
-            val cityName = courtModel.cityName
+        fun getBookingInCourt(activity: Activity, courtName : String, centerName: String, cityName: String, date: String) : String?{
             Log.d("server_connect", "try to get booking in specific court on server")
-            val response = getCourtBookingsAsync(activity).execute(courtName, centerName, cityName, date).get()
+            val response = GetBookingInCourtAsync(activity).execute(courtName, centerName, cityName, date).get()
 
             return response
         }
 
-        fun getSportCenterBookings(activity: Activity, centerModel: MyCenterModel, date: String) : String?{
-            val centerName = centerModel.centerName
-            val cityName = centerModel.cityName
+        fun getBookingInSportCenter(activity: Activity, centerName: String, cityName: String, date: String) : String?{
             Log.d("server_connect", "try to get booking in specific sportcenter on server")
-            val response = getSportCenterBookingsAsync(activity).execute(centerName, cityName, date).get()
+            val response = GetBookingInSportCenterAsync(activity).execute(centerName, cityName, date).get()
 
             return response
         }
 
-        fun getPlayerBookings(activity: Activity, playerModel: MyPlayerModel) : String?{
+        fun getBookingOfPlayer(activity: Activity, playerModel: MyPlayerModel) : String?{
             val playerName = playerModel.playerName
             Log.d("server_connect", "try to get booking in specific player on server")
-            val response = getPlayerBookingsAsync(activity).execute(playerName).get()
+            val response = GetBookingOfPlayerAsync(activity).execute(playerName).get()
 
             return response
         }
 
-        fun getPlayerBookingsInCity(activity: Activity, playerModel: MyPlayerModel, cityModel: MyCityModel, date:String) : String?{
-            val playerName = playerModel.playerName
-            val cityName = cityModel.cityName
+        fun getBookingOfPlayerInCity(activity: Activity, playerName: String, cityName : String, date:String) : String?{
             Log.d("server_connect", "try to get booking in specific player in city on server")
-            val response = getPlayerBookingsInCityAsync(activity).execute(playerName, cityName, date).get()
+            val response = GetBookingOfPlayerInCityAsync(activity).execute(playerName, cityName, date).get()
 
             return response
+        }
+
+        fun getCityList(activity: Activity) : ArrayList<MyCityModel>{
+            val response = GetCitiesAsync(activity).execute().get()
+            return decodeToList<MyCityModel>(response)
+        }
+
+        fun getSportCenterInCity(activity: Activity, cityName: String) : ArrayList<MyCenterModel>{
+            val response = GetSportCenterInCityAsync(activity).execute(cityName).get()
+            return decodeToList<MyCenterModel>(response)
+        }
+
+        fun getCourtInSportCenter(activity: Activity, centerName: String, cityName: String) : ArrayList<MyCourtModel>{
+            val response = GetCourtInSportCenterAsync(activity).execute(centerName, cityName).get()
+            return decodeToList<MyCourtModel>(response)
+        }
+
+
+
+        private inline fun <reified T : MyDataModel> decodeToList(jsonString: String?) : ArrayList<T>{
+            val ListType = TypeToken.getParameterized(ArrayList::class.java, T::class.java)
+            return Gson().fromJson<ArrayList<T>>(jsonString, ListType.type)
         }
 
     }

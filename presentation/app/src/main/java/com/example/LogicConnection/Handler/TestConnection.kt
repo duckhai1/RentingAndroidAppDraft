@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.example.Type.MyBookingModel
+import com.example.Type.MyCenterModel
+import com.example.Type.MyCityModel
 import com.example.Type.MyCourtModel
 import com.example.book2play.R
 import com.google.gson.GsonBuilder
@@ -28,24 +30,26 @@ class TestConnection : AppCompatActivity(){
                 Toast.makeText(applicationContext, "Clicked", Toast.LENGTH_SHORT).show()
 //                RequestAsync().execute()
 
-//                // GET
-//                val court = MyCourtModel("court1","center1","city1")
-//                val response = ApiHandler.getCourtBookings(mActivity, court, "2020-05-20")
-//                Log.d("server_connect", "The response in main:  " + response)
-//                response_test.text = response
+                // GET
+                val court = MyCourtModel("court1","center1","city1")
+                val center = MyCenterModel("center1", "city1")
+                val city = MyCityModel("city1")
+                val response = ApiHandler.getCourtInSportCenter(mActivity, "center1", "city1")
+                Log.d("server_connect", "The response in main:  " + response)
+                response_test.text = response.get(0).courtName
 
 
-                // POST
-                val newBooking = MyBookingModel(
-                    "2020-05-20",
-                    "14:00:00",
-                    "15:00:00",
-                    "city1",
-                    "center1",
-                    "court1",
-                    "player1"
-                )
-                ApiHandler.createBooking(mActivity, newBooking)
+//                // POST
+//                val newBooking = MyBookingModel(
+//                    "2020-05-20",
+//                    "14:00:00",
+//                    "15:00:00",
+//                    "city1",
+//                    "center1",
+//                    "court1",
+//                    "player1"
+//                )
+//                ApiHandler.createBooking(mActivity, newBooking)
             }
 
         })

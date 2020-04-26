@@ -29,7 +29,7 @@ class CompletedAdapter(val arrayList: ArrayList<MyBookingModel>, val context : C
             itemView.record_weekday.text = model.week
             itemView.record_time.text = model.time
             itemView.record_court.text = model.court
-            if (model.status == 0){
+            if (model.isPaid == false){
                 itemView.record_status.text = "Status: Unpaid"
                 itemView.record_status.setTextColor(Color.parseColor("#fa7470"))
             } else {

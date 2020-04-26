@@ -7,10 +7,12 @@ import android.content.DialogInterface
 import android.os.AsyncTask
 import android.widget.Toast
 import com.example.Type.MyBookingModel
+import com.example.book2play.MyApplication
 import java.net.HttpURLConnection
 
 abstract class MyGeneralAsyncTask (activity: Activity) : AsyncTask<String?, String?, String?>(){
     val BASEURL = "http://10.0.2.2:8000/api"
+    lateinit var Token :String
     var isBadRequest : Boolean = false
 
     val myTask = this
@@ -20,6 +22,7 @@ abstract class MyGeneralAsyncTask (activity: Activity) : AsyncTask<String?, Stri
     val dialog = ProgressDialog(activity)
 
     override fun onPreExecute() {
+        Token = (activity.application as MyApplication).getToken()
         // make processing dialog
         dialog.setMessage("Trying to connecting server")
         dialog.setCancelable(true)
@@ -64,6 +67,6 @@ abstract class MyGeneralAsyncTask (activity: Activity) : AsyncTask<String?, Stri
         }
     }
 
-    abstract fun jobSuccess()
-    abstract fun jobFail()
+    open fun jobSuccess() {}
+    open fun jobFail() {}
 }

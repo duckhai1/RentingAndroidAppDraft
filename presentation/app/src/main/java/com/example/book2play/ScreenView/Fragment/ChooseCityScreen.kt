@@ -14,6 +14,7 @@ import android.widget.Spinner
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.LogicConnection.Handler.ApiHandler
 
 import com.example.Type.MyBookingModel
 import com.example.Type.MyCityModel
@@ -80,20 +81,13 @@ class ChooseCityScreen : Fragment() {
     }
 
     fun getCityNameList() : ArrayList<String?>{
-        val cities = ArrayList<MyCityModel>()
-
-        // TODO get city list from server
-        // ApiHandler.getCity
-        cities.add(MyCityModel("city1"))
-        cities.add(MyCityModel("Ho Chi Minh city"))
-        cities.add(MyCityModel("My Tho city"))
-        cities.add(MyCityModel("Vung Tau city"))
-        cities.add(MyCityModel("Binh Duong city"))
-
+        val cities = activity?.let { ApiHandler.getCityList(it) }
         var citiesName = ArrayList<String?>()
         // get name set from cities
-        for (city in cities){
-            citiesName.add(city.cityName)
+        if (cities != null) {
+            for (city in cities){
+                citiesName.add(city.cityName)
+            }
         }
         return citiesName
     }

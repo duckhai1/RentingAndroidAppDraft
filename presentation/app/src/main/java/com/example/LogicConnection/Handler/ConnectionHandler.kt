@@ -3,6 +3,7 @@ package com.example.LogicConnection.Handler
 import android.util.Base64
 import android.util.Log
 import com.example.Type.MyDataModel
+import com.example.book2play.MyApplication
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import java.io.*
@@ -14,14 +15,14 @@ import java.net.URLEncoder
 class ConnectionHandler {
     companion object{
         // GET method request
-        fun sendGet(url: String?, postDataParams: String): String {
+        fun sendGet(url: String?, postDataParams: String, token : String): String {
             // handle request
 
             val fullUrl = url+"?"+postDataParams
             Log.d("server_connect", "GET url: "+fullUrl)
 
             // setup connection
-            val conn = setupConnection(fullUrl, "GET")
+            val conn = setupConnection(fullUrl, "GET", token)
 
             // handle response
             val responseCode = conn.responseCode
@@ -42,9 +43,9 @@ class ConnectionHandler {
         }
 
         // POST method request
-        fun sendPost(url: String?, requestData: String): String? {
+        fun sendPost(url: String?, requestData: String, token: String): String? {
             // setup connection
-            val conn = setupConnection(url, "POST")
+            val conn = setupConnection(url, "POST", token)
 
             // handle request
             val os = conn.outputStream
@@ -79,12 +80,14 @@ class ConnectionHandler {
             return result.toString()
         }
 
-        private fun setupConnection(url: String?, method: String) : HttpURLConnection{
+        private fun setupConnection(url: String?, method: String, token: String) : HttpURLConnection{
             val url = URL(url)
             val conn = url.openConnection() as HttpURLConnection
             conn.readTimeout = 10000
             conn.connectTimeout = 10000
             conn.requestMethod = method
+            conn.setRequestProperty("Token", token)
+            Log.d("Token ", "Token in connection: " +token)
             if (method == "GET" || method == "DELETE"){
                 conn.doInput = true
             } else {

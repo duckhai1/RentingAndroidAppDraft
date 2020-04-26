@@ -57,7 +57,7 @@ class DetailScreen : AppCompatActivity(){
             detailList.add(bookingInfo.date + " " + bookingInfo.week + ": " + bookingInfo.time)
             detailList.add(bookingInfo.center + ", " + bookingInfo.city)
             detailList.add(bookingInfo.court.toString())
-            detailList.add(if (bookingInfo.status == 0) "Unpaid" else "Paid")
+            detailList.add(if (bookingInfo.isPaid == false) "Unpaid" else "Paid")
         }
         return detailList
     }

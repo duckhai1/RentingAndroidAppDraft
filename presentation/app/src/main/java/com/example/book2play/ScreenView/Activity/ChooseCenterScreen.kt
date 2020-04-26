@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.LogicConnection.Handler.ApiHandler
 
 import com.example.Type.MyBookingModel
 import com.example.Type.MyCenterModel
@@ -39,7 +40,7 @@ class ChooseCenterScreen : AppCompatActivity(),OnMapReadyCallback {
         setSupportActionBar(toolbar)
         getSupportActionBar()?.setDisplayHomeAsUpEnabled(true)
 
-        val centers = getCenterList()
+        val centers = getCenterList(bookingInfo!!.city.toString())
         listPlaces.layoutManager = LinearLayoutManager(this)
         listPlaces.adapter = ChooseCenterAdapter(
             centers,
@@ -73,15 +74,15 @@ class ChooseCenterScreen : AppCompatActivity(),OnMapReadyCallback {
         return super.onSupportNavigateUp()
     }
 
-    fun getCenterList() : ArrayList<MyCenterModel>{
-        val centers = ArrayList<MyCenterModel>()
-
-        // TODO get center list form server
-        // ApiHandler.getCenter
-        centers.add(MyCenterModel("center1", "city1","somewhere on the city1, I dont know, I too lazy to think"))
-        centers.add(MyCenterModel("PhatCho Sporting Center", "city1","199 Phan Xich Long Street, Binh Thanh District", R.drawable.hcmc1))
-        centers.add(MyCenterModel("HieuLon Sporting Center", "city1","145 Le Duan Street, District 1", R.drawable.hcmc2))
-        centers.add(MyCenterModel("BaoDoi Sporting Center", "city1","59 Dien Bien Phu Street, District 3",R.drawable.hcmc3))
+    fun getCenterList(cityName : String) : ArrayList<MyCenterModel>{
+        var centers = ArrayList<MyCenterModel>()
+        centers = ApiHandler.getSportCenterInCity(this, cityName)
+//        // TODO get center list form server
+//        // ApiHandler.getCenter
+//        centers.add(MyCenterModel("center1", "city1","somewhere on the city1, I dont know, I too lazy to think"))
+//        centers.add(MyCenterModel("PhatCho Sporting Center", "city1","199 Phan Xich Long Street, Binh Thanh District", R.drawable.hcmc1))
+//        centers.add(MyCenterModel("HieuLon Sporting Center", "city1","145 Le Duan Street, District 1", R.drawable.hcmc2))
+//        centers.add(MyCenterModel("BaoDoi Sporting Center", "city1","59 Dien Bien Phu Street, District 3",R.drawable.hcmc3))
 
         return centers
     }

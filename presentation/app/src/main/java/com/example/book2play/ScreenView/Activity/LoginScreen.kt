@@ -1,5 +1,6 @@
 package com.example.book2play.ScreenView.Activity
 
+import android.app.Application
 import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
@@ -10,6 +11,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.Type.MyPlayerModel
+import com.example.book2play.MyApplication
 import com.example.book2play.ScreenView.Fragment.ChooseCityScreen
 import com.example.book2play.R
 import com.facebook.*
@@ -60,7 +62,8 @@ class LoginScreen : AppCompatActivity() {
             FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 val accessToken = loginResult.accessToken.token
-                Log.i("accessToken", accessToken)
+                (this@LoginScreen.application as MyApplication).setToken(accessToken)
+                Log.d("Token", accessToken)
 
                 val request = GraphRequest.newMeRequest(loginResult.accessToken) { jsonObject, response ->
                     Log.i("LoginScreen", response.toString())

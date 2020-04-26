@@ -56,7 +56,7 @@ class CompletedFragment : Fragment() {
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa",
-                1
+                true
             )
         )
         arrayList.add(
@@ -68,7 +68,7 @@ class CompletedFragment : Fragment() {
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa",
-                0
+                false
             )
         )
         arrayList.add(
@@ -80,7 +80,7 @@ class CompletedFragment : Fragment() {
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa",
-                1
+                true
             )
         )
         arrayList.add(
@@ -92,7 +92,7 @@ class CompletedFragment : Fragment() {
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa",
-                1
+                true
             )
         )
         arrayList.add(
@@ -104,7 +104,7 @@ class CompletedFragment : Fragment() {
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa",
-                1
+                true
             )
         )
         arrayList.add(
@@ -116,7 +116,7 @@ class CompletedFragment : Fragment() {
                 "TA Sport Center",
                 "Court 1",
                 "Maria Onawa",
-                1
+                true
             )
         )
 
