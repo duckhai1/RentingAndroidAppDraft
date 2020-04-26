@@ -1,13 +1,19 @@
 package com.example.book2play.ScreenView.Activity
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
+import android.text.Spanned
+import android.text.TextPaint
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.text.style.RelativeSizeSpan
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.Type.MyPlayerModel
 import com.example.book2play.ScreenView.Fragment.ChooseCityScreen
@@ -44,10 +50,27 @@ class LoginScreen : AppCompatActivity() {
             startActivity(intent)
         }
 
-        signupBtn.setOnClickListener {
-            val intent = Intent(applicationContext, SignUpScreen::class.java)
-            startActivity(intent)
+        //create clickable SIGN UP
+        val textView = findViewById<TextView>(R.id.signupTxt)
+        val text = "Don't have account? SIGN UP here"
+        val ss = SpannableString(text)
+        val clickableSpan1: ClickableSpan = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                val intent = Intent(applicationContext, SignUpScreen::class.java)
+                startActivity(intent)
+            }
+
+            override fun updateDrawState(ds: TextPaint) {
+                super.updateDrawState(ds)
+                ds.color = Color.rgb(129, 199, 132)
+                ds.isUnderlineText = true
+            }
         }
+
+        ss.setSpan(clickableSpan1, 20, 27, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        textView.text = ss
+        textView.movementMethod = LinkMovementMethod.getInstance()
+        //end of clickable SIGNUP
 
         //FACEBOOK PART
         FacebookSdk.sdkInitialize(applicationContext)

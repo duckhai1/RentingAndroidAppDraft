@@ -17,4 +17,9 @@
     <string name="facebook_app_id">4343180779041251</string>
     <string name="fb_login_protocol_scheme">fb4343180779041251</string>
 
+    <string name="err_msg_username">Enter your username</string>
+    <string name="err_msg_name">Enter your full name</string>
+    <string name="err_msg_email">Enter valid email address</string>
+    <string name="err_msg_phone">Enter your phone number</string>
+    <string name="err_msg_password">Enter your password</string>
 </resources>
