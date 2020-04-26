@@ -8,7 +8,6 @@ DELIMITER //
 
 DROP PROCEDURE IF EXISTS createBooking//
 CREATE PROCEDURE createBooking (
-    IN inBookingId VARCHAR(100),
 	IN inTimestamp TIMESTAMP,
     IN inDate DATE,
     IN inStartTime TIME,
@@ -22,10 +21,19 @@ CREATE PROCEDURE createBooking (
 BEGIN
     DECLARE openTime TIME;
     DECLARE closeTime TIME;
-
+	DECLARE inBookingId VARCHAR(100);
+    
     SET openTime = '07:00:00';
     SET closeTime = '21:00:00';
-
+	SET inBookingId = MD5(CONCAT(
+    inDate,
+    inStartTime,
+    inEndTime,
+    inCityId, 
+    inSportCenterId, 
+    inCourtId, 
+    inPlayerId));
+    
 	IF inBookingId REGEXP '[^a-zA-Z0-9]+' THEN
 		SET statusCode = 465 ; -- invalid booking id 
 	ELSEIF inDate < CURDATE() THEN

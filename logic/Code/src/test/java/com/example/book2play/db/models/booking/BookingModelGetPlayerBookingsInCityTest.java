@@ -56,7 +56,7 @@ public class BookingModelGetPlayerBookingsInCityTest extends ModelTestSetup {
 
         for (var b : testBookings) {
             BOOKING.createBooking(
-                    b.getBookingId(),
+                    //b.getBookingId(),
                     b.getCreatedAt(),
                     b.getBookingDate(),
                     b.getBookingStartTime(),

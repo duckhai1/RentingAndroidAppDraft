@@ -26,7 +26,7 @@ public class BookingModelCancelBookingTest extends ModelTestSetup {
     @Test
     public void testCancelOneBookingSuccessfully() throws Exception {
         BOOKING.createBooking(
-                "B1",
+                //"B1",
                 TimeUtils.getTimestamp(),
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(9, 0, 0),
@@ -77,7 +77,7 @@ public class BookingModelCancelBookingTest extends ModelTestSetup {
         bookingIds.add("b@2");
 
         BOOKING.createBooking(
-                "B1",
+                //"B1",
                 TimeUtils.getTimestamp(),
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(9, 0, 0),
@@ -104,7 +104,7 @@ public class BookingModelCancelBookingTest extends ModelTestSetup {
         playerIds.add("ba$");
 
         BOOKING.createBooking(
-                "B1",
+                //"B1",
                 TimeUtils.getTimestamp(),
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(9, 0, 0),
@@ -131,7 +131,7 @@ public class BookingModelCancelBookingTest extends ModelTestSetup {
 
         PLAYER.createPlayer("Bob");
         BOOKING.createBooking(
-                "B1",
+                //"B1",
                 TimeUtils.getTimestamp(),
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(9, 0, 0),
@@ -139,7 +139,7 @@ public class BookingModelCancelBookingTest extends ModelTestSetup {
                 "HCM", "Q1", "P1", "Alice"
         );
         BOOKING.createBooking(
-                "B2",
+                //"B2",
                 TimeUtils.getTimestamp(),
                 TimeUtils.getDate(20),
                 TimeUtils.getTime(9, 0, 0),
