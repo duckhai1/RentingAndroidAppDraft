@@ -22,6 +22,13 @@ public interface PlayerModel {
     void updatePlayerId(String newPlayerId, String oldPlayerId) throws MySQLException;
 
     /**
+     * Confirm the given id is a playerId
+     *
+     * @param playerId the unique identifier for new the player
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
+    String isPlayer(String playerId) throws MySQLException;
+    /**
      * Empty the player relation, for testing
      *
      * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened

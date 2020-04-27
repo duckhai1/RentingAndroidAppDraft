@@ -87,6 +87,41 @@ public class PlayerModel extends AbstractModel implements com.example.book2play.
     }
 
     /**
+     * Create a new connection to the data source and call the stored procedure
+     * to update the player unique identifier
+     *
+     * @param playerId the unique identifier for the player
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
+    @Override
+    public String isPlayer(String playerId) throws MySQLException {
+        LOG.info("Calling isPlayer");
+        Connection conn = null;
+        CallableStatement stm = null;
+        ResultSet rs = null;
+
+        try{
+            conn = this.db.getConnection();
+            conn.prepareCall("{call isPlayer(?,?)}");
+            stm.setString(1, playerId);
+            stm.registerOutParameter(2, Types.INTEGER);
+
+            rs = stm.executeQuery();
+            var statusCode = stm.getInt(2);
+            LOG.info("Received status code " + statusCode);
+            if (statusCode >= 400 && statusCode < 500) {
+                throw new MySQLException(statusCode);
+            }
+            return rs.getString("playerId");
+        } catch (SQLException e) {
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
+        } finally {
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+        }
+    }
+
+    /**
      * Create a new connection to the data source and clear the relation
      *
      * @throws MySQLException
