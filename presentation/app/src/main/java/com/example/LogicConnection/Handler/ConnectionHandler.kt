@@ -2,8 +2,8 @@ package com.example.LogicConnection.Handler
 
 import android.util.Base64
 import android.util.Log
-import com.example.LogicConnection.Type.MyBookingModel
-import com.example.LogicConnection.Type.MyDataModel
+import com.example.Type.MyDataModel
+import com.example.book2play.MyApplication
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import java.io.*
@@ -11,27 +11,23 @@ import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
-import javax.net.ssl.HttpsURLConnection
 
 class ConnectionHandler {
     companion object{
         // GET method request
-        fun sendGet(url: String?): String {
-            val obj = URL(url)
-            val conn = obj.openConnection() as HttpURLConnection
+        fun sendGet(url: String?, postDataParams: String, token : String): String {
+            // handle request
 
-            // authentication
-            val username = "admin"
-            val pass = "admin"
-            val userPassword: String = username.toString() + ":" + pass
-            val data: ByteArray = userPassword.toByteArray(Charsets.UTF_8)
-            val encoding: String = Base64.encodeToString(data, Base64.DEFAULT)
-            conn.setRequestProperty("Authorization", "Basic " + encoding)
-            conn.requestMethod = "GET"
+            val fullUrl = url+"?"+postDataParams
+            Log.d("server_connect", "GET url: "+fullUrl)
 
+            // setup connection
+            val conn = setupConnection(fullUrl, "GET", token)
+
+            // handle response
             val responseCode = conn.responseCode
             return if (responseCode == HttpURLConnection.HTTP_OK) { // connection ok
-                Log.d("java_connection", "Successful connect")
+                Log.d("server_connect", "Successful connect")
                 val input = BufferedReader(InputStreamReader(conn.inputStream))
 
                 var inputLine: String?
@@ -42,35 +38,20 @@ class ConnectionHandler {
                 input.close()
                 response.toString()
             } else {
-                ""
+                HttpURLConnection.HTTP_BAD_REQUEST.toString()
             }
         }
 
         // POST method request
-        fun sendPost(r_url: String?, postDataParams: JsonObject): String? {
-            val url = URL(r_url)
-
+        fun sendPost(url: String?, requestData: String, token: String): String? {
             // setup connection
-            val conn = url.openConnection() as HttpURLConnection
-            // authentication
-            val username = "admin"
-            val pass = "admin"
-            val userPassword: String = username.toString() + ":" + pass
-            val data: ByteArray = userPassword.toByteArray(Charsets.UTF_8)
-            val encoding: String = Base64.encodeToString(data, Base64.DEFAULT)
-            conn.setRequestProperty("Authorization", "Basic " + encoding)
-            conn.readTimeout = 20000
-            conn.connectTimeout = 20000
-            conn.requestMethod = "POST"
-            conn.doInput = true
-            conn.doOutput = true
+            val conn = setupConnection(url, "POST", token)
 
             // handle request
             val os = conn.outputStream
             val writer = BufferedWriter(OutputStreamWriter(os, "UTF-8"))
-            val requestJson = postDataParams.toString()
-            Log.d("java_connection", "requestJson: $postDataParams")
-            writer.write(requestJson)
+            Log.d("server_connect", "requestJson: $requestData")
+            writer.write(requestData)
             writer.flush()
             writer.close()
             os.close()
@@ -78,57 +59,52 @@ class ConnectionHandler {
             // handle response
             val responseCode = conn.responseCode
             // check if request success
-            if (responseCode == HttpsURLConnection.HTTP_OK) {
-                Log.d("java_connection", "Successful connect")
-                val input = BufferedReader(InputStreamReader(conn.inputStream))
-                val response = StringBuffer("")
-                var line: String? = input.readLine()
-                while (line != null) {
-                    response.append(line)
-                    line = input.readLine()
-                }
-                input.close()
-                return response.toString()
+            if (responseCode == HttpURLConnection.HTTP_CREATED) {
+                Log.d("server_connect", "Successful connect")
+                return HttpURLConnection.HTTP_CREATED.toString()
             }
-            return null
+            return HttpURLConnection.HTTP_BAD_REQUEST.toString()
         }
 
         // convert jsonObject to query in url
-        private fun encodeParams(params: JsonObject): String {
+        fun encodeParams(jsonObject : JsonObject): String {
             val result = StringBuilder()
             var first = true
-            val itr: Iterator<String> = params.keySet().iterator()
+            val itr: Iterator<String> = jsonObject.keySet().iterator()
             while (itr.hasNext()) {
                 val key = itr.next()
-                val value: Any = params[key]
+                val value = jsonObject[key]
                 if (first) first = false else result.append("&")
-                result.append(URLEncoder.encode(key, "UTF-8"))
-                result.append("=")
-                result.append(URLEncoder.encode(value.toString(), "UTF-8"))
+                result.append(key+"="+value.asString)
             }
             return result.toString()
         }
-    }
 
-    fun createJson(data : MyDataModel, fileName : String){
-        val gson = Gson()
-        var json : String = gson.toJson(data)
-
-
-        try {
-            var fo = FileWriter(fileName)
-            fo.write(json)
-            fo.close()
-        } catch (ex: Exception){
-            Log.d("File write", ex.message)
+        private fun setupConnection(url: String?, method: String, token: String) : HttpURLConnection{
+            val url = URL(url)
+            val conn = url.openConnection() as HttpURLConnection
+            conn.readTimeout = 10000
+            conn.connectTimeout = 10000
+            conn.requestMethod = method
+            conn.setRequestProperty("Token", token)
+            Log.d("Token ", "Token in connection: " +token)
+            if (method == "GET" || method == "DELETE"){
+                conn.doInput = true
+            } else {
+                conn.doOutput = true
+            }
+            setupAuthorize(conn)
+            return conn
         }
-    }
 
-    // TODO get Json from logic tier
-    fun loadJson(){
-        val gson = Gson()
-        val json : String = ""
-        val data : MyDataModel
-        data = gson.fromJson(json, MyDataModel::class.java)
+        private fun setupAuthorize(conn: HttpURLConnection){
+            val username = "admin"
+            val pass = "admin"
+            // authentication
+            val userPassword: String = username.toString() + ":" + pass
+            val data: ByteArray = userPassword.toByteArray(Charsets.UTF_8)
+            val encoding: String = Base64.encodeToString(data, Base64.DEFAULT)
+            conn.setRequestProperty("Authorization", "Basic " + encoding)
+        }
     }
 }

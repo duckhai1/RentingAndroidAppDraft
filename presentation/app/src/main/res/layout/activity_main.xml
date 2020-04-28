@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:id="@+id/drawerLayout"
     android:fitsSystemWindows="true"
-    tools:context=".MainActivity">
+    tools:context=".ScreenView.Activity.MainActivity">
 
     <include
         android:layout_height="match_parent"
@@ -23,6 +23,7 @@
         app:menu="@menu/drawer_menu"
         app:headerLayout="@layout/menu_header"
         android:layout_gravity="start"
+
         >
 
     </com.google.android.material.navigation.NavigationView>
