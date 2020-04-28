@@ -2,7 +2,8 @@ package com.example.book2play.db.models.booking;
 
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.ModelTestSetup;
-import com.example.test_utils.Pair;
+import com.example.book2play.types.Booking;
+import com.example.test_utils.BookingUtils;
 import com.example.test_utils.TimeUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,16 +26,26 @@ public class BookingModelCancelBookingTest extends ModelTestSetup {
 
     @Test
     public void testCancelOneBookingSuccessfully() throws Exception {
-        BOOKING.createBooking(
-                //"B1",
-                TimeUtils.getTimestamp(),
+        // this generate booking id with md5 for comparison
+        var expectedBooking = BookingUtils.createBooking(
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(9, 0, 0),
                 TimeUtils.getTime(10, 30, 0),
-                "HCM", "Q1", "P1", "Alice"
+                false, "HCM", "Q1", "P1", "Alice"
         );
 
-        BOOKING.cancelBooking("B1", "Alice");
+        BOOKING.createBooking(
+                TimeUtils.getTimestamp(),
+                expectedBooking.getBookingDate(),
+                expectedBooking.getBookingStartTime(),
+                expectedBooking.getBookingEndTime(),
+                expectedBooking.getCityId(),
+                expectedBooking.getSportCenterId(),
+                expectedBooking.getCourtId(),
+                expectedBooking.getPlayerId()
+        );
+
+        BOOKING.cancelBooking(expectedBooking.getBookingId(), expectedBooking.getPlayerId());
     }
 
     @Test
@@ -51,17 +62,27 @@ public class BookingModelCancelBookingTest extends ModelTestSetup {
             bookingDate = TimeUtils.getDate(1);
         }
 
-        rawInsertBooking(
-                "B1",
+        var expectedBooking = BookingUtils.createBooking(
                 bookingDate,
                 TimeUtils.getTime(9, 0, 0),
                 TimeUtils.getTime(10, 30, 0),
-                false,
-                "HCM", "Q1", "P1", "Alice"
+                false, "HCM", "Q1", "P1", "Alice"
+        );
+
+        rawInsertBooking(
+                expectedBooking.getBookingId(),
+                expectedBooking.getBookingDate(),
+                expectedBooking.getBookingStartTime(),
+                expectedBooking.getBookingEndTime(),
+                expectedBooking.isPaid(),
+                expectedBooking.getCityId(),
+                expectedBooking.getSportCenterId(),
+                expectedBooking.getCourtId(),
+                expectedBooking.getPlayerId()
         );
 
         try {
-            BOOKING.cancelBooking("B1", "Alice");
+            BOOKING.cancelBooking(expectedBooking.getBookingId(), expectedBooking.getPlayerId());
             fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
         } catch (MySQLException e) {
             Assert.assertEquals("Unexpected error code", EXPECTED_CODE, e.getStatusCode());
@@ -103,18 +124,27 @@ public class BookingModelCancelBookingTest extends ModelTestSetup {
         playerIds.add("b@b");
         playerIds.add("ba$");
 
-        BOOKING.createBooking(
-                //"B1",
-                TimeUtils.getTimestamp(),
+        var expectedBooking = BookingUtils.createBooking(
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(9, 0, 0),
                 TimeUtils.getTime(10, 30, 0),
-                "HCM", "Q1", "P1", "Alice"
+                false, "HCM", "Q1", "P1", "Alice"
         );
 
-        for (var id : playerIds) {
+        BOOKING.createBooking(
+                TimeUtils.getTimestamp(),
+                expectedBooking.getBookingDate(),
+                expectedBooking.getBookingStartTime(),
+                expectedBooking.getBookingEndTime(),
+                expectedBooking.getCityId(),
+                expectedBooking.getSportCenterId(),
+                expectedBooking.getCourtId(),
+                expectedBooking.getPlayerId()
+        );
+
+        for (var playerId : playerIds) {
             try {
-                BOOKING.cancelBooking("B2", id);
+                BOOKING.cancelBooking(expectedBooking.getBookingId(), playerId);
                 fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
             } catch (MySQLException e) {
                 Assert.assertEquals("Unexpected error code", EXPECTED_CODE, e.getStatusCode());
@@ -125,37 +155,46 @@ public class BookingModelCancelBookingTest extends ModelTestSetup {
     @Test
     public void testCancelBookingWithUnauthorized() throws Exception {
         final int EXPECTED_CODE = 401;
-        var idsPairs = new ArrayList<Pair<String, String>>();
-        idsPairs.add(new Pair("B1", "Bob"));
-        idsPairs.add(new Pair("B2", "Alice"));
-
-        PLAYER.createPlayer("Bob");
-        BOOKING.createBooking(
-                //"B1",
-                TimeUtils.getTimestamp(),
+        var inputBookings = new ArrayList<Booking>();
+        inputBookings.add(BookingUtils.createBooking(
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(9, 0, 0),
                 TimeUtils.getTime(10, 30, 0),
-                "HCM", "Q1", "P1", "Alice"
-        );
-        BOOKING.createBooking(
-                //"B2",
-                TimeUtils.getTimestamp(),
-                TimeUtils.getDate(20),
-                TimeUtils.getTime(9, 0, 0),
-                TimeUtils.getTime(10, 30, 0),
-                "HCM", "Q1", "P1", "Bob"
-        );
+                false, "HCM", "Q1", "P1", "Alice"
+        ));
+        inputBookings.add(BookingUtils.createBooking(
+                TimeUtils.getDate(10),
+                TimeUtils.getTime(11, 0, 0),
+                TimeUtils.getTime(12, 30, 0),
+                false, "HCM", "Q1", "P1", "Bob"
+        ));
 
-        for (var p : idsPairs) {
-            try {
-                BOOKING.cancelBooking(p.getX(), p.getY());
-                fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
-            } catch (MySQLException e) {
-                Assert.assertEquals("Unexpected error code", EXPECTED_CODE, e.getStatusCode());
+        PLAYER.createPlayer("Bob");
+        for (var b : inputBookings) {
+            BOOKING.createBooking(
+                    b.getCreatedAt(),
+                    b.getBookingDate(),
+                    b.getBookingStartTime(),
+                    b.getBookingEndTime(),
+                    b.getCityId(), b.getSportCenterId(),
+                    b.getCourtId(), b.getPlayerId()
+            );
+        }
+
+        for (int i = 0; i <= 1; i++) {
+            for (int j = 0; j <= 1; j++) {
+                if (i != j) {
+                    try {
+                        BOOKING.cancelBooking(
+                                inputBookings.get(i).getBookingId(),
+                                inputBookings.get(j).getPlayerId()
+                        );
+                        fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
+                    } catch (MySQLException e) {
+                        Assert.assertEquals("Unexpected error code", EXPECTED_CODE, e.getStatusCode());
+                    }
+                }
             }
         }
     }
-
-
 }

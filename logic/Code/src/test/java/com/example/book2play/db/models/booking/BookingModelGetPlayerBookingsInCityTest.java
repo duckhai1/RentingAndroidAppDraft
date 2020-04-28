@@ -3,6 +3,7 @@ package com.example.book2play.db.models.booking;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.ModelTestSetup;
 import com.example.book2play.types.Booking;
+import com.example.test_utils.BookingUtils;
 import com.example.test_utils.TimeUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -11,15 +12,16 @@ import org.junit.Test;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.Assert.fail;
 
 public class BookingModelGetPlayerBookingsInCityTest extends ModelTestSetup {
 
-    private static ArrayList<Booking> testBookings;
+    private static List<Booking> TEST_BOOKINGS;
 
     @Before
-    public void setupBookingsFromMultiplePlayers() throws Exception {
+    public void setupBookingsFromMultipleCities() throws Exception {
         CITY.createCity("HCM");
         CITY.createCity("HaNoi");
         SPORT_CENTER.createCityCenter("Q1", "HCM");
@@ -27,36 +29,28 @@ public class BookingModelGetPlayerBookingsInCityTest extends ModelTestSetup {
         COURT.createCityCenterCourt("Court1", "HCM", "Q1");
         COURT.createCityCenterCourt("Court1", "HaNoi", "HK");
         PLAYER.createPlayer("Alice");
-
-        testBookings = new ArrayList<>();
-        testBookings.add(new Booking(
-                "B1",
-                TimeUtils.getTimestamp(),
+        TEST_BOOKINGS = new ArrayList<>();
+        TEST_BOOKINGS.add(BookingUtils.createBooking(
                 TimeUtils.getDate(7),
                 TimeUtils.getTime(12, 0, 0),
                 TimeUtils.getTime(13, 0, 0),
                 false, "HCM", "Q1", "Court1", "Alice"
         ));
-        testBookings.add(new Booking(
-                "B2",
-                TimeUtils.getTimestamp(),
+        TEST_BOOKINGS.add(BookingUtils.createBooking(
                 TimeUtils.getDate(7),
                 TimeUtils.getTime(13, 30, 0),
                 TimeUtils.getTime(15, 0, 0),
                 false, "HCM", "Q1", "Court1", "Alice"
         ));
-        testBookings.add(new Booking(
-                "B3",
-                TimeUtils.getTimestamp(),
+        TEST_BOOKINGS.add(BookingUtils.createBooking(
                 TimeUtils.getDate(7),
-                TimeUtils.getTime(9, 0, 0),
-                TimeUtils.getTime(10, 0, 0),
+                TimeUtils.getTime(12, 0, 0),
+                TimeUtils.getTime(13, 0, 0),
                 false, "HaNoi", "HK", "Court1", "Alice"
         ));
 
-        for (var b : testBookings) {
+        for (var b : TEST_BOOKINGS) {
             BOOKING.createBooking(
-                    //b.getBookingId(),
                     b.getCreatedAt(),
                     b.getBookingDate(),
                     b.getBookingStartTime(),
@@ -77,12 +71,12 @@ public class BookingModelGetPlayerBookingsInCityTest extends ModelTestSetup {
         testInputs.add("HaNoi");
 
         var case1 = new HashSet<Booking>();
-        case1.add(testBookings.get(0));
-        case1.add(testBookings.get(1));
+        case1.add(TEST_BOOKINGS.get(0));
+        case1.add(TEST_BOOKINGS.get(1));
         expectedOutputs.add(case1);
 
         var case2 = new HashSet<Booking>();
-        case2.add(testBookings.get(2));
+        case2.add(TEST_BOOKINGS.get(2));
         expectedOutputs.add(case2);
 
         for (var i = 0; i < testInputs.size(); i++) {
@@ -93,16 +87,16 @@ public class BookingModelGetPlayerBookingsInCityTest extends ModelTestSetup {
     }
 
     @Test
-    public void getBookingsInCityInvalidPlayerId() throws Exception {
+    public void getBookingsInCityInvalidPlayerId() {
         final int EXPECTED_CODE = 464;
         var testInputs = new ArrayList<String>();
         testInputs.add("@lice");
         testInputs.add("Ali(&");
         testInputs.add("B__b");
 
-        for (var i = 0; i < testInputs.size(); i++) {
+        for (String testInput : testInputs) {
             try {
-                var output = BOOKING.getPlayerBookingsInCity(testInputs.get(i), "HCM", TimeUtils.getDate(7));
+                var output = BOOKING.getPlayerBookingsInCity(testInput, "HCM", TimeUtils.getDate(7));
                 fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
             } catch (MySQLException e) {
                 Assert.assertEquals(EXPECTED_CODE, e.getStatusCode());
@@ -111,7 +105,7 @@ public class BookingModelGetPlayerBookingsInCityTest extends ModelTestSetup {
     }
 
     @Test
-    public void getBookingsInCityInvalidCityId() throws Exception {
+    public void getBookingsInCityInvalidCityId() {
         final int EXPECTED_CODE = 460;
         var testInputs = new ArrayList<String>();
         testInputs.add("H*M");
@@ -119,10 +113,9 @@ public class BookingModelGetPlayerBookingsInCityTest extends ModelTestSetup {
         testInputs.add("HaNo!");
 
 
-        for (var i = 0; i < testInputs.size(); i++) {
+        for (var testInput : testInputs) {
             try {
-                var input = testInputs.get(i);
-                var output = BOOKING.getPlayerBookingsInCity("Alice", testInputs.get(i), TimeUtils.getDate(7));
+                var output = BOOKING.getPlayerBookingsInCity("Alice", testInput, TimeUtils.getDate(7));
                 fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
             } catch (MySQLException e) {
                 Assert.assertEquals(EXPECTED_CODE, e.getStatusCode());
@@ -131,15 +124,15 @@ public class BookingModelGetPlayerBookingsInCityTest extends ModelTestSetup {
     }
 
     @Test
-    public void getBookingsInCityNoBookingInGivenDate() throws Exception {
+    public void getBookingsInCityNoBookingInGivenDate() {
         final int EXPECTED_CODE = 466;
         var testInputs = new ArrayList<Date>();
         testInputs.add(TimeUtils.getDate(5));
         testInputs.add(TimeUtils.getDate(20));
 
-        for (var i = 0; i < testInputs.size(); i++) {
+        for (var testInput : testInputs) {
             try {
-                var output = BOOKING.getPlayerBookingsInCity("Alice", "HCM", testInputs.get(i));
+                var output = BOOKING.getPlayerBookingsInCity("Alice", "HCM", testInput);
                 fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
             } catch (MySQLException e) {
                 Assert.assertEquals(EXPECTED_CODE, e.getStatusCode());
