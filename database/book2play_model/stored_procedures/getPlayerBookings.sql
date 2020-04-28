@@ -17,7 +17,7 @@ BEGIN
 		NATURAL JOIN players
 		WHERE playerId = inPlayerId
 	) THEN
-		SET statusCode = 466; -- no bookings for given player
+		SET statusCode = 470; -- no bookings for given player
     ELSE
 		SET statusCode = 200;
 		SELECT bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId

@@ -26,7 +26,7 @@ BEGIN
 			AND playerId = inPlayerId
 			AND bookingDate = inBookingDate
 	) THEN
-		SET statusCode = 466; -- no bookings in given date 
+		SET statusCode = 470; -- no bookings in given date 
     ELSE
 		SET statusCode = 200;
 		SELECT bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId
