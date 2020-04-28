@@ -201,7 +201,6 @@ updateBookingStatus */api/bookings[?status=?bookingId=?cityId=?sportCenterId=?st
 
 cancelBooking */api/bookings[?bookingId=&playerId=]*
 ---
----
 **URL encoded keys**
 + `bookingId` an alphanumeric characters sequence, represents the unique identifier of the booking.
 + `playerId` an alphanumeric characters sequence that uniquely identifies the player.
