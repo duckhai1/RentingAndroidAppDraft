@@ -58,45 +58,6 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
      * Create a new connection to the data source and call the stored procedure
      * to update the staff unique identifier
      *
-     * @param staffId    the unique identifier of the staff
-     * @param cityId        the unique identifier of the city the the sport center locates in
-     * @param sportCenterId the unique identifier, in the city, of the sport center
-     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
-     */
-    @Override
-    public String isStaff(String staffId, String cityId, String sportCenterId) throws MySQLException {
-        LOG.info("Calling isStaff");
-        Connection conn = null;
-        CallableStatement stm = null;
-        ResultSet rs = null;
-
-        try{
-            conn = this.db.getConnection();
-            conn.prepareCall("{call isStaff(?, ?, ?, ?)}");
-            stm.setString(1, staffId);
-            stm.setString(2, cityId);
-            stm.setString(3, sportCenterId);
-            stm.registerOutParameter(4, Types.INTEGER);
-
-            rs = stm.executeQuery();
-            var statusCode = stm.getInt(4);
-            LOG.info("Received status code " + statusCode);
-            if (statusCode >= 400 && statusCode < 500) {
-                throw new MySQLException(statusCode);
-            }
-            return rs.getString("staffId");
-        } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
-        } finally {
-            ResultSetUtils.quietCloseConnection(conn);
-            ResultSetUtils.quietCloseStatement(stm);
-        }
-    }
-
-    /**
-     * Create a new connection to the data source and call the stored procedure
-     * to update the staff unique identifier
-     *
      * @param newStaffId    the new unique identifier, in the sport center
      * @param oldStaffId    the current unique identifier of the staff
      * @param cityId        the unique identifier of the city that the sport center locates in

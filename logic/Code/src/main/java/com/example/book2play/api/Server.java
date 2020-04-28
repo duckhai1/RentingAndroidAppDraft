@@ -51,7 +51,8 @@ public class Server {
 
     private void setBookingsHandler() {
         var model = new BookingModel(ds);
-        var ctx = srv.createContext(BOOKINGS_BASE_URL, new BookingsHandler(model));
+        var authenticateModel = new AuthenticateModel(ds);
+        var ctx = srv.createContext(BOOKINGS_BASE_URL, new BookingsHandler(model, authenticateModel));
         ctx.setAuthenticator(new BasicAuthenticator("myrealm") {
             @Override
             public boolean checkCredentials(String user, String pwd) {
@@ -62,26 +63,31 @@ public class Server {
 
     private void setSportCentersHandler() {
         var model = new SportCenterModel(ds);
-        var ctx = srv.createContext(SPORT_CENTER_BASE_URL, new SportCentersHandler(model));
+        var authenticateModel = new AuthenticateModel(ds);
+        var ctx = srv.createContext(SPORT_CENTER_BASE_URL, new SportCentersHandler(model, authenticateModel));
     }
 
     private void setCourtsHandler() {
         var model = new CourtModel(ds);
-        var ctx = srv.createContext(COURT_BASE_URL, new CourtsHandler(model));
+        var authenticateModel = new AuthenticateModel(ds);
+        var ctx = srv.createContext(COURT_BASE_URL, new CourtsHandler(model, authenticateModel));
     }
 
     private void setPlayerHandler() {
         var model = new PlayerModel(ds);
-        var ctx = srv.createContext(PLAYER_BASE_URL, new PlayerHandler(model));
+        var authenticateModel = new AuthenticateModel(ds);
+        var ctx = srv.createContext(PLAYER_BASE_URL, new PlayerHandler(model, authenticateModel));
     }
 
     private void setCityHandler() {
         var model = new CityModel(ds);
-        var ctx = srv.createContext(CITY_BASE_URL, new CityHandler(model));
+        var authenticateModel = new AuthenticateModel(ds);
+        var ctx = srv.createContext(CITY_BASE_URL, new CityHandler(model, authenticateModel));
     }
 
     private void setStaffHandler() {
         var model = new StaffModel(ds);
-        var ctx = srv.createContext(STAFF_BASE_URL, new StaffHandler(model));
+        var authenticateModel = new AuthenticateModel(ds);
+        var ctx = srv.createContext(STAFF_BASE_URL, new StaffHandler(model, authenticateModel));
     }
 }

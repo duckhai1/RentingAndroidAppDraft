@@ -2,6 +2,7 @@ package com.example.book2play.api.handler;
 
 import com.example.book2play.api.utils.HTTPStatus;
 import com.example.book2play.db.exceptions.MySQLException;
+import com.example.book2play.db.models.AuthenticateModel;
 import com.example.book2play.db.models.BookingModel;
 import com.example.book2play.types.Booking;
 import com.sun.net.httpserver.HttpExchange;
@@ -15,10 +16,11 @@ import java.util.Collection;
 public class BookingsHandler extends AbstractHandler {
 
     BookingModel model;
-
-    public BookingsHandler(BookingModel model) {
+    AuthenticateModel authenticateModel;
+    public BookingsHandler(BookingModel model, AuthenticateModel authenticateModel) {
         super();
         this.model = model;
+        this.authenticateModel = authenticateModel;
     }
 
     @Override
@@ -44,6 +46,7 @@ public class BookingsHandler extends AbstractHandler {
 
     private void execGet(HttpExchange exchange) throws IOException {
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
+        var token = exchange.getRequestHeaders().get("Token").get(0);
         var date = params.get("date");
         var cityId = params.get("cityId");
         var sportCenterId = params.get("sportCenterId");

@@ -26,16 +26,6 @@ public interface StaffModel {
     void updateStaffId(String newStaffId, String oldStaffId, String cityId, String sportCenterId) throws MySQLException;
 
     /**
-     * Confirm the given id is is a staffId
-     *
-     * @param staffId       the unique identifier, in the given sport center, of the new staff
-     * @param cityId        the unique identifier of the city the the sport center locates in
-     * @param sportCenterId the unique identifier, in the city, of the sport center
-     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
-     */
-    String isStaff(String staffId, String cityId, String sportCenterId) throws MySQLException;
-
-    /**
      * Empty the staff realtion, for testing
      *
      * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened

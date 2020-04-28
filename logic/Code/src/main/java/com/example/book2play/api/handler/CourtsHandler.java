@@ -2,8 +2,10 @@ package com.example.book2play.api.handler;
 
 import com.example.book2play.api.utils.HTTPStatus;
 import com.example.book2play.db.exceptions.MySQLException;
+import com.example.book2play.db.models.AuthenticateModel;
 import com.example.book2play.db.models.CourtModel;
 import com.example.book2play.types.Court;
+import com.mysql.cj.protocol.x.XAuthenticationProvider;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
@@ -13,10 +15,12 @@ import java.util.Collection;
 public class CourtsHandler extends AbstractHandler {
 
     CourtModel model;
+    AuthenticateModel authenticateModel;
 
-    public CourtsHandler(CourtModel model) {
+    public CourtsHandler(CourtModel model, AuthenticateModel authenticateModel) {
         super();
         this.model = model;
+        this.authenticateModel = authenticateModel;
     }
 
     @Override
