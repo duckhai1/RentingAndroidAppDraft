@@ -4,10 +4,12 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.AsyncTask
 import android.widget.Toast
 import com.example.Type.MyBookingModel
 import com.example.book2play.MyApplication
+import com.example.book2play.ScreenView.Activity.MainActivity
 import java.net.HttpURLConnection
 
 abstract class MyGeneralAsyncTask (activity: Activity) : AsyncTask<String?, String?, String?>(){
@@ -68,5 +70,8 @@ abstract class MyGeneralAsyncTask (activity: Activity) : AsyncTask<String?, Stri
     }
 
     open fun jobSuccess() {}
-    open fun jobFail() {}
+    open fun jobFail() {
+        val home_intent = Intent(activity, MainActivity::class.java)
+        activity.startActivity(home_intent)
+    }
 }

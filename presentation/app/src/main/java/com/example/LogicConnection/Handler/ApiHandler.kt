@@ -61,9 +61,9 @@ class ApiHandler {
             return decodeToList<MyCourtModel>(response)
         }
 
-        fun getSlotInCourt(activity: Activity, cityName: String, centerName: String, courtName: String): ArrayList<MySlotModel>{
-            // TODO
-            return ArrayList<MySlotModel>()
+        fun getSlotInCourt(activity: Activity, cityName: String, centerName: String, courtName: String, date: String): ArrayList<MySlotModel>{
+            val response = GetSlotInCourtAsync(activity).execute(cityName, centerName, courtName, date).get()
+            return decodeToList<MySlotModel>(response)
         }
 
 
@@ -71,7 +71,11 @@ class ApiHandler {
 
         private inline fun <reified T : MyDataModel> decodeToList(jsonString: String?) : ArrayList<T>{
             val ListType = TypeToken.getParameterized(ArrayList::class.java, T::class.java)
-            return Gson().fromJson<ArrayList<T>>(jsonString, ListType.type)
+            val result =  Gson().fromJson<ArrayList<T>>(jsonString, ListType.type)
+            if (result == null){
+                return ArrayList<T>()
+            }
+            return result
         }
 
     }

@@ -47,9 +47,4 @@ class CreateBookingAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
         this.activity.startActivity(intent)
     }
 
-    override fun jobFail() {
-        val home_intent = Intent(activity, MainActivity::class.java)
-        activity.startActivity(home_intent)
-    }
-
 }

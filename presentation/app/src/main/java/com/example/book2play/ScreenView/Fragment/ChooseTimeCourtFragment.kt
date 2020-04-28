@@ -85,7 +85,6 @@ class ChooseTimeCourtFragment : Fragment(),
 
                         return false
                     }
-//                    Toast.makeText(context, timeArray?.get(0) +" "+timeArray?.get(1), Toast.LENGTH_LONG).show()
                     // update bookingInfo
                     if (bookingInfo != null) {
                         bookingInfo.start = timeArray?.get(0)
