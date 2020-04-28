@@ -52,7 +52,9 @@ class ChooseTimeCourtFragment : Fragment(),
         super.onActivityCreated(savedInstanceState)
 
         // setup array of time
-        val arrayList = setupTimeArray(15)
+        val open = "07:00:00"
+        val close = "21:00:00"
+        val arrayList = setupTimeArray(open, close, 15)
 
         recyclerView1.layoutManager = LinearLayoutManager(activity)
         myAdapter = context?.let {
@@ -134,15 +136,12 @@ class ChooseTimeCourtFragment : Fragment(),
     }
 
 
-    fun setupTimeArray(timeInterval: Int) : ArrayList<TimeModel>{
+    fun setupTimeArray(open: String, close: String, timeInterval: Int) : ArrayList<TimeModel>{
         // TODO get open, close from API
-        // ApiHandler.getOpenTime(sportcenterId)
         // ApiHandler.getSlot(courtId)
-        val open: String = "07:00:00"
-        val close: String = "21:00:00"
+
 
         val arrayList = ArrayList<TimeModel>()
-
         val sdf1 = SimpleDateFormat("HH:mm:ss")
         val sdf2 = SimpleDateFormat("HH:mm")
         val openTime = sdf1.parse(open)

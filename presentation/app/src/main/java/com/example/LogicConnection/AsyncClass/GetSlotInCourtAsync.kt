@@ -10,9 +10,9 @@ class GetSlotInCourtAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
     override fun doInBackground(vararg params: String?): String? {
         var result : String? = null
         val request = JsonObject()
-        request.addProperty("cityId", params[0])
+        request.addProperty("courtId", params[0])
         request.addProperty("sportCenterId", params[1])
-        request.addProperty("courtId", params[2])
+        request.addProperty("cityId", params[2])
         request.addProperty("date", params[3])
         val requestData = ConnectionHandler.encodeParams(request)
         try {

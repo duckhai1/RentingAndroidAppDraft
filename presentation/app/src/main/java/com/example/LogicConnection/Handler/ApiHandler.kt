@@ -61,8 +61,8 @@ class ApiHandler {
             return decodeToList<MyCourtModel>(response)
         }
 
-        fun getSlotInCourt(activity: Activity, cityName: String, centerName: String, courtName: String, date: String): ArrayList<MySlotModel>{
-            val response = GetSlotInCourtAsync(activity).execute(cityName, centerName, courtName, date).get()
+        fun getSlotInCourt(activity: Activity, courtName: String,centerName: String, cityName: String, date: String): ArrayList<MySlotModel>{
+            val response = GetSlotInCourtAsync(activity).execute(courtName,centerName, cityName, date).get()
             return decodeToList<MySlotModel>(response)
         }
 

@@ -3,6 +3,7 @@ package com.example.book2play.ScreenView.Activity
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.example.LogicConnection.Handler.ApiHandler
 import com.example.Type.MyBookingModel
 import com.example.Type.MyCourtModel
 import com.example.book2play.Adapter.MyPagerAdapter
@@ -58,15 +59,7 @@ class ChooseTimeScreen : AppCompatActivity() {
     }
 
     fun getCourtList() : ArrayList<MyCourtModel>{
-        val courts = ArrayList<MyCourtModel>()
-
-        // TODO change with get courts from server
-        // ApiHandler.getCourt
-        courts.add(MyCourtModel("court1", "center1", "city1"))
-        courts.add(MyCourtModel("court2", "center1", "city1"))
-        courts.add(MyCourtModel("court3", "center1", "city1"))
-        courts.add(MyCourtModel("court4", "center1", "city1"))
-
+        val courts = ApiHandler.getCourtInSportCenter(this, bookingInfo?.center.toString(), bookingInfo?.city.toString())
         return courts
     }
 

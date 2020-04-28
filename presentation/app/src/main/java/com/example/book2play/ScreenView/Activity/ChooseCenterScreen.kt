@@ -77,13 +77,6 @@ class ChooseCenterScreen : AppCompatActivity(),OnMapReadyCallback {
     fun getCenterList(cityName : String) : ArrayList<MyCenterModel>{
         var centers = ArrayList<MyCenterModel>()
         centers = ApiHandler.getSportCenterInCity(this, cityName)
-//        // TODO get center list form server
-//        // ApiHandler.getCenter
-//        centers.add(MyCenterModel("center1", "city1","somewhere on the city1, I dont know, I too lazy to think"))
-//        centers.add(MyCenterModel("PhatCho Sporting Center", "city1","199 Phan Xich Long Street, Binh Thanh District", R.drawable.hcmc1))
-//        centers.add(MyCenterModel("HieuLon Sporting Center", "city1","145 Le Duan Street, District 1", R.drawable.hcmc2))
-//        centers.add(MyCenterModel("BaoDoi Sporting Center", "city1","59 Dien Bien Phu Street, District 3",R.drawable.hcmc3))
-
         return centers
     }
 }
