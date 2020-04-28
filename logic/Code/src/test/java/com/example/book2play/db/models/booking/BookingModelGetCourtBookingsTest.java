@@ -131,20 +131,14 @@ public class BookingModelGetCourtBookingsTest extends ModelTestSetup {
     }
 
     @Test
-    public void getBookingsNoBookingInGivenDate() {
-        final int EXPECTED_CODE = 466;
+    public void getBookingsNoBookingInGivenDate() throws Exception {
         var testInputs = new ArrayList<Date>();
         testInputs.add(TimeUtils.getDate(5));
         testInputs.add(TimeUtils.getDate(20));
 
         for (Date testInput : testInputs) {
-            try {
-                // var output = BOOKING.getCourtBookings("Q1", "HCM", testInputs.get(i));
-                var output = BOOKING.getCourtBookings("Court1", "HCM", "Q1", testInput);
-                fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
-            } catch (MySQLException e) {
-                Assert.assertEquals(EXPECTED_CODE, e.getStatusCode());
-            }
+            var output = BOOKING.getCourtBookings("Court1", "HCM", "Q1", testInput);
+            Assert.assertEquals(0, output.size());
         }
     }
 }
