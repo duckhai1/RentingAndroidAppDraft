@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.Type.MyBookingModel
 import com.example.book2play.R
@@ -15,12 +16,12 @@ import kotlinx.android.synthetic.main.row_completed.view.*
 class CompletedAdapter(val arrayList: ArrayList<MyBookingModel>, val context : Context):
     RecyclerView.Adapter<CompletedAdapter.ViewHolder>() {
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener, View.OnLongClickListener{
         var myItemClickListener : MyItemClickListener?=null
 
         init {
             itemView.setOnClickListener(this)
-
+            itemView.setOnLongClickListener(this)
         }
         fun bindItem(model: MyBookingModel){
             itemView.record_date.text = model.date
@@ -45,6 +46,11 @@ class CompletedAdapter(val arrayList: ArrayList<MyBookingModel>, val context : C
         override fun onClick(v: View?) {
             this.myItemClickListener!!.onItemClickListener(v!!, adapterPosition)
         }
+
+        override fun onLongClick(v: View?): Boolean {
+            this.myItemClickListener!!.onItemLongClickListener(v!!, adapterPosition)
+            return true
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -68,11 +74,16 @@ class CompletedAdapter(val arrayList: ArrayList<MyBookingModel>, val context : C
                 intent.putExtra("BookingInfo", arrayList[pos])
                 context.startActivity(intent)
             }
+
+            override fun onItemLongClickListener(view: View, pos: Int) {
+                Toast.makeText(context, "This feature still update", Toast.LENGTH_SHORT).show()
+            }
         })
     }
 
     // give an interface for each button of each booking have different function
     interface MyItemClickListener{
         fun onItemClickListener(view: View, pos: Int)
+        fun onItemLongClickListener(view: View, pos: Int)
     }
 }
