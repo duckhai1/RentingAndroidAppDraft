@@ -22,33 +22,28 @@ class ApiHandler {
             CreateBookingAsync(activity).execute(date, start, end, city, center, court, player)
         }
 
-        fun getBookingInCourt(activity: Activity, courtName : String, centerName: String, cityName: String, date: String) : String?{
+        fun getBookingInCourt(activity: Activity, courtName : String, centerName: String, cityName: String, date: String) : ArrayList<MyBookingModel>{
             Log.d("server_connect", "try to get booking in specific court on server")
             val response = GetBookingInCourtAsync(activity).execute(courtName, centerName, cityName, date).get()
-
-            return response
+            return decodeToList<MyBookingModel>(response)
         }
 
-        fun getBookingInSportCenter(activity: Activity, centerName: String, cityName: String, date: String) : String?{
+        fun getBookingInSportCenter(activity: Activity, centerName: String, cityName: String, date: String) : ArrayList<MyBookingModel>{
             Log.d("server_connect", "try to get booking in specific sportcenter on server")
             val response = GetBookingInSportCenterAsync(activity).execute(centerName, cityName, date).get()
-
-            return response
+            return decodeToList<MyBookingModel>(response)
         }
 
-        fun getBookingOfPlayer(activity: Activity, playerModel: MyPlayerModel) : String?{
-            val playerName = playerModel.playerName
+        fun getBookingOfPlayer(activity: Activity, playerId: String) : ArrayList<MyBookingModel>{
             Log.d("server_connect", "try to get booking in specific player on server")
-            val response = GetBookingOfPlayerAsync(activity).execute(playerName).get()
-
-            return response
+            val response = GetBookingOfPlayerAsync(activity).execute(playerId).get()
+            return decodeToList<MyBookingModel>(response)
         }
 
-        fun getBookingOfPlayerInCity(activity: Activity, playerName: String, cityName : String, date:String) : String?{
+        fun getBookingOfPlayerInCity(activity: Activity, playerId: String, cityName : String, date:String) : ArrayList<MyBookingModel>{
             Log.d("server_connect", "try to get booking in specific player in city on server")
-            val response = GetBookingOfPlayerInCityAsync(activity).execute(playerName, cityName, date).get()
-
-            return response
+            val response = GetBookingOfPlayerInCityAsync(activity).execute(playerId, cityName, date).get()
+            return decodeToList<MyBookingModel>(response)
         }
 
         fun getCityList(activity: Activity) : ArrayList<MyCityModel>{

@@ -1,12 +1,11 @@
 package com.example.book2play.ScreenView.Activity
 
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.example.Type.MyBookingModel
 import com.example.Type.MyCourtModel
-import com.example.book2play.Adapter.ChooseTimePagerAdapter
+import com.example.book2play.Adapter.MyPagerAdapter
 import com.example.book2play.ScreenView.Fragment.ChooseTimeCourtFragment
 import com.example.book2play.R
 import com.google.android.material.tabs.TabLayout
@@ -32,19 +31,15 @@ class ChooseTimeScreen : AppCompatActivity() {
 
         val courts = getCourtList()
 
-        val fragmentAdapter =
-            ChooseTimePagerAdapter(
-                supportFragmentManager
-            )
+        val fragmentAdapter = MyPagerAdapter(supportFragmentManager)
         for (court in courts){
-            val court_frag =
-                ChooseTimeCourtFragment()
+            val court_frag = ChooseTimeCourtFragment()
             var cbundle = bundle?.clone() as Bundle
             if (cbundle != null) {
                 cbundle.putString("courtName", court.courtName)
             }
             court_frag.arguments = cbundle
-            court.courtName?.let { fragmentAdapter.addFrag(court_frag, it) }
+            court.courtName?.let { fragmentAdapter.addFrag(court_frag, it) }    // fragmentAdapter.addFrag(court_frag, court.courtName)
         }
 
         viewPager.adapter = fragmentAdapter

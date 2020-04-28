@@ -1,9 +1,10 @@
 package com.example.book2play.Adapter
+
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
-class ChooseTimePagerAdapter(fm : FragmentManager) : FragmentPagerAdapter(fm){
+class MyPagerAdapter (fm : FragmentManager) : FragmentPagerAdapter(fm) {
     private val mFragmentList: MutableList<Fragment> = ArrayList()
     private val mFragmentTitleList: MutableList<String> = ArrayList()
 

@@ -17,21 +17,21 @@ import kotlinx.android.synthetic.main.fragment_upcomming.*
  * A simple [Fragment] subclass.
  */
 class UpcommingFragment : Fragment() {
+    var arrayList = ArrayList<MyBookingModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        val v = inflater.inflate(R.layout.fragment_upcomming, container, false)
         // Inflate the layout for this fragment
+        val v = inflater.inflate(R.layout.fragment_upcomming, container, false)
+        arrayList = this.arguments?.getSerializable("BookingList") as ArrayList<MyBookingModel>
         return v
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val arrayList = ArrayList<MyBookingModel>()
-        adding_upcomming_list(arrayList)
+
 
         upcomming_booking.layoutManager = LinearLayoutManager(activity)
         upcomming_booking.addItemDecoration(
@@ -47,77 +47,5 @@ class UpcommingFragment : Fragment() {
             )
         }
     }
-
-
-    fun adding_upcomming_list(arrayList : ArrayList<MyBookingModel>){
-        arrayList.add(
-            MyBookingModel(
-                "2020-03-23",
-                "10:30:00",
-                "11:30:00",
-                "city1",
-                "TA Sport Center",
-                "Court 1",
-                "Maria Onawa"
-            )
-        )
-        arrayList.add(
-            MyBookingModel(
-                "2020-03-23",
-                "10:30:00",
-                "11:30:00",
-                "city1",
-                "TA Sport Center",
-                "Court 1",
-                "Maria Onawa"
-            )
-        )
-        arrayList.add(
-            MyBookingModel(
-                "2020-03-23",
-                "10:30:00",
-                "11:30:00",
-                "city1",
-                "TA Sport Center",
-                "Court 1",
-                "Maria Onawa"
-            )
-        )
-        arrayList.add(
-            MyBookingModel(
-                "2020-03-23",
-                "10:30:00",
-                "11:30:00",
-                "city1",
-                "TA Sport Center",
-                "Court 1",
-                "Maria Onawa"
-            )
-        )
-        arrayList.add(
-            MyBookingModel(
-                "2020-03-23",
-                "10:30:00",
-                "11:30:00",
-                "city1",
-                "TA Sport Center",
-                "Court 1",
-                "Maria Onawa"
-            )
-        )
-        arrayList.add(
-            MyBookingModel(
-                "2020-03-23",
-                "10:30:00",
-                "11:30:00",
-                "city1",
-                "TA Sport Center",
-                "Court 1",
-                "Maria Onawa"
-            )
-        )
-    }
-
-
 }
 

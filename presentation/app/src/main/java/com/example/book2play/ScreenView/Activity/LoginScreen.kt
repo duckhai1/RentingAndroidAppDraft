@@ -58,7 +58,6 @@ class LoginScreen : AppCompatActivity() {
         callbackManager = CallbackManager.Factory.create()
         loginButton!!.setReadPermissions("email")
         LoginManager.getInstance().registerCallback(callbackManager, object :
-//        loginButton!!.registerCallback(callbackManager, object :
             FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 val accessToken = loginResult.accessToken.token
@@ -89,6 +88,7 @@ class LoginScreen : AppCompatActivity() {
         var playerInfo : MyPlayerModel? =null
         try {
             val id = jsonObject.getString("id")
+            (this@LoginScreen.application as MyApplication).setplayerId(id)
             val profile_pic = URL("https://graph.facebook.com/$id/picture?type=normal")
             val name = jsonObject.getString("first_name") + " "+  jsonObject.getString("last_name")
             val email = jsonObject.getString("email")
