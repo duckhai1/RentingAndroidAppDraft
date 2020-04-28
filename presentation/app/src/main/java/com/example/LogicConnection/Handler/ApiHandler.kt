@@ -66,6 +66,12 @@ class ApiHandler {
             return decodeToList<MyCourtModel>(response)
         }
 
+        fun getSlotInCourt(activity: Activity, cityName: String, centerName: String, courtName: String): ArrayList<MySlotModel>{
+            // TODO
+            return ArrayList<MySlotModel>()
+        }
+
+
 
 
         private inline fun <reified T : MyDataModel> decodeToList(jsonString: String?) : ArrayList<T>{

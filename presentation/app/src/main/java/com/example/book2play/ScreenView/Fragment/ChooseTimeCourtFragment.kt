@@ -15,6 +15,10 @@ import com.example.book2play.Adapter.CourtAdapter
 import com.example.book2play.DisplayHelper.SelectActionModeInterface
 import com.example.book2play.DisplayHelper.TimeModel
 import kotlinx.android.synthetic.main.fragment_court_timeline.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 /**
@@ -48,41 +52,7 @@ class ChooseTimeCourtFragment : Fragment(),
         super.onActivityCreated(savedInstanceState)
 
         // setup array of time
-        val arrayList = ArrayList<TimeModel>()
-        var count = 0
-        val time = arrayOfNulls<String>(56)
-        for (i in 7..9) {
-            time[count] = "0$i:00"
-            for (y in 15..45 step 15) {
-                count += 1
-                time[count] = "0$i:$y"
-            }
-            count += 1
-        }
-        for (i in 10..20) {
-            time[count] = "$i:00"
-            for (y in 15..45 step 15) {
-                count += 1
-                time[count] = "$i:$y"
-            }
-            count += 1
-        }
-        var slot = arrayOfNulls<Int>(56)
-        for (i in 0..55) {
-            slot[i] = 0
-        }
-        for (i in 20..29) {
-            slot[i] = 1
-        }
-        for (i in 0..55) {
-            arrayList.add(
-                TimeModel(
-                    time[i],
-                    "Unavailable",
-                    slot[i]
-                )
-            )
-        }
+        val arrayList = setupTimeArray(15)
 
         recyclerView1.layoutManager = LinearLayoutManager(activity)
         myAdapter = context?.let {
@@ -162,6 +132,69 @@ class ChooseTimeCourtFragment : Fragment(),
         if (actionMode == null) actionMode = activity?.startActionMode(ActionModeCallback())
         if (size > 0) actionMode?.setTitle("Number of slot choose: $size")
         else actionMode?.finish()
+    }
+
+
+    fun setupTimeArray(timeInterval: Int) : ArrayList<TimeModel>{
+        // TODO get open, close from API
+        // ApiHandler.getOpenTime(sportcenterId)
+        // ApiHandler.getSlot(courtId)
+        val open: String = "07:00:00"
+        val close: String = "21:00:00"
+
+        val arrayList = ArrayList<TimeModel>()
+
+        val sdf1 = SimpleDateFormat("HH:mm:ss")
+        val sdf2 = SimpleDateFormat("HH:mm")
+        val openTime = sdf1.parse(open)
+        val closeTime = sdf1.parse(close)
+        val calendar = GregorianCalendar.getInstance()
+        calendar.time = openTime
+        while (calendar.time.before(closeTime) || calendar.time.equals(closeTime)){
+            val curTime = sdf2.format(calendar.time)
+            val timeModel = TimeModel(curTime, "Unavailable", 0)        // TODO change hardcode
+            arrayList.add(timeModel)
+            calendar.add(Calendar.MINUTE, timeInterval)
+        }
+
+        return arrayList
+
+//        var count = 0
+//        val time = arrayOfNulls<String>(56)
+//        for (i in 7..9) {
+//            time[count] = "0$i:00"
+//            for (y in 15..45 step 15) {
+//                count += 1
+//                time[count] = "0$i:$y"
+//            }
+//            count += 1
+//        }
+//        for (i in 10..20) {
+//            time[count] = "$i:00"
+//            for (y in 15..45 step 15) {
+//                count += 1
+//                time[count] = "$i:$y"
+//            }
+//            count += 1
+//        }
+//        var slot = arrayOfNulls<Int>(56)
+//        for (i in 0..55) {
+//            slot[i] = 0
+//        }
+//        for (i in 20..29) {
+//            slot[i] = 1
+//        }
+//        for (i in 0..55) {
+//            arrayList.add(
+//                TimeModel(
+//                    time[i],
+//                    "Unavailable",
+//                    slot[i]
+//                )
+//            )
+//        }
+
+        return arrayList
     }
 
 }

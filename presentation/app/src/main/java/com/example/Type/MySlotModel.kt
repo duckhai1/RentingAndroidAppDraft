@@ -10,8 +10,15 @@ class MySlotModel(
     @SerializedName("endTime")
     @Expose
     var endTime : String,
-    @SerializedName("court")
-    @Expose
-    var court : String
+    @SerializedName("courtId")
+    @Expose(deserialize = false)
+    var courtName : String,
+    @SerializedName("sportCenterId")
+    @Expose(deserialize = false)
+    var centerName : String,
+    @SerializedName("cityId")
+    @Expose(deserialize = false)
+    var cictyName : String
+
 ) : MyDataModel() {
 }
