@@ -2,9 +2,14 @@ package com.example.book2play.db.models.booking;
 
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.ModelTestSetup;
+import com.example.book2play.types.Booking;
+import com.example.test_utils.BookingUtils;
 import com.example.test_utils.TimeUtils;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -12,6 +17,7 @@ import static org.junit.Assert.fail;
 public class BookingModelCreateBookingTest extends ModelTestSetup {
 
     private static int BOOKINGS_LIMIT = 3;
+    private static List<Booking> TEST_BOOKINGS = new ArrayList<>();
 
     @Before
     public void setupPreconditionsForCreatingABooking() throws MySQLException {
@@ -19,13 +25,18 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
         SPORT_CENTER.createCityCenter("Q1", "HCM");
         COURT.createCityCenterCourt("Court1", "HCM", "Q1");
         PLAYER.createPlayer("Alice");
+        TEST_BOOKINGS.add(BookingUtils.createBooking(
+                TimeUtils.getDate(7),
+                TimeUtils.getTime(9, 0, 0),
+                TimeUtils.getTime(10, 0, 0),
+                false, "HCM", "Q1", "Court1", "Alice"
+        ));
     }
 
     @Test
     public void testCreateMultipleBookingsUpToTheLimit() throws Exception {
         for (int i = 0; i < BOOKINGS_LIMIT; i++) {
             BOOKING.createBooking(
-                    // "HCMQ1Court1Alice" + i,
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7 + i),
                     TimeUtils.getTime(11, 0, 0),
@@ -36,10 +47,10 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
     }
 
     @Test
-    public void testCreateBookingWithDuplicateId() throws Exception {
+    public void testCreateDuplicateBooking() throws Exception {
         final int EXPECTED_CODE = 407;
+        var inputBooking = TEST_BOOKINGS.get(0);
         BOOKING.createBooking(
-                //"HCMQ1Court1Alice",
                 TimeUtils.getTimestamp(),
                 TimeUtils.getDate(7),
                 TimeUtils.getTime(11, 0, 0),
@@ -49,9 +60,8 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice",
                     TimeUtils.getTimestamp(),
-                    TimeUtils.getDate(8),
+                    TimeUtils.getDate(7),
                     TimeUtils.getTime(11, 0, 0),
                     TimeUtils.getTime(12, 0, 0),
                     "HCM", "Q1", "Court1", "Alice"
@@ -68,7 +78,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         for (int i = 0; i < BOOKINGS_LIMIT; i++) {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice" + i,
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7 + i),
                     TimeUtils.getTime(11, 0, 0),
@@ -79,7 +88,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice" + (BOOKINGS_LIMIT + 1),
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7 + BOOKINGS_LIMIT + 1),
                     TimeUtils.getTime(11, 0, 0),
@@ -105,7 +113,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
         );
 
         BOOKING.createBooking(
-                //"HCMQ1Court1Alice2",
                 TimeUtils.getTimestamp(),
                 TimeUtils.getDate(7),
                 TimeUtils.getTime(11, 0, 0),
@@ -130,7 +137,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice2",
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7),
                     TimeUtils.getTime(11, 0, 0),
@@ -147,7 +153,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
     public void testIfBookingsInConsecutiveTimeSlotCanBeMade() throws Exception {
         for (int i = 0; i < BOOKINGS_LIMIT; i++) {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice" + i,
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7),
                     TimeUtils.getTime(9 + i, 0, 0),
@@ -161,7 +166,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
     public void testCreateBookingWithOverlappingTimeCase1() throws Exception {
         final int EXPECTED_CODE = 413;
         BOOKING.createBooking(
-                //"HCMQ1Court1Alice1",
                 TimeUtils.getTimestamp(),
                 TimeUtils.getDate(7),
                 TimeUtils.getTime(9, 0, 0),
@@ -171,7 +175,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice2",
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7),
                     TimeUtils.getTime(10, 0, 0),
@@ -188,7 +191,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
     public void testCreateBookingWithOverlappingTimeCase2() throws Exception {
         final int EXPECTED_CODE = 413;
         BOOKING.createBooking(
-                //"HCMQ1Court1Alice1",
                 TimeUtils.getTimestamp(),
                 TimeUtils.getDate(7),
                 TimeUtils.getTime(9, 0, 0),
@@ -198,7 +200,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice2",
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7),
                     TimeUtils.getTime(8, 30, 0),
@@ -215,7 +216,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
     public void testCreateBookingWithOverlappingTimeCase3() throws Exception {
         final int EXPECTED_CODE = 413;
         BOOKING.createBooking(
-                //"HCMQ1Court1Alice1",
                 TimeUtils.getTimestamp(),
                 TimeUtils.getDate(7),
                 TimeUtils.getTime(9, 0, 0),
@@ -225,34 +225,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice2",
-                    TimeUtils.getTimestamp(),
-                    TimeUtils.getDate(7),
-                    TimeUtils.getTime(9, 0, 0),
-                    TimeUtils.getTime(10, 30, 0),
-                    "HCM", "Q1", "Court1", "Alice"
-            );
-            fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
-        } catch (MySQLException e) {
-            assertEquals("Unexpected error code", EXPECTED_CODE, e.getStatusCode());
-        }
-    }
-
-    @Test
-    public void testCreateBookingWithOverlappingTimeCase4() throws Exception {
-        final int EXPECTED_CODE = 413;
-        BOOKING.createBooking(
-                //"HCMQ1Court1Alice1",
-                TimeUtils.getTimestamp(),
-                TimeUtils.getDate(7),
-                TimeUtils.getTime(9, 0, 0),
-                TimeUtils.getTime(10, 30, 0),
-                "HCM", "Q1", "Court1", "Alice"
-        );
-
-        try {
-            BOOKING.createBooking(
-                    //"HCMQ1Court1Alice2",
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7),
                     TimeUtils.getTime(9, 0, 0),
@@ -266,10 +238,9 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
     }
 
     @Test
-    public void testCreateBookingWithOverlappingTimeCase5() throws Exception {
+    public void testCreateBookingWithOverlappingTimeCase4() throws Exception {
         final int EXPECTED_CODE = 413;
         BOOKING.createBooking(
-                //"HCMQ1Court1Alice1",
                 TimeUtils.getTimestamp(),
                 TimeUtils.getDate(7),
                 TimeUtils.getTime(9, 0, 0),
@@ -279,7 +250,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice2",
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7),
                     TimeUtils.getTime(9, 30, 0),
@@ -298,7 +268,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice1",
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7),
                     TimeUtils.getTime(9, 30, 0),
@@ -317,7 +286,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice1",
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7),
                     TimeUtils.getTime(9, 30, 0),
@@ -336,7 +304,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice1",
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7),
                     TimeUtils.getTime(9, 30, 0),
@@ -355,7 +322,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Bob1",
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7),
                     TimeUtils.getTime(9, 30, 0),
@@ -374,7 +340,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice1",
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(-7),
                     TimeUtils.getTime(9, 30, 0),
@@ -393,7 +358,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice1",
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7),
                     TimeUtils.getTime(9, 0, 0),
@@ -412,7 +376,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice1",
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7),
                     TimeUtils.getTime(9, 0, 0),
@@ -431,7 +394,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice1",
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7),
                     TimeUtils.getTime(9, 10, 0),
@@ -450,7 +412,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice1",
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7),
                     TimeUtils.getTime(6, 0, 0),
@@ -469,7 +430,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice1",
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7),
                     TimeUtils.getTime(9, 0, 0),
@@ -488,7 +448,6 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
 
         try {
             BOOKING.createBooking(
-                    //"HCMQ1Court1Alice1",
                     TimeUtils.getTimestamp(),
                     TimeUtils.getDate(7),
                     TimeUtils.getTime(20, 0, 0),
