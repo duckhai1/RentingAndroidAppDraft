@@ -46,7 +46,7 @@ public class BookingsHandler extends AbstractHandler {
 
     private void execGet(HttpExchange exchange) throws IOException {
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
-//        var token = exchange.getRequestHeaders().get("Token").get(0);
+        //var token = exchange.getRequestHeaders().get("Token").get(0);
         var date = params.get("date");
         var cityId = params.get("cityId");
         var sportCenterId = params.get("sportCenterId");

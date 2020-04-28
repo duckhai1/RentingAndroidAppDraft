@@ -20,7 +20,8 @@ public class Server {
     public static String COURT_BASE_URL = "/api/courts";
     public static String PLAYER_BASE_URL = "/api/players";
     public static String CITY_BASE_URL = "/api/cities";
-    public static String STAFF_BASE_URL = "/api/staffs";
+    public static String STAFF_BASE_URL ="/api/staffs";
+    public static String SLOT_BASE_URL = "/api/slots";
 
     private AppDataSource ds;
     private HttpServer srv;
@@ -47,6 +48,7 @@ public class Server {
         setPlayerHandler();
         setCityHandler();
         setStaffHandler();
+        setSlotHandler();
     }
 
     private void setBookingsHandler() {
@@ -89,5 +91,12 @@ public class Server {
         var model = new StaffModel(ds);
         var authenticateModel = new AuthenticateModel(ds);
         var ctx = srv.createContext(STAFF_BASE_URL, new StaffHandler(model, authenticateModel));
+    }
+
+    private void setSlotHandler() {
+        var bookingModel = new BookingModel(ds);
+        var sportCenterModel = new SportCenterModel(ds);
+        var authenticateModel = new AuthenticateModel(ds);
+        var ctx = srv.createContext(SLOT_BASE_URL, new SlotHandler(bookingModel, sportCenterModel, authenticateModel));
     }
 }

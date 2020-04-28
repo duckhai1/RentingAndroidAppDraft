@@ -27,6 +27,7 @@ BEGIN
 			AND sportCenterId = inSportCenterId
 	) THEN
 		SET statusCode = 462; -- invalid court id
+        /*
 	ELSEIF NOT EXISTS (
 		SELECT *
 		FROM bookings
@@ -38,7 +39,8 @@ BEGIN
 			AND courtId = inCourtId
 			AND bookingDate = inBookingDate
 	) THEN
-		SET statusCode = 466; -- no bookings in the given date
+		 SET statusCode = 466; -- no bookings in the given date
+         */
     ELSE
 		SET statusCode = 200;
 		SELECT bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId
