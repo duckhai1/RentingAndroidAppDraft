@@ -158,43 +158,6 @@ class ChooseTimeCourtFragment : Fragment(),
         }
 
         return arrayList
-
-//        var count = 0
-//        val time = arrayOfNulls<String>(56)
-//        for (i in 7..9) {
-//            time[count] = "0$i:00"
-//            for (y in 15..45 step 15) {
-//                count += 1
-//                time[count] = "0$i:$y"
-//            }
-//            count += 1
-//        }
-//        for (i in 10..20) {
-//            time[count] = "$i:00"
-//            for (y in 15..45 step 15) {
-//                count += 1
-//                time[count] = "$i:$y"
-//            }
-//            count += 1
-//        }
-//        var slot = arrayOfNulls<Int>(56)
-//        for (i in 0..55) {
-//            slot[i] = 0
-//        }
-//        for (i in 20..29) {
-//            slot[i] = 1
-//        }
-//        for (i in 0..55) {
-//            arrayList.add(
-//                TimeModel(
-//                    time[i],
-//                    "Unavailable",
-//                    slot[i]
-//                )
-//            )
-//        }
-
-        return arrayList
     }
 
 }
