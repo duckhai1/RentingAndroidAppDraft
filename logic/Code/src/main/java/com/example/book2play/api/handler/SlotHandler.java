@@ -1,10 +1,10 @@
 package com.example.book2play.api.handler;
 
 import com.example.book2play.api.utils.HTTPStatus;
+import com.example.book2play.db.BookingModel;
+import com.example.book2play.db.SportCenterModel;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.models.AuthenticateModel;
-import com.example.book2play.db.models.BookingModel;
-import com.example.book2play.db.models.SportCenterModel;
+import com.example.book2play.db.models.MySQLAuthenticator;
 import com.example.book2play.logic.SlotService;
 import com.example.book2play.types.Booking;
 import com.sun.net.httpserver.HttpExchange;
@@ -20,19 +20,19 @@ public class SlotHandler extends AbstractHandler {
 
     BookingModel bookingModel;
     SportCenterModel sportCenterModel;
-    AuthenticateModel authenticateModel;
-    public SlotHandler(BookingModel bookingModel, SportCenterModel sportCenterModel, AuthenticateModel authenticateModel) {
-        super();
+
+    public SlotHandler(BookingModel bookingModel, SportCenterModel sportCenterModel, MySQLAuthenticator authModel) {
+        super(authModel);
         this.bookingModel = bookingModel;
         this.sportCenterModel = sportCenterModel;
-        this.authenticateModel = authenticateModel;
     }
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         try {
             if ("GET".equals(exchange.getRequestMethod())) {
                 execGet(exchange);
-            }else {
+            } else {
                 exchange.sendResponseHeaders(HTTPStatus.METHOD_NOT_ALLOWED, -1); // NOT ALLOWED
             }
         } catch (RuntimeException e) {
@@ -52,7 +52,7 @@ public class SlotHandler extends AbstractHandler {
 
         if ((courtId != null && courtId.size() != 1)
                 || (sportCenterId != null && sportCenterId.size() != 1)
-                ||(cityId != null && cityId.size() != 1)
+                || (cityId != null && cityId.size() != 1)
                 || (date != null && date.size() != 1)
         ) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
@@ -62,15 +62,15 @@ public class SlotHandler extends AbstractHandler {
         List<Booking> bookings = null;
 
 
-        try{
-            if(courtId != null && sportCenterId != null && cityId != null && date != null){
+        try {
+            if (courtId != null && sportCenterId != null && cityId != null && date != null) {
                 bookings = (List<Booking>) bookingModel.getCourtBookings(
                         courtId.get(0),
                         cityId.get(0),
                         sportCenterId.get(0),
                         Date.valueOf(date.get(0))
                 );
-            } else{
+            } else {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }

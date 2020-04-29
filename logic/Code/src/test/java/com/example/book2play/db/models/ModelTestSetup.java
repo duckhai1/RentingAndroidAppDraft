@@ -12,24 +12,24 @@ public abstract class ModelTestSetup {
 
     protected final static Logger LOG = Logger.getLogger("TEST");
 
-    protected static BookingModel BOOKING;
-    protected static CityModel CITY;
-    protected static CourtModel COURT;
-    protected static PlayerModel PLAYER;
-    protected static SportCenterModel SPORT_CENTER;
-    protected static StaffModel STAFF;
+    protected static MySQLBooking BOOKING;
+    protected static MySQLCity CITY;
+    protected static MySQLCourt COURT;
+    protected static MySQLPlayer PLAYER;
+    protected static MySQLSportCenter SPORT_CENTER;
+    protected static MySQLStaff STAFF;
     protected static MySqlDataSource DB;
 
     @BeforeClass
     public static void setupTest() {
         DB = MySqlDataSource.getInstance();
 
-        BOOKING = new BookingModel(DB);
-        CITY = new CityModel(DB);
-        COURT = new CourtModel(DB);
-        PLAYER = new PlayerModel(DB);
-        SPORT_CENTER = new SportCenterModel(DB);
-        STAFF = new StaffModel(DB);
+        BOOKING = new MySQLBooking(DB);
+        CITY = new MySQLCity(DB);
+        COURT = new MySQLCourt(DB);
+        PLAYER = new MySQLPlayer(DB);
+        SPORT_CENTER = new MySQLSportCenter(DB);
+        STAFF = new MySQLStaff(DB);
     }
 
     @Before

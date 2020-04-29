@@ -12,9 +12,9 @@ import java.util.Collection;
  * Implements CityModel interfaces for working with the stored procedures from MySQL
  * The connection is establish using MySQL DataSource object
  */
-public class CityModel extends AbstractModel implements com.example.book2play.db.CityModel {
+public class MySQLCity extends AbstractModel implements com.example.book2play.db.CityModel {
 
-    public CityModel(AppDataSource db) {
+    public MySQLCity(AppDataSource db) {
         super(db);
     }
 

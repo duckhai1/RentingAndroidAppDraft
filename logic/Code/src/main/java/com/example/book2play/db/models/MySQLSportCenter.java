@@ -3,42 +3,78 @@ package com.example.book2play.db.models;
 import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.utils.ResultSetUtils;
-import com.example.book2play.types.Court;
+import com.example.book2play.types.SportCenter;
 
 import java.sql.*;
 import java.util.Collection;
 
 /**
- * Implements CourtModel interfaces for working with the stored procedures from MySQL
+ * Implements SportCenterModel interfaces for working with the stored procedures from MySQL
  * The connection is establish using MySQL DataSource object
  */
-public class CourtModel extends AbstractModel implements com.example.book2play.db.CourtModel {
+public class MySQLSportCenter extends AbstractModel implements com.example.book2play.db.SportCenterModel {
 
-    public CourtModel(AppDataSource db) {
+    public MySQLSportCenter(AppDataSource db) {
         super(db);
     }
 
     /**
      * Create a new connection to the data source and call the stored procedure
-     * to create a new court in the given sport center and city
+     * to create a new sport center
      *
-     * @param courtId       the unique identifier of the court in the given sport center
+     * @param sportCenterId the unique identifier in the city of the new sport center
      * @param cityId        the unique identifier of the city
-     * @param sportCenterId the unique identifier if the sport center in the given city
      * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
     @Override
-    public void createCityCenterCourt(String courtId, String cityId, String sportCenterId) throws MySQLException {
-        LOG.info("Calling createCityCenterCourt");
+    public void createCityCenter(String sportCenterId, String cityId) throws MySQLException {
+        LOG.info("Calling createCityCenter");
         Connection conn = null;
         CallableStatement stm = null;
 
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL createCityCenterCourt(?, ?, ?, ?)}");
-            stm.setString(1, courtId);
+            stm = conn.prepareCall("{call createCityCenter(?,?,?)}");
+            stm.setString(1, sportCenterId);
             stm.setString(2, cityId);
-            stm.setString(3, sportCenterId);
+            stm.registerOutParameter(3, Types.INTEGER);
+
+            var updateCount = stm.executeUpdate();
+            var statusCode = stm.getInt(3);
+            LOG.info("Received status code " + statusCode);
+            LOG.info("Update count " + updateCount);
+            if (statusCode >= 400 && statusCode < 500) {
+                throw new MySQLException(statusCode);
+            }
+        } catch (SQLException e) {
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
+        } finally {
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+        }
+    }
+
+    /**
+     * Create a new connection to the data source and call the stored procedure
+     * to update the sport center unique identifier
+     *
+     * @param newSportCenterId the new unique identifier to be assigned to the sport center
+     * @param oldSportCenterId the current unique identifier of the sport center
+     * @param cityId           the unique identifier of the city that the sport centers locates in
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
+    @Override
+    public void updateSportCenterId(String newSportCenterId, String oldSportCenterId, String cityId) throws MySQLException {
+        LOG.info("Calling updateSportCenterId");
+        Connection conn = null;
+        CallableStatement stm = null;
+
+        try {
+            conn = this.db.getConnection();
+            stm = conn.prepareCall("{call updateSportCenterId(?,?,?,?)}");
+            stm.setString(1, newSportCenterId);
+            stm.setString(2, oldSportCenterId);
+            stm.setString(3, cityId);
             stm.registerOutParameter(4, Types.INTEGER);
 
             var updateCount = stm.executeUpdate();
@@ -57,63 +93,21 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
     }
 
     /**
-     * Create a new connection to the data source and call the stored procedure
-     * to update the court id
-     *
-     * @param newCourtId    the new unique identifier in the given sport center to be given to the court
-     * @param oldCourtId    the current unique identifier of the court in the given sport center
-     * @param cityId        the unique identifier of the city
-     * @param sportCenterId the unique identifier of the sport center in the given city
-     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
-     */
-    @Override
-    public void updateCourtId(String newCourtId, String oldCourtId, String cityId, String sportCenterId) throws MySQLException {
-        LOG.info("Calling updateCourtId");
-        Connection conn = null;
-        CallableStatement stm = null;
-
-        try {
-            conn = this.db.getConnection();
-            stm = conn.prepareCall("{call updateCourtId(?,?,?,?,?)}");
-            stm.setString(1, newCourtId);
-            stm.setString(2, oldCourtId);
-            stm.setString(3, cityId);
-            stm.setString(4, sportCenterId);
-            stm.registerOutParameter(5, Types.INTEGER);
-
-            var updateCount = stm.executeUpdate();
-            var statusCode = stm.getInt(5);
-            LOG.info("Received status code " + statusCode);
-            LOG.info("Update count " + updateCount);
-            if (statusCode >= 400 && statusCode < 500) {
-                throw new MySQLException(statusCode);
-            }
-        } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
-        } finally {
-            ResultSetUtils.quietCloseConnection(conn);
-            ResultSetUtils.quietCloseStatement(stm);
-        }
-    }
-
-
-    /**
      * Create a new connection to the data source and clear the relation
      *
      * @throws MySQLException
-     * @deprecated will be moved to test only
+     * @deprecated move to test only
      */
     @Override
-    public void clearCourt() throws MySQLException {
-        LOG.info("Calling clearCourt");
+    public void clearSportCenter() throws MySQLException {
+        LOG.info("Calling clearSportCenter");
         Connection conn = null;
         Statement stm = null;
-
         try {
             conn = this.db.getConnection();
             stm = conn.createStatement();
 
-            var updateCount = stm.executeUpdate("DELETE FROM courts");
+            var updateCount = stm.executeUpdate("DELETE FROM sportCenters");
             LOG.info("Update count " + updateCount);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception " + e.getMessage(), e);
@@ -125,22 +119,21 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
 
     /**
      * Create a new connection to the data source and call the stored procedure
-     * to get the all the courts in the given city
+     * to all the sport centers in the given city
      *
      * @param cityId the unique identifier of the city
-     * @return collection of courts in the city
+     * @return collection of sport centers locate in the city
      * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
     @Override
-    public Collection<Court> getCityCourts(String cityId) throws MySQLException {
-        LOG.info("Calling getCityCourts");
+    public Collection<SportCenter> getCitySportCenters(String cityId) throws MySQLException {
+        LOG.info("Calling getCitySportCenters");
         Connection conn = null;
         CallableStatement stm = null;
         ResultSet rs = null;
-
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL getCityCourts(?, ?)}");
+            stm = conn.prepareCall("{call getCitySportCenters(?,?)}");
             stm.setString(1, cityId);
             stm.registerOutParameter(2, Types.INTEGER);
 
@@ -151,46 +144,7 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
                 throw new MySQLException(statusCode);
             }
 
-            return ResultSetUtils.courtsFromResultSet(rs);
-        } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
-        } finally {
-            ResultSetUtils.quietCloseConnection(conn);
-            ResultSetUtils.quietCloseStatement(stm);
-            ResultSetUtils.quietCloseResultSet(rs);
-        }
-    }
-
-    /**
-     * Create a new connection to the data source and call the stored procedure
-     * to get the all the courts in the given sport center
-     *
-     * @param sportCenterId the unique identifier for the sport center in the given city
-     * @param cityId        the unique identifier of the city
-     * @return collection if courts in the sport centers
-     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
-     */
-    public Collection<Court> getSportCenterCourts(String sportCenterId, String cityId) throws MySQLException {
-        LOG.info("Calling getSportCenterCourts");
-        Connection conn = null;
-        CallableStatement stm = null;
-        ResultSet rs = null;
-
-        try {
-            conn = this.db.getConnection();
-            stm = conn.prepareCall("{call getSportCenterCourts(?, ?, ?)}");
-            stm.setString(1, sportCenterId);
-            stm.setString(2, cityId);
-            stm.registerOutParameter(3, Types.INTEGER);
-
-            rs = stm.executeQuery();
-            var statusCode = stm.getInt(3);
-            LOG.info("Received status code " + statusCode);
-            if (statusCode >= 400 && statusCode < 500) {
-                throw new MySQLException(statusCode);
-            }
-
-            return ResultSetUtils.courtsFromResultSet(rs);
+            return ResultSetUtils.sportCentersFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {

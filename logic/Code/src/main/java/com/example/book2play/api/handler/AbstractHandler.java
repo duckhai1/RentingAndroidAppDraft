@@ -4,6 +4,7 @@ import com.example.book2play.api.utils.SqlTimeGsonDeserializer;
 import com.example.book2play.api.utils.SqlTimeGsonSerializer;
 import com.example.book2play.api.utils.SqlTimestampGsonDeserializer;
 import com.example.book2play.api.utils.SqlTimestampGsonSerializer;
+import com.example.book2play.db.Authenticator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -38,6 +39,11 @@ public abstract class AbstractHandler implements HttpHandler {
             .registerTypeAdapter(Timestamp.class, new SqlTimestampGsonSerializer())
             .registerTypeAdapter(Timestamp.class, new SqlTimestampGsonDeserializer())
             .create();
+    protected Authenticator authModel;
+
+    public AbstractHandler(Authenticator authModel) {
+        this.authModel = authModel;
+    }
 
     protected void responseWithJson(HttpExchange exchange, int statusCode, Object body) throws IOException {
         var headers = exchange.getResponseHeaders();

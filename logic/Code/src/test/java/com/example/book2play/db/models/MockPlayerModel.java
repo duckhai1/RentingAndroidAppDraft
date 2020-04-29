@@ -35,4 +35,14 @@ public class MockPlayerModel implements PlayerModel {
             players.add(new Player(newPlayerId));
         }
     }
+
+    public boolean playerExists(String playerId) {
+        for (var p : players) {
+            if (p.getPlayerId().equals(playerId)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

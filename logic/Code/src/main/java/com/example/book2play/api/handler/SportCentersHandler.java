@@ -3,7 +3,7 @@ package com.example.book2play.api.handler;
 import com.example.book2play.api.utils.HTTPStatus;
 import com.example.book2play.db.SportCenterModel;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.models.AuthenticateModel;
+import com.example.book2play.db.models.MySQLAuthenticator;
 import com.example.book2play.types.SportCenter;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -13,12 +13,10 @@ import java.io.InputStreamReader;
 public class SportCentersHandler extends AbstractHandler {
 
     SportCenterModel model;
-    AuthenticateModel authenticateModel;
 
-    public SportCentersHandler(SportCenterModel model, AuthenticateModel authenticateModel) {
-        super();
+    public SportCentersHandler(SportCenterModel model, MySQLAuthenticator authModel) {
+        super(authModel);
         this.model = model;
-        this.authenticateModel = authenticateModel;
     }
 
     @Override

@@ -1,10 +1,9 @@
 package com.example.book2play.api.handler;
 
 import com.example.book2play.api.utils.HTTPStatus;
+import com.example.book2play.db.StaffModel;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.models.AuthenticateModel;
-import com.example.book2play.db.models.StaffModel;
-import com.example.book2play.types.Player;
+import com.example.book2play.db.models.MySQLAuthenticator;
 import com.example.book2play.types.Staff;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -13,12 +12,10 @@ import java.io.InputStreamReader;
 
 public class StaffHandler extends AbstractHandler {
     StaffModel model;
-    AuthenticateModel authenticateModel;
 
-    public StaffHandler(StaffModel model, AuthenticateModel authenticateModel){
-        super();
+    public StaffHandler(StaffModel model, MySQLAuthenticator authModel){
+        super(authModel);
         this.model = model;
-        this.authenticateModel = authenticateModel;
     }
 
     @Override

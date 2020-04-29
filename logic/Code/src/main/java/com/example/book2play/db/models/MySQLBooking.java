@@ -12,9 +12,9 @@ import java.util.Collection;
  * Implements BookingModel interfaces for working with the stored procedures from MySQL
  * The connection is establish using MySQL DataSource object
  */
-public class BookingModel extends AbstractModel implements com.example.book2play.db.BookingModel {
+public class MySQLBooking extends AbstractModel implements com.example.book2play.db.BookingModel {
 
-    public BookingModel(AppDataSource db) {
+    public MySQLBooking(AppDataSource db) {
         super(db);
     }
 

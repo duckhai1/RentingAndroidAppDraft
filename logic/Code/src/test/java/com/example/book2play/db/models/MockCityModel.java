@@ -25,4 +25,5 @@ public class MockCityModel implements CityModel {
     public void createCity(String cityId) throws MySQLException {
         cities.add(new City(cityId));
     }
+
 }

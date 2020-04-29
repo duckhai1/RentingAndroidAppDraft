@@ -2,7 +2,7 @@ package com.example.book2play.db;
 
 import com.example.book2play.db.exceptions.MySQLException;
 
-public interface AuthenticateModel {
+public interface Authenticator {
 
     /**
      * Confirm whether a given id is playerId
@@ -10,7 +10,7 @@ public interface AuthenticateModel {
      * @param playerId the unique identifier to be confirmed
      * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
-    String isPlayer(String playerId) throws MySQLException;
+    boolean isPlayer(String playerId) throws MySQLException;
 
     /**
      * Confirm whether a given id is staffId
@@ -20,6 +20,6 @@ public interface AuthenticateModel {
      * @param sportCenterId the unique identifier, in the city, of the sport center
      * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
-    String isStaff(String staffId, String cityId, String sportCenterId) throws MySQLException;
+    boolean isStaff(String staffId, String cityId, String sportCenterId) throws MySQLException;
 
 }

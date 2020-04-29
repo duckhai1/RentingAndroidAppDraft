@@ -7,40 +7,36 @@ import com.example.book2play.db.models.utils.ResultSetUtils;
 import java.sql.*;
 
 /**
- * Implements StaffModel interfaces for working with the stored procedures from MySQL
+ * Implements PlayerModel interfaces for working with the stored procedures from MySQL
  * The connection is establish using MySQL DataSource object
  */
-public class StaffModel extends AbstractModel implements com.example.book2play.db.StaffModel {
+public class MySQLPlayer extends AbstractModel implements com.example.book2play.db.PlayerModel {
 
-    public StaffModel(AppDataSource db) {
+    public MySQLPlayer(AppDataSource db) {
         super(db);
     }
 
     /**
      * Create a new connection to the data source and call the stored procedure
-     * to create a new staff for a given sport center
+     * to create a new player with the given unique identifier
      *
-     * @param staffId       the unique identifier, in the given sport center, of the new staff
-     * @param cityId        the unique identifier of the city the the sport center locates in
-     * @param sportCenterId the unique identifier, in the city, of the sport center
+     * @param playerId the unique identifier for new the player
      * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
     @Override
-    public void createStaff(String staffId, String cityId, String sportCenterId) throws MySQLException {
-        LOG.info("Calling createStaff");
+    public void createPlayer(String playerId) throws MySQLException {
+        LOG.info("Calling createPlayer");
         Connection conn = null;
         CallableStatement stm = null;
+
         try {
             conn = this.db.getConnection();
-
-            stm = conn.prepareCall("{call createStaff(?,?,?,?)}");
-            stm.setString(1, staffId);
-            stm.setString(2, cityId);
-            stm.setString(3, sportCenterId);
-            stm.registerOutParameter(4, Types.INTEGER);
+            stm = conn.prepareCall("{call createPlayer(?,?)}");
+            stm.setString(1, playerId);
+            stm.registerOutParameter(2, Types.INTEGER);
 
             var updateCount = stm.executeUpdate();
-            var statusCode = stm.getInt(4);
+            var statusCode = stm.getInt(2);
             LOG.info("Received status code " + statusCode);
             LOG.info("Update count " + updateCount);
             if (statusCode >= 400 && statusCode < 500) {
@@ -56,31 +52,27 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
 
     /**
      * Create a new connection to the data source and call the stored procedure
-     * to update the staff unique identifier
+     * to update the player unique identifier
      *
-     * @param newStaffId    the new unique identifier, in the sport center
-     * @param oldStaffId    the current unique identifier of the staff
-     * @param cityId        the unique identifier of the city that the sport center locates in
-     * @param sportCenterId the unique identifier, in the city, of the sport center
+     * @param newPlayerId the new unique identifier
+     * @param oldPlayerId the current unique identifier for the player
      * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
     @Override
-    public void updateStaffId(String newStaffId, String oldStaffId, String cityId, String sportCenterId) throws MySQLException {
-        LOG.info("Calling updateStaffId");
+    public void updatePlayerId(String newPlayerId, String oldPlayerId) throws MySQLException {
+        LOG.info("Calling updatePlayerId");
         Connection conn = null;
         CallableStatement stm = null;
+
         try {
             conn = this.db.getConnection();
-
-            stm = conn.prepareCall("{CALL updateStaffId(?, ?, ?, ?, ?)}");
-            stm.setString(1, newStaffId);
-            stm.setString(2, oldStaffId);
-            stm.setString(3, cityId);
-            stm.setString(4, sportCenterId);
-            stm.registerOutParameter(5, Types.INTEGER);
+            stm = conn.prepareCall("{call updatePlayerId(?,?,?)}");
+            stm.setString(1, newPlayerId);
+            stm.setString(2, oldPlayerId);
+            stm.registerOutParameter(3, Types.INTEGER);
 
             var updateCount = stm.executeUpdate();
-            var statusCode = stm.getInt(5);
+            var statusCode = stm.getInt(3);
             LOG.info("Received status code " + statusCode);
             LOG.info("Update count " + updateCount);
             if (statusCode >= 400 && statusCode < 500) {
@@ -97,18 +89,19 @@ public class StaffModel extends AbstractModel implements com.example.book2play.d
     /**
      * Create a new connection to the data source and clear the relation
      *
-     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     * @throws MySQLException
+     * @deprecated will be moved to test only
      */
     @Override
-    public void clearStaff() throws MySQLException {
-        LOG.info("Calling clearStaff");
+    public void clearPlayer() throws MySQLException {
+        LOG.info("Calling clearPlayer");
         Connection conn = null;
         Statement stm = null;
         try {
             conn = this.db.getConnection();
             stm = conn.createStatement();
 
-            var updateCount = stm.executeUpdate("DELETE FROM sportCenters");
+            var updateCount = stm.executeUpdate("DELETE FROM players");
             LOG.info("Update count " + updateCount);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception " + e.getMessage(), e);
