@@ -74,7 +74,7 @@ class ChooseCenterScreen : AppCompatActivity(),OnMapReadyCallback {
         return super.onSupportNavigateUp()
     }
 
-    fun getCenterList(cityName : String) : ArrayList<MyCenterModel>{
+    private fun getCenterList(cityName : String) : ArrayList<MyCenterModel>{
         var centers = ArrayList<MyCenterModel>()
         centers = ApiHandler.getSportCenterInCity(this, cityName)
         return centers

@@ -64,11 +64,8 @@ class ApiHandler {
         fun getSlotInCourt(activity: Activity, courtName: String,centerName: String, cityName: String, date: String): ArrayList<MySlotModel>{
             Log.d("server_connect", "try to get slot for court on server")
             val response = GetSlotInCourtAsync(activity).execute(courtName,centerName, cityName, date).get()
-            Log.d("server_connect", "response of get slot: " +response)
             return decodeToList<MySlotModel>(response)
         }
-
-
 
 
         private inline fun <reified T : MyDataModel> decodeToList(jsonString: String?) : ArrayList<T>{

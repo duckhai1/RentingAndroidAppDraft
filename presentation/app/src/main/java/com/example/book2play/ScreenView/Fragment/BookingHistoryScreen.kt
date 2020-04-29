@@ -73,14 +73,14 @@ class BookingHistoryScreen : Fragment() {
         }
     }
 
-    fun getBookingTypeList() : ArrayList<String>{
+    private fun getBookingTypeList() : ArrayList<String>{
         val arrayList = ArrayList<String>()
         arrayList.add("Upcomming")
         arrayList.add("Completed")
         return arrayList
     }
 
-    fun adding_list(): ArrayList<MyBookingModel>{
+    private fun adding_list(): ArrayList<MyBookingModel>{
         val playerId = (activity?.application as MyApplication).getplayerId()
         val arrayList = ApiHandler.getBookingOfPlayer(activity!!, playerId)
         return arrayList

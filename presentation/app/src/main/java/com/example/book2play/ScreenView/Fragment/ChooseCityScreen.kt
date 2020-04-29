@@ -80,7 +80,7 @@ class ChooseCityScreen : Fragment() {
         }
     }
 
-    fun getCityNameList() : ArrayList<String?>{
+    private fun getCityNameList() : ArrayList<String?>{
         val cities = activity?.let { ApiHandler.getCityList(it) }
         var citiesName = ArrayList<String?>()
         // get name set from cities

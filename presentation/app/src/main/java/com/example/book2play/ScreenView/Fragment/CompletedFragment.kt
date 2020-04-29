@@ -31,8 +31,6 @@ class CompletedFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-
-
         completed_booking.layoutManager = LinearLayoutManager(activity)
         completed_booking.addItemDecoration(
             MarginItemDecoration(

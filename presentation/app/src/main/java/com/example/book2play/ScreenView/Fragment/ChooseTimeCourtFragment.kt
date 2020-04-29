@@ -138,7 +138,7 @@ class ChooseTimeCourtFragment : Fragment(),
     }
 
 
-    fun setupTimeArray(open: String, close: String, timeInterval: Int) : ArrayList<TimeModel>{
+    private fun setupTimeArray(open: String, close: String, timeInterval: Int) : ArrayList<TimeModel>{
         // TODO get open, close from API
         Log.d("server_connect", "courtname: " + bookingCourtName.toString()+" centerName: "+bookingInfo.center+" cityName: " + bookingInfo.date)
         val slotList = activity?.let { ApiHandler.getSlotInCourt(it, bookingCourtName,
@@ -170,7 +170,7 @@ class ChooseTimeCourtFragment : Fragment(),
         return arrayList
     }
 
-    fun isAvailableSlot(testTime: Date, slotList: ArrayList<MySlotModel>?) : Boolean{
+    private fun isAvailableSlot(testTime: Date, slotList: ArrayList<MySlotModel>?) : Boolean{
         if (slotList != null) {
             for (slot in slotList){
                 if (isWithinTimeRange(testTime, slot.startTime, slot.endTime)){
@@ -181,7 +181,7 @@ class ChooseTimeCourtFragment : Fragment(),
         return false
     }
 
-    fun isWithinTimeRange(testTime: Date, start: String, end: String) : Boolean{
+    private fun isWithinTimeRange(testTime: Date, start: String, end: String) : Boolean{
         val sdf1 = SimpleDateFormat("HH:mm:ss")
         val startTime = sdf1.parse(start)
         val endTime = sdf1.parse(end)

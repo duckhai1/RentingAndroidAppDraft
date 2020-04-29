@@ -58,7 +58,7 @@ class ChooseTimeScreen : AppCompatActivity() {
         return super.onSupportNavigateUp()
     }
 
-    fun getCourtList() : ArrayList<MyCourtModel>{
+    private fun getCourtList() : ArrayList<MyCourtModel>{
         val courts = ApiHandler.getCourtInSportCenter(this, bookingInfo?.center.toString(), bookingInfo?.city.toString())
         return courts
     }

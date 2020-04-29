@@ -51,7 +51,7 @@ class DetailScreen : AppCompatActivity(){
         }
     }
 
-    fun setupDetailList(bookingInfo : MyBookingModel?): ArrayList<String>{
+    private fun setupDetailList(bookingInfo : MyBookingModel?): ArrayList<String>{
         val detailList = ArrayList<String>()
         if (bookingInfo != null) {
             detailList.add(bookingInfo.date + " " + bookingInfo.week + ": " + bookingInfo.time)
@@ -62,7 +62,7 @@ class DetailScreen : AppCompatActivity(){
         return detailList
     }
 
-    fun setupDescriptionList() : ArrayList<String>{
+    private fun setupDescriptionList() : ArrayList<String>{
         val descriptionList = ArrayList<String>()
         descriptionList.add("Booking Time")
         descriptionList.add("Location")
