@@ -30,18 +30,21 @@ public class BookingModelGetCourtBookingsTest extends ModelTestSetup {
 
         TEST_BOOKINGS = new ArrayList<>();
         TEST_BOOKINGS.add(BookingUtils.createBooking(
+                TimeUtils.getTimestamp(),
                 TimeUtils.getDate(7),
                 TimeUtils.getTime(12, 0, 0),
                 TimeUtils.getTime(13, 0, 0),
                 false, "HCM", "Q1", "Court1", "Alice"
         ));
         TEST_BOOKINGS.add(BookingUtils.createBooking(
+                TimeUtils.getTimestamp(),
                 TimeUtils.getDate(7),
                 TimeUtils.getTime(13, 30, 0),
                 TimeUtils.getTime(15, 0, 0),
                 false, "HCM", "Q1", "Court1", "Alice"
         ));
         TEST_BOOKINGS.add(BookingUtils.createBooking(
+                TimeUtils.getTimestamp(),
                 TimeUtils.getDate(7),
                 TimeUtils.getTime(12, 0, 0),
                 TimeUtils.getTime(13, 0, 0),

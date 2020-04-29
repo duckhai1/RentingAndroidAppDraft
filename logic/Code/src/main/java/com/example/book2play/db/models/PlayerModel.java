@@ -86,28 +86,5 @@ public class PlayerModel extends AbstractModel implements com.example.book2play.
         }
     }
 
-    /**
-     * Create a new connection to the data source and clear the relation
-     *
-     * @throws MySQLException
-     * @deprecated will be moved to test only
-     */
-    @Override
-    public void clearPlayer() throws MySQLException {
-        LOG.info("Calling clearPlayer");
-        Connection conn = null;
-        Statement stm = null;
-        try {
-            conn = this.db.getConnection();
-            stm = conn.createStatement();
 
-            var updateCount = stm.executeUpdate("DELETE FROM players");
-            LOG.info("Update count " + updateCount);
-        } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
-        } finally {
-            ResultSetUtils.quietCloseConnection(conn);
-            ResultSetUtils.quietCloseStatement(stm);
-        }
-    }
 }

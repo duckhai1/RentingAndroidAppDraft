@@ -29,6 +29,7 @@ public class BookingModelUpdateBookingStatusTest extends ModelTestSetup {
         STAFF.createStaff("Charlie", "HCM", "Q2");
         TEST_BOOKINGS = new ArrayList<>();
         TEST_BOOKINGS.add(BookingUtils.createBooking(
+                TimeUtils.getTimestamp(),
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(9, 0, 0),
                 TimeUtils.getTime(10, 30, 0),

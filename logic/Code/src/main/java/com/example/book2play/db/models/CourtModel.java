@@ -97,31 +97,6 @@ public class CourtModel extends AbstractModel implements com.example.book2play.d
     }
 
 
-    /**
-     * Create a new connection to the data source and clear the relation
-     *
-     * @throws MySQLException
-     * @deprecated will be moved to test only
-     */
-    @Override
-    public void clearCourt() throws MySQLException {
-        LOG.info("Calling clearCourt");
-        Connection conn = null;
-        Statement stm = null;
-
-        try {
-            conn = this.db.getConnection();
-            stm = conn.createStatement();
-
-            var updateCount = stm.executeUpdate("DELETE FROM courts");
-            LOG.info("Update count " + updateCount);
-        } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
-        } finally {
-            ResultSetUtils.quietCloseConnection(conn);
-            ResultSetUtils.quietCloseStatement(stm);
-        }
-    }
 
     /**
      * Create a new connection to the data source and call the stored procedure

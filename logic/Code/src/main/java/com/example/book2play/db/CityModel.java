@@ -23,12 +23,4 @@ public interface CityModel {
      */
     void createCity(String cityId) throws MySQLException;
 
-    /**
-     * Clear the relation, for testing
-     *
-     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
-     * @deprecated will be moved to test only
-     */
-    void clearCity() throws MySQLException;
-
 }

@@ -26,6 +26,7 @@ public class BookingModelCreateBookingTest extends ModelTestSetup {
         COURT.createCityCenterCourt("Court1", "HCM", "Q1");
         PLAYER.createPlayer("Alice");
         TEST_BOOKINGS.add(BookingUtils.createBooking(
+                TimeUtils.getTimestamp(),
                 TimeUtils.getDate(7),
                 TimeUtils.getTime(9, 0, 0),
                 TimeUtils.getTime(10, 0, 0),

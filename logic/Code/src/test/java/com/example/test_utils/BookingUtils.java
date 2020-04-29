@@ -6,6 +6,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.logging.Logger;
 
 
@@ -13,7 +14,8 @@ public class BookingUtils {
 
     private final static Logger LOG = Logger.getLogger("BOOKING_UTILS");
 
-    public static Booking createBooking(Date bookingDate,
+    public static Booking createBooking(Timestamp createdAt,
+                                        Date bookingDate,
                                         Time bookingStartTime,
                                         Time bookingEndTime,
                                         Boolean isPaid,
@@ -42,7 +44,7 @@ public class BookingUtils {
         LOG.info(bookingId);
         return new Booking(
                 bookingId,
-                TimeUtils.getTimestamp(),
+                createdAt,
                 bookingDate,
                 bookingStartTime,
                 bookingEndTime,
