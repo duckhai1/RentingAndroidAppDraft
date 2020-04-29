@@ -103,4 +103,8 @@ public class MockBookingModel implements BookingModel {
             bookings.remove(cancelledBooking);
         }
     }
+
+    public void clearBookings() {
+        bookings.clear();
+    }
 }

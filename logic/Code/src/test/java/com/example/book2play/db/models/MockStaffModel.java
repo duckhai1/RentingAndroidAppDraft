@@ -45,4 +45,8 @@ public class MockStaffModel implements StaffModel {
 
         return false;
     }
+
+    public void clearStaff() {
+        staffs.clear();
+    }
 }

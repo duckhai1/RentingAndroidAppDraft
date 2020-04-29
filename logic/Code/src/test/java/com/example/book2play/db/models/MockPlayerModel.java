@@ -45,4 +45,8 @@ public class MockPlayerModel implements PlayerModel {
 
         return false;
     }
+
+    public void clearPlayers() {
+        players.clear();
+    }
 }

@@ -52,4 +52,8 @@ public class MockCourtModel implements CourtModel {
             courts.add(new Court(newCourtId, cityId, sportCenterId));
         }
     }
+
+    public void clearCourts() {
+        courts.clear();
+    }
 }

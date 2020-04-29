@@ -44,4 +44,8 @@ public class MockSportCenterModel implements SportCenterModel {
             sportCenters.add(new SportCenter(newSportCenterId, cityId));
         }
     }
+
+    public void clearSportCenters() {
+        sportCenters.clear();
+    }
 }

@@ -26,4 +26,7 @@ public class MockCityModel implements CityModel {
         cities.add(new City(cityId));
     }
 
+    public void clearCities() {
+        cities.clear();
+    }
 }

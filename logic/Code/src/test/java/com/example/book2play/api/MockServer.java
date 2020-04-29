@@ -1,25 +1,29 @@
 package com.example.book2play.api;
 
-import com.example.book2play.db.models.*;
+import com.example.book2play.db.*;
 
 import java.io.IOException;
 
 public class MockServer extends Server {
-    public MockServer(int port) throws IOException {
+    public MockServer(int port,
+                      Authenticator authModel,
+                      BookingModel bookingModel,
+                      CityModel cityModel,
+                      CourtModel courtModel,
+                      PlayerModel playerModel,
+                      SportCenterModel sportCenterModel,
+                      StaffModel staffModel) throws IOException {
         super(null, port);
+        this.authModel = authModel;
+        this.bookingModel = bookingModel;
+        this.cityModel = cityModel;
+        this.courtModel = courtModel;
+        this.playerModel = playerModel;
+        this.sportCenterModel = sportCenterModel;
+        this.staffModel = staffModel;
     }
 
     @Override
     protected void setupModels() {
-        var newPlayerModel = new MockPlayerModel();
-        var newStaffModel = new MockStaffModel();
-
-        this.authModel = new MockAuthenticator(newPlayerModel, newStaffModel);
-        this.bookingModel = new MockBookingModel();
-        this.cityModel = new MockCityModel();
-        this.courtModel = new MockCourtModel();
-        this.playerModel = newPlayerModel;
-        this.sportCenterModel = new MockSportCenterModel();
-        this.staffModel = newStaffModel;
     }
 }
