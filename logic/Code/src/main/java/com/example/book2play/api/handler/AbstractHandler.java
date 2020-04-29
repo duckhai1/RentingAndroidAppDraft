@@ -5,6 +5,8 @@ import com.example.book2play.api.utils.SqlTimeGsonSerializer;
 import com.example.book2play.api.utils.SqlTimestampGsonDeserializer;
 import com.example.book2play.api.utils.SqlTimestampGsonSerializer;
 import com.example.book2play.db.Authenticator;
+import com.example.book2play.db.driver.MySqlDataSource;
+import com.example.book2play.db.exceptions.MySQLException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -58,7 +60,16 @@ public abstract class AbstractHandler implements HttpHandler {
         ostream.close();
     }
 
-    protected void responseWithJsonException(HttpExchange exchange, int statusCode, Exception e) throws IOException {
+    protected void responseErrorAsJson(HttpExchange exchange, int statusCode, MySQLException e) throws IOException {
+        var jsonObj = new JsonObject();
+        jsonObj.addProperty("error", true);
+        jsonObj.addProperty("statusCode", e.getStatusCode());
+        jsonObj.addProperty("message", e.getMessage());
+
+        responseWithJson(exchange, statusCode, jsonObj);
+    }
+
+    protected void responseErrorAsJson(HttpExchange exchange, int statusCode, Exception e) throws IOException {
         var jsonObj = new JsonObject();
         jsonObj.addProperty("error", true);
         jsonObj.addProperty("message", e.getMessage());
