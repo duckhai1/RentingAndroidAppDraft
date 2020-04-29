@@ -62,7 +62,7 @@ public abstract class AbstractHandler implements HttpHandler {
 
     protected void responseErrorAsJson(HttpExchange exchange, int statusCode, MySQLException e) throws IOException {
         var jsonObj = new JsonObject();
-        jsonObj.addProperty("error", true);
+        jsonObj.addProperty("hasError", true);
         jsonObj.addProperty("statusCode", e.getStatusCode());
         jsonObj.addProperty("message", e.getMessage());
 

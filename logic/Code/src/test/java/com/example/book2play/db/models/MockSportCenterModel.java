@@ -13,9 +13,20 @@ public class MockSportCenterModel implements SportCenterModel {
 
     private Set<SportCenter> sportCenters;
 
-    public MockSportCenterModel() {
+    private static MockSportCenterModel SINGLETON = null;
+
+    private MockSportCenterModel() {
         sportCenters = new HashSet<>();
     }
+
+    public static MockSportCenterModel getInstance() {
+        if (SINGLETON == null) {
+            SINGLETON = new MockSportCenterModel();
+        }
+
+        return SINGLETON;
+    }
+
 
     @Override
     public Collection<SportCenter> getCitySportCenters(String cityId) throws MySQLException {

@@ -5,7 +5,6 @@ import com.example.book2play.api.utils.SqlTimeGsonSerializer;
 import com.example.book2play.api.utils.SqlTimestampGsonDeserializer;
 import com.example.book2play.api.utils.SqlTimestampGsonSerializer;
 import com.example.book2play.db.models.*;
-import com.example.book2play.db.models.booking.BookingModelCancelBookingTest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.Before;
@@ -25,7 +24,6 @@ public class SetupAPITest {
 
     public final static String HOST = "localhost";
     public final static int PORT = 6666;
-    private static MockServer SRV;
 
     protected final static Logger LOG = Logger.getLogger("API_TEST");
     protected final static Gson GSON = new GsonBuilder()
@@ -45,14 +43,16 @@ public class SetupAPITest {
     protected static MockSportCenterModel SPORT_CENTER;
     protected static MockStaffModel STAFF;
 
+    private static MockServer SRV;
+
     @BeforeClass
     public static void runAPIServer() throws Exception {
-        BOOKING = new MockBookingModel();
-        CITY = new MockCityModel();
-        COURT = new MockCourtModel();
-        PLAYER = new MockPlayerModel();
-        SPORT_CENTER = new MockSportCenterModel();
-        STAFF = new MockStaffModel();
+        BOOKING = MockBookingModel.getInstance();
+        CITY = MockCityModel.getInstance();
+        COURT = MockCourtModel.getInstance();
+        PLAYER = MockPlayerModel.getInstance();
+        SPORT_CENTER = MockSportCenterModel.getInstance();
+        STAFF = MockStaffModel.getInstance();
         AUTH = new MockAuthenticator(PLAYER, STAFF);
 
         SRV = new MockServer(PORT, AUTH, BOOKING, CITY, COURT, PLAYER, SPORT_CENTER, STAFF);

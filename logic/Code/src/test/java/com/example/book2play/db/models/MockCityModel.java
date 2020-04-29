@@ -3,6 +3,7 @@ package com.example.book2play.db.models;
 import com.example.book2play.db.CityModel;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.types.City;
+import com.example.test_utils.Validators;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -12,8 +13,18 @@ public class MockCityModel implements CityModel {
 
     private Set<City> cities;
 
-    public MockCityModel() {
+    private static MockCityModel SINGLETON = null;
+
+    private MockCityModel() {
         cities = new HashSet<>();
+    }
+
+    public static MockCityModel getInstance() {
+        if (SINGLETON == null) {
+            SINGLETON = new MockCityModel();
+        }
+
+        return SINGLETON;
     }
 
     @Override
@@ -23,7 +34,16 @@ public class MockCityModel implements CityModel {
 
     @Override
     public void createCity(String cityId) throws MySQLException {
-        cities.add(new City(cityId));
+        if (!Validators.isIdValid(cityId)) {
+            throw new MySQLException(460);
+        }
+
+        var newCity = new City(cityId);
+        if (cities.contains(newCity)) {
+            throw new MySQLException(402);
+        }
+
+        cities.add(newCity);
     }
 
     public void clearCities() {
