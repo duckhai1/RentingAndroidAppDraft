@@ -1,6 +1,7 @@
 package com.example.book2play.api.handler;
 
 import com.example.book2play.api.utils.HTTPStatus;
+import com.example.book2play.db.Authenticator;
 import com.example.book2play.db.StaffModel;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.MySQLAuthenticator;
@@ -13,7 +14,7 @@ import java.io.InputStreamReader;
 public class StaffHandler extends AbstractHandler {
     StaffModel model;
 
-    public StaffHandler(StaffModel model, MySQLAuthenticator authModel){
+    public StaffHandler(StaffModel model, Authenticator authModel){
         super(authModel);
         this.model = model;
     }

@@ -320,5 +320,4 @@ public class MySQLBooking extends AbstractModel implements com.example.book2play
             ResultSetUtils.quietCloseStatement(stm);
         }
     }
-
 }

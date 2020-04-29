@@ -1,6 +1,7 @@
 package com.example.book2play.api.handler;
 
 import com.example.book2play.api.utils.HTTPStatus;
+import com.example.book2play.db.Authenticator;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.MySQLAuthenticator;
 import com.example.book2play.db.PlayerModel;
@@ -14,7 +15,7 @@ public class PlayerHandler extends AbstractHandler {
 
     PlayerModel model;
 
-    public PlayerHandler (PlayerModel model, MySQLAuthenticator authModel) {
+    public PlayerHandler (PlayerModel model, Authenticator authModel) {
         super(authModel);
         this.model = model;
     }

@@ -15,11 +15,11 @@ public class MockAuthenticator implements Authenticator {
 
     @Override
     public boolean isPlayer(String playerId) throws MySQLException {
-        return false;
+        return mockPlayerModel.playerExists(playerId);
     }
 
     @Override
     public boolean isStaff(String staffId, String cityId, String sportCenterId) throws MySQLException {
-        return false;
+        return mockStaffModel.staffExists(staffId, cityId, sportCenterId);
     }
 }

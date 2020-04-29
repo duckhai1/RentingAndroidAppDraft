@@ -1,6 +1,7 @@
 package com.example.book2play.api.handler;
 
 import com.example.book2play.api.utils.HTTPStatus;
+import com.example.book2play.db.Authenticator;
 import com.example.book2play.db.BookingModel;
 import com.example.book2play.db.SportCenterModel;
 import com.example.book2play.db.exceptions.MySQLException;
@@ -21,7 +22,7 @@ public class SlotHandler extends AbstractHandler {
     BookingModel bookingModel;
     SportCenterModel sportCenterModel;
 
-    public SlotHandler(BookingModel bookingModel, SportCenterModel sportCenterModel, MySQLAuthenticator authModel) {
+    public SlotHandler(BookingModel bookingModel, SportCenterModel sportCenterModel, Authenticator authModel) {
         super(authModel);
         this.bookingModel = bookingModel;
         this.sportCenterModel = sportCenterModel;

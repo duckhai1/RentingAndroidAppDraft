@@ -25,7 +25,7 @@ public class Server {
     public static String SLOT_BASE_URL = "/api/slots";
 
     protected AppDataSource ds;
-    protected MySQLAuthenticator authModel;
+    protected Authenticator authModel;
     protected BookingModel bookingModel;
     protected CityModel cityModel;
     protected CourtModel courtModel;

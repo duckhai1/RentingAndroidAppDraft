@@ -35,4 +35,14 @@ public class MockStaffModel implements StaffModel {
             staffs.add(new Staff(newStaffId, cityId, sportCenterId));
         }
     }
+
+    public boolean staffExists(String staffId, String cityId, String sportCenterId) {
+        for (var s : staffs) {
+            if (s.getStaffId().equals(staffId) && s.getCityId().equals(cityId) && s.getSportCenterId().equals(sportCenterId)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

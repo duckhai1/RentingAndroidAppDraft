@@ -1,7 +1,6 @@
 package com.example.book2play.api;
 
-import com.example.book2play.db.models.MySQLAuthenticator;
-import com.example.book2play.db.models.MockBookingModel;
+import com.example.book2play.db.models.*;
 
 import java.io.IOException;
 
@@ -12,8 +11,15 @@ public class MockServer extends Server {
 
     @Override
     protected void setupModels() {
-        this.authModel = new MySQLAuthenticator();
-        this.bookingModel= new MockBookingModel();
+        var newPlayerModel = new MockPlayerModel();
+        var newStaffModel = new MockStaffModel();
 
+        this.authModel = new MockAuthenticator(newPlayerModel, newStaffModel);
+        this.bookingModel = new MockBookingModel();
+        this.cityModel = new MockCityModel();
+        this.courtModel = new MockCourtModel();
+        this.playerModel = newPlayerModel;
+        this.sportCenterModel = new MockSportCenterModel();
+        this.staffModel = newStaffModel;
     }
 }
