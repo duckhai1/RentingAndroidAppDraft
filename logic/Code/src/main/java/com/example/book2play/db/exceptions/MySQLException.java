@@ -1,11 +1,14 @@
 package com.example.book2play.db.exceptions;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Main exception type for the package
  * Encapsulate almost every other exception the happened within the package
  */
 public class MySQLException extends Exception {
 
+    @Expose
     protected Integer statusCode;
 
     public MySQLException() {

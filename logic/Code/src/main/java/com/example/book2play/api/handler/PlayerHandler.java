@@ -1,9 +1,9 @@
 package com.example.book2play.api.handler;
 
 import com.example.book2play.api.utils.HTTPStatus;
+import com.example.book2play.db.Authenticator;
+import com.example.book2play.db.PlayerModel;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.models.AuthenticateModel;
-import com.example.book2play.db.models.PlayerModel;
 import com.example.book2play.types.Player;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -13,12 +13,10 @@ import java.io.InputStreamReader;
 public class PlayerHandler extends AbstractHandler {
 
     PlayerModel model;
-    AuthenticateModel authenticatedModel;
 
-    public PlayerHandler (PlayerModel model, AuthenticateModel authenticateModel) {
-        super();
+    public PlayerHandler(PlayerModel model, Authenticator authModel) {
+        super(authModel);
         this.model = model;
-        this.authenticatedModel = authenticateModel;
     }
 
     @Override
@@ -37,62 +35,59 @@ public class PlayerHandler extends AbstractHandler {
             }
         } catch (RuntimeException e) {
             LOG.severe("Unexpected exception " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.INTERNAL_SERVER_ERROR, e);
+            responseErrorAsJson(exchange, HTTPStatus.INTERNAL_SERVER_ERROR, e);
         }
 
         exchange.close();
     }
 
-    private void execGet(HttpExchange exchange) throws IOException {
-        var params = splitQuery(exchange.getRequestURI().getRawQuery());
-        var playerId = params.get("playerId");
-
-        if (playerId == null | playerId.size() != 1) {
-            exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
-            return;
-        }
-        try{
-            authenticatedModel.isPlayer(playerId.get(0));
-        }catch (MySQLException | IllegalArgumentException e) {
-            LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
-        }
+    private void execGet(HttpExchange exchange) {
     }
+
     private void execPost(HttpExchange exchange) throws IOException {
-        try{
+        try {
             var player = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Player.class);
             model.createPlayer(player.getPlayerId());
             exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
-        }catch (MySQLException | IllegalArgumentException e) {
+        } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+        } catch (IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
     }
+
     private void execPut(HttpExchange exchange) throws IOException {
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
         var newPlayerId = params.get("newPlayerId");
         var oldPlayerId = params.get("oldPlayerId");
 
-        if((newPlayerId != null && newPlayerId.size() != 1)
-            || (oldPlayerId != null && oldPlayerId.size() != 1)
-        ){
+        if ((newPlayerId != null && newPlayerId.size() != 1)
+                || (oldPlayerId != null && oldPlayerId.size() != 1)
+        ) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
-        try{
-            if(newPlayerId != null && oldPlayerId != null){
+        try {
+            if (newPlayerId != null && oldPlayerId != null) {
                 model.updatePlayerId(newPlayerId.get(0), oldPlayerId.get(0));
-            } else{
+            } else {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }
             exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
-        } catch (MySQLException | IllegalArgumentException e) {
+        } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+        } catch (IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
 
     }
-    private void execDelete(HttpExchange exchange){}
+
+    private void execDelete(HttpExchange exchange) {
+    }
 }

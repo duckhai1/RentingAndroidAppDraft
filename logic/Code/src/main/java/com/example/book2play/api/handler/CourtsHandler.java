@@ -1,11 +1,10 @@
 package com.example.book2play.api.handler;
 
 import com.example.book2play.api.utils.HTTPStatus;
+import com.example.book2play.db.Authenticator;
+import com.example.book2play.db.CourtModel;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.models.AuthenticateModel;
-import com.example.book2play.db.models.CourtModel;
 import com.example.book2play.types.Court;
-import com.mysql.cj.protocol.x.XAuthenticationProvider;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
@@ -15,12 +14,10 @@ import java.util.Collection;
 public class CourtsHandler extends AbstractHandler {
 
     CourtModel model;
-    AuthenticateModel authenticateModel;
 
-    public CourtsHandler(CourtModel model, AuthenticateModel authenticateModel) {
-        super();
+    public CourtsHandler(CourtModel model, Authenticator authModel) {
+        super(authModel);
         this.model = model;
-        this.authenticateModel = authenticateModel;
     }
 
     @Override
@@ -39,7 +36,7 @@ public class CourtsHandler extends AbstractHandler {
             }
         } catch (RuntimeException e) {
             LOG.severe("Unexpected exception " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.INTERNAL_SERVER_ERROR, e);
+            responseErrorAsJson(exchange, HTTPStatus.INTERNAL_SERVER_ERROR, e);
         }
 
         exchange.close();
@@ -51,18 +48,17 @@ public class CourtsHandler extends AbstractHandler {
         var sportCenterId = params.get("sportCenterId");
 
         if ((cityId != null && cityId.size() != 1)
-            || (sportCenterId != null && sportCenterId.size() != 1)
+                || (sportCenterId != null && sportCenterId.size() != 1)
         ) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
         Collection<Court> courts;
-        try{
-            if(cityId != null && sportCenterId == null) {
+        try {
+            if (cityId != null && sportCenterId == null) {
                 courts = model.getCityCourts(cityId.get(0));
-            }
-            else if(cityId != null && sportCenterId != null){
+            } else if (cityId != null) {
                 courts = model.getSportCenterCourts(
                         sportCenterId.get(0),
                         cityId.get(0)
@@ -72,14 +68,17 @@ public class CourtsHandler extends AbstractHandler {
                 return;
             }
             responseWithJson(exchange, HTTPStatus.OK, courts);
-        } catch (MySQLException | IllegalArgumentException e) {
+        } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+        } catch (IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
     }
 
     private void execPost(HttpExchange exchange) throws IOException {
-        try{
+        try {
             var court = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Court.class);
             model.createCityCenterCourt(
                     court.getCourtId(),
@@ -87,9 +86,12 @@ public class CourtsHandler extends AbstractHandler {
                     court.getSportCenterId()
             );
             exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
-        } catch (MySQLException | IllegalArgumentException e) {
+        } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+        } catch (IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
     }
 
@@ -101,16 +103,16 @@ public class CourtsHandler extends AbstractHandler {
         var cityId = params.get("cityId");
 
         if ((newCourtId != null && newCourtId.size() != 1)
-            ||(oldCourtId != null && oldCourtId.size() != 1)
+                || (oldCourtId != null && oldCourtId.size() != 1)
                 || (sportCenterId != null && sportCenterId.size() != 1)
                 || (cityId != null && cityId.size() != 1)
-        ){
+        ) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
-        try{
-            if(newCourtId != null && oldCourtId != null && sportCenterId != null && cityId != null){
+        try {
+            if (newCourtId != null && oldCourtId != null && sportCenterId != null && cityId != null) {
                 model.updateCourtId(
                         newCourtId.get(0),
                         oldCourtId.get(0),
@@ -122,13 +124,16 @@ public class CourtsHandler extends AbstractHandler {
                 return;
             }
             exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
-        }  catch (MySQLException | IllegalArgumentException e) {
+        } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+        } catch (IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
 
     }
 
-    private void execDelete(HttpExchange exchange){
+    private void execDelete(HttpExchange exchange) {
     }
 }

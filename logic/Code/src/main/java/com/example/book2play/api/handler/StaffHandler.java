@@ -1,10 +1,9 @@
 package com.example.book2play.api.handler;
 
 import com.example.book2play.api.utils.HTTPStatus;
+import com.example.book2play.db.Authenticator;
+import com.example.book2play.db.StaffModel;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.models.AuthenticateModel;
-import com.example.book2play.db.models.StaffModel;
-import com.example.book2play.types.Player;
 import com.example.book2play.types.Staff;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -13,12 +12,10 @@ import java.io.InputStreamReader;
 
 public class StaffHandler extends AbstractHandler {
     StaffModel model;
-    AuthenticateModel authenticateModel;
 
-    public StaffHandler(StaffModel model, AuthenticateModel authenticateModel){
-        super();
+    public StaffHandler(StaffModel model, Authenticator authModel) {
+        super(authModel);
         this.model = model;
-        this.authenticateModel = authenticateModel;
     }
 
     @Override
@@ -37,28 +34,16 @@ public class StaffHandler extends AbstractHandler {
             }
         } catch (RuntimeException e) {
             LOG.severe("Unexpected exception " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.INTERNAL_SERVER_ERROR, e);
+            responseErrorAsJson(exchange, HTTPStatus.INTERNAL_SERVER_ERROR, e);
         }
         exchange.close();
     }
 
-    private void execGet(HttpExchange exchange) throws IOException {
-        var params = splitQuery(exchange.getRequestURI().getRawQuery());
-        var staffId = params.get("staffId");
-
-        if (staffId == null | staffId.size() != 1) {
-            exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
-            return;
-        }
-        try{
-            authenticateModel.isPlayer(staffId.get(0));
-        }catch (MySQLException | IllegalArgumentException e) {
-            LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
-        }
+    private void execGet(HttpExchange exchange) {
     }
+
     private void execPost(HttpExchange exchange) throws IOException {
-        try{
+        try {
             var staff = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Staff.class);
             model.createStaff(
                     staff.getStaffId(),
@@ -66,11 +51,15 @@ public class StaffHandler extends AbstractHandler {
                     staff.getSportCenterId()
             );
             exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
-        }catch (MySQLException | IllegalArgumentException e) {
+        } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+        } catch (IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
     }
+
     private void execPut(HttpExchange exchange) throws IOException {
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
         var newStaffId = params.get("newStaffId");
@@ -78,32 +67,37 @@ public class StaffHandler extends AbstractHandler {
         var cityId = params.get("cityId");
         var sportCenterId = params.get("sportCenterId");
 
-        if((newStaffId != null && newStaffId.size() != 1)
+        if ((newStaffId != null && newStaffId.size() != 1)
                 || (oldStaffId != null && oldStaffId.size() != 1)
                 || (cityId != null && cityId.size() != 1)
                 || (sportCenterId != null && sportCenterId.size() != 1)
-        ){
+        ) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
-        try{
-            if(newStaffId != null && oldStaffId != null && cityId != null && sportCenterId != null){
+        try {
+            if (newStaffId != null && oldStaffId != null && cityId != null && sportCenterId != null) {
                 model.updateStaffId(
                         newStaffId.get(0),
                         oldStaffId.get(0),
                         cityId.get(0),
                         sportCenterId.get(0)
                 );
-            } else{
+            } else {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }
             exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
-        } catch (MySQLException | IllegalArgumentException e) {
+        } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+        } catch (IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
     }
-    private void execDelete(HttpExchange exchange){}
+
+    private void execDelete(HttpExchange exchange) {
+    }
 }

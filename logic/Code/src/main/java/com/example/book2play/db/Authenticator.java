@@ -2,7 +2,7 @@ package com.example.book2play.db;
 
 import com.example.book2play.db.exceptions.MySQLException;
 
-public interface AuthenticateModel {
+public interface Authenticator {
 
     /**
      * Confirm whether a given id is playerId

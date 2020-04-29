@@ -20,17 +20,6 @@ BEGIN
 		WHERE cityId = inCityId
 	) THEN
 		SET statusCode = 461; -- sportCenter id does not exist
-	ELSEIF NOT EXISTS (
-		SELECT *
-		FROM bookings
-		NATURAL JOIN courts
-		NATURAL JOIN sportCenters
-		NATURAL JOIN cities
-		WHERE cityId = inCityId
-			AND sportCenterId = inSportCenterId
-			AND bookingDate = inBookingDate
-	) THEN
-		SET statusCode = 466; -- no bookings in the given date
 	ELSE
 		SET statusCode = 200;
 		SELECT bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId

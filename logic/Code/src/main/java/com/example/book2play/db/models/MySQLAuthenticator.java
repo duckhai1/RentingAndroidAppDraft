@@ -1,6 +1,7 @@
 package com.example.book2play.db.models;
 
 import com.example.book2play.db.AppDataSource;
+import com.example.book2play.db.Authenticator;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.utils.ResultSetUtils;
 
@@ -10,9 +11,9 @@ import java.sql.*;
  * Implements AuthenticatedModel interfaces for working with the stored procedures from MySQL
  * The connection is establish using MySQL DataSource object
  */
-public class AuthenticateModel extends AbstractModel implements com.example.book2play.db.AuthenticateModel {
+public class MySQLAuthenticator extends AbstractModel implements Authenticator {
 
-    public AuthenticateModel(AppDataSource db) {
+    public MySQLAuthenticator(AppDataSource db) {
         super(db);
     }
 
@@ -30,19 +31,22 @@ public class AuthenticateModel extends AbstractModel implements com.example.book
         CallableStatement stm = null;
         ResultSet rs = null;
 
-        try{
+        try {
             conn = this.db.getConnection();
-            conn.prepareCall("{call isPlayer(?,?)}");
+            conn.prepareCall("{call isPlayerExist(?,?)}");
             stm.setString(1, playerId);
             stm.registerOutParameter(2, Types.INTEGER);
 
-            stm.executeQuery();
+            rs = stm.executeQuery();
             var statusCode = stm.getInt(2);
             LOG.info("Received status code " + statusCode);
-            if (statusCode >= 400 && statusCode < 500) {
+            if (statusCode == 405) { // playerId exists
+                return true;
+            }
+            else if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
-            return true;
+            return false;
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
@@ -55,7 +59,7 @@ public class AuthenticateModel extends AbstractModel implements com.example.book
      * Create a new connection to the data source and call the stored procedure
      * to update the staff unique identifier
      *
-     * @param staffId    the unique identifier of the staff
+     * @param staffId       the unique identifier of the staff
      * @param cityId        the unique identifier of the city the the sport center locates in
      * @param sportCenterId the unique identifier, in the city, of the sport center
      * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
@@ -65,22 +69,26 @@ public class AuthenticateModel extends AbstractModel implements com.example.book
         LOG.info("Calling isStaff");
         Connection conn = null;
         CallableStatement stm = null;
+        ResultSet rs = null;
 
-        try{
+        try {
             conn = this.db.getConnection();
-            conn.prepareCall("{call isStaff(?, ?, ?, ?)}");
+            conn.prepareCall("{call isStaffExist(?, ?, ?, ?)}");
             stm.setString(1, staffId);
             stm.setString(2, cityId);
             stm.setString(3, sportCenterId);
             stm.registerOutParameter(4, Types.INTEGER);
 
-            stm.executeQuery();
+            rs = stm.executeQuery();
             var statusCode = stm.getInt(4);
             LOG.info("Received status code " + statusCode);
-            if (statusCode >= 400 && statusCode < 500) {
+            if (statusCode == 406) { // staffId exists
+                return true;
+            }
+            else if(statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
-            return true;
+            return false;
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {

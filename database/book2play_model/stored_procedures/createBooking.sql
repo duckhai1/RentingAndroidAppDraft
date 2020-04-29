@@ -1,7 +1,7 @@
 /*
-	 The player identified by playerId creates an unpaid booking, 
-     on the date indicate by timestamp, for the date indicate by date , 
-     starting at the time indicated by startTime and ending at the time 
+	 The player identified by playerId creates an unpaid booking,
+     on the date indicate by timestamp, for the date indicate by date ,
+     starting at the time indicated by startTime and ending at the time
      indicated by endTime, for the court identified by cityId, centerId, and courtId
 */
 DELIMITER //
@@ -22,20 +22,22 @@ BEGIN
     DECLARE openTime TIME;
     DECLARE closeTime TIME;
 	DECLARE inBookingId VARCHAR(100);
-    
+
     SET openTime = '07:00:00';
     SET closeTime = '21:00:00';
 	SET inBookingId = MD5(CONCAT(
     inDate,
     inStartTime,
     inEndTime,
-    inCityId, 
-    inSportCenterId, 
-    inCourtId, 
+    inCityId,
+    inSportCenterId,
+    inCourtId,
     inPlayerId));
-    
+
 	IF inBookingId REGEXP '[^a-zA-Z0-9]+' THEN
-		SET statusCode = 465 ; -- invalid booking id 
+		SET statusCode = 465 ; -- invalid booking id
+	ELSEIF inBookingId IN (SELECT bookingId FROM bookings) THEN
+		SET statusCode = 407 ; -- booking already exists
 	ELSEIF inDate < CURDATE() THEN
 		SET statusCode = 466; -- booking date is invalid (past date)
     ELSEIF inStartTime < openTime
@@ -51,8 +53,6 @@ BEGIN
 		AND TIMEDIFF(inEndTime, inStartTime) <> TIME('01:15:00')
 		AND TIMEDIFF(inEndTime, inStartTime) <> TIME('01:30:00') THEN
 		SET statusCode = 467; -- invalid duration, interval between start time and end time must be 45m, 1h, 1h15, or 1h30
-	ELSEIF inBookingId IN (SELECT bookingId FROM bookings) THEN
-		SET statusCode = 407 ; -- booking already exists 
 	ELSEIF inPlayerId NOT IN (SELECT playerId FROM players) THEN
 		SET statusCode =464 ; -- Player does not exist
 	ELSEIF inCityId NOT IN (SELECT cityId FROM cities) THEN

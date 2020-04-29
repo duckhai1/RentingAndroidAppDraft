@@ -27,7 +27,22 @@ public class MySqlDataSource implements AppDataSource {
     private DataSource ds;
 
     private MySqlDataSource() {
-        setupDataSource();
+        var stream = App.class
+                .getClassLoader()
+                .getResourceAsStream("mysql_database.properties");
+
+        var props = new Properties();
+        try {
+            props.load(stream);
+            var sqlDs = new MysqlDataSource();
+            sqlDs.setURL(props.getProperty("url", DEFAULT_URL));
+            sqlDs.setUser(props.getProperty("user", DEFAULT_USERNAME));
+            sqlDs.setPassword(props.getProperty("password", DEFAULT_PASSWORD));
+            ds = sqlDs;
+            LOG.info("Setup connection to MySQL: " + ds);
+        } catch (Exception e) {
+            LOG.warning("Could not read mysql properties, using default values" + e.getMessage());
+        }
     }
 
     /**
@@ -49,25 +64,6 @@ public class MySqlDataSource implements AppDataSource {
     public Connection getConnection() throws SQLException {
         LOG.info("Getting connection from: " + ds);
         return ds.getConnection();
-    }
-
-    private void setupDataSource() {
-        var stream = App.class
-                .getClassLoader()
-                .getResourceAsStream("mysql_database.properties");
-
-        var props = new Properties();
-        try {
-            props.load(stream);
-            var sqlDs = new MysqlDataSource();
-            sqlDs.setURL(props.getProperty("url", DEFAULT_URL));
-            sqlDs.setUser(props.getProperty("user", DEFAULT_USERNAME));
-            sqlDs.setPassword(props.getProperty("password", DEFAULT_PASSWORD));
-            ds = sqlDs;
-            LOG.info("Setup connection to MySQL: " + ds);
-        } catch (Exception e) {
-            LOG.warning("Could not read mysql properties, using default values" + e.getMessage());
-        }
     }
 }
 
