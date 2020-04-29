@@ -155,13 +155,13 @@ class ChooseTimeCourtFragment : Fragment(),
         val closeTime = sdf1.parse(close)
         val calendar = GregorianCalendar.getInstance()
         calendar.time = openTime
-        while (!calendar.time.after(closeTime)){
+        while (calendar.time.before(closeTime)){
             val curTime = sdf2.format(calendar.time)
             val timeModel : TimeModel
             if (isAvailableSlot(calendar.time, slotList)){
                 timeModel = TimeModel(curTime, "Select to choose slot", 1)
             } else {
-                timeModel = TimeModel(curTime, "Unavailable", 0)        // TODO change hardcode
+                timeModel = TimeModel(curTime, "Unavailable", 0)
             }
             arrayList.add(timeModel)
             calendar.add(Calendar.MINUTE, timeInterval)
@@ -185,7 +185,7 @@ class ChooseTimeCourtFragment : Fragment(),
         val sdf1 = SimpleDateFormat("HH:mm:ss")
         val startTime = sdf1.parse(start)
         val endTime = sdf1.parse(end)
-        return (!testTime.before(startTime) && !testTime.after(endTime))
+        return (!testTime.before(startTime) && testTime.before(endTime))
     }
 
 }
