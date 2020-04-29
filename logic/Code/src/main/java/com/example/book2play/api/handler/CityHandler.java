@@ -1,26 +1,23 @@
 package com.example.book2play.api.handler;
 
 import com.example.book2play.api.utils.HTTPStatus;
+import com.example.book2play.db.Authenticator;
+import com.example.book2play.db.CityModel;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.models.AuthenticateModel;
-import com.example.book2play.db.models.CityModel;
+import com.example.book2play.db.models.MySQLAuthenticator;
 import com.example.book2play.types.City;
-import com.example.book2play.types.Player;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Collection;
 
 public class CityHandler extends AbstractHandler {
 
     CityModel model;
-    AuthenticateModel authenticateModel;
 
-    public CityHandler (CityModel model, AuthenticateModel authenticateModel) {
-        super();
+    public CityHandler (CityModel model, Authenticator authModel) {
+        super(authModel);
         this.model = model;
-        this.authenticateModel = authenticateModel;
     }
 
     @Override

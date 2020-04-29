@@ -1,9 +1,9 @@
 package com.example.book2play.api.handler;
 
 import com.example.book2play.api.utils.HTTPStatus;
+import com.example.book2play.db.BookingModel;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.models.AuthenticateModel;
-import com.example.book2play.db.models.BookingModel;
+import com.example.book2play.db.Authenticator;
 import com.example.book2play.types.Booking;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -16,11 +16,10 @@ import java.util.Collection;
 public class BookingsHandler extends AbstractHandler {
 
     BookingModel model;
-    AuthenticateModel authenticateModel;
-    public BookingsHandler(BookingModel model, AuthenticateModel authenticateModel) {
-        super();
+
+    public BookingsHandler(BookingModel model, Authenticator authModel) {
+        super(authModel);
         this.model = model;
-        this.authenticateModel = authenticateModel;
     }
 
     @Override
@@ -46,7 +45,7 @@ public class BookingsHandler extends AbstractHandler {
 
     private void execGet(HttpExchange exchange) throws IOException {
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
-        var token = exchange.getRequestHeaders().get("Token").get(0);
+        //var token = exchange.getRequestHeaders().get("Token").get(0);
         var date = params.get("date");
         var cityId = params.get("cityId");
         var sportCenterId = params.get("sportCenterId");
@@ -126,18 +125,18 @@ public class BookingsHandler extends AbstractHandler {
         var sportCenterId = params.get("sportCenterId");
         var staffId = params.get("staffId");
 
-        if((bookingId != null && bookingId.size() !=1)
-            || (staffId != null && staffId.size() != 1)
-            || (bookingStatus != null && bookingStatus.size() != 1)
-            || (cityId != null && cityId.size() !=1)
-            || (sportCenterId != null && sportCenterId.size() != 1)
-        ){
+        if ((bookingId != null && bookingId.size() != 1)
+                || (staffId != null && staffId.size() != 1)
+                || (bookingStatus != null && bookingStatus.size() != 1)
+                || (cityId != null && cityId.size() != 1)
+                || (sportCenterId != null && sportCenterId.size() != 1)
+        ) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
-        try{
-            if(bookingId != null && staffId != null && bookingStatus != null){
+        try {
+            if (bookingId != null && staffId != null && bookingStatus != null) {
                 model.updateBookingStatus(
                         Boolean.parseBoolean(bookingStatus.get(0)),
                         bookingId.get(0),
@@ -145,7 +144,7 @@ public class BookingsHandler extends AbstractHandler {
                         sportCenterId.get(0),
                         staffId.get(0)
                 );
-            } else{
+            } else {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }
@@ -162,17 +161,16 @@ public class BookingsHandler extends AbstractHandler {
         var playerId = params.get("playerId");
 
         if ((bookingId != null && bookingId.size() != 1)
-            || (playerId != null && playerId.size() != 1)
-        ){
+                || (playerId != null && playerId.size() != 1)
+        ) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
-        try{
-            if(playerId != null && bookingId != null){
+        try {
+            if (playerId != null && bookingId != null) {
                 model.cancelBooking(bookingId.get(0), playerId.get(0));
-            }
-            else{
+            } else {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }

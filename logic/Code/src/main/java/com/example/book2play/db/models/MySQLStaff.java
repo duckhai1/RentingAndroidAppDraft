@@ -3,75 +3,84 @@ package com.example.book2play.db.models;
 import com.example.book2play.db.AppDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.utils.ResultSetUtils;
-import com.example.book2play.types.City;
 
 import java.sql.*;
-import java.util.Collection;
 
 /**
- * Implements CityModel interfaces for working with the stored procedures from MySQL
+ * Implements StaffModel interfaces for working with the stored procedures from MySQL
  * The connection is establish using MySQL DataSource object
  */
-public class CityModel extends AbstractModel implements com.example.book2play.db.CityModel {
+public class MySQLStaff extends AbstractModel implements com.example.book2play.db.StaffModel {
 
-    public CityModel(AppDataSource db) {
+    public MySQLStaff(AppDataSource db) {
         super(db);
     }
 
     /**
      * Create a new connection to the data source and call the stored procedure
-     * to get all the cities known by the data source
+     * to create a new staff for a given sport center
      *
-     * @return collection of cities
+     * @param staffId       the unique identifier, in the given sport center, of the new staff
+     * @param cityId        the unique identifier of the city the the sport center locates in
+     * @param sportCenterId the unique identifier, in the city, of the sport center
      * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
-    public Collection<City> getCities() throws MySQLException {
-        LOG.info("Calling getCities");
+    @Override
+    public void createStaff(String staffId, String cityId, String sportCenterId) throws MySQLException {
+        LOG.info("Calling createStaff");
         Connection conn = null;
         CallableStatement stm = null;
-        ResultSet rs = null;
-
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL getCities(?)}");
-            stm.registerOutParameter(1, Types.INTEGER);
 
-            rs = stm.executeQuery();
-            var statusCode = stm.getInt(1);
+            stm = conn.prepareCall("{call createStaff(?,?,?,?)}");
+            stm.setString(1, staffId);
+            stm.setString(2, cityId);
+            stm.setString(3, sportCenterId);
+            stm.registerOutParameter(4, Types.INTEGER);
+
+            var updateCount = stm.executeUpdate();
+            var statusCode = stm.getInt(4);
             LOG.info("Received status code " + statusCode);
+            LOG.info("Update count " + updateCount);
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
-
-            return ResultSetUtils.citiesFromResultSet(rs);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
             ResultSetUtils.quietCloseConnection(conn);
             ResultSetUtils.quietCloseStatement(stm);
-            ResultSetUtils.quietCloseResultSet(rs);
         }
     }
 
     /**
      * Create a new connection to the data source and call the stored procedure
-     * to create a new city with the given unique identifier to the data source
+     * to update the staff unique identifier
      *
-     * @param cityId the unique identifier of the city
+     * @param newStaffId    the new unique identifier, in the sport center
+     * @param oldStaffId    the current unique identifier of the staff
+     * @param cityId        the unique identifier of the city that the sport center locates in
+     * @param sportCenterId the unique identifier, in the city, of the sport center
      * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
-    public void createCity(String cityId) throws MySQLException {
-        LOG.info("Calling createCity");
+    @Override
+    public void updateStaffId(String newStaffId, String oldStaffId, String cityId, String sportCenterId) throws MySQLException {
+        LOG.info("Calling updateStaffId");
         Connection conn = null;
         CallableStatement stm = null;
         try {
             conn = this.db.getConnection();
-            stm = conn.prepareCall("{CALL createCity(?, ?)}");
-            stm.setString(1, cityId);
-            stm.registerOutParameter(2, Types.INTEGER);
+
+            stm = conn.prepareCall("{CALL updateStaffId(?, ?, ?, ?, ?)}");
+            stm.setString(1, newStaffId);
+            stm.setString(2, oldStaffId);
+            stm.setString(3, cityId);
+            stm.setString(4, sportCenterId);
+            stm.registerOutParameter(5, Types.INTEGER);
 
             var updateCount = stm.executeUpdate();
-            var statusCode = stm.getInt(2);
+            var statusCode = stm.getInt(5);
             LOG.info("Received status code " + statusCode);
             LOG.info("Update count " + updateCount);
             if (statusCode >= 400 && statusCode < 500) {
@@ -85,28 +94,4 @@ public class CityModel extends AbstractModel implements com.example.book2play.db
         }
     }
 
-    /**
-     * Get a new connection to the data source and clear the relation
-     *
-     * @throws MySQLException
-     * @deprecated move to test only
-     */
-    @Override
-    public void clearCity() throws MySQLException {
-        LOG.info("Calling clearCity");
-        Connection conn = null;
-        Statement stm = null;
-        try {
-            conn = this.db.getConnection();
-            stm = conn.createStatement();
-
-            var updateCount = stm.executeUpdate("DELETE FROM cities");
-            LOG.info("Update count " + updateCount);
-        } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
-        } finally {
-            ResultSetUtils.quietCloseConnection(conn);
-            ResultSetUtils.quietCloseStatement(stm);
-        }
-    }
 }

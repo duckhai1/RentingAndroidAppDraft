@@ -49,12 +49,12 @@ public class App {
     }
 
     private void setupExample(AppDataSource ds) {
-        BookingModel bookingModel = new BookingModel(ds);
-        CityModel cityModel = new CityModel(ds);
-        CourtModel courtModel = new CourtModel(ds);
-        PlayerModel playerModel = new PlayerModel(ds);
-        SportCenterModel sportCenterModel = new SportCenterModel(ds);
-        StaffModel staffModel = new StaffModel(ds);
+        MySQLBooking bookingModel = new MySQLBooking(ds);
+        MySQLCity cityModel = new MySQLCity(ds);
+        MySQLCourt courtModel = new MySQLCourt(ds);
+        MySQLPlayer playerModel = new MySQLPlayer(ds);
+        MySQLSportCenter sportCenterModel = new MySQLSportCenter(ds);
+        MySQLStaff staffModel = new MySQLStaff(ds);
 
         try {
             cityModel.createCity("city1");
