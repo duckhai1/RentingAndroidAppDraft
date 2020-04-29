@@ -43,7 +43,20 @@ public class PlayerHandler extends AbstractHandler {
         exchange.close();
     }
 
-    private void execGet(HttpExchange exchange){
+    private void execGet(HttpExchange exchange) throws IOException {
+        var params = splitQuery(exchange.getRequestURI().getRawQuery());
+        var playerId = params.get("playerId");
+
+        if (playerId == null | playerId.size() != 1) {
+            exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+            return;
+        }
+        try{
+            authenticatedModel.isPlayer(playerId.get(0));
+        }catch (MySQLException | IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+        }
     }
     private void execPost(HttpExchange exchange) throws IOException {
         try{

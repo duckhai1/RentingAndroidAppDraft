@@ -42,7 +42,21 @@ public class StaffHandler extends AbstractHandler {
         exchange.close();
     }
 
-    private void execGet(HttpExchange exchange){}
+    private void execGet(HttpExchange exchange) throws IOException {
+        var params = splitQuery(exchange.getRequestURI().getRawQuery());
+        var staffId = params.get("staffId");
+
+        if (staffId == null | staffId.size() != 1) {
+            exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+            return;
+        }
+        try{
+            authenticateModel.isPlayer(staffId.get(0));
+        }catch (MySQLException | IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+        }
+    }
     private void execPost(HttpExchange exchange) throws IOException {
         try{
             var staff = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Staff.class);

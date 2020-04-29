@@ -24,7 +24,7 @@ public class AuthenticateModel extends AbstractModel implements com.example.book
      * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
     @Override
-    public String isPlayer(String playerId) throws MySQLException {
+    public boolean isPlayer(String playerId) throws MySQLException {
         LOG.info("Calling isPlayer");
         Connection conn = null;
         CallableStatement stm = null;
@@ -36,13 +36,13 @@ public class AuthenticateModel extends AbstractModel implements com.example.book
             stm.setString(1, playerId);
             stm.registerOutParameter(2, Types.INTEGER);
 
-            rs = stm.executeQuery();
+            stm.executeQuery();
             var statusCode = stm.getInt(2);
             LOG.info("Received status code " + statusCode);
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
-            return rs.getString("playerId");
+            return true;
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
@@ -61,11 +61,10 @@ public class AuthenticateModel extends AbstractModel implements com.example.book
      * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
     @Override
-    public String isStaff(String staffId, String cityId, String sportCenterId) throws MySQLException {
+    public boolean isStaff(String staffId, String cityId, String sportCenterId) throws MySQLException {
         LOG.info("Calling isStaff");
         Connection conn = null;
         CallableStatement stm = null;
-        ResultSet rs = null;
 
         try{
             conn = this.db.getConnection();
@@ -75,13 +74,13 @@ public class AuthenticateModel extends AbstractModel implements com.example.book
             stm.setString(3, sportCenterId);
             stm.registerOutParameter(4, Types.INTEGER);
 
-            rs = stm.executeQuery();
+            stm.executeQuery();
             var statusCode = stm.getInt(4);
             LOG.info("Received status code " + statusCode);
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
-            return rs.getString("staffId");
+            return true;
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {

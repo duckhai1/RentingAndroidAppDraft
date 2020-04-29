@@ -49,7 +49,6 @@ public class SlotHandler extends AbstractHandler {
         var cityId = params.get("cityId");
         var date = params.get("date");
 
-
         if ((courtId != null && courtId.size() != 1)
                 || (sportCenterId != null && sportCenterId.size() != 1)
                 ||(cityId != null && cityId.size() != 1)
@@ -60,7 +59,6 @@ public class SlotHandler extends AbstractHandler {
         }
 
         List<Booking> bookings = null;
-
 
         try{
             if(courtId != null && sportCenterId != null && cityId != null && date != null){
@@ -77,7 +75,7 @@ public class SlotHandler extends AbstractHandler {
         } catch (MySQLException | IllegalArgumentException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
-        } finally {
+        }
             var slotService = new SlotService(OPEN_TIME, CLOSE_TIME, MIN_DURATION_IN_MINUTES);
             var slots = slotService.getAvailableSlots(bookings,
                     cityId.get(0),
@@ -85,6 +83,6 @@ public class SlotHandler extends AbstractHandler {
                     courtId.get(0)
             );
             responseWithJson(exchange, HTTPStatus.OK, slots);
-        }
+
     }
 }
