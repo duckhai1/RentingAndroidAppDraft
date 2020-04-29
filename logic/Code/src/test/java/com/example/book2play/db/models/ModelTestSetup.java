@@ -2,10 +2,14 @@ package com.example.book2play.db.models;
 
 import com.example.book2play.db.driver.MySqlDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
+import com.example.book2play.db.models.utils.ResultSetUtils;
 import com.example.test_utils.TimeUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Logger;
 
 public abstract class ModelTestSetup {
@@ -34,12 +38,12 @@ public abstract class ModelTestSetup {
 
     @Before
     public void cleanTables() throws MySQLException {
-        BOOKING.clearBooking();
-        CITY.clearCity();
-        COURT.clearCourt();
-        PLAYER.clearPlayer();
-        SPORT_CENTER.clearSportCenter();
-        STAFF.clearStaff();
+        clearBooking();
+        clearCity();
+        clearCourt();
+        clearPlayer();
+        clearSportCenter();
+        clearStaff();
     }
 
     protected void rawInsertBooking(
@@ -92,6 +96,117 @@ public abstract class ModelTestSetup {
         stmt.setString(8, playerPk);
         if (stmt.executeUpdate() != 1) {
             throw new Exception("Incorrect number of updated rows");
+        }
+    }
+
+    private void clearBooking() throws MySQLException {
+        LOG.info("Calling clearBooking");
+        Connection conn = null;
+        Statement stm = null;
+
+        try {
+            conn = DB.getConnection();
+            stm = conn.createStatement();
+
+            var updateCount = stm.executeUpdate("DELETE FROM bookings");
+            LOG.info("Update count " + updateCount);
+        } catch (SQLException e) {
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
+        } finally {
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+        }
+    }
+
+    private void clearCity() throws MySQLException {
+        LOG.info("Calling clearCity");
+        Connection conn = null;
+        Statement stm = null;
+        try {
+            conn = DB.getConnection();
+            stm = conn.createStatement();
+
+            var updateCount = stm.executeUpdate("DELETE FROM cities");
+            LOG.info("Update count " + updateCount);
+        } catch (SQLException e) {
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
+        } finally {
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+        }
+    }
+
+    private void clearCourt() throws MySQLException {
+        LOG.info("Calling clearCourt");
+        Connection conn = null;
+        Statement stm = null;
+
+        try {
+            conn = DB.getConnection();
+            stm = conn.createStatement();
+
+            var updateCount = stm.executeUpdate("DELETE FROM courts");
+            LOG.info("Update count " + updateCount);
+        } catch (SQLException e) {
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
+        } finally {
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+        }
+    }
+
+    private void clearPlayer() throws MySQLException {
+        LOG.info("Calling clearPlayer");
+        Connection conn = null;
+        Statement stm = null;
+        try {
+            conn = DB.getConnection();
+            stm = conn.createStatement();
+
+            var updateCount = stm.executeUpdate("DELETE FROM players");
+            LOG.info("Update count " + updateCount);
+        } catch (SQLException e) {
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
+        } finally {
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+        }
+    }
+
+    private void clearSportCenter() throws MySQLException {
+        LOG.info("Calling clearSportCenter");
+        Connection conn = null;
+        Statement stm = null;
+        try {
+            conn = DB.getConnection();
+            stm = conn.createStatement();
+
+            var updateCount = stm.executeUpdate("DELETE FROM sportCenters");
+            LOG.info("Update count " + updateCount);
+        } catch (SQLException e) {
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
+        } finally {
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
+        }
+
+    }
+
+    private void clearStaff() throws MySQLException {
+        LOG.info("Calling clearStaff");
+        Connection conn = null;
+        Statement stm = null;
+        try {
+            conn = DB.getConnection();
+            stm = conn.createStatement();
+
+            var updateCount = stm.executeUpdate("DELETE FROM sportCenters");
+            LOG.info("Update count " + updateCount);
+        } catch (SQLException e) {
+            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
+        } finally {
+            ResultSetUtils.quietCloseConnection(conn);
+            ResultSetUtils.quietCloseStatement(stm);
         }
     }
 }

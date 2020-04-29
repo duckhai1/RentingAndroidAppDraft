@@ -92,30 +92,7 @@ public class MySQLSportCenter extends AbstractModel implements com.example.book2
         }
     }
 
-    /**
-     * Create a new connection to the data source and clear the relation
-     *
-     * @throws MySQLException
-     * @deprecated move to test only
-     */
-    @Override
-    public void clearSportCenter() throws MySQLException {
-        LOG.info("Calling clearSportCenter");
-        Connection conn = null;
-        Statement stm = null;
-        try {
-            conn = this.db.getConnection();
-            stm = conn.createStatement();
 
-            var updateCount = stm.executeUpdate("DELETE FROM sportCenters");
-            LOG.info("Update count " + updateCount);
-        } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
-        } finally {
-            ResultSetUtils.quietCloseConnection(conn);
-            ResultSetUtils.quietCloseStatement(stm);
-        }
-    }
 
     /**
      * Create a new connection to the data source and call the stored procedure

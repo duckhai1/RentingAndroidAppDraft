@@ -28,6 +28,7 @@ public class BookingModelCancelBookingTest extends ModelTestSetup {
     public void testCancelOneBookingSuccessfully() throws Exception {
         // this generate booking id with md5 for comparison
         var expectedBooking = BookingUtils.createBooking(
+                TimeUtils.getTimestamp(),
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(9, 0, 0),
                 TimeUtils.getTime(10, 30, 0),
@@ -63,6 +64,7 @@ public class BookingModelCancelBookingTest extends ModelTestSetup {
         }
 
         var expectedBooking = BookingUtils.createBooking(
+                TimeUtils.getTimestamp(),
                 bookingDate,
                 TimeUtils.getTime(9, 0, 0),
                 TimeUtils.getTime(10, 30, 0),
@@ -125,6 +127,7 @@ public class BookingModelCancelBookingTest extends ModelTestSetup {
         playerIds.add("ba$");
 
         var expectedBooking = BookingUtils.createBooking(
+                TimeUtils.getTimestamp(),
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(9, 0, 0),
                 TimeUtils.getTime(10, 30, 0),
@@ -157,12 +160,14 @@ public class BookingModelCancelBookingTest extends ModelTestSetup {
         final int EXPECTED_CODE = 401;
         var inputBookings = new ArrayList<Booking>();
         inputBookings.add(BookingUtils.createBooking(
+                TimeUtils.getTimestamp(),
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(9, 0, 0),
                 TimeUtils.getTime(10, 30, 0),
                 false, "HCM", "Q1", "P1", "Alice"
         ));
         inputBookings.add(BookingUtils.createBooking(
+                TimeUtils.getTimestamp(),
                 TimeUtils.getDate(10),
                 TimeUtils.getTime(11, 0, 0),
                 TimeUtils.getTime(12, 30, 0),

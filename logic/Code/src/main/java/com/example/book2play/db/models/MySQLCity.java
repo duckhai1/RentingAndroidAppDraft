@@ -85,28 +85,4 @@ public class MySQLCity extends AbstractModel implements com.example.book2play.db
         }
     }
 
-    /**
-     * Get a new connection to the data source and clear the relation
-     *
-     * @throws MySQLException
-     * @deprecated move to test only
-     */
-    @Override
-    public void clearCity() throws MySQLException {
-        LOG.info("Calling clearCity");
-        Connection conn = null;
-        Statement stm = null;
-        try {
-            conn = this.db.getConnection();
-            stm = conn.createStatement();
-
-            var updateCount = stm.executeUpdate("DELETE FROM cities");
-            LOG.info("Update count " + updateCount);
-        } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
-        } finally {
-            ResultSetUtils.quietCloseConnection(conn);
-            ResultSetUtils.quietCloseStatement(stm);
-        }
-    }
 }
