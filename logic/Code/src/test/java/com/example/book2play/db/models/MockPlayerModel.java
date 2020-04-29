@@ -11,9 +11,20 @@ public class MockPlayerModel implements PlayerModel {
 
     private Set<Player> players;
 
-    public MockPlayerModel() {
+    private static MockPlayerModel SINGLETON = null;
+
+    private MockPlayerModel() {
         players = new HashSet<>();
     }
+
+    public static MockPlayerModel getInstance() {
+        if (SINGLETON == null) {
+            SINGLETON = new MockPlayerModel();
+        }
+
+        return SINGLETON;
+    }
+
 
     @Override
     public void createPlayer(String playerId) throws MySQLException {

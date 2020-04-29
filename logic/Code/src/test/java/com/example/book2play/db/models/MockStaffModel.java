@@ -11,9 +11,20 @@ public class MockStaffModel implements StaffModel {
 
     private Set<Staff> staffs;
 
-    public MockStaffModel() {
+    private static MockStaffModel SINGLETON = null;
+
+    private MockStaffModel() {
         staffs = new HashSet<>();
     }
+
+    public static MockStaffModel getInstance() {
+        if (SINGLETON == null) {
+            SINGLETON = new MockStaffModel();
+        }
+
+        return SINGLETON;
+    }
+
 
     @Override
     public void createStaff(String staffId, String cityId, String sportCenterId) throws MySQLException {

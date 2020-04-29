@@ -15,10 +15,21 @@ import java.util.stream.Collectors;
 
 // TODO: throws exception
 public class MockBookingModel implements BookingModel {
+
     private Set<Booking> bookings;
 
-    public MockBookingModel() {
+    private static MockBookingModel SINGLETON = null;
+
+    private MockBookingModel() {
         this.bookings = new HashSet<>();
+    }
+
+    public static MockBookingModel getInstance() {
+        if (SINGLETON == null) {
+            SINGLETON = new MockBookingModel();
+        }
+
+        return SINGLETON;
     }
 
     @Override

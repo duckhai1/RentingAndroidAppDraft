@@ -13,9 +13,20 @@ public class MockCourtModel implements CourtModel {
 
     private Set<Court> courts;
 
-    public MockCourtModel() {
+    private static MockCourtModel SINGLETON = null;
+
+    private MockCourtModel() {
         courts = new HashSet<>();
     }
+
+    public static MockCourtModel getInstance() {
+        if (SINGLETON == null) {
+            SINGLETON = new MockCourtModel();
+        }
+
+        return SINGLETON;
+    }
+
 
     @Override
     public Collection<Court> getCityCourts(String cityId) throws MySQLException {
