@@ -3,6 +3,7 @@ package com.example.book2play.ScreenView.Fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.Type.MyBookingModel
 import com.example.book2play.R
 import com.example.LogicConnection.Handler.ApiHandler
+import com.example.Type.MySlotModel
 import com.example.book2play.Adapter.CourtAdapter
 import com.example.book2play.DisplayHelper.SelectActionModeInterface
 import com.example.book2play.DisplayHelper.TimeModel
@@ -138,7 +140,12 @@ class ChooseTimeCourtFragment : Fragment(),
 
     fun setupTimeArray(open: String, close: String, timeInterval: Int) : ArrayList<TimeModel>{
         // TODO get open, close from API
-        // ApiHandler.getSlot(courtId)
+        Log.d("server_connect", "courtname: " + bookingCourtName.toString()+" centerName: "+bookingInfo.center+" cityName: " + bookingInfo.date)
+        val slotList = activity?.let { ApiHandler.getSlotInCourt(it, bookingCourtName,
+            bookingInfo.center.toString(),
+            bookingInfo.city.toString(),
+            bookingInfo.date.toString()) }
+
 
 
         val arrayList = ArrayList<TimeModel>()
@@ -148,14 +155,37 @@ class ChooseTimeCourtFragment : Fragment(),
         val closeTime = sdf1.parse(close)
         val calendar = GregorianCalendar.getInstance()
         calendar.time = openTime
-        while (calendar.time.before(closeTime) || calendar.time.equals(closeTime)){
+        while (!calendar.time.after(closeTime)){
             val curTime = sdf2.format(calendar.time)
-            val timeModel = TimeModel(curTime, "Unavailable", 0)        // TODO change hardcode
+            val timeModel : TimeModel
+            if (isAvailableSlot(calendar.time, slotList)){
+                timeModel = TimeModel(curTime, "Select to choose slot", 1)
+            } else {
+                timeModel = TimeModel(curTime, "Unavailable", 0)        // TODO change hardcode
+            }
             arrayList.add(timeModel)
             calendar.add(Calendar.MINUTE, timeInterval)
         }
 
         return arrayList
+    }
+
+    fun isAvailableSlot(testTime: Date, slotList: ArrayList<MySlotModel>?) : Boolean{
+        if (slotList != null) {
+            for (slot in slotList){
+                if (isWithinTimeRange(testTime, slot.startTime, slot.endTime)){
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    fun isWithinTimeRange(testTime: Date, start: String, end: String) : Boolean{
+        val sdf1 = SimpleDateFormat("HH:mm:ss")
+        val startTime = sdf1.parse(start)
+        val endTime = sdf1.parse(end)
+        return (!testTime.before(startTime) && !testTime.after(endTime))
     }
 
 }
