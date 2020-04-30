@@ -1,29 +1,43 @@
 package com.example.book2play.api;
 
-import com.example.book2play.db.*;
+import com.example.book2play.db.models.*;
 
 import java.io.IOException;
 
 public class MockServer extends Server {
-    public MockServer(int port,
-                      Authenticator authModel,
-                      BookingModel bookingModel,
-                      CityModel cityModel,
-                      CourtModel courtModel,
-                      PlayerModel playerModel,
-                      SportCenterModel sportCenterModel,
-                      StaffModel staffModel) throws IOException {
+
+    private static MockServer SINGLETON = null;
+
+    private MockServer(int port) throws IOException {
         super(null, port);
-        this.authModel = authModel;
-        this.bookingModel = bookingModel;
-        this.cityModel = cityModel;
-        this.courtModel = courtModel;
-        this.playerModel = playerModel;
-        this.sportCenterModel = sportCenterModel;
-        this.staffModel = staffModel;
+        bookingModel = MockBookingModel.getInstance();
+        cityModel = MockCityModel.getInstance();
+        courtModel = MockCourtModel.getInstance();
+        playerModel = MockPlayerModel.getInstance();
+        sportCenterModel = MockSportCenterModel.getInstance();
+        staffModel = MockStaffModel.getInstance();
+
+        authModel = new MockAuthenticator(
+                MockPlayerModel.getInstance(),
+                MockStaffModel.getInstance()
+        );
+    }
+
+    public static MockServer getInstance(int port) throws IOException {
+        if (SINGLETON == null) {
+            SINGLETON = new MockServer(port);
+        }
+
+        return SINGLETON;
     }
 
     @Override
     protected void setupModels() {
     }
+
+    public void stop() {
+        srv.stop(0);
+    }
+
+
 }

@@ -1,7 +1,10 @@
-package com.example.book2play.api;
+package com.example.book2play.api.city;
 
+import com.example.book2play.api.APITestSetup;
+import com.example.book2play.api.Server;
 import com.example.book2play.api.utils.HTTPStatus;
 import com.example.book2play.types.City;
+import com.example.types.GenericAPIResult;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -10,7 +13,7 @@ import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
-public class CityTest extends SetupAPITest {
+public class CityAPIPostTest extends APITestSetup {
     private final static URI API_PATH = URI.create("http://" + HOST + ':' + PORT + Server.CITY_BASE_URL);
 
     @Test
@@ -23,7 +26,7 @@ public class CityTest extends SetupAPITest {
 
         var futures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var s : testInputs) {
-            futures.add(postJSON(API_PATH, new City(s)));
+            futures.add(asyncPostJSON(API_PATH, new City(s)));
         }
 
         for (var f : futures) {
@@ -43,7 +46,7 @@ public class CityTest extends SetupAPITest {
 
         var setupFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var s : testInputs) {
-            setupFutures.add(postJSON(API_PATH, new City(s)));
+            setupFutures.add(asyncPostJSON(API_PATH, new City(s)));
         }
 
         for (var f : setupFutures) {
@@ -53,7 +56,7 @@ public class CityTest extends SetupAPITest {
 
         var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var s : testInputs) {
-            testFutures.add(postJSON(API_PATH, new City(s)));
+            testFutures.add(asyncPostJSON(API_PATH, new City(s)));
         }
 
         for (var f : testFutures) {
@@ -78,7 +81,7 @@ public class CityTest extends SetupAPITest {
 
         var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var s : testInputs) {
-            testFutures.add(postJSON(API_PATH, new City(s)));
+            testFutures.add(asyncPostJSON(API_PATH, new City(s)));
         }
 
         for (var f : testFutures) {
@@ -91,6 +94,4 @@ public class CityTest extends SetupAPITest {
             Assert.assertEquals(EXPECTED_CODE, apiRes.getStatusCode());
         }
     }
-
-
 }

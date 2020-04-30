@@ -3,7 +3,6 @@ package com.example.book2play.api;
 
 import com.example.book2play.api.handler.*;
 import com.example.book2play.db.*;
-import com.example.book2play.db.models.MySQLAuthenticator;
 import com.example.book2play.db.models.*;
 import com.sun.net.httpserver.BasicAuthenticator;
 import com.sun.net.httpserver.HttpServer;

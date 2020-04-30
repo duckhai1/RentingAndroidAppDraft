@@ -5,7 +5,6 @@ import com.example.book2play.api.utils.SqlTimeGsonSerializer;
 import com.example.book2play.api.utils.SqlTimestampGsonDeserializer;
 import com.example.book2play.api.utils.SqlTimestampGsonSerializer;
 import com.example.book2play.db.Authenticator;
-import com.example.book2play.db.driver.MySqlDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -15,6 +14,7 @@ import com.sun.net.httpserver.HttpHandler;
 
 import java.io.IOException;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.sql.Time;
 import java.sql.Timestamp;

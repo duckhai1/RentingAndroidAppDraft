@@ -3,33 +3,22 @@ package com.example.book2play.db.models;
 import com.example.book2play.db.CityModel;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.types.City;
-import com.example.test_utils.Validators;
+import com.example.utils.Validators;
 
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Set;
 
 public class MockCityModel implements CityModel {
 
-    private Set<City> cities;
+    private MockModelDataSource ds;
 
-    private static MockCityModel SINGLETON = null;
-
-    private MockCityModel() {
-        cities = new HashSet<>();
-    }
-
-    public static MockCityModel getInstance() {
-        if (SINGLETON == null) {
-            SINGLETON = new MockCityModel();
-        }
-
-        return SINGLETON;
+    public MockCityModel(MockModelDataSource ds) {
+        this.ds = ds;
     }
 
     @Override
     public Collection<City> getCities() throws MySQLException {
-        return new HashSet<>(cities);
+        return new HashSet<>(ds.getCities());
     }
 
     @Override
@@ -39,18 +28,18 @@ public class MockCityModel implements CityModel {
         }
 
         var newCity = new City(cityId);
-        if (cities.contains(newCity)) {
+        if (ds.getCities().contains(newCity)) {
             throw new MySQLException(402);
         }
 
-        cities.add(newCity);
+        ds.getCities().add(newCity);
     }
 
     public boolean isCityExist(String cityId) {
-        return cities.contains(new City(cityId));
+        return ds.getCities().contains(new City(cityId));
     }
 
     public void clearCities() {
-        cities.clear();
+        ds.getCities().clear();
     }
 }

@@ -11,48 +11,38 @@ import java.util.stream.Collectors;
 
 public class MockCourtModel implements CourtModel {
 
-    private Set<Court> courts;
+    private MockModelDataSource ds;
 
-    private static MockCourtModel SINGLETON = null;
-
-    private MockCourtModel() {
-        courts = new HashSet<>();
-    }
-
-    public static MockCourtModel getInstance() {
-        if (SINGLETON == null) {
-            SINGLETON = new MockCourtModel();
-        }
-
-        return SINGLETON;
+    public MockCourtModel(MockModelDataSource ds) {
+        this.ds = ds;
     }
 
 
     @Override
     public Collection<Court> getCityCourts(String cityId) throws MySQLException {
-        var cityModel = MockCityModel.getInstance();
+        var cityModel = new MockCityModel(ds);
         if (!cityModel.isCityExist(cityId)) {
             throw new MySQLException(460);
         }
 
-        return courts.stream()
+        return ds.getCourts().stream()
                 .filter(c -> c.getCityId().equals(cityId))
                 .collect(Collectors.toSet());
     }
 
     @Override
     public Collection<Court> getSportCenterCourts(String sportCenterId, String cityId) throws MySQLException {
-        var cityModel = MockCityModel.getInstance();
+        var cityModel = new MockCityModel(ds);
         if (!cityModel.isCityExist(cityId)) {
             throw new MySQLException(460);
         }
 
-        var sportCenterModel = MockSportCenterModel.getInstance();
+        var sportCenterModel = new MockSportCenterModel(ds);;
         if (!sportCenterModel.isSportCenterExist(sportCenterId, cityId)) {
             throw new MySQLException(461);
         }
 
-        return courts.stream()
+        return ds.getCourts().stream()
                 .filter(c -> c.getCityId().equals(cityId)
                         && c.getSportCenterId().equals(sportCenterId))
                 .collect(Collectors.toSet());
@@ -60,50 +50,50 @@ public class MockCourtModel implements CourtModel {
 
     @Override
     public void createCityCenterCourt(String courtId, String cityId, String sportCenterId) throws MySQLException {
-        var cityModel = MockCityModel.getInstance();
+        var cityModel = new MockCityModel(ds);
         if (!cityModel.isCityExist(cityId)) {
             throw new MySQLException(460);
         }
 
-        var sportCenterModel = MockSportCenterModel.getInstance();
+        var sportCenterModel = new MockSportCenterModel(ds);;
         if (!sportCenterModel.isSportCenterExist(sportCenterId, cityId)) {
             throw new MySQLException(461);
         }
 
         var newCourt = new Court(courtId, cityId, sportCenterId);
-        if (courts.contains(newCourt)) {
+        if (ds.getCourts().contains(newCourt)) {
             throw new MySQLException(404);
         }
 
-        courts.add(newCourt);
+        ds.getCourts().add(newCourt);
     }
 
     @Override
     public void updateCourtId(String newCourtId, String oldCourtId, String cityId, String sportCenterId) throws MySQLException {
-        var cityModel = MockCityModel.getInstance();
+        var cityModel = new MockCityModel(ds);
         if (!cityModel.isCityExist(cityId)) {
             throw new MySQLException(460);
         }
 
-        var sportCenterModel = MockSportCenterModel.getInstance();
+        var sportCenterModel = new MockSportCenterModel(ds);;
         if (!sportCenterModel.isSportCenterExist(sportCenterId, cityId)) {
             throw new MySQLException(461);
         }
 
         var oldCourt = new Court(oldCourtId, cityId, sportCenterId);
-        if (!courts.contains(oldCourt)) {
+        if (!ds.getCourts().contains(oldCourt)) {
             throw new MySQLException(462);
         }
 
-        courts.remove(oldCourt);
-        courts.add(new Court(newCourtId, cityId, sportCenterId));
+        ds.getCourts().remove(oldCourt);
+        ds.getCourts().add(new Court(newCourtId, cityId, sportCenterId));
     }
 
     public boolean isCourtExist(String courtId, String cityId, String sportCenterId) {
-        return courts.contains(new Court(courtId, cityId, sportCenterId));
+        return ds.getCourts().contains(new Court(courtId, cityId, sportCenterId));
     }
 
     public void clearCourts() {
-        courts.clear();
+        ds.getCourts().clear();
     }
 }

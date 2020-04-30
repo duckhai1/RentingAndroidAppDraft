@@ -7,20 +7,24 @@ import com.example.book2play.api.utils.SqlTimestampGsonSerializer;
 import com.example.book2play.db.models.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-import java.io.IOException;
 import java.net.URI;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.logging.Logger;
 
-public class SetupAPITest {
+public class APITestSetup {
 
     public final static String HOST = "localhost";
     public final static int PORT = 6666;
@@ -55,8 +59,13 @@ public class SetupAPITest {
         STAFF = MockStaffModel.getInstance();
         AUTH = new MockAuthenticator(PLAYER, STAFF);
 
-        SRV = new MockServer(PORT, AUTH, BOOKING, CITY, COURT, PLAYER, SPORT_CENTER, STAFF);
+        SRV = MockServer.getInstance(PORT);
         SRV.start();
+    }
+
+    @AfterClass
+    public static void stopAPIServer() throws Exception {
+        SRV.stop();
     }
 
     @Before
@@ -69,7 +78,16 @@ public class SetupAPITest {
         STAFF.clearStaff();
     }
 
-    protected CompletableFuture<HttpResponse<String>> postJSON(URI uri, Object obj) throws IOException {
+    protected CompletableFuture<HttpResponse<String>> asyncGetJSON(URI uri, Map<String, List<String>> query) {
+        HttpRequest request = HttpRequest.newBuilder(URI.create(uri.toString() + composeQuery(query)))
+                .header("Accept", "application/json")
+                .build();
+
+        return HttpClient.newHttpClient()
+                .sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    protected CompletableFuture<HttpResponse<String>> asyncPostJSON(URI uri, Object obj) {
         var request = HttpRequest.newBuilder(uri)
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(GSON.toJson(obj)))
@@ -78,4 +96,24 @@ public class SetupAPITest {
         return HttpClient.newHttpClient()
                 .sendAsync(request, HttpResponse.BodyHandlers.ofString());
     }
+
+    protected String composeQuery(Map<String, List<String>> data) {
+        var query = new StringBuilder();
+        for (var k : data.keySet()) {
+            for (var v : data.get(k)) {
+                query.append('&');
+                query.append(encode(k));
+                query.append('=');
+                query.append(encode(v));
+            }
+        }
+        query.replace(0, 1, "?");
+
+        return query.toString();
+    }
+
+    private String encode(final String decoded) {
+        return decoded == null ? null : URLEncoder.encode(decoded, StandardCharsets.UTF_8);
+    }
+
 }
