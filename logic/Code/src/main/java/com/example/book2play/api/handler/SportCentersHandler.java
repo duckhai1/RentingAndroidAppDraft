@@ -1,9 +1,10 @@
 package com.example.book2play.api.handler;
 
+import com.example.book2play.api.handler.utils.ConfirmToken;
 import com.example.book2play.api.utils.HTTPStatus;
+import com.example.book2play.db.Authenticator;
 import com.example.book2play.db.SportCenterModel;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.models.AuthenticateModel;
 import com.example.book2play.types.SportCenter;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -13,12 +14,10 @@ import java.io.InputStreamReader;
 public class SportCentersHandler extends AbstractHandler {
 
     SportCenterModel model;
-    AuthenticateModel authenticateModel;
 
-    public SportCentersHandler(SportCenterModel model, AuthenticateModel authenticateModel) {
-        super();
+    public SportCentersHandler(SportCenterModel model, Authenticator authModel) {
+        super(authModel);
         this.model = model;
-        this.authenticateModel = authenticateModel;
     }
 
     @Override
@@ -37,7 +36,7 @@ public class SportCentersHandler extends AbstractHandler {
             }
         } catch (RuntimeException e) {
             LOG.severe("Unexpected exception " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.INTERNAL_SERVER_ERROR, e);
+            responseErrorAsJson(exchange, HTTPStatus.INTERNAL_SERVER_ERROR, e);
         }
 
         exchange.close();
@@ -45,19 +44,28 @@ public class SportCentersHandler extends AbstractHandler {
 
     private void execGet(HttpExchange exchange) throws IOException {
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
+        var token = exchange.getRequestHeaders().get("Token");
         var cityId = params.get("cityId");
 
-        if (cityId == null || cityId.size() != 1) {
+        if ((token == null || token.size() != 1)
+                || (cityId == null || cityId.size() != 1)
+        ) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
         try {
-            var sportCenters = model.getCitySportCenters(cityId.get(0));
-            responseWithJson(exchange, HTTPStatus.OK, sportCenters);
+            var id = ConfirmToken.getId(token.get(0));
+            if (authModel.isPlayer(id)) {
+                var sportCenters = model.getCitySportCenters(cityId.get(0));
+                responseWithJson(exchange, HTTPStatus.OK, sportCenters);
+            } else {
+                exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
+                return;
+            }
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
     }
 
@@ -69,9 +77,12 @@ public class SportCentersHandler extends AbstractHandler {
                     sportCenter.getCityId()
             );
             exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
-        } catch (MySQLException | IllegalArgumentException e) {
+        } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+        } catch (IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
     }
 
@@ -81,29 +92,32 @@ public class SportCentersHandler extends AbstractHandler {
         var oldSportCenterId = params.get("oldSportCenterId");
         var cityId = params.get("cityId");
 
-        if((newSportCenterId != null && newSportCenterId.size() !=1)
+        if ((newSportCenterId != null && newSportCenterId.size() != 1)
                 || (oldSportCenterId != null && oldSportCenterId.size() != 1)
                 || (cityId != null && cityId.size() != 1)
-        ){
+        ) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
-        try{
-            if(newSportCenterId != null && oldSportCenterId != null && cityId != null) {
+        try {
+            if (newSportCenterId != null && oldSportCenterId != null && cityId != null) {
                 model.updateSportCenterId(
                         newSportCenterId.get(0),
                         oldSportCenterId.get(0),
                         cityId.get(0)
                 );
-            } else{
+            } else {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }
             exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
-        } catch (MySQLException | IllegalArgumentException e) {
+        } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+        } catch (IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
     }
 

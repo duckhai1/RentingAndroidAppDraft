@@ -8,7 +8,7 @@ import java.util.Objects;
  * Simple class encapsulates the attributes for a player
  */
 public class Player {
-    @Expose
+    @Expose (deserialize = false)
     private String playerId;
 
     public Player(String playerId) {

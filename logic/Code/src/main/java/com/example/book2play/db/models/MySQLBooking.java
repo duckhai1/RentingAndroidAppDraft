@@ -12,9 +12,9 @@ import java.util.Collection;
  * Implements BookingModel interfaces for working with the stored procedures from MySQL
  * The connection is establish using MySQL DataSource object
  */
-public class BookingModel extends AbstractModel implements com.example.book2play.db.BookingModel {
+public class MySQLBooking extends AbstractModel implements com.example.book2play.db.BookingModel {
 
-    public BookingModel(AppDataSource db) {
+    public MySQLBooking(AppDataSource db) {
         super(db);
     }
 
@@ -313,32 +313,6 @@ public class BookingModel extends AbstractModel implements com.example.book2play
             if (statusCode >= 400 && statusCode < 500) {
                 throw new MySQLException(statusCode);
             }
-        } catch (SQLException e) {
-            throw new MySQLException("Unexpected exception " + e.getMessage(), e);
-        } finally {
-            ResultSetUtils.quietCloseConnection(conn);
-            ResultSetUtils.quietCloseStatement(stm);
-        }
-    }
-
-    /**
-     * Get a new connection to the data source and clear the relation
-     *
-     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
-     * @deprecated will be moved to test only
-     */
-    @Override
-    public void clearBooking() throws MySQLException {
-        LOG.info("Calling clearBooking");
-        Connection conn = null;
-        Statement stm = null;
-
-        try {
-            conn = this.db.getConnection();
-            stm = conn.createStatement();
-
-            var updateCount = stm.executeUpdate("DELETE FROM bookings");
-            LOG.info("Update count " + updateCount);
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {

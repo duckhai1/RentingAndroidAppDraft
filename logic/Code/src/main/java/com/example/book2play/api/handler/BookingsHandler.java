@@ -1,9 +1,10 @@
 package com.example.book2play.api.handler;
 
+import com.example.book2play.api.handler.utils.ConfirmToken;
 import com.example.book2play.api.utils.HTTPStatus;
+import com.example.book2play.db.Authenticator;
+import com.example.book2play.db.BookingModel;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.models.AuthenticateModel;
-import com.example.book2play.db.models.BookingModel;
 import com.example.book2play.types.Booking;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -16,11 +17,10 @@ import java.util.Collection;
 public class BookingsHandler extends AbstractHandler {
 
     BookingModel model;
-    AuthenticateModel authenticateModel;
-    public BookingsHandler(BookingModel model, AuthenticateModel authenticateModel) {
-        super();
+
+    public BookingsHandler(BookingModel model, Authenticator authModel) {
+        super(authModel);
         this.model = model;
-        this.authenticateModel = authenticateModel;
     }
 
     @Override
@@ -39,25 +39,24 @@ public class BookingsHandler extends AbstractHandler {
             }
         } catch (RuntimeException e) {
             LOG.severe("Unexpected exception " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.INTERNAL_SERVER_ERROR, e);
+            responseErrorAsJson(exchange, HTTPStatus.INTERNAL_SERVER_ERROR, e);
         }
         exchange.close();
     }
 
     private void execGet(HttpExchange exchange) throws IOException {
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
-        //var token = exchange.getRequestHeaders().get("Token").get(0);
+        var token = exchange.getRequestHeaders().get("Token");
         var date = params.get("date");
         var cityId = params.get("cityId");
         var sportCenterId = params.get("sportCenterId");
-        var playerId = params.get("playerId");
         var courtId = params.get("courtId");
 
-        if ((date != null && date.size() != 1)
+        if ((token == null || token.size() != 1)
+                || (date != null && date.size() != 1)
                 || (cityId != null && cityId.size() != 1)
                 || (sportCenterId != null && sportCenterId.size() != 1)
                 || (courtId != null && courtId.size() != 1)
-                || (playerId != null && playerId.size() != 1)
         ) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
@@ -65,121 +64,188 @@ public class BookingsHandler extends AbstractHandler {
 
         Collection<Booking> bookings;
         try {
-            if (playerId == null && cityId != null && sportCenterId != null && courtId != null && date != null) {
-                bookings = model.getCourtBookings(
-                        courtId.get(0),
-                        cityId.get(0),
-                        sportCenterId.get(0),
-                        Date.valueOf(date.get(0))
-                );
-            } else if (playerId == null && cityId != null && sportCenterId != null && courtId == null && date != null) {
-                bookings = model.getSportCenterBookings(
-                        sportCenterId.get(0),
-                        cityId.get(0),
-                        Date.valueOf(date.get(0))
-                );
+            var id = ConfirmToken.getId(token.get(0));
 
-            } else if (playerId != null && cityId != null && sportCenterId == null && courtId == null && date != null) {
-                bookings = model.getPlayerBookingsInCity(
-                        playerId.get(0),
+            if (cityId != null && sportCenterId != null && courtId != null && date != null) {
+                if (authModel.isStaff(
+                        id,
                         cityId.get(0),
-                        Date.valueOf(date.get(0))
-                );
-            } else if (playerId != null && cityId == null && sportCenterId == null && courtId == null && date == null) {
-                bookings = model.getPlayerBookings(playerId.get(0));
+                        sportCenterId.get(0)
+                )) {
+                    bookings = model.getCourtBookings(
+                            courtId.get(0),
+                            cityId.get(0),
+                            sportCenterId.get(0),
+                            Date.valueOf(date.get(0))
+                    );
+                } else {
+                    exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
+                    return;
+                }
+
+            } else if (cityId != null && sportCenterId != null && courtId == null && date != null) {
+                if (authModel.isStaff(
+                        id,
+                        cityId.get(0),
+                        sportCenterId.get(0)
+                )) {
+                    bookings = model.getSportCenterBookings(
+                            sportCenterId.get(0),
+                            cityId.get(0),
+                            Date.valueOf(date.get(0))
+                    );
+                } else {
+                    exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
+                    return;
+                }
+
+            } else if (cityId != null && sportCenterId == null && courtId == null && date != null) {
+                if (authModel.isPlayer(id)) {
+                    bookings = model.getPlayerBookingsInCity(
+                            id,
+                            cityId.get(0),
+                            Date.valueOf(date.get(0))
+                    );
+                } else {
+                    exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
+                    return;
+                }
+
+            } else if (cityId == null && sportCenterId == null && courtId == null && date == null) {
+                if (authModel.isPlayer(id)) {
+                    bookings = model.getPlayerBookings(id);
+                } else {
+                    exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
+                    return;
+                }
             } else {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }
             responseWithJson(exchange, HTTPStatus.OK, bookings);
-        } catch (MySQLException | IllegalArgumentException e) {
+        } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+        } catch (IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
+
     }
 
     private void execPost(HttpExchange exchange) throws IOException {
         try {
-            var booking = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Booking.class);
-            model.createBooking(
-                    new Timestamp(System.currentTimeMillis()),
-                    booking.getBookingDate(),
-                    booking.getBookingStartTime(),
-                    booking.getBookingEndTime(),
-                    booking.getCityId(),
-                    booking.getSportCenterId(),
-                    booking.getCourtId(),
-                    booking.getPlayerId()
-            );
-            exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
-        } catch (MySQLException | IllegalArgumentException e) {
+            var token = exchange.getRequestHeaders().get("Token");
+            if (token == null || token.size() != 1) {
+                exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+                return;
+            }
+            var id = ConfirmToken.getId(token.get(0));
+            if (authModel.isPlayer(id)) {
+                var booking = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Booking.class);
+                model.createBooking(
+                        new Timestamp(System.currentTimeMillis()),
+                        booking.getBookingDate(),
+                        booking.getBookingStartTime(),
+                        booking.getBookingEndTime(),
+                        booking.getCityId(),
+                        booking.getSportCenterId(),
+                        booking.getCourtId(),
+                        id
+                );
+                exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
+            } else {
+                exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
+                return;
+            }
+        } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+        } catch (IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
     }
 
     private void execPut(HttpExchange exchange) throws IOException {
+        var token = exchange.getRequestHeaders().get("Token");
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
         var bookingStatus = params.get("status");
         var bookingId = params.get("bookingId");
         var cityId = params.get("cityId");
         var sportCenterId = params.get("sportCenterId");
-        var staffId = params.get("staffId");
 
-        if((bookingId != null && bookingId.size() !=1)
-            || (staffId != null && staffId.size() != 1)
-            || (bookingStatus != null && bookingStatus.size() != 1)
-            || (cityId != null && cityId.size() !=1)
-            || (sportCenterId != null && sportCenterId.size() != 1)
-        ){
+        if ((token == null || token.size() != 1)
+                || (bookingId != null && bookingId.size() != 1)
+                || (bookingStatus != null && bookingStatus.size() != 1)
+                || (cityId != null && cityId.size() != 1)
+                || (sportCenterId != null && sportCenterId.size() != 1)
+        ) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
-        try{
-            if(bookingId != null && staffId != null && bookingStatus != null){
-                model.updateBookingStatus(
-                        Boolean.parseBoolean(bookingStatus.get(0)),
-                        bookingId.get(0),
+        try {
+            var id = ConfirmToken.getId(token.get(0));
+            if (bookingId != null && bookingStatus != null) {
+                if (authModel.isStaff(
+                        id,
                         cityId.get(0),
-                        sportCenterId.get(0),
-                        staffId.get(0)
-                );
-            } else{
+                        sportCenterId.get(0)
+                ))
+                    model.updateBookingStatus(
+                            Boolean.parseBoolean(bookingStatus.get(0)),
+                            bookingId.get(0),
+                            cityId.get(0),
+                            sportCenterId.get(0),
+                            id
+                    );
+            } else {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }
             exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
-        } catch (MySQLException | IllegalArgumentException e) {
+        } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+        } catch (IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
     }
 
     private void execDelete(HttpExchange exchange) throws IOException {
+        var token = exchange.getRequestHeaders().get("Token");
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
         var bookingId = params.get("bookingId");
-        var playerId = params.get("playerId");
 
-        if ((bookingId != null && bookingId.size() != 1)
-            || (playerId != null && playerId.size() != 1)
-        ){
+        if ((token == null || token.size() != 1)
+                || (bookingId != null && bookingId.size() != 1)
+        ) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
-        try{
-            if(playerId != null && bookingId != null){
-                model.cancelBooking(bookingId.get(0), playerId.get(0));
-            }
-            else{
+        try {
+            var id = ConfirmToken.getId(token.get(0));
+            if (bookingId != null) {
+                if (authModel.isPlayer(id)) {
+                    model.cancelBooking(bookingId.get(0), id);
+                } else {
+                    exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
+                    return;
+                }
+            } else {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }
             exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
-        } catch (MySQLException | IllegalArgumentException e) {
+        } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseWithJsonException(exchange, HTTPStatus.BAD_REQUEST, e);
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+        } catch (IllegalArgumentException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
     }
 }

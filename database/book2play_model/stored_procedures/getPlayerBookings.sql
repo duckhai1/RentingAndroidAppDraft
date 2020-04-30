@@ -11,13 +11,6 @@ CREATE PROCEDURE getPlayerBookings (
 BEGIN
 	IF inPlayerId NOT IN (SELECT playerId FROM players) THEN
 		SET statusCode = 464; -- invalid player id
-	ELSEIF NOT EXISTS (
-		SELECT *
-		FROM bookings
-		NATURAL JOIN players
-		WHERE playerId = inPlayerId
-	) THEN
-		SET statusCode = 470; -- no bookings for given player
     ELSE
 		SET statusCode = 200;
 		SELECT bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId

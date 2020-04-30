@@ -8,7 +8,7 @@ import java.util.Objects;
  * Simple class encapsulates the attributes for a sport staff
  */
 public class Staff {
-    @Expose
+    @Expose (deserialize = false)
     private String staffId;
     @Expose
     private String cityId;
