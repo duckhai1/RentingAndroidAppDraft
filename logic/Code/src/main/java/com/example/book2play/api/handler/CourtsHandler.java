@@ -1,5 +1,6 @@
 package com.example.book2play.api.handler;
 
+import com.example.book2play.api.handler.utils.ConfirmToken;
 import com.example.book2play.api.utils.HTTPStatus;
 import com.example.book2play.db.Authenticator;
 import com.example.book2play.db.CourtModel;
@@ -44,10 +45,12 @@ public class CourtsHandler extends AbstractHandler {
 
     private void execGet(HttpExchange exchange) throws IOException {
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
+        var token = exchange.getRequestHeaders().get("Token");
         var cityId = params.get("cityId");
         var sportCenterId = params.get("sportCenterId");
 
-        if ((cityId != null && cityId.size() != 1)
+        if ((token == null || token.size() != 1)
+                || (cityId != null && cityId.size() != 1)
                 || (sportCenterId != null && sportCenterId.size() != 1)
         ) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
@@ -56,13 +59,19 @@ public class CourtsHandler extends AbstractHandler {
 
         Collection<Court> courts;
         try {
+            var id = ConfirmToken.getId(token.get(0));
             if (cityId != null && sportCenterId == null) {
                 courts = model.getCityCourts(cityId.get(0));
             } else if (cityId != null) {
-                courts = model.getSportCenterCourts(
-                        sportCenterId.get(0),
-                        cityId.get(0)
-                );
+                if (authModel.isPlayer(id)) {
+                    courts = model.getSportCenterCourts(
+                            sportCenterId.get(0),
+                            cityId.get(0)
+                    );
+                } else {
+                    exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+                    return;
+                }
             } else {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;

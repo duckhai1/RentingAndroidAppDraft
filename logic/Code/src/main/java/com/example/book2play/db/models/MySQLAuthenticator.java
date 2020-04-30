@@ -29,24 +29,17 @@ public class MySQLAuthenticator extends AbstractModel implements Authenticator {
         LOG.info("Calling isPlayer");
         Connection conn = null;
         CallableStatement stm = null;
-        ResultSet rs = null;
 
         try {
             conn = this.db.getConnection();
-            conn.prepareCall("{call isPlayerExist(?,?)}");
+            stm = conn.prepareCall("{call isPlayerExist(?,?)}");
             stm.setString(1, playerId);
             stm.registerOutParameter(2, Types.INTEGER);
 
-            rs = stm.executeQuery();
+            stm.executeQuery();
             var statusCode = stm.getInt(2);
             LOG.info("Received status code " + statusCode);
-            if (statusCode == 405) { // playerId exists
-                return true;
-            }
-            else if (statusCode >= 400 && statusCode < 500) {
-                throw new MySQLException(statusCode);
-            }
-            return false;
+            return statusCode == 405;   // playerId exists
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {
@@ -69,26 +62,19 @@ public class MySQLAuthenticator extends AbstractModel implements Authenticator {
         LOG.info("Calling isStaff");
         Connection conn = null;
         CallableStatement stm = null;
-        ResultSet rs = null;
 
         try {
             conn = this.db.getConnection();
-            conn.prepareCall("{call isStaffExist(?, ?, ?, ?)}");
+            stm = conn.prepareCall("{call isStaffExist(?, ?, ?, ?)}");
             stm.setString(1, staffId);
             stm.setString(2, cityId);
             stm.setString(3, sportCenterId);
             stm.registerOutParameter(4, Types.INTEGER);
 
-            rs = stm.executeQuery();
+            stm.executeQuery();
             var statusCode = stm.getInt(4);
             LOG.info("Received status code " + statusCode);
-            if (statusCode == 406) { // staffId exists
-                return true;
-            }
-            else if(statusCode >= 400 && statusCode < 500) {
-                throw new MySQLException(statusCode);
-            }
-            return false;
+            return statusCode == 406; // staffId exists
         } catch (SQLException e) {
             throw new MySQLException("Unexpected exception " + e.getMessage(), e);
         } finally {

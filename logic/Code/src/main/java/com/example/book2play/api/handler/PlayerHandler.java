@@ -1,5 +1,6 @@
 package com.example.book2play.api.handler;
 
+import com.example.book2play.api.handler.utils.ConfirmToken;
 import com.example.book2play.api.utils.HTTPStatus;
 import com.example.book2play.db.Authenticator;
 import com.example.book2play.db.PlayerModel;
@@ -46,9 +47,18 @@ public class PlayerHandler extends AbstractHandler {
 
     private void execPost(HttpExchange exchange) throws IOException {
         try {
-            var player = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Player.class);
-            model.createPlayer(player.getPlayerId());
-            exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
+            var token = exchange.getRequestHeaders().get("Token");
+            if (token == null || token.size() != 1){
+                exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+                return;
+            }
+            var id = ConfirmToken.getId(token.get(0));
+            if(!authModel.isPlayer(id)) {
+                model.createPlayer(id);
+                exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
+            } else {
+                exchange.sendResponseHeaders(HTTPStatus.CONFLICT, -1);
+            }
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
