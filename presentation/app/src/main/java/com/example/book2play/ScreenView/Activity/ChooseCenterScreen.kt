@@ -10,6 +10,7 @@ import com.example.LogicConnection.Handler.ApiHandler
 
 import com.example.Type.MyBookingModel
 import com.example.Type.MyCenterModel
+import com.example.Type.MyCityModel
 import com.example.book2play.Adapter.ChooseCenterAdapter
 import com.example.book2play.R
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -21,15 +22,18 @@ import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.screen_choose_center.*
 
 class ChooseCenterScreen : AppCompatActivity(),OnMapReadyCallback {
-
+    var bookingInfo :MyBookingModel? = MyBookingModel()
+    var city : MyCityModel? = null
     private var mMap: GoogleMap? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_choose_center)
 
         // get last intent information
-        val bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
+        bookingInfo = intent.getSerializableExtra("BookingInfo") as? MyBookingModel
         Log.d("make booking", "Location2Screen: " +bookingInfo.toString())
+        city = intent.getSerializableExtra("City") as? MyCityModel
+        Log.d("Map", city.toString())
 
         // Map fragment
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?

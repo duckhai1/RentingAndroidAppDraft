@@ -1,6 +1,8 @@
 CREATE TABLE IF NOT EXISTS cities (
     cityPk INT NOT NULL AUTO_INCREMENT,
     cityId VARCHAR(100) NOT NULL,
+    cityLatitude DOUBLE DEFAULT 0.0,
+    cityLongitude DOUBLE DEFAULT 0.0,
 
     PRIMARY KEY (cityPk),
     CONSTRAINT cities
@@ -11,6 +13,9 @@ CREATE TABLE IF NOT EXISTS sportCenters (
     sportCenterPk INT NOT NULL AUTO_INCREMENT,
     sportCenterId VARCHAR(100) NOT NULL,
 	cityPk INT NOT NULL,
+    sportCenterLatitude DOUBLE DEFAULT 0.0,
+    sportCenterLongitude DOUBLE DEFAULT 0.0,
+    sportCenterAddress VARCHAR(500) DEFAULT 'Unknown',
 
     PRIMARY KEY (sportCenterPk),
 	FOREIGN KEY (cityPk)

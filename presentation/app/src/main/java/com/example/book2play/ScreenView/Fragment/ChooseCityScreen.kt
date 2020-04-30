@@ -27,7 +27,7 @@ class ChooseCityScreen : Fragment() {
     private var mLocationPermissionGranted = false
     private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
 
-
+    var cities = ArrayList<MyCityModel>()
     override fun onCreateView(inflater: LayoutInflater,container: ViewGroup?,savedInstanceState: Bundle?)
             : View? {
         // inflate
@@ -46,6 +46,7 @@ class ChooseCityScreen : Fragment() {
             val bookingInfor = MyBookingModel(city = text)
             Log.d("make booking", "ChooseLocationScreen: "+bookingInfor.toString())
             intent.putExtra("BookingInfo", bookingInfor)
+            intent.putExtra("City", getCityFromName(text))
             startActivity(intent)
         }
         btnCurrentLoc.setOnClickListener{
@@ -81,7 +82,7 @@ class ChooseCityScreen : Fragment() {
     }
 
     private fun getCityNameList() : ArrayList<String?>{
-        val cities = activity?.let { ApiHandler.getCityList(it) }
+        cities = activity?.let { ApiHandler.getCityList(it) }!!
         var citiesName = ArrayList<String?>()
         // get name set from cities
         if (cities != null) {
@@ -90,5 +91,14 @@ class ChooseCityScreen : Fragment() {
             }
         }
         return citiesName
+    }
+
+    private fun getCityFromName(name: String) : MyCityModel?{
+        for (city in cities) {
+            if (name == city.cityName){
+                return city
+            }
+        }
+        return null
     }
 }

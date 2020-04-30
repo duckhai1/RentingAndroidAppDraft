@@ -59,7 +59,11 @@ public class ResultSetUtils {
      * @throws SQLException if error happened while reading the result set
      */
     public static City singleCityFromResultSet(ResultSet rs) throws SQLException {
-        return new City(rs.getString("cityId"));
+        return new City(
+                rs.getString("cityId"),
+                rs.getDouble("cityLatitude"),
+                rs.getDouble("cityLongitude")
+        );
     }
 
     /**
@@ -87,7 +91,10 @@ public class ResultSetUtils {
     public static SportCenter singleSportCenterFromResultSet(ResultSet rs) throws SQLException {
         return new SportCenter(
                 rs.getString("sportCenterId"),
-                rs.getString("cityId")
+                rs.getString("cityId"),
+                rs.getDouble("sportCenterLatitude"),
+                rs.getDouble("sportCenterLongitude"),
+                rs.getString("sportCenterAddress")
         );
     }
 

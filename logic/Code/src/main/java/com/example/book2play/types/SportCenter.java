@@ -12,10 +12,23 @@ public class SportCenter {
     private String sportCenterId;
     @Expose
     private String cityId;
+    @Expose(deserialize = false)
+    private double Latitude;
+    @Expose(deserialize = false)
+    private double Longitude;
+    @Expose(deserialize = false)
+    private String sportCenterAddress;
 
-    public SportCenter(String sportCenterId, String cityId) {
+    public SportCenter(String sportCenterId, String cityId, double Latitude, double Longitude, String sportCenterAddress){
         this.sportCenterId = sportCenterId;
         this.cityId = cityId;
+        this.Latitude = Latitude;
+        this.Longitude = Longitude;
+        this.sportCenterAddress = sportCenterAddress;
+    }
+
+    public SportCenter(String sportCenterId, String cityId) {
+        this(sportCenterId, cityId, 0.0, 0.0, "Unknown");
     }
 
     public String getSportCenterId() {

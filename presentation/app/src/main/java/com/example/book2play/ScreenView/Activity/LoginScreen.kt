@@ -117,7 +117,6 @@ class LoginScreen : AppCompatActivity() {
             val email = jsonObject.getString("email")
             playerInfo = MyPlayerModel(
                 playerId = id,
-                password = "pass1",      // TODO change here
                 playerName = name,
                 email = email,
                 image = profile_pic.toString()

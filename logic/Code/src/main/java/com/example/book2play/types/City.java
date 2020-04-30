@@ -10,9 +10,19 @@ import java.util.Objects;
 public class City {
     @Expose
     private String cityId;
+    @Expose(deserialize = false)
+    private double Latitude;
+    @Expose(deserialize = false)
+    private double Longitude;
+
+    public City(String cityId, double Latitude, double Longitude){
+        this.cityId = cityId;
+        this.Latitude = Latitude;
+        this.Longitude = Longitude;
+    }
 
     public City(String cityId) {
-        this.cityId = cityId;
+        this(cityId, 0.0, 0.0);
     }
 
     public String getCityId() {

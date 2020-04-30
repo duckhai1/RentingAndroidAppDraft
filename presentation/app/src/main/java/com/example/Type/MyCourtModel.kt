@@ -12,8 +12,6 @@ class MyCourtModel (
     var centerName : String?,
     @SerializedName("cityId")
     @Expose
-    var cityName : String?,
-
-    var slotList : ArrayList<MySlotModel> = ArrayList<MySlotModel>()
+    var cityName : String?
 ): MyDataModel() {
 }

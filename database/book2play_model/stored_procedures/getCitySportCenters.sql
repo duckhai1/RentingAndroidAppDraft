@@ -15,7 +15,7 @@ BEGIN
 	ELSE
 		SET statusCode = 200;
 		
-        SELECT sportCenterId, cityId
+        SELECT sportCenterId, cityId, sportCenterLatitude, sportCenterLongitude, sportCenterAddress
 		FROM sportCenters
 		NATURAL JOIN cities
 		WHERE cityId = inCityId;

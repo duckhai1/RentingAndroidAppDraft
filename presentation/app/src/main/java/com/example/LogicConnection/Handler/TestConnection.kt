@@ -31,9 +31,9 @@ class TestConnection : AppCompatActivity(){
 //                RequestAsync().execute()
 
                 // GET
-                val court = MyCourtModel("court1","center1","city1")
-                val center = MyCenterModel("center1", "city1")
-                val city = MyCityModel("city1")
+//                val court = MyCourtModel("court1","center1","city1")
+//                val center = MyCenterModel("center1", "city1")
+//                val city = MyCityModel("city1")
                 val response = ApiHandler.getSlotInCourt(mActivity, "court1", "center1", "city1", "2020-05-20")
                 Log.d("server_connect", "The response in main:  " + response)
                 response_test.text = response.get(0).courtName

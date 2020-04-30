@@ -9,7 +9,6 @@ class MyPlayerModel (
     @Expose
     var playerId : String,
 
-    var password : String,
     var playerName: String = "",
     var email: String = "",
     var image: String= "",
