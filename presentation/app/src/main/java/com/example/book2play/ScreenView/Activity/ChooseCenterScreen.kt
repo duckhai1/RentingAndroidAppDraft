@@ -1,5 +1,6 @@
 package com.example.book2play.ScreenView.Activity
 
+import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,6 +14,8 @@ import com.example.Type.MyCenterModel
 import com.example.Type.MyCityModel
 import com.example.book2play.Adapter.ChooseCenterAdapter
 import com.example.book2play.R
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -24,7 +27,9 @@ import kotlinx.android.synthetic.main.screen_choose_center.*
 class ChooseCenterScreen : AppCompatActivity(),OnMapReadyCallback {
     var bookingInfo :MyBookingModel? = MyBookingModel()
     var city : MyCityModel? = null
+    var centers = ArrayList<MyCenterModel>()
     private var mMap: GoogleMap? = null
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.screen_choose_center)
@@ -67,19 +72,40 @@ class ChooseCenterScreen : AppCompatActivity(),OnMapReadyCallback {
         mMap = googleMap
 
         // Add a marker in Sydney and move the camera
-        val hcmc = LatLng(10.82302, 106.62965)
-        mMap!!.addMarker(MarkerOptions().position(hcmc).title("Marker in HCMC"))
-        val zoomLevel = 11.0f
-        mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(hcmc, zoomLevel))
+        if (city != null) {
+            val cityLocation = LatLng(city!!.latitude, city!!.longitude)
+            val zoomLevel = 13.0f
+//            mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(cityLocation, zoomLevel))
+
+            // get current location
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            fusedLocationClient.lastLocation.addOnSuccessListener { location : Location? ->
+                    if (location != null) {
+                        val curLocation = LatLng(location?.latitude, location?.longitude)
+                        mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(curLocation, zoomLevel))
+                    } else {
+                        mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(cityLocation, zoomLevel))
+                    }
+                }
+
+            drawCenterMarker(mMap!!)
+        }
     }
+
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
     }
 
+    private fun drawCenterMarker(googleMap: GoogleMap){
+        for (center in centers){
+            val centerLocation = LatLng(center.latitude, center.longitude)
+            googleMap.addMarker(MarkerOptions().position(centerLocation).title(center.centerName))
+        }
+    }
+
     private fun getCenterList(cityName : String) : ArrayList<MyCenterModel>{
-        var centers = ArrayList<MyCenterModel>()
         centers = ApiHandler.getSportCenterInCity(this, cityName)
         return centers
     }

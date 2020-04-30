@@ -1,6 +1,7 @@
 package com.example.LogicConnection.AsyncClass
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.util.Log
 import com.example.book2play.ScreenView.Activity.BookSucessScreen
@@ -44,6 +45,16 @@ class CreateBookingAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
         val intent = Intent(activity, BookSucessScreen::class.java)
         intent.putExtra("BookingInfo", newBooking)
         this.activity.startActivity(intent)
+    }
+
+    override fun jobUnrecognized() {
+        val builder = AlertDialog.Builder(activity)
+        builder.setTitle("Invalid chosen slot")
+        builder.setMessage("These slots are already booked. Please choose another time")
+        builder.setPositiveButton("OK"){dialog, which ->
+        }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 
 }
