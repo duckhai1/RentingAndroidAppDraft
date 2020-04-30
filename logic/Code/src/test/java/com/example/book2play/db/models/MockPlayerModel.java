@@ -28,33 +28,26 @@ public class MockPlayerModel implements PlayerModel {
 
     @Override
     public void createPlayer(String playerId) throws MySQLException {
-        players.add(new Player(playerId));
+        var newPlayer = new Player(playerId);
+        if (players.contains(newPlayer)) {
+            throw new MySQLException(405);
+        }
+        players.add(newPlayer);
     }
 
     @Override
     public void updatePlayerId(String newPlayerId, String oldPlayerId) throws MySQLException {
-        Player updatedPlayer = null;
-        for (var p : players) {
-            if (p.getPlayerId().equals(oldPlayerId)) {
-                updatedPlayer = p;
-                break;
-            }
+        var oldPlayer = new Player(oldPlayerId);
+        if (!players.contains(oldPlayer)) {
+            throw new MySQLException(464);
         }
 
-        if (updatedPlayer != null) {
-            players.remove(updatedPlayer);
-            players.add(new Player(newPlayerId));
-        }
+        players.remove(oldPlayer);
+        players.add(new Player(newPlayerId));
     }
 
-    public boolean playerExists(String playerId) {
-        for (var p : players) {
-            if (p.getPlayerId().equals(playerId)) {
-                return true;
-            }
-        }
-
-        return false;
+    public boolean isPlayerExist(String playerId) {
+        return players.contains(new Player(playerId));
     }
 
     public void clearPlayers() {

@@ -28,33 +28,47 @@ public class MockStaffModel implements StaffModel {
 
     @Override
     public void createStaff(String staffId, String cityId, String sportCenterId) throws MySQLException {
-        staffs.add(new Staff(staffId, cityId, sportCenterId));
+        var cityModel = MockCityModel.getInstance();
+        if (!cityModel.isCityExist(cityId)) {
+            throw new MySQLException(460);
+        }
+
+        var sportCenterModel = MockSportCenterModel.getInstance();
+        if (!sportCenterModel.isSportCenterExist(sportCenterId, cityId)) {
+            throw new MySQLException(461);
+        }
+
+        var newStaff = new Staff(staffId, cityId, sportCenterId);
+        if (staffs.contains(newStaff)) {
+            throw new MySQLException(406);
+        }
+
+        staffs.add(newStaff);
     }
 
     @Override
     public void updateStaffId(String newStaffId, String oldStaffId, String cityId, String sportCenterId) throws MySQLException {
-        Staff updatedStaff = null;
-        for (var s : staffs) {
-            if (s.getStaffId().equals(oldStaffId) && s.getCityId().equals(cityId) && s.getSportCenterId().equals(sportCenterId)) {
-                updatedStaff = s;
-                break;
-            }
+        var cityModel = MockCityModel.getInstance();
+        if (!cityModel.isCityExist(cityId)) {
+            throw new MySQLException(460);
         }
 
-        if (updatedStaff != null) {
-            staffs.remove(updatedStaff);
-            staffs.add(new Staff(newStaffId, cityId, sportCenterId));
+        var sportCenterModel = MockSportCenterModel.getInstance();
+        if (!sportCenterModel.isSportCenterExist(sportCenterId, cityId)) {
+            throw new MySQLException(461);
         }
+
+        var oldStaff = new Staff(oldStaffId, cityId, sportCenterId);
+        if (!staffs.contains(oldStaff)) {
+            throw new MySQLException(463);
+        }
+
+        staffs.remove(oldStaff);
+        staffs.add(new Staff(newStaffId, cityId, sportCenterId));
     }
 
-    public boolean staffExists(String staffId, String cityId, String sportCenterId) {
-        for (var s : staffs) {
-            if (s.getStaffId().equals(staffId) && s.getCityId().equals(cityId) && s.getSportCenterId().equals(sportCenterId)) {
-                return true;
-            }
-        }
-
-        return false;
+    public boolean isStaffExist(String staffId, String cityId, String sportCenterId) {
+        return staffs.contains(new Staff(staffId, cityId, sportCenterId));
     }
 
     public void clearStaff() {

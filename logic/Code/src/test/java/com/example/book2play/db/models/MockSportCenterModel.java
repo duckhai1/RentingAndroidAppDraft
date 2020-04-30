@@ -30,6 +30,11 @@ public class MockSportCenterModel implements SportCenterModel {
 
     @Override
     public Collection<SportCenter> getCitySportCenters(String cityId) throws MySQLException {
+        var cityModel = MockCityModel.getInstance();
+        if (!cityModel.isCityExist(cityId)) {
+            throw new MySQLException(460);
+        }
+
         return sportCenters.stream()
                 .filter(sp -> sp.getCityId().equals(cityId))
                 .collect(Collectors.toSet());
@@ -37,23 +42,37 @@ public class MockSportCenterModel implements SportCenterModel {
 
     @Override
     public void createCityCenter(String sportCenterId, String cityId) throws MySQLException {
-        sportCenters.add(new SportCenter(sportCenterId, cityId));
+        var cityModel = MockCityModel.getInstance();
+        if (!cityModel.isCityExist(cityId)) {
+            throw new MySQLException(460);
+        }
+
+        var newSportCenter = new SportCenter(sportCenterId, cityId);
+        if (sportCenters.contains(newSportCenter)) {
+            throw new MySQLException(403);
+        }
+
+        sportCenters.add(newSportCenter);
     }
 
     @Override
     public void updateSportCenterId(String newSportCenterId, String oldSportCenterId, String cityId) throws MySQLException {
-        SportCenter updatedSportCenter = null;
-        for (var sp : sportCenters) {
-            if (sp.getSportCenterId().equals(oldSportCenterId) && sp.getCityId().equals(cityId)) {
-                updatedSportCenter = sp;
-                break;
-            }
+        var cityModel = MockCityModel.getInstance();
+        if (!cityModel.isCityExist(cityId)) {
+            throw new MySQLException(460);
         }
 
-        if (updatedSportCenter != null) {
-            sportCenters.remove(updatedSportCenter);
-            sportCenters.add(new SportCenter(newSportCenterId, cityId));
+        var olSportCenter = new SportCenter(oldSportCenterId, cityId);
+        if (!sportCenters.contains(oldSportCenterId)) {
+            throw new MySQLException(461);
         }
+
+        sportCenters.remove(oldSportCenterId);
+        sportCenters.add(new SportCenter(newSportCenterId, cityId));
+    }
+
+    public boolean isSportCenterExist(String sportCenterId, String cityId) {
+        return sportCenters.contains(new SportCenter(sportCenterId, cityId));
     }
 
     public void clearSportCenters() {

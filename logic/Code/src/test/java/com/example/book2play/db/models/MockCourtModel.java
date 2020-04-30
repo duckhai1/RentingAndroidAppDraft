@@ -30,6 +30,11 @@ public class MockCourtModel implements CourtModel {
 
     @Override
     public Collection<Court> getCityCourts(String cityId) throws MySQLException {
+        var cityModel = MockCityModel.getInstance();
+        if (!cityModel.isCityExist(cityId)) {
+            throw new MySQLException(460);
+        }
+
         return courts.stream()
                 .filter(c -> c.getCityId().equals(cityId))
                 .collect(Collectors.toSet());
@@ -37,6 +42,16 @@ public class MockCourtModel implements CourtModel {
 
     @Override
     public Collection<Court> getSportCenterCourts(String sportCenterId, String cityId) throws MySQLException {
+        var cityModel = MockCityModel.getInstance();
+        if (!cityModel.isCityExist(cityId)) {
+            throw new MySQLException(460);
+        }
+
+        var sportCenterModel = MockSportCenterModel.getInstance();
+        if (!sportCenterModel.isSportCenterExist(sportCenterId, cityId)) {
+            throw new MySQLException(461);
+        }
+
         return courts.stream()
                 .filter(c -> c.getCityId().equals(cityId)
                         && c.getSportCenterId().equals(sportCenterId))
@@ -45,23 +60,47 @@ public class MockCourtModel implements CourtModel {
 
     @Override
     public void createCityCenterCourt(String courtId, String cityId, String sportCenterId) throws MySQLException {
-        courts.add(new Court(courtId, cityId, sportCenterId));
+        var cityModel = MockCityModel.getInstance();
+        if (!cityModel.isCityExist(cityId)) {
+            throw new MySQLException(460);
+        }
+
+        var sportCenterModel = MockSportCenterModel.getInstance();
+        if (!sportCenterModel.isSportCenterExist(sportCenterId, cityId)) {
+            throw new MySQLException(461);
+        }
+
+        var newCourt = new Court(courtId, cityId, sportCenterId);
+        if (courts.contains(newCourt)) {
+            throw new MySQLException(404);
+        }
+
+        courts.add(newCourt);
     }
 
     @Override
     public void updateCourtId(String newCourtId, String oldCourtId, String cityId, String sportCenterId) throws MySQLException {
-        Court updatedCourt = null;
-        for (var c : courts) {
-            if (c.getCourtId().equals(oldCourtId) && c.getCityId().equals(cityId) && c.getSportCenterId().equals(sportCenterId)) {
-                updatedCourt = c;
-                break;
-            }
+        var cityModel = MockCityModel.getInstance();
+        if (!cityModel.isCityExist(cityId)) {
+            throw new MySQLException(460);
         }
 
-        if (updatedCourt != null) {
-            courts.remove(updatedCourt);
-            courts.add(new Court(newCourtId, cityId, sportCenterId));
+        var sportCenterModel = MockSportCenterModel.getInstance();
+        if (!sportCenterModel.isSportCenterExist(sportCenterId, cityId)) {
+            throw new MySQLException(461);
         }
+
+        var oldCourt = new Court(oldCourtId, cityId, sportCenterId);
+        if (!courts.contains(oldCourt)) {
+            throw new MySQLException(462);
+        }
+
+        courts.remove(oldCourt);
+        courts.add(new Court(newCourtId, cityId, sportCenterId));
+    }
+
+    public boolean isCourtExist(String courtId, String cityId, String sportCenterId) {
+        return courts.contains(new Court(courtId, cityId, sportCenterId));
     }
 
     public void clearCourts() {

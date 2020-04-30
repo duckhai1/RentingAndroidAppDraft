@@ -46,6 +46,10 @@ public class MockCityModel implements CityModel {
         cities.add(newCity);
     }
 
+    public boolean isCityExist(String cityId) {
+        return cities.contains(new City(cityId));
+    }
+
     public void clearCities() {
         cities.clear();
     }
