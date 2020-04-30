@@ -17,9 +17,8 @@ class ApiHandler {
             val city = myBookingModel.city
             val center = myBookingModel.center
             val court = myBookingModel.court
-            val player = myBookingModel.player
             Log.d("server_connect", "try to create booking on server")
-            CreateBookingAsync(activity).execute(date, start, end, city, center, court, player)
+            CreateBookingAsync(activity).execute(date, start, end, city, center, court)
         }
 
         fun getBookingInCourt(activity: Activity, courtName : String, centerName: String, cityName: String, date: String) : ArrayList<MyBookingModel>{
@@ -34,15 +33,15 @@ class ApiHandler {
             return decodeToList<MyBookingModel>(response)
         }
 
-        fun getBookingOfPlayer(activity: Activity, playerId: String) : ArrayList<MyBookingModel>{
+        fun getBookingOfPlayer(activity: Activity) : ArrayList<MyBookingModel>{
             Log.d("server_connect", "try to get booking in specific player on server")
-            val response = GetBookingOfPlayerAsync(activity).execute(playerId).get()
+            val response = GetBookingOfPlayerAsync(activity).execute().get()
             return decodeToList<MyBookingModel>(response)
         }
 
-        fun getBookingOfPlayerInCity(activity: Activity, playerId: String, cityName : String, date:String) : ArrayList<MyBookingModel>{
+        fun getBookingOfPlayerInCity(activity: Activity, cityName : String, date:String) : ArrayList<MyBookingModel>{
             Log.d("server_connect", "try to get booking in specific player in city on server")
-            val response = GetBookingOfPlayerInCityAsync(activity).execute(playerId, cityName, date).get()
+            val response = GetBookingOfPlayerInCityAsync(activity).execute(cityName, date).get()
             return decodeToList<MyBookingModel>(response)
         }
 

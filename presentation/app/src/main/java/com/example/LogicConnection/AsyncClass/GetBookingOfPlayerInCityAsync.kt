@@ -11,9 +11,8 @@ class GetBookingOfPlayerInCityAsync (activity: Activity) : MyGeneralAsyncTask(ac
     override fun doInBackground(vararg params: String?): String? {
         var result : String? = null
         val request = JsonObject()
-        request.addProperty("playerId", params[0])
-        request.addProperty("cityId", params[1])
-        request.addProperty("date", params[2])
+        request.addProperty("cityId", params[0])
+        request.addProperty("date", params[1])
         val requestData = ConnectionHandler.encodeParams(request)
         try {
             result = ConnectionHandler.sendGet(

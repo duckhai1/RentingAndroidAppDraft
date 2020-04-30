@@ -81,8 +81,7 @@ class BookingHistoryScreen : Fragment() {
     }
 
     private fun adding_list(): ArrayList<MyBookingModel>{
-        val playerId = (activity?.application as MyApplication).getplayerId()
-        val arrayList = ApiHandler.getBookingOfPlayer(activity!!, playerId)
+        val arrayList = ApiHandler.getBookingOfPlayer(activity!!)
         return arrayList
     }
 }

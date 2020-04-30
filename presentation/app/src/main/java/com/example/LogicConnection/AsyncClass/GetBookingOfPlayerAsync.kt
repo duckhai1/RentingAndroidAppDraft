@@ -11,7 +11,6 @@ class GetBookingOfPlayerAsync(activity: Activity) : MyGeneralAsyncTask(activity)
     override fun doInBackground(vararg params: String?): String? {
         var result : String? = null
         val request = JsonObject()
-        request.addProperty("playerId", params[0])
         val requestData = ConnectionHandler.encodeParams(request)
         try {
             result = ConnectionHandler.sendGet(

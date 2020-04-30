@@ -23,8 +23,7 @@ class CreateBookingAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
             params[2],
             params[3],
             params[4],
-            params[5],
-            params[6]
+            params[5]
         )
         val requestJson = gson.toJson(newBooking)
 

@@ -43,7 +43,7 @@ class ChooseCityScreen : Fragment() {
         btnContinue.setOnClickListener {
             val text = citySpinner.selectedItem.toString()
             val intent = Intent(activity, ChooseCenterScreen::class.java)
-            val bookingInfor = MyBookingModel(player= "player1",city = text) // TODO <--- change this
+            val bookingInfor = MyBookingModel(city = text)
             Log.d("make booking", "ChooseLocationScreen: "+bookingInfor.toString())
             intent.putExtra("BookingInfo", bookingInfor)
             startActivity(intent)

@@ -24,7 +24,7 @@ class MyBookingModel(
     @Expose
     var court : String? = "",    // booking court
     @SerializedName("playerId")
-    @Expose
+    @Expose(serialize = false)
     var player: String?= "",    // booking player name
     @SerializedName("isPaid")
     @Expose(serialize = false)
