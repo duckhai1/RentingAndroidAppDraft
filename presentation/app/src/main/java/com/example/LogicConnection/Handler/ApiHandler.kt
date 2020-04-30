@@ -67,6 +67,7 @@ class ApiHandler {
         }
 
 
+
         private inline fun <reified T : MyDataModel> decodeToList(jsonString: String?) : ArrayList<T>{
             val ListType = TypeToken.getParameterized(ArrayList::class.java, T::class.java)
             val result =  Gson().fromJson<ArrayList<T>>(jsonString, ListType.type)

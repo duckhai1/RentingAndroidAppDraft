@@ -43,14 +43,7 @@ abstract class MyGeneralAsyncTask (activity: Activity) : AsyncTask<String?, Stri
 
         // Bad request to server
         if (result == HttpURLConnection.HTTP_BAD_REQUEST.toString()){
-            val builder = AlertDialog.Builder(activity)
-            builder.setTitle("Invalid action")
-            builder.setMessage("This action can not be done. Please choose another action")
-            builder.setPositiveButton("OK"){dialog, which ->
-
-            }
-            val dialog: AlertDialog = builder.create()
-            dialog.show()
+            jobUnrecognized()
         }
         // if connect successful
         else if (error == null) {
@@ -73,5 +66,15 @@ abstract class MyGeneralAsyncTask (activity: Activity) : AsyncTask<String?, Stri
     open fun jobFail() {
         val home_intent = Intent(activity, MainActivity::class.java)
         activity.startActivity(home_intent)
+    }
+    open fun jobUnrecognized(){
+        val builder = AlertDialog.Builder(activity)
+        builder.setTitle("Invalid action")
+        builder.setMessage("This action can not be done. Please choose another action")
+        builder.setPositiveButton("OK"){dialog, which ->
+            // do nothing
+        }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 }

@@ -16,6 +16,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.LogicConnection.Handler.AuthenHandler
 import com.example.Type.MyPlayerModel
 import com.example.book2play.MyApplication
 import com.example.book2play.ScreenView.Fragment.ChooseCityScreen
@@ -84,8 +85,7 @@ class LoginScreen : AppCompatActivity() {
             FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
                 val accessToken = loginResult.accessToken.token
-                (this@LoginScreen.application as MyApplication).setToken(accessToken)
-                Log.d("Token", accessToken)
+                AuthenHandler.loginWithFb(this@LoginScreen, accessToken)
 
                 val request = GraphRequest.newMeRequest(loginResult.accessToken) { jsonObject, response ->
                     Log.i("LoginScreen", response.toString())

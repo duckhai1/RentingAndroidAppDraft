@@ -17,7 +17,6 @@ class ConnectionHandler {
         // GET method request
         fun sendGet(url: String?, postDataParams: String, token : String): String {
             // handle request
-
             val fullUrl = url+"?"+postDataParams
             Log.d("server_connect", "GET url: "+fullUrl)
 
@@ -64,6 +63,11 @@ class ConnectionHandler {
                 return HttpURLConnection.HTTP_CREATED.toString()
             }
             return HttpURLConnection.HTTP_BAD_REQUEST.toString()
+        }
+
+        fun checkTokenStatus(url: String?, token: String) : String?{
+            val conn = setupConnection(url, "GET", token)
+            return conn.responseCode.toString()
         }
 
         // convert jsonObject to query in url
