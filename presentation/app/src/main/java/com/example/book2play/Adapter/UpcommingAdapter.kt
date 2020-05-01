@@ -1,14 +1,17 @@
 package com.example.book2play.Adapter
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.example.LogicConnection.Handler.ApiHandler
 import com.example.Type.MyBookingModel
 
 import com.example.book2play.R
@@ -36,9 +39,9 @@ class UpcommingAdapter(val arrayList: ArrayList<MyBookingModel>, val context : C
         fun bindItem(model: MyBookingModel){
             itemView.record_date.text = model.date
             itemView.record_center.text = model.center
-            itemView.record_player.text = model.player
-            itemView.record_weekday.text = model.week
-            itemView.record_time.text = model.time
+            itemView.record_player.text = "Player: "+ model.player
+            itemView.record_weekday.text = model.getWeekDay()
+            itemView.record_time.text = model.getHourTime()
             itemView.record_court.text = model.court
         }
 
@@ -88,7 +91,12 @@ class UpcommingAdapter(val arrayList: ArrayList<MyBookingModel>, val context : C
                 builder.setTitle("Confirm")
                 builder.setMessage("Are you sure you want to cancel this booking.\nThis step can not be undo")
                 builder.setPositiveButton("YES"){dialog, which ->
-                    Toast.makeText(context, "You have cancel the booking "+pos , Toast.LENGTH_SHORT).show()
+                    val isSuccess = ApiHandler.cancelBooking(context as Activity, arrayList[pos].id.toString())
+                    if (isSuccess) {
+                        arrayList.removeAt(pos)
+                        notifyItemRemoved(pos)
+                        notifyItemRangeChanged(pos, arrayList.size);
+                    }
                 }
                 builder.setNegativeButton("NO"){dialog, which ->
                     // do nothing
