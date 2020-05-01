@@ -262,7 +262,7 @@ createCity */api/city[?cityId=]*
 }
 ```
 
-getCityCourt */api/court[?cityId=]*
+getCityCourts */api/court[?cityId=]*
 ---
 **URL encoded keys**
 + `cityId` is an alphanumeric characters sequence that uniquely identifies the city.
@@ -285,7 +285,7 @@ getCityCourt */api/court[?cityId=]*
 }
 ```
 
-getSportCenterCourt */api/court[?sportCenterId=&cityId=]*
+getSportCenterCourts */api/court[?sportCenterId=&cityId=]*
 ---
 **URL encoded keys**
 + `sportCenterId` is an alphanumeric characters sequence that uniquely identifies the sport center.
@@ -402,7 +402,7 @@ updatePlayerId */api/player[?newPlayerId=&oldPlayerId=]*
 }
 ```
 
-getCitySportCenter */api/sportCenter[?cityId=]*
+getCitySportCenters */api/sportCenter[?cityId=]*
 ---
 **URL encoded keys**
 + `cityId` is an alphanumeric characters sequence that uniquely identifies the city.
