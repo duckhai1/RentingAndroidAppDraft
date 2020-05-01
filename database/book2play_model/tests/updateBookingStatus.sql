@@ -1,8 +1,7 @@
 -- DEPRECATED
-
--- /*  
---     Test if the request is accepted when all parameters are valid 
--- */
+/*  
+     Test if the request is accepted when all parameters are valid 
+*/
 -- CALL createCity('A', @statusCode);
 -- CALL createCityCenter('B',  'A', @statusCode);
 -- CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
