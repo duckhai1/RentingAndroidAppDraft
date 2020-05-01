@@ -34,19 +34,17 @@ class MyBookingModel(
     var id : String? ="",       // bookingId
 
 
-    var week: String  = if (date == "") "" else SimpleDateFormat("EE").format(SimpleDateFormat("yyyy-MM-dd").parse(date)),      // date of the week of the booking
-    var time: String = if (start == "" || end == "") "" else
-        SimpleDateFormat("HH:mm").format(SimpleDateFormat("HH:mm:ss").parse(start)) + "-" +
-                SimpleDateFormat("HH:mm").format(SimpleDateFormat("HH:mm:ss").parse(end))
+    var week: String  = "",      // date of the week of the booking
+    var time: String = ""
 
 ) :MyDataModel() {
-//
-//
-//    override fun toString(): String {
-//        return "Date: " +date + "\nWeek: " + week + "\nTime: " + time +
-//                "\nCity: "+city+"\nCenter: " +center+"\nCourt: "+ court+"\nPlayer: "+player+
-//                "\nStatus: " + if(status == 0) "Unpaid" else "Paid"
-//    }
-
+    fun getWeekDay(): String {
+        return if (date == "") "" else SimpleDateFormat("EE").format(SimpleDateFormat("yyyy-MM-dd").parse(date))
+    }
+    fun getHourTime():String{
+        return if (start == "" || end == "") "" else
+            SimpleDateFormat("HH:mm").format(SimpleDateFormat("HH:mm:ss").parse(start)) + "-" +
+                    SimpleDateFormat("HH:mm").format(SimpleDateFormat("HH:mm:ss").parse(end))
+    }
 }
 

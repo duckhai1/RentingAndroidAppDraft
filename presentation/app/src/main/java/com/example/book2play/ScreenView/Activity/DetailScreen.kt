@@ -54,7 +54,8 @@ class DetailScreen : AppCompatActivity(){
     private fun setupDetailList(bookingInfo : MyBookingModel?): ArrayList<String>{
         val detailList = ArrayList<String>()
         if (bookingInfo != null) {
-            detailList.add(bookingInfo.date + " " + bookingInfo.week + ": " + bookingInfo.time)
+            detailList.add(bookingInfo.id.toString())
+            detailList.add(bookingInfo.date + " " + bookingInfo.getWeekDay() + ": " + bookingInfo.getHourTime())
             detailList.add(bookingInfo.center + ", " + bookingInfo.city)
             detailList.add(bookingInfo.court.toString())
             detailList.add(if (bookingInfo.isPaid == false) "Unpaid" else "Paid")
@@ -64,6 +65,7 @@ class DetailScreen : AppCompatActivity(){
 
     private fun setupDescriptionList() : ArrayList<String>{
         val descriptionList = ArrayList<String>()
+        descriptionList.add("Booking Code")
         descriptionList.add("Booking Time")
         descriptionList.add("Location")
         descriptionList.add("Court")

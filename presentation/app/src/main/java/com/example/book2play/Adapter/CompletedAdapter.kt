@@ -26,9 +26,9 @@ class CompletedAdapter(val arrayList: ArrayList<MyBookingModel>, val context : C
         fun bindItem(model: MyBookingModel){
             itemView.record_date.text = model.date
             itemView.record_center.text = model.center
-            itemView.record_player.text = model.player
-            itemView.record_weekday.text = model.week
-            itemView.record_time.text = model.time
+            itemView.record_player.text = "Player: "+ model.player
+            itemView.record_weekday.text = model.getWeekDay()
+            itemView.record_time.text = model.getHourTime()
             itemView.record_court.text = model.court
             if (model.isPaid == false){
                 itemView.record_status.text = "Status: Unpaid"

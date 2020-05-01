@@ -98,25 +98,25 @@ class ConnectionHandler {
             }
         }
 
+
         // DELETE method request
         fun sendDelete(url: String?, postDataParams: String, token : String, tokenType: String): String {
             // handle request
             val fullUrl = url+"?"+postDataParams
-            Log.d("server_connect", "GET url: "+fullUrl)
+            Log.d("server_connect", "DELETE url: "+fullUrl)
 
             // setup connection
             val conn = setupConnection(fullUrl, "DELETE", token, tokenType)
 
             // handle response
             val responseCode = conn.responseCode
-            return if (responseCode == HttpURLConnection.HTTP_OK) { // connection ok
+            return if (responseCode == HttpURLConnection.HTTP_ACCEPTED) { // connection ok
                 Log.d("server_connect", "Successful connect")
                 HttpURLConnection.HTTP_OK.toString()
             } else {
                 HttpURLConnection.HTTP_BAD_REQUEST.toString()
             }
         }
-
 
         fun checkTokenStatus(url: String?, token: String, tokenType: String) : String?{
             val conn = setupConnection(url, "GET", token, tokenType)
