@@ -1,7 +1,7 @@
 package com.example.book2play.db.models.sport_center;
 
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.models.ModelTestSetup;
+import com.example.book2play.db.models.DBModelsTestSetup;
 import com.example.book2play.types.SportCenter;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,7 +13,7 @@ import java.util.HashSet;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class SportCenterModelGetCitySportCentersTest extends ModelTestSetup {
+public class SportCenterModelGetCitySportCentersTest extends DBModelsTestSetup {
     @Before
     public void setupMultipleSportCenter() throws Exception {
         CITY.createCity("SaiGon");

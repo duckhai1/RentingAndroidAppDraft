@@ -29,8 +29,6 @@ public class SportCentersHandler extends AbstractHandler {
                 execPost(exchange);
             } else if ("PUT".equals(exchange.getRequestMethod())) {
                 execPut(exchange);
-            } else if ("DELETE".equals(exchange.getRequestMethod())) {
-                execDelete(exchange);
             } else {
                 exchange.sendResponseHeaders(HTTPStatus.METHOD_NOT_ALLOWED, -1);// 405 Method Not Allowed
             }
@@ -72,6 +70,13 @@ public class SportCentersHandler extends AbstractHandler {
     private void execPost(HttpExchange exchange) throws IOException {
         try {
             var sportCenter = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), SportCenter.class);
+            if (sportCenter.getCityId() == null || sportCenter.getSportCenterId() == null) {
+                var e = new Exception("Invalid JSON");
+                LOG.warning("Request was unsuccessful " + e.getMessage());
+                responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+                return;
+            }
+
             model.createCityCenter(
                     sportCenter.getSportCenterId(),
                     sportCenter.getCityId()
@@ -107,11 +112,10 @@ public class SportCentersHandler extends AbstractHandler {
                         oldSportCenterId.get(0),
                         cityId.get(0)
                 );
+                exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
             } else {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
-                return;
             }
-            exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
@@ -119,8 +123,5 @@ public class SportCentersHandler extends AbstractHandler {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
-    }
-
-    private void execDelete(HttpExchange exchange) {
     }
 }

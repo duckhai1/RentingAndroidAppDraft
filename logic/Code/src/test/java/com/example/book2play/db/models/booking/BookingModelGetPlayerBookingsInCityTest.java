@@ -1,10 +1,10 @@
 package com.example.book2play.db.models.booking;
 
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.models.ModelTestSetup;
+import com.example.book2play.db.models.DBModelsTestSetup;
 import com.example.book2play.types.Booking;
-import com.example.test_utils.BookingUtils;
-import com.example.test_utils.TimeUtils;
+import com.example.utils.BookingUtils;
+import com.example.utils.TimeUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.junit.Assert.fail;
 
-public class BookingModelGetPlayerBookingsInCityTest extends ModelTestSetup {
+public class BookingModelGetPlayerBookingsInCityTest extends DBModelsTestSetup {
 
     private static List<Booking> TEST_BOOKINGS;
 

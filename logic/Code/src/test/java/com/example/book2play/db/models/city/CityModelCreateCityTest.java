@@ -1,7 +1,7 @@
 package com.example.book2play.db.models.city;
 
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.models.ModelTestSetup;
+import com.example.book2play.db.models.DBModelsTestSetup;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class CityModelCreateCityTest extends ModelTestSetup {
+public class CityModelCreateCityTest extends DBModelsTestSetup {
 
     @Test
     public void testCreateCityOnEmptyDatabase() throws Exception {

@@ -3,7 +3,6 @@ package com.example.book2play.api;
 
 import com.example.book2play.api.handler.*;
 import com.example.book2play.db.*;
-import com.example.book2play.db.models.MySQLAuthenticator;
 import com.example.book2play.db.models.*;
 import com.sun.net.httpserver.BasicAuthenticator;
 import com.sun.net.httpserver.HttpServer;
@@ -16,7 +15,7 @@ import java.net.InetSocketAddress;
  */
 public class Server {
 
-    public static String BOOKINGS_BASE_URL = "/api/bookings";
+    public static String BOOKING_BASE_URL = "/api/bookings";
     public static String SPORT_CENTER_BASE_URL = "/api/centers";
     public static String COURT_BASE_URL = "/api/courts";
     public static String PLAYER_BASE_URL = "/api/players";
@@ -61,7 +60,7 @@ public class Server {
     }
 
     private void setRoutes() {
-        var bookingCtx = srv.createContext(BOOKINGS_BASE_URL, new BookingsHandler(bookingModel, authModel));
+        var bookingCtx = srv.createContext(BOOKING_BASE_URL, new BookingsHandler(bookingModel, authModel));
         bookingCtx.setAuthenticator(new BasicAuthenticator("myrealm") {
             @Override
             public boolean checkCredentials(String user, String pwd) {

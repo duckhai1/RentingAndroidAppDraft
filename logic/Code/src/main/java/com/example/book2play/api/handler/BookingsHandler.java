@@ -135,29 +135,44 @@ public class BookingsHandler extends AbstractHandler {
 
     private void execPost(HttpExchange exchange) throws IOException {
         try {
-            var token = exchange.getRequestHeaders().get("Token");
+        	var token = exchange.getRequestHeaders().get("Token");
             if (token == null || token.size() != 1) {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }
             var id = ConfirmToken.getId(token.get(0));
-            if (authModel.isPlayer(id)) {
-                var booking = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Booking.class);
-                model.createBooking(
-                        new Timestamp(System.currentTimeMillis()),
-                        booking.getBookingDate(),
-                        booking.getBookingStartTime(),
-                        booking.getBookingEndTime(),
-                        booking.getCityId(),
-                        booking.getSportCenterId(),
-                        booking.getCourtId(),
-                        id
-                );
-                exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
-            } else {
-                exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
+            if (!authModel.isPlayer(id)) {
+            	exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
+                return;
+
+            }
+
+            var booking = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Booking.class);
+            if (booking.getBookingDate() == null
+                    || booking.getBookingStartTime() == null
+                    || booking.getBookingEndTime() == null
+                    || booking.getCityId() == null
+                    || booking.getSportCenterId() == null
+                    || booking.getCourtId() == null
+                    || booking.getPlayerId() == null
+            ) {
+                var e = new Exception("Invalid JSON");
+                LOG.warning("Request was unsuccessful " + e.getMessage());
+                responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
                 return;
             }
+
+            model.createBooking(
+                    new Timestamp(System.currentTimeMillis()),
+                    booking.getBookingDate(),
+                    booking.getBookingStartTime(),
+                    booking.getBookingEndTime(),
+                    booking.getCityId(),
+                    booking.getSportCenterId(),
+                    booking.getCourtId(),
+                    booking.getPlayerId()
+            );
+            exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);

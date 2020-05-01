@@ -1,6 +1,6 @@
 package com.example.book2play.db.models.city;
 
-import com.example.book2play.db.models.ModelTestSetup;
+import com.example.book2play.db.models.DBModelsTestSetup;
 import com.example.book2play.types.City;
 import org.junit.Assert;
 import org.junit.Test;
@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class CityModelGetCitiesTest extends ModelTestSetup {
+public class CityModelGetCitiesTest extends DBModelsTestSetup {
 
     @Test
     public void testGetOneCity() throws Exception {

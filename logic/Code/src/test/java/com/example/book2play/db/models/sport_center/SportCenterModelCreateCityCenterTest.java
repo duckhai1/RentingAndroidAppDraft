@@ -1,7 +1,7 @@
 package com.example.book2play.db.models.sport_center;
 
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.models.ModelTestSetup;
+import com.example.book2play.db.models.DBModelsTestSetup;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class SportCenterModelCreateCityCenterTest extends ModelTestSetup {
+public class SportCenterModelCreateCityCenterTest extends DBModelsTestSetup {
 
     @Before
     public void setupMultipleCities() throws Exception {
