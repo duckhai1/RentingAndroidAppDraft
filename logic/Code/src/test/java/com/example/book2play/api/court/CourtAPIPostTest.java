@@ -1,9 +1,9 @@
-package com.example.book2play.api.city;
+package com.example.book2play.api.court;
 
 import com.example.book2play.api.APITestSetup;
 import com.example.book2play.api.Server;
 import com.example.book2play.api.utils.HTTPStatus;
-import com.example.book2play.types.City;
+import com.example.book2play.types.Court;
 import com.example.types.GenericAPIResult;
 import org.junit.Assert;
 import org.junit.Test;
@@ -15,14 +15,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-public class CityAPIPostTest extends APITestSetup {
-    private final static URI CITY_API_PATH = URI.create("http://" + HOST + ':' + PORT + Server.CITY_BASE_URL);
+public class CourtAPIPostTest extends APITestSetup {
 
     @Test
-    public void testPostCitySuccess() throws Exception {
+    public void testPostCourtSuccess() throws Exception {
         var futures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
-        for (var s : cityIDs) {
-            futures.add(asyncPostJSON(CITY_API_PATH, new City(s)));
+        for (var cityId : cityIDs) {
+            CITY.createCity(cityId);
+            for (var sportCenterId : sportCenterIDs) {
+                SPORT_CENTER.createCityCenter(sportCenterId, cityId);
+                for (var courtId : courtIDs) {
+                    futures.add(asyncPostJSON(COURT_API_PATH, new Court(courtId, cityId, sportCenterId)));
+                }
+            }
         }
 
         for (var f : futures) {
@@ -32,14 +37,16 @@ public class CityAPIPostTest extends APITestSetup {
     }
 
     @Test
-    public void testPostCityExpectAllMySqlExceptions() throws Exception {
+    public void testPostCourtExpectAllMySqlExceptions() throws Exception {
         var testInputs = new ArrayList<Integer>();
-        testInputs.add(402);
+        testInputs.add(404);
         testInputs.add(460);
+        testInputs.add(461);
+        testInputs.add(462);
 
         for (var code : testInputs) {
-            CITY.setToBeThrown(code);
-            var future = asyncPostJSON(CITY_API_PATH, new City("ArbitraryData"));
+            COURT.setToBeThrown(code);
+            var future = asyncPostJSON(COURT_API_PATH, new Court("ArbitraryData", "ArbitraryData", "ArbitraryData"));
             var response = future.get();
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
@@ -51,17 +58,23 @@ public class CityAPIPostTest extends APITestSetup {
     }
 
     @Test
-    public void testPostCityInvalidJSONFormat() throws Exception {
+    public void testPostCourtInvalidJSONFormat() throws Exception {
         var testInputs = new ArrayList<Map<String, String>>();
-        for (var id : cityIDs) {
-            var data = new HashMap<String, String>();
-            data.put("cityName", id);
-            testInputs.add(data);
+        for (var cityId : cityIDs) {
+            for (var sportCenterId : cityIDs) {
+                for (var courtId : cityIDs) {
+                    var data = new HashMap<String, String>();
+                    data.put("cityName", cityId);
+                    data.put("sportCenterName", sportCenterId);
+                    data.put("courtName", courtId);
+                    testInputs.add(data);
+                }
+            }
         }
 
         var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var data : testInputs) {
-            testFutures.add(asyncPostJSON(CITY_API_PATH, data));
+            testFutures.add(asyncPostJSON(COURT_API_PATH, data));
         }
 
         for (var f : testFutures) {

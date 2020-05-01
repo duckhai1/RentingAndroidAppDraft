@@ -104,6 +104,19 @@ public class BookingsHandler extends AbstractHandler {
     private void execPost(HttpExchange exchange) throws IOException {
         try {
             var booking = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Booking.class);
+            if (booking.getBookingDate() == null
+                    || booking.getBookingStartTime() == null
+                    || booking.getBookingEndTime() == null
+                    || booking.getCityId() == null
+                    || booking.getSportCenterId() == null
+                    || booking.getCourtId() == null
+                    || booking.getPlayerId() == null
+            ) {
+                var e = new Exception("Invalid JSON");
+                LOG.warning("Request was unsuccessful " + e.getMessage());
+                responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+            }
+
             model.createBooking(
                     new Timestamp(System.currentTimeMillis()),
                     booking.getBookingDate(),

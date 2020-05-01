@@ -7,7 +7,7 @@ import com.example.book2play.types.Player;
 import java.util.HashSet;
 import java.util.Set;
 
-public class MockPlayerModel implements PlayerModel {
+public class MockPlayerModel extends MockModel implements PlayerModel {
 
     private MockModelDataSource ds;
 
@@ -17,6 +17,9 @@ public class MockPlayerModel implements PlayerModel {
 
     @Override
     public void createPlayer(String playerId) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
         var newPlayer = new Player(playerId);
         if (ds.getPlayers().contains(newPlayer)) {
             throw new MySQLException(405);
@@ -26,6 +29,9 @@ public class MockPlayerModel implements PlayerModel {
 
     @Override
     public void updatePlayerId(String newPlayerId, String oldPlayerId) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
         var oldPlayer = new Player(oldPlayerId);
         if (!ds.getPlayers().contains(oldPlayer)) {
             throw new MySQLException(464);

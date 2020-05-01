@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class MockCourtModel implements CourtModel {
+public class MockCourtModel extends MockModel implements CourtModel {
 
     private MockModelDataSource ds;
 
@@ -20,6 +20,9 @@ public class MockCourtModel implements CourtModel {
 
     @Override
     public Collection<Court> getCityCourts(String cityId) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
         var cityModel = new MockCityModel(ds);
         if (!cityModel.isCityExist(cityId)) {
             throw new MySQLException(460);
@@ -32,6 +35,9 @@ public class MockCourtModel implements CourtModel {
 
     @Override
     public Collection<Court> getSportCenterCourts(String sportCenterId, String cityId) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
         var cityModel = new MockCityModel(ds);
         if (!cityModel.isCityExist(cityId)) {
             throw new MySQLException(460);
@@ -50,6 +56,9 @@ public class MockCourtModel implements CourtModel {
 
     @Override
     public void createCityCenterCourt(String courtId, String cityId, String sportCenterId) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
         var cityModel = new MockCityModel(ds);
         if (!cityModel.isCityExist(cityId)) {
             throw new MySQLException(460);
@@ -70,6 +79,9 @@ public class MockCourtModel implements CourtModel {
 
     @Override
     public void updateCourtId(String newCourtId, String oldCourtId, String cityId, String sportCenterId) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
         var cityModel = new MockCityModel(ds);
         if (!cityModel.isCityExist(cityId)) {
             throw new MySQLException(460);

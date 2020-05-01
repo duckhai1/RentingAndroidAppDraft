@@ -8,7 +8,7 @@ import com.example.utils.Validators;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class MockCityModel implements CityModel {
+public class MockCityModel extends MockModel implements CityModel {
 
     private MockModelDataSource ds;
 
@@ -23,6 +23,10 @@ public class MockCityModel implements CityModel {
 
     @Override
     public void createCity(String cityId) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
+
         if (!Validators.isIdValid(cityId)) {
             throw new MySQLException(460);
         }

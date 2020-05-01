@@ -21,14 +21,10 @@ public class StaffHandler extends AbstractHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         try {
-            if ("GET".equals(exchange.getRequestMethod())) {
-                execGet(exchange);
-            } else if ("POST".equals(exchange.getRequestMethod())) {
+            if ("POST".equals(exchange.getRequestMethod())) {
                 execPost(exchange);
             } else if ("PUT".equals(exchange.getRequestMethod())) {
                 execPut(exchange);
-            } else if ("DELETE".equals(exchange.getRequestMethod())) {
-                execDelete(exchange);
             } else {
                 exchange.sendResponseHeaders(HTTPStatus.METHOD_NOT_ALLOWED, -1); // NOT ALLOWED
             }
@@ -39,12 +35,15 @@ public class StaffHandler extends AbstractHandler {
         exchange.close();
     }
 
-    private void execGet(HttpExchange exchange) {
-    }
-
     private void execPost(HttpExchange exchange) throws IOException {
         try {
             var staff = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Staff.class);
+            if (staff.getStaffId() == null || staff.getSportCenterId() == null || staff.getCityId() == null) {
+                var e = new Exception("Invalid JSON");
+                LOG.warning("Request was unsuccessful " + e.getMessage());
+                responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+            }
+
             model.createStaff(
                     staff.getStaffId(),
                     staff.getCityId(),
@@ -96,8 +95,5 @@ public class StaffHandler extends AbstractHandler {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
-    }
-
-    private void execDelete(HttpExchange exchange) {
     }
 }

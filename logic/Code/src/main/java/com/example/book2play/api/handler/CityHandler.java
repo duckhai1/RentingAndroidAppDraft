@@ -26,10 +26,6 @@ public class CityHandler extends AbstractHandler {
                 execGet(exchange);
             } else if ("POST".equals(exchange.getRequestMethod())) {
                 execPost(exchange);
-            } else if ("PUT".equals(exchange.getRequestMethod())) {
-                execPut(exchange);
-            } else if ("DELETE".equals(exchange.getRequestMethod())) {
-                execDelete(exchange);
             } else {
                 exchange.sendResponseHeaders(HTTPStatus.METHOD_NOT_ALLOWED, -1); // NOT ALLOWED
             }
@@ -53,6 +49,12 @@ public class CityHandler extends AbstractHandler {
     private void execPost(HttpExchange exchange) throws IOException {
         try {
             var city = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), City.class);
+            if (city.getCityId() == null) {
+                var e = new Exception("Invalid JSON");
+                LOG.warning("Request was unsuccessful " + e.getMessage());
+                responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+            }
+
             model.createCity(city.getCityId());
             exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
         } catch (MySQLException e) {
@@ -62,11 +64,5 @@ public class CityHandler extends AbstractHandler {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
-    }
-
-    private void execPut(HttpExchange exchange) {
-    }
-
-    private void execDelete(HttpExchange exchange) {
     }
 }

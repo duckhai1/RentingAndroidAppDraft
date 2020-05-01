@@ -9,12 +9,10 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 // TODO: throws exception
-public class MockBookingModel implements BookingModel {
+public class MockBookingModel extends MockModel implements BookingModel {
 
     private MockModelDataSource ds;
 
@@ -22,19 +20,23 @@ public class MockBookingModel implements BookingModel {
         this.ds = ds;
     }
 
+
     @Override
     public Collection<Booking> getCourtBookings(String courtId, String cityId, String sportCenterId, Date date) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
         var cityModel = new MockCityModel(ds);
         if (!cityModel.isCityExist(cityId)) {
             throw new MySQLException(460);
         }
 
-        var sportCenterModel = new MockSportCenterModel(ds);;
+        var sportCenterModel = new MockSportCenterModel(ds);
         if (!sportCenterModel.isSportCenterExist(sportCenterId, cityId)) {
             throw new MySQLException(461);
         }
 
-        var courtModel = new MockCourtModel(ds);;
+        var courtModel = new MockCourtModel(ds);
         if (!courtModel.isCourtExist(courtId, cityId, sportCenterId)) {
             throw new MySQLException(462);
         }
@@ -49,12 +51,15 @@ public class MockBookingModel implements BookingModel {
 
     @Override
     public Collection<Booking> getSportCenterBookings(String sportCenterId, String cityId, Date date) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
         var cityModel = new MockCityModel(ds);
         if (!cityModel.isCityExist(cityId)) {
             throw new MySQLException(460);
         }
 
-        var sportCenterModel = new MockSportCenterModel(ds);;
+        var sportCenterModel = new MockSportCenterModel(ds);
         if (!sportCenterModel.isSportCenterExist(sportCenterId, cityId)) {
             throw new MySQLException(461);
         }
@@ -68,6 +73,9 @@ public class MockBookingModel implements BookingModel {
 
     @Override
     public Collection<Booking> getPlayerBookings(String playerId) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
         var playerModel = new MockPlayerModel(ds);
         if (!playerModel.isPlayerExist(playerId)) {
             throw new MySQLException(464);
@@ -80,7 +88,10 @@ public class MockBookingModel implements BookingModel {
 
     @Override
     public Collection<Booking> getPlayerBookingsInCity(String playerId, String cityId, Date date) throws MySQLException {
-        var playerModel = new MockPlayerModel(ds);;
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
+        var playerModel = new MockPlayerModel(ds);
         if (!playerModel.isPlayerExist(playerId)) {
             throw new MySQLException(464);
         }
@@ -99,22 +110,26 @@ public class MockBookingModel implements BookingModel {
 
     @Override
     public void createBooking(Timestamp timestamp, Date date, Time startTime, Time endTime, String cityId, String sportCenterId, String courtId, String playerId) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
+
         var cityModel = new MockCityModel(ds);
         if (!cityModel.isCityExist(cityId)) {
             throw new MySQLException(460);
         }
 
-        var sportCenterModel = new MockSportCenterModel(ds);;
+        var sportCenterModel = new MockSportCenterModel(ds);
         if (!sportCenterModel.isSportCenterExist(sportCenterId, cityId)) {
             throw new MySQLException(461);
         }
 
-        var courtModel = new MockCourtModel(ds);;
+        var courtModel = new MockCourtModel(ds);
         if (!courtModel.isCourtExist(courtId, cityId, sportCenterId)) {
             throw new MySQLException(462);
         }
 
-        var playerModel = new MockPlayerModel(ds);;
+        var playerModel = new MockPlayerModel(ds);
         if (!playerModel.isPlayerExist(playerId)) {
             throw new MySQLException(464);
         }
@@ -142,6 +157,25 @@ public class MockBookingModel implements BookingModel {
 
     @Override
     public void updateBookingStatus(Boolean status, String bookingId, String cityId, String sportCenterId, String staffId) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
+
+        var cityModel = new MockCityModel(ds);
+        if (!cityModel.isCityExist(cityId)) {
+            throw new MySQLException(460);
+        }
+
+        var sportCenterModel = new MockSportCenterModel(ds);
+        if (!sportCenterModel.isSportCenterExist(sportCenterId, cityId)) {
+            throw new MySQLException(461);
+        }
+
+        var staffModel = new MockStaffModel(ds);
+        if (!staffModel.isStaffExist(staffId, cityId, sportCenterId)) {
+            throw new MySQLException(463);
+        }
+
         Booking updatedBooking = null;
         for (var b : ds.getBookings()) {
             if (b.getBookingId().equals(bookingId) && b.getCityId().equals(cityId) && b.getSportCenterId().equals(sportCenterId)) {
@@ -163,11 +197,22 @@ public class MockBookingModel implements BookingModel {
                     updatedBooking.getCourtId(),
                     updatedBooking.getPlayerId()
             ));
+        } else {
+            throw new MySQLException(465);
         }
     }
 
     @Override
     public void cancelBooking(String bookingId, String playerId) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
+
+        var playerModel = new MockPlayerModel(ds);
+        if (!playerModel.isPlayerExist(playerId)) {
+            throw new MySQLException(464);
+        }
+
         Booking cancelledBooking = null;
         for (var b : ds.getBookings()) {
             if (b.getBookingId().equals(bookingId) && b.getPlayerId().equals(playerId)) {
@@ -178,6 +223,8 @@ public class MockBookingModel implements BookingModel {
 
         if (cancelledBooking != null) {
             ds.getBookings().remove(cancelledBooking);
+        } else {
+            throw new MySQLException(465);
         }
     }
 

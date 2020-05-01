@@ -1,25 +1,24 @@
 package com.example.book2play.db.models;
 
 import com.example.book2play.db.Authenticator;
-import com.example.book2play.db.exceptions.MySQLException;
+import com.example.book2play.types.Player;
+import com.example.book2play.types.Staff;
 
 public class MockAuthenticator implements Authenticator {
 
-    private MockPlayerModel mockPlayerModel;
-    private MockStaffModel mockStaffModel;
+    private MockModelDataSource ds;
 
-    public MockAuthenticator(MockPlayerModel mockPlayerModel, MockStaffModel mockStaffModel) {
-        this.mockPlayerModel = mockPlayerModel;
-        this.mockStaffModel = mockStaffModel;
+    public MockAuthenticator(MockModelDataSource ds) {
+        this.ds = ds;
     }
 
     @Override
-    public boolean isPlayer(String playerId) throws MySQLException {
-        return mockPlayerModel.isPlayerExist(playerId);
+    public boolean isPlayer(String playerId) {
+        return ds.getPlayers().contains(new Player(playerId));
     }
 
     @Override
-    public boolean isStaff(String staffId, String cityId, String sportCenterId) throws MySQLException {
-        return mockStaffModel.isStaffExist(staffId, cityId, sportCenterId);
+    public boolean isStaff(String staffId, String cityId, String sportCenterId) {
+        return ds.getStaffs().contains(new Staff(staffId, cityId, sportCenterId));
     }
 }

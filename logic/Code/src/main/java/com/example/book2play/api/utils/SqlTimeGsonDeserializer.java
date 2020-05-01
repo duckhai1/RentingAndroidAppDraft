@@ -13,6 +13,10 @@ import java.sql.Time;
  */
 public class SqlTimeGsonDeserializer implements JsonDeserializer<Time> {
     public Time deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return Time.valueOf(json.getAsJsonPrimitive().getAsString());
+        try {
+            return Time.valueOf(json.getAsJsonPrimitive().getAsString());
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

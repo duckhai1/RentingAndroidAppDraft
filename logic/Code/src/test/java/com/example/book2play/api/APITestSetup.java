@@ -7,9 +7,8 @@ import com.example.book2play.api.utils.SqlTimestampGsonSerializer;
 import com.example.book2play.db.models.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.junit.AfterClass;
+import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -19,6 +18,7 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -28,6 +28,13 @@ public class APITestSetup {
 
     public final static String HOST = "localhost";
     public final static int PORT = 6666;
+
+    public final static URI BOOKING_API_PATH = URI.create("http://" + HOST + ':' + PORT + Server.BOOKING_BASE_URL);
+    public final static URI CITY_API_PATH = URI.create("http://" + HOST + ':' + PORT + Server.CITY_BASE_URL);
+    public final static URI COURT_API_PATH = URI.create("http://" + HOST + ':' + PORT + Server.COURT_BASE_URL);
+    public final static URI PLAYER_API_PATH = URI.create("http://" + HOST + ':' + PORT + Server.PLAYER_BASE_URL);
+    public final static URI SPORT_CENTER_API_PATH = URI.create("http://" + HOST + ':' + PORT + Server.SPORT_CENTER_BASE_URL);
+    public final static URI STAFF_API_PATH = URI.create("http://" + HOST + ':' + PORT + Server.STAFF_BASE_URL);
 
     protected final static Logger LOG = Logger.getLogger("API_TEST");
     protected final static Gson GSON = new GsonBuilder()
@@ -47,40 +54,64 @@ public class APITestSetup {
     protected static MockSportCenterModel SPORT_CENTER;
     protected static MockStaffModel STAFF;
 
+    protected static ArrayList<String> cityIDs;
+    protected static ArrayList<String> sportCenterIDs;
+    protected static ArrayList<String> courtIDs;
+    protected static ArrayList<String> staffIDs;
+    protected static ArrayList<String> playerIDs;
+
     private static MockServer SRV;
 
-    @BeforeClass
-    public static void runAPIServer() throws Exception {
-        BOOKING = MockBookingModel.getInstance();
-        CITY = MockCityModel.getInstance();
-        COURT = MockCourtModel.getInstance();
-        PLAYER = MockPlayerModel.getInstance();
-        SPORT_CENTER = MockSportCenterModel.getInstance();
-        STAFF = MockStaffModel.getInstance();
-        AUTH = new MockAuthenticator(PLAYER, STAFF);
+    @Before
+    public void runAPIServer() throws Exception {
+        cityIDs = new ArrayList<>();
+        cityIDs.add("City01");
+        cityIDs.add("City02");
+        cityIDs.add("City03");
 
-        SRV = MockServer.getInstance(PORT);
+        sportCenterIDs = new ArrayList<>();
+        sportCenterIDs.add("SportCenter01");
+        sportCenterIDs.add("SportCenter02");
+        sportCenterIDs.add("SportCenter03");
+
+        courtIDs = new ArrayList<>();
+        courtIDs.add("Court01");
+        courtIDs.add("Court02");
+        courtIDs.add("Court03");
+
+        staffIDs = new ArrayList<>();
+        staffIDs.add("Staff01");
+        staffIDs.add("Staff02");
+        staffIDs.add("Staff03");
+
+        playerIDs = new ArrayList<>();
+        playerIDs.add("Player01");
+        playerIDs.add("Player02");
+        playerIDs.add("Player03");
+
+
+        var ds = new MockModelDataSource();
+        BOOKING = new MockBookingModel(ds);
+        CITY = new MockCityModel(ds);
+        COURT = new MockCourtModel(ds);
+        PLAYER = new MockPlayerModel(ds);
+        SPORT_CENTER = new MockSportCenterModel(ds);
+        STAFF = new MockStaffModel(ds);
+        AUTH = new MockAuthenticator(ds);
+
+        SRV = new MockServer(PORT, BOOKING, CITY, COURT, PLAYER, SPORT_CENTER, STAFF, AUTH);
         SRV.start();
     }
 
-    @AfterClass
-    public static void stopAPIServer() throws Exception {
+    @After
+    public void stopAPIServer() throws Exception {
         SRV.stop();
-    }
-
-    @Before
-    public void clearData() {
-        BOOKING.clearBookings();
-        CITY.clearCities();
-        COURT.clearCourts();
-        PLAYER.clearPlayers();
-        SPORT_CENTER.clearSportCenters();
-        STAFF.clearStaff();
     }
 
     protected CompletableFuture<HttpResponse<String>> asyncGetJSON(URI uri, Map<String, List<String>> query) {
         HttpRequest request = HttpRequest.newBuilder(URI.create(uri.toString() + composeQuery(query)))
                 .header("Accept", "application/json")
+                .GET()
                 .build();
 
         return HttpClient.newHttpClient()
@@ -89,8 +120,29 @@ public class APITestSetup {
 
     protected CompletableFuture<HttpResponse<String>> asyncPostJSON(URI uri, Object obj) {
         var request = HttpRequest.newBuilder(uri)
+                .header("Accept", "application/json")
                 .header("Content-Type", "application/json")
                 .POST(HttpRequest.BodyPublishers.ofString(GSON.toJson(obj)))
+                .build();
+
+        return HttpClient.newHttpClient()
+                .sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    protected CompletableFuture<HttpResponse<String>> asyncPut(URI uri, Map<String, List<String>> query) {
+        HttpRequest request = HttpRequest.newBuilder(URI.create(uri.toString() + composeQuery(query)))
+                .header("Accept", "application/json")
+                .PUT(HttpRequest.BodyPublishers.noBody())
+                .build();
+
+        return HttpClient.newHttpClient()
+                .sendAsync(request, HttpResponse.BodyHandlers.ofString());
+    }
+
+    protected CompletableFuture<HttpResponse<String>> asyncDelete(URI uri, Map<String, List<String>> query) {
+        HttpRequest request = HttpRequest.newBuilder(URI.create(uri.toString() + composeQuery(query)))
+                .header("Accept", "application/json")
+                .DELETE()
                 .build();
 
         return HttpClient.newHttpClient()

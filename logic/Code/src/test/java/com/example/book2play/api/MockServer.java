@@ -6,29 +6,23 @@ import java.io.IOException;
 
 public class MockServer extends Server {
 
-    private static MockServer SINGLETON = null;
-
-    private MockServer(int port) throws IOException {
+    public MockServer(int port,
+                       MockBookingModel bookingModel,
+                       MockCityModel cityModel,
+                       MockCourtModel courtModel,
+                       MockPlayerModel playerModel,
+                       MockSportCenterModel sportCenterModel,
+                       MockStaffModel staffModel,
+                       MockAuthenticator authModel
+    ) throws IOException {
         super(null, port);
-        bookingModel = MockBookingModel.getInstance();
-        cityModel = MockCityModel.getInstance();
-        courtModel = MockCourtModel.getInstance();
-        playerModel = MockPlayerModel.getInstance();
-        sportCenterModel = MockSportCenterModel.getInstance();
-        staffModel = MockStaffModel.getInstance();
-
-        authModel = new MockAuthenticator(
-                MockPlayerModel.getInstance(),
-                MockStaffModel.getInstance()
-        );
-    }
-
-    public static MockServer getInstance(int port) throws IOException {
-        if (SINGLETON == null) {
-            SINGLETON = new MockServer(port);
-        }
-
-        return SINGLETON;
+        this.bookingModel = bookingModel;
+        this.cityModel = cityModel;
+        this.courtModel = courtModel;
+        this.playerModel = playerModel;
+        this.sportCenterModel = sportCenterModel;
+        this.staffModel = staffModel;
+        this.authModel = authModel;
     }
 
     @Override

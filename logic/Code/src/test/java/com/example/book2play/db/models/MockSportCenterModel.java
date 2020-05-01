@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class MockSportCenterModel implements SportCenterModel {
+public class MockSportCenterModel extends MockModel implements SportCenterModel {
 
     private MockModelDataSource ds;
 
@@ -19,6 +19,9 @@ public class MockSportCenterModel implements SportCenterModel {
 
     @Override
     public Collection<SportCenter> getCitySportCenters(String cityId) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
         var cityModel = new MockCityModel(ds);
         if (!cityModel.isCityExist(cityId)) {
             throw new MySQLException(460);
@@ -31,6 +34,9 @@ public class MockSportCenterModel implements SportCenterModel {
 
     @Override
     public void createCityCenter(String sportCenterId, String cityId) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
         var cityModel = new MockCityModel(ds);
         if (!cityModel.isCityExist(cityId)) {
             throw new MySQLException(460);
@@ -46,6 +52,9 @@ public class MockSportCenterModel implements SportCenterModel {
 
     @Override
     public void updateSportCenterId(String newSportCenterId, String oldSportCenterId, String cityId) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
         var cityModel = new MockCityModel(ds);
         if (!cityModel.isCityExist(cityId)) {
             throw new MySQLException(460);

@@ -4,7 +4,7 @@ import com.example.book2play.db.StaffModel;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.types.Staff;
 
-public class MockStaffModel implements StaffModel {
+public class MockStaffModel extends MockModel implements StaffModel {
 
     private MockModelDataSource ds;
 
@@ -14,6 +14,9 @@ public class MockStaffModel implements StaffModel {
 
     @Override
     public void createStaff(String staffId, String cityId, String sportCenterId) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
         var cityModel = new MockCityModel(ds);
         if (!cityModel.isCityExist(cityId)) {
             throw new MySQLException(460);
@@ -34,6 +37,9 @@ public class MockStaffModel implements StaffModel {
 
     @Override
     public void updateStaffId(String newStaffId, String oldStaffId, String cityId, String sportCenterId) throws MySQLException {
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
         var cityModel = new MockCityModel(ds);
         if (!cityModel.isCityExist(cityId)) {
             throw new MySQLException(460);
