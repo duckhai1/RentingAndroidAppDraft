@@ -15,7 +15,7 @@ import java.net.InetSocketAddress;
  * Simple class to encapsulate the data source, and connection information used for the HTTP API server
  */
 public class Server {
-
+    public static String AUTHEN_BASE_URL = "/api/authen";
     public static String BOOKINGS_BASE_URL = "/api/bookings";
     public static String SPORT_CENTER_BASE_URL = "/api/centers";
     public static String COURT_BASE_URL = "/api/courts";
@@ -69,6 +69,7 @@ public class Server {
             }
         });
 
+        srv.createContext(AUTHEN_BASE_URL, new AuthenHandler(authModel));
         srv.createContext(SPORT_CENTER_BASE_URL, new SportCentersHandler(sportCenterModel, authModel));
         srv.createContext(CITY_BASE_URL, new CityHandler(cityModel, authModel));
         srv.createContext(COURT_BASE_URL, new CourtsHandler(courtModel, authModel));

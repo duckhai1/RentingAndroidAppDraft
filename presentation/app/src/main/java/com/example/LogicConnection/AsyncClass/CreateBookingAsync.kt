@@ -32,7 +32,8 @@ class CreateBookingAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
             result = ConnectionHandler.sendPost(
                 BASEURL + "/bookings",
                 requestJson,
-                Token
+                Token,
+                TokenType
             )
         } catch (e: Exception) {
             error = e

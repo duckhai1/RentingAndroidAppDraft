@@ -46,10 +46,12 @@ public class CourtsHandler extends AbstractHandler {
     private void execGet(HttpExchange exchange) throws IOException {
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
         var token = exchange.getRequestHeaders().get("Token");
+        var tokenType = exchange.getRequestHeaders().get("TokenType");
         var cityId = params.get("cityId");
         var sportCenterId = params.get("sportCenterId");
 
         if ((token == null || token.size() != 1)
+                || (tokenType == null || tokenType.size() != 1)
                 || (cityId != null && cityId.size() != 1)
                 || (sportCenterId != null && sportCenterId.size() != 1)
         ) {
@@ -59,7 +61,7 @@ public class CourtsHandler extends AbstractHandler {
 
         Collection<Court> courts;
         try {
-            var id = ConfirmToken.getId(token.get(0));
+            var id = getId(token.get(0), tokenType.get(0));
             if (cityId != null && sportCenterId == null) {
                 courts = model.getCityCourts(cityId.get(0));
             } else if (cityId != null) {

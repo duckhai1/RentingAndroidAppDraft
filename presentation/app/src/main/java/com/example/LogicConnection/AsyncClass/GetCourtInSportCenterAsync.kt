@@ -17,7 +17,8 @@ class GetCourtInSportCenterAsync(activity: Activity) : MyGeneralAsyncTask(activi
             result = ConnectionHandler.sendGet(
                 BASEURL + "/courts",
                 requestData,
-                Token
+                Token,
+                TokenType
             )
         } catch (e : Exception){
             error = e

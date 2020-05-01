@@ -15,6 +15,7 @@ import java.net.HttpURLConnection
 abstract class MyGeneralAsyncTask (activity: Activity) : AsyncTask<String?, String?, String?>(){
     val BASEURL = "http://10.0.2.2:8000/api"
     lateinit var Token :String
+    lateinit var TokenType :String
     var isBadRequest : Boolean = false
 
     val myTask = this
@@ -25,6 +26,7 @@ abstract class MyGeneralAsyncTask (activity: Activity) : AsyncTask<String?, Stri
 
     override fun onPreExecute() {
         Token = (activity.application as MyApplication).getToken()
+        TokenType = (activity.application as MyApplication).getTokenType()
         // make processing dialog
         dialog.setMessage("Trying to connecting server")
         dialog.setCancelable(true)

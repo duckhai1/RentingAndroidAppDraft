@@ -10,6 +10,11 @@ import com.example.book2play.db.exceptions.MySQLException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
+import com.restfb.Parameter;
+import com.restfb.exception.FacebookOAuthException;
+import com.restfb.types.User;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
@@ -91,5 +96,26 @@ public abstract class AbstractHandler implements HttpHandler {
 
     private String decode(final String encoded) {
         return encoded == null ? null : URLDecoder.decode(encoded, StandardCharsets.UTF_8);
+    }
+
+    // get playerID of token
+    protected String getId(String token, String tokenType) throws MySQLException {
+        LOG.info("TokenType: "+ tokenType);
+        if (tokenType.equals("FB")){
+            FacebookClient facebookClient = new DefaultFacebookClient(token);
+
+            User user = facebookClient.fetchObject("me",
+                    User.class,
+                    Parameter.with("fields", "id"));
+            if (user == null){
+                throw new FacebookOAuthException("Bad user data", "user is null");
+            }
+
+            return user.getId();
+        } else if (tokenType.equals("DB")){
+            return authModel.getPlayerId(token);
+        } else {
+            throw new RuntimeException("Unrecognized token");
+        }
     }
 }

@@ -47,12 +47,14 @@ public class BookingsHandler extends AbstractHandler {
     private void execGet(HttpExchange exchange) throws IOException {
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
         var token = exchange.getRequestHeaders().get("Token");
+        var tokenType = exchange.getRequestHeaders().get("TokenType");
         var date = params.get("date");
         var cityId = params.get("cityId");
         var sportCenterId = params.get("sportCenterId");
         var courtId = params.get("courtId");
 
         if ((token == null || token.size() != 1)
+                || (tokenType == null || tokenType.size() != 1)
                 || (date != null && date.size() != 1)
                 || (cityId != null && cityId.size() != 1)
                 || (sportCenterId != null && sportCenterId.size() != 1)
@@ -64,7 +66,7 @@ public class BookingsHandler extends AbstractHandler {
 
         Collection<Booking> bookings;
         try {
-            var id = ConfirmToken.getId(token.get(0));
+            var id = getId(token.get(0), tokenType.get(0));
 
             if (cityId != null && sportCenterId != null && courtId != null && date != null) {
                 if (authModel.isStaff(
@@ -136,11 +138,14 @@ public class BookingsHandler extends AbstractHandler {
     private void execPost(HttpExchange exchange) throws IOException {
         try {
             var token = exchange.getRequestHeaders().get("Token");
-            if (token == null || token.size() != 1) {
+            var tokenType = exchange.getRequestHeaders().get("TokenType");
+            if ((token == null || token.size() != 1)
+                    || (tokenType == null || tokenType.size() != 1)
+            ){
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }
-            var id = ConfirmToken.getId(token.get(0));
+            var id = getId(token.get(0), tokenType.get(0));
             if (authModel.isPlayer(id)) {
                 var booking = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Booking.class);
                 model.createBooking(
@@ -169,6 +174,7 @@ public class BookingsHandler extends AbstractHandler {
 
     private void execPut(HttpExchange exchange) throws IOException {
         var token = exchange.getRequestHeaders().get("Token");
+        var tokenType = exchange.getRequestHeaders().get("TokenType");
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
         var bookingStatus = params.get("status");
         var bookingId = params.get("bookingId");
@@ -176,6 +182,7 @@ public class BookingsHandler extends AbstractHandler {
         var sportCenterId = params.get("sportCenterId");
 
         if ((token == null || token.size() != 1)
+                || (tokenType == null || tokenType.size() != 1)
                 || (bookingId != null && bookingId.size() != 1)
                 || (bookingStatus != null && bookingStatus.size() != 1)
                 || (cityId != null && cityId.size() != 1)
@@ -186,7 +193,7 @@ public class BookingsHandler extends AbstractHandler {
         }
 
         try {
-            var id = ConfirmToken.getId(token.get(0));
+            var id = getId(token.get(0), tokenType.get(0));
             if (bookingId != null && bookingStatus != null) {
                 if (authModel.isStaff(
                         id,
@@ -216,10 +223,12 @@ public class BookingsHandler extends AbstractHandler {
 
     private void execDelete(HttpExchange exchange) throws IOException {
         var token = exchange.getRequestHeaders().get("Token");
+        var tokenType = exchange.getRequestHeaders().get("TokenType");
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
         var bookingId = params.get("bookingId");
 
         if ((token == null || token.size() != 1)
+                || (tokenType == null || tokenType.size() != 1)
                 || (bookingId != null && bookingId.size() != 1)
         ) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
@@ -227,7 +236,7 @@ public class BookingsHandler extends AbstractHandler {
         }
 
         try {
-            var id = ConfirmToken.getId(token.get(0));
+            var id = getId(token.get(0), tokenType.get(0));
             if (bookingId != null) {
                 if (authModel.isPlayer(id)) {
                     model.cancelBooking(bookingId.get(0), id);

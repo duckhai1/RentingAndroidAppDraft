@@ -16,7 +16,8 @@ class CreatePlayerAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
             result = ConnectionHandler.sendPost(
                 BASEURL + "/players",
                 "{}",
-                Token
+                Token,
+                TokenType
             )
         } catch (e : Exception){
             error = e

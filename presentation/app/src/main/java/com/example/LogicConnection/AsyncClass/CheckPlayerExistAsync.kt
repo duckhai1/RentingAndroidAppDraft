@@ -15,7 +15,8 @@ class CheckPlayerExistAsync(activity: Activity) : MyGeneralAsyncTask(activity)  
         try {
             result = ConnectionHandler.checkTokenStatus(
                 BASEURL + "/players",
-                Token
+                Token,
+                TokenType
             )
         } catch (e : Exception){
             error = e

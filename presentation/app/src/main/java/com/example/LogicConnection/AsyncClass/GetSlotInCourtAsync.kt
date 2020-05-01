@@ -19,7 +19,8 @@ class GetSlotInCourtAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
             result = ConnectionHandler.sendGet(
                 BASEURL + "/slots",
                 requestData,
-                Token
+                Token,
+                TokenType
             )
         } catch (e : Exception){
             error = e

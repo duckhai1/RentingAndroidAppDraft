@@ -45,9 +45,11 @@ public class SportCentersHandler extends AbstractHandler {
     private void execGet(HttpExchange exchange) throws IOException {
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
         var token = exchange.getRequestHeaders().get("Token");
+        var tokenType = exchange.getRequestHeaders().get("TokenType");
         var cityId = params.get("cityId");
 
         if ((token == null || token.size() != 1)
+                || (tokenType == null || tokenType.size() != 1)
                 || (cityId == null || cityId.size() != 1)
         ) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
@@ -55,7 +57,7 @@ public class SportCentersHandler extends AbstractHandler {
         }
 
         try {
-            var id = ConfirmToken.getId(token.get(0));
+            var id = getId(token.get(0), tokenType.get(0));
             if (authModel.isPlayer(id)) {
                 var sportCenters = model.getCitySportCenters(cityId.get(0));
                 responseWithJson(exchange, HTTPStatus.OK, sportCenters);

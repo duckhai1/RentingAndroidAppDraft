@@ -13,7 +13,8 @@ class GetCitiesAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
             result = ConnectionHandler.sendGet(
                 BASEURL + "/cities",
                 "",
-                Token
+                Token,
+                TokenType
             )
         } catch (e : Exception){
             error = e

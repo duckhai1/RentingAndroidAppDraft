@@ -46,11 +46,14 @@ public class StaffHandler extends AbstractHandler {
     private void execPost(HttpExchange exchange) throws IOException {
         try {
             var token = exchange.getRequestHeaders().get("Token");
-            if (token == null || token.size() != 1){
+            var tokenType = exchange.getRequestHeaders().get("TokenType");
+            if ((token == null || token.size() != 1)
+                    || (tokenType == null || tokenType.size() != 1)
+            ){
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }
-            var id = ConfirmToken.getId(token.get(0));
+            var id = getId(token.get(0), tokenType.get(0));
             var staff = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Staff.class);
             if(!authModel.isStaff(
                     id,

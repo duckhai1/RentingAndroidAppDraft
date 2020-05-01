@@ -19,7 +19,8 @@ class GetBookingInSportCenterAsync(activity: Activity) : MyGeneralAsyncTask(acti
             result = ConnectionHandler.sendGet(
                 BASEURL + "/bookings",
                 requestData,
-                Token
+                Token,
+                TokenType
             )
         } catch (e : Exception){
             error = e
