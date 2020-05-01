@@ -45,6 +45,6 @@ public class CityAPIGetTest extends APITestSetup {
                 new TypeToken<HashSet<City>>() {
                 }.getType()
         );
-        Assert.assertEquals(Collections.EMPTY_SET, outCities);
+        Assert.assertEquals(Collections.emptySet(), outCities);
     }
 }

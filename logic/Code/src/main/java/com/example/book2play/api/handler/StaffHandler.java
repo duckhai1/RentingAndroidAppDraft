@@ -42,6 +42,7 @@ public class StaffHandler extends AbstractHandler {
                 var e = new Exception("Invalid JSON");
                 LOG.warning("Request was unsuccessful " + e.getMessage());
                 responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+                return;
             }
 
             model.createStaff(

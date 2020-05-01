@@ -61,8 +61,8 @@ public class CourtAPIPostTest extends APITestSetup {
     public void testPostCourtInvalidJSONFormat() throws Exception {
         var testInputs = new ArrayList<Map<String, String>>();
         for (var cityId : cityIDs) {
-            for (var sportCenterId : cityIDs) {
-                for (var courtId : cityIDs) {
+            for (var sportCenterId : sportCenterIDs) {
+                for (var courtId : courtIDs) {
                     var data = new HashMap<String, String>();
                     data.put("cityName", cityId);
                     data.put("sportCenterName", sportCenterId);

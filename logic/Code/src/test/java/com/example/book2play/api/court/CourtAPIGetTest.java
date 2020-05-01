@@ -17,6 +17,55 @@ import java.util.concurrent.CompletableFuture;
 public class CourtAPIGetTest extends APITestSetup {
 
     @Test
+    public void testGetCourtsInvalidURLEncodedData() throws Exception {
+        var cityQueries = new ArrayList<List<String>>();
+        cityQueries.add(null);
+        cityQueries.add(new ArrayList<>());
+        cityQueries.add(new ArrayList<>());
+        cityQueries.get(2).add(cityIDs.get(0));
+        cityQueries.add(new ArrayList<>());
+        cityQueries.get(3).addAll(cityIDs);
+
+        var sportCenterQueries = new ArrayList<List<String>>();
+        sportCenterQueries.add(null);
+        sportCenterQueries.add(new ArrayList<>());
+        sportCenterQueries.add(new ArrayList<>());
+        sportCenterQueries.get(2).add(sportCenterIDs.get(0));
+        sportCenterQueries.add(new ArrayList<>());
+        sportCenterQueries.get(3).addAll(sportCenterIDs);
+
+        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
+        for (var cityQuery : cityQueries) {
+            for (var sportCenterQuery : sportCenterQueries) {
+                if (cityQuery != null && cityQuery.size() == 1
+                        && sportCenterQuery != null && sportCenterQuery.size() == 1
+                ) {
+                    continue;
+                }
+
+                if (cityQuery != null && cityQuery.size() == 1
+                        && sportCenterQuery == null
+                ) {
+                    continue;
+                }
+                var query = new HashMap<String, List<String>>();
+                if (cityQuery != null) {
+                    query.put("cityId", cityQuery);
+                }
+                if (sportCenterQuery != null) {
+                    query.put("sportCenterId", sportCenterQuery);
+                }
+                testFutures.add(asyncPut(COURT_API_PATH, query));
+            }
+        }
+
+        for (var f : testFutures) {
+            var response = f.get();
+            Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
+        }
+    }
+
+    @Test
     public void testGetCityCourtsSuccess() throws Exception {
         var expected = new HashMap<City, HashSet<Court>>();
         for (var cityId : cityIDs) {
@@ -70,7 +119,7 @@ public class CourtAPIGetTest extends APITestSetup {
                     new TypeToken<HashSet<Court>>() {
                     }.getType()
             );
-            Assert.assertEquals(Collections.EMPTY_SET, outCourts);
+            Assert.assertEquals(Collections.emptySet(), outCourts);
         }
     }
 
@@ -94,35 +143,6 @@ public class CourtAPIGetTest extends APITestSetup {
             Assert.assertNotEquals(null, apiRes);
             Assert.assertTrue(apiRes.isHasError());
             Assert.assertEquals(code.intValue(), apiRes.getStatusCode());
-        }
-    }
-
-    @Test
-    public void testGetCityCourtsInvalidURLEncodedData() throws Exception {
-        var testInputs = new ArrayList<HashMap<String, List<String>>>();
-
-        testInputs.add(new HashMap<>());
-
-        testInputs.add(new HashMap<>());
-        testInputs.get(1).put("cityId", new ArrayList<>());
-
-        testInputs.add(new HashMap<>());
-        testInputs.get(2).put("cityId", new ArrayList<>());
-        testInputs.get(2).get("cityId").add(cityIDs.get(0));
-        testInputs.get(2).get("cityId").add(cityIDs.get(1));
-
-        testInputs.add(new HashMap<>());
-        testInputs.get(3).put("cityName", new ArrayList<>());
-        testInputs.get(3).get("cityName").add(cityIDs.get(0));
-
-        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
-        for (var data : testInputs) {
-            testFutures.add(asyncGetJSON(COURT_API_PATH, data));
-        }
-
-        for (var f : testFutures) {
-            var response = f.get();
-            Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
         }
     }
 
@@ -189,7 +209,7 @@ public class CourtAPIGetTest extends APITestSetup {
                     new TypeToken<HashSet<Court>>() {
                     }.getType()
             );
-            Assert.assertEquals(Collections.EMPTY_SET, outCourts);
+            Assert.assertEquals(Collections.emptySet(), outCourts);
         }
     }
 
@@ -216,55 +236,6 @@ public class CourtAPIGetTest extends APITestSetup {
             Assert.assertNotEquals(null, apiRes);
             Assert.assertTrue(apiRes.isHasError());
             Assert.assertEquals(code.intValue(), apiRes.getStatusCode());
-        }
-    }
-
-    @Test
-    public void testGetSportCenterCourtsInvalidURLEncodedData() throws Exception {
-        var cityQueries = new ArrayList<List<String>>();
-        cityQueries.add(null);
-        cityQueries.add(new ArrayList<>());
-        cityQueries.add(new ArrayList<>());
-        cityQueries.get(2).add(cityIDs.get(0));
-        cityQueries.add(new ArrayList<>());
-        cityQueries.get(3).addAll(cityIDs);
-
-        var sportCenterQueries = new ArrayList<List<String>>();
-        sportCenterQueries.add(null);
-        sportCenterQueries.add(new ArrayList<>());
-        sportCenterQueries.add(new ArrayList<>());
-        sportCenterQueries.get(2).add(sportCenterIDs.get(0));
-        sportCenterQueries.add(new ArrayList<>());
-        sportCenterQueries.get(3).addAll(sportCenterIDs);
-
-        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
-        for (var cityQuery : cityQueries) {
-            for (var sportCenterQuery : sportCenterQueries) {
-                if (cityQuery != null && cityQuery.size() == 1
-                        && sportCenterQuery != null && sportCenterQuery.size() == 1
-                ) {
-                    continue;
-                }
-
-                if (cityQuery != null && cityQuery.size() == 1
-                        && sportCenterQuery == null
-                ) {
-                    continue;
-                }
-                var query = new HashMap<String, List<String>>();
-                if (cityQuery != null) {
-                    query.put("cityId", cityQuery);
-                }
-                if (sportCenterQuery != null) {
-                    query.put("sportCenterId", sportCenterQuery);
-                }
-                testFutures.add(asyncPut(COURT_API_PATH, query));
-            }
-        }
-
-        for (var f : testFutures) {
-            var response = f.get();
-            Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
         }
     }
 }

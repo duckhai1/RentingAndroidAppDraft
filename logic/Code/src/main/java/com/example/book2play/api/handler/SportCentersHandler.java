@@ -64,6 +64,7 @@ public class SportCentersHandler extends AbstractHandler {
                 var e = new Exception("Invalid JSON");
                 LOG.warning("Request was unsuccessful " + e.getMessage());
                 responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+                return;
             }
 
             model.createCityCenter(
@@ -101,11 +102,10 @@ public class SportCentersHandler extends AbstractHandler {
                         oldSportCenterId.get(0),
                         cityId.get(0)
                 );
+                exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
             } else {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
-                return;
             }
-            exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);

@@ -16,10 +16,6 @@ public class BookingAPIGetTest {
     }
 
     @Test
-    public void testGetCourtBookingsInvalidURLEncodedData() throws Exception {
-    }
-
-    @Test
     public void testGetSportCenterBookingsSuccess() throws Exception {
     }
 
@@ -29,10 +25,6 @@ public class BookingAPIGetTest {
 
     @Test
     public void testGetSportCenterBookingsExpectAllMySqlException() throws Exception {
-    }
-
-    @Test
-    public void testGetSportCenterBookingsInvalidURLEncodedData() throws Exception {
     }
 
     @Test
@@ -48,10 +40,6 @@ public class BookingAPIGetTest {
     }
 
     @Test
-    public void testGetBookingsInCityInvalidURLEncodedData() throws Exception {
-    }
-
-    @Test
     public void testGetPlayerBookingsSuccess() throws Exception {
     }
 
@@ -61,10 +49,6 @@ public class BookingAPIGetTest {
 
     @Test
     public void testGetPlayerBookingsExpectAllMySqlException() throws Exception {
-    }
-
-    @Test
-    public void testGetPlayerBookingsInvalidURLEncodedData() throws Exception {
     }
 
     @Test

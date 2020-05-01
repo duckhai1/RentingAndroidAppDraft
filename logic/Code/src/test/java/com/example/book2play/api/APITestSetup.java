@@ -46,6 +46,7 @@ public class APITestSetup {
             .registerTypeAdapter(Timestamp.class, new SqlTimestampGsonDeserializer())
             .create();
 
+    protected static MockModelDataSource DS;
     protected static MockAuthenticator AUTH;
     protected static MockBookingModel BOOKING;
     protected static MockCityModel CITY;
@@ -90,14 +91,14 @@ public class APITestSetup {
         playerIDs.add("Player03");
 
 
-        var ds = new MockModelDataSource();
-        BOOKING = new MockBookingModel(ds);
-        CITY = new MockCityModel(ds);
-        COURT = new MockCourtModel(ds);
-        PLAYER = new MockPlayerModel(ds);
-        SPORT_CENTER = new MockSportCenterModel(ds);
-        STAFF = new MockStaffModel(ds);
-        AUTH = new MockAuthenticator(ds);
+        DS = new MockModelDataSource();
+        BOOKING = new MockBookingModel(DS);
+        CITY = new MockCityModel(DS);
+        COURT = new MockCourtModel(DS);
+        PLAYER = new MockPlayerModel(DS);
+        SPORT_CENTER = new MockSportCenterModel(DS);
+        STAFF = new MockStaffModel(DS);
+        AUTH = new MockAuthenticator(DS);
 
         SRV = new MockServer(PORT, BOOKING, CITY, COURT, PLAYER, SPORT_CENTER, STAFF, AUTH);
         SRV.start();

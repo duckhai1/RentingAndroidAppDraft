@@ -5,8 +5,6 @@ import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.types.SportCenter;
 
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class MockSportCenterModel extends MockModel implements SportCenterModel {
@@ -60,8 +58,8 @@ public class MockSportCenterModel extends MockModel implements SportCenterModel 
             throw new MySQLException(460);
         }
 
-        var olSportCenter = new SportCenter(oldSportCenterId, cityId);
-        if (!ds.getSportCenters().contains(oldSportCenterId)) {
+        var oldSportCenter = new SportCenter(oldSportCenterId, cityId);
+        if (!ds.getSportCenters().contains(oldSportCenter)) {
             throw new MySQLException(461);
         }
 
