@@ -1,8 +1,7 @@
 package com.example.book2play.api.handler;
 
-import com.example.book2play.api.handler.utils.ConfirmToken;
+import com.example.book2play.api.TokenAuthenticator;
 import com.example.book2play.api.utils.HTTPStatus;
-import com.example.book2play.db.Authenticator;
 import com.example.book2play.db.StaffModel;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.types.Staff;
@@ -14,7 +13,7 @@ import java.io.InputStreamReader;
 public class StaffHandler extends AbstractHandler {
     StaffModel model;
 
-    public StaffHandler(StaffModel model, Authenticator authModel) {
+    public StaffHandler(StaffModel model, TokenAuthenticator authModel) {
         super(authModel);
         this.model = model;
     }
@@ -37,21 +36,24 @@ public class StaffHandler extends AbstractHandler {
     }
 
     private void execPost(HttpExchange exchange) throws IOException {
+        var token = exchange.getRequestHeaders().get("Token");
         try {
+            var id = auth.getId(token.get(0));
+            if (id == null) {
+                exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
+                return;
+            }
+
             var staff = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Staff.class);
-            if (staff.getStaffId() == null || staff.getSportCenterId() == null || staff.getCityId() == null) {
+            if (staff.getSportCenterId() == null || staff.getCityId() == null) {
                 var e = new Exception("Invalid JSON");
                 LOG.warning("Request was unsuccessful " + e.getMessage());
                 responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
                 return;
             }
 
-            model.createStaff(
-                    staff.getStaffId(),
-                    staff.getCityId(),
-                    staff.getSportCenterId()
-            );
-			exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
+            model.createStaff(id, staff.getCityId(), staff.getSportCenterId());
+            exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);

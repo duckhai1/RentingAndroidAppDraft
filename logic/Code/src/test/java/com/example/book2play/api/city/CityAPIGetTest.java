@@ -21,8 +21,9 @@ public class CityAPIGetTest extends APITestSetup {
         for (var id : cityIDs) {
             CITY.createCity(id);
         }
+        PLAYER.createPlayer(playerIDs.get(0));
 
-        var responseFuture = asyncGetJSON(CITY_API_PATH, new HashMap<>());
+        var responseFuture = asyncGetJSON(CITY_API_PATH, playerIDs.get(0), new HashMap<>());
         var response = responseFuture.get();
         Assert.assertEquals(HTTPStatus.OK, response.statusCode());
 

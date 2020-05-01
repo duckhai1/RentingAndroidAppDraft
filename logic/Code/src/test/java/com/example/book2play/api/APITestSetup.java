@@ -109,8 +109,15 @@ public class APITestSetup {
         SRV.stop();
     }
 
-    protected CompletableFuture<HttpResponse<String>> asyncGetJSON(URI uri, Map<String, List<String>> query) {
-        HttpRequest request = HttpRequest.newBuilder(URI.create(uri.toString() + composeQuery(query)))
+    protected CompletableFuture<HttpResponse<String>> asyncGetJSON(URI uri, String token, Map<String, List<String>> query) {
+        var queryStr = "";
+        if (query != null) {
+            queryStr = composeQuery(query);
+        }
+        var reqBuilder = HttpRequest.newBuilder(URI.create(uri.toString() + queryStr))
+                .header("Token", token);
+
+        var request = reqBuilder
                 .header("Accept", "application/json")
                 .GET()
                 .build();
@@ -119,10 +126,11 @@ public class APITestSetup {
                 .sendAsync(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    protected CompletableFuture<HttpResponse<String>> asyncPostJSON(URI uri, Object obj) {
+    protected CompletableFuture<HttpResponse<String>> asyncPostJSON(URI uri, String token, Object obj) {
         var request = HttpRequest.newBuilder(uri)
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json")
+                .header("Token", token)
                 .POST(HttpRequest.BodyPublishers.ofString(GSON.toJson(obj)))
                 .build();
 
@@ -130,9 +138,10 @@ public class APITestSetup {
                 .sendAsync(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    protected CompletableFuture<HttpResponse<String>> asyncPut(URI uri, Map<String, List<String>> query) {
+    protected CompletableFuture<HttpResponse<String>> asyncPut(URI uri, String token, Map<String, List<String>> query) {
         HttpRequest request = HttpRequest.newBuilder(URI.create(uri.toString() + composeQuery(query)))
                 .header("Accept", "application/json")
+                .header("Token", token)
                 .PUT(HttpRequest.BodyPublishers.noBody())
                 .build();
 
@@ -140,9 +149,10 @@ public class APITestSetup {
                 .sendAsync(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    protected CompletableFuture<HttpResponse<String>> asyncDelete(URI uri, Map<String, List<String>> query) {
+    protected CompletableFuture<HttpResponse<String>> asyncDelete(URI uri, String token, Map<String, List<String>> query) {
         HttpRequest request = HttpRequest.newBuilder(URI.create(uri.toString() + composeQuery(query)))
                 .header("Accept", "application/json")
+                .header("Token", token)
                 .DELETE()
                 .build();
 

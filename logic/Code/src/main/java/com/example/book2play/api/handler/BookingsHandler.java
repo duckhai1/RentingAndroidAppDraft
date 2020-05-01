@@ -1,8 +1,7 @@
 package com.example.book2play.api.handler;
 
-import com.example.book2play.api.handler.utils.ConfirmToken;
+import com.example.book2play.api.TokenAuthenticator;
 import com.example.book2play.api.utils.HTTPStatus;
-import com.example.book2play.db.Authenticator;
 import com.example.book2play.db.BookingModel;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.types.Booking;
@@ -18,7 +17,7 @@ public class BookingsHandler extends AbstractHandler {
 
     BookingModel model;
 
-    public BookingsHandler(BookingModel model, Authenticator authModel) {
+    public BookingsHandler(BookingModel model, TokenAuthenticator authModel) {
         super(authModel);
         this.model = model;
     }
@@ -62,11 +61,10 @@ public class BookingsHandler extends AbstractHandler {
             return;
         }
 
-        Collection<Booking> bookings;
         try {
-            var id = ConfirmToken.getId(token.get(0));
+            Collection<Booking> bookings;
             if (cityId != null && sportCenterId != null && courtId != null && date != null) {
-                if (!authModel.isStaff(id, cityId.get(0), sportCenterId.get(0))) {
+                if (auth.validateStaff(token.get(0), cityId.get(0), sportCenterId.get(0)) == null) {
                     exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
                     return;
                 }
@@ -77,7 +75,7 @@ public class BookingsHandler extends AbstractHandler {
                         Date.valueOf(date.get(0))
                 );
             } else if (cityId != null && sportCenterId != null && courtId == null && date != null) {
-                if (!authModel.isStaff(id, cityId.get(0), sportCenterId.get(0))) {
+                if (auth.validateStaff(token.get(0), cityId.get(0), sportCenterId.get(0)) == null) {
                     exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
                     return;
                 }
@@ -87,7 +85,8 @@ public class BookingsHandler extends AbstractHandler {
                         Date.valueOf(date.get(0))
                 );
             } else if (cityId != null && sportCenterId == null && courtId == null && date != null) {
-                if (!authModel.isPlayer(id)) {
+                var id = auth.validatePlayer(token.get(0));
+                if (id == null) {
                     exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
                     return;
                 }
@@ -97,7 +96,8 @@ public class BookingsHandler extends AbstractHandler {
                         Date.valueOf(date.get(0))
                 );
             } else if (cityId == null && sportCenterId == null && courtId == null && date == null) {
-                if (!authModel.isPlayer(id)) {
+                var id = auth.validatePlayer(token.get(0));
+                if (id == null) {
                     exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
                     return;
                 }
@@ -125,8 +125,7 @@ public class BookingsHandler extends AbstractHandler {
                 return;
             }
 
-            var id = ConfirmToken.getId(token.get(0));
-            if (!authModel.isPlayer(id)) {
+            if (auth.validatePlayer(token.get(0)) == null) {
                 exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
                 return;
             }
@@ -184,8 +183,8 @@ public class BookingsHandler extends AbstractHandler {
         }
 
         try {
-            var id = ConfirmToken.getId(token.get(0));
-            if (!authModel.isStaff(id, cityId.get(0), sportCenterId.get(0))) {
+            var id = auth.validateStaff(token.get(0), cityId.get(0), sportCenterId.get(0));
+            if (id == null) {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }
@@ -224,8 +223,8 @@ public class BookingsHandler extends AbstractHandler {
         }
 
         try {
-            var id = ConfirmToken.getId(token.get(0));
-            if (!authModel.isPlayer(id)) {
+            var id = auth.validatePlayer(token.get(0));
+            if (id == null) {
                 exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
                 return;
             }

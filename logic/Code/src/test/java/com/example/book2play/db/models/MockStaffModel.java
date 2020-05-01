@@ -22,7 +22,8 @@ public class MockStaffModel extends MockModel implements StaffModel {
             throw new MySQLException(460);
         }
 
-        var sportCenterModel = new MockSportCenterModel(ds);;
+        var sportCenterModel = new MockSportCenterModel(ds);
+        ;
         if (!sportCenterModel.isSportCenterExist(sportCenterId, cityId)) {
             throw new MySQLException(461);
         }
@@ -45,7 +46,8 @@ public class MockStaffModel extends MockModel implements StaffModel {
             throw new MySQLException(460);
         }
 
-        var sportCenterModel = new MockSportCenterModel(ds);;
+        var sportCenterModel = new MockSportCenterModel(ds);
+        ;
         if (!sportCenterModel.isSportCenterExist(sportCenterId, cityId)) {
             throw new MySQLException(461);
         }
@@ -59,6 +61,7 @@ public class MockStaffModel extends MockModel implements StaffModel {
         ds.getStaffs().add(new Staff(newStaffId, cityId, sportCenterId));
     }
 
+    @Override
     public boolean isStaffExist(String staffId, String cityId, String sportCenterId) {
         return ds.getStaffs().contains(new Staff(staffId, cityId, sportCenterId));
     }

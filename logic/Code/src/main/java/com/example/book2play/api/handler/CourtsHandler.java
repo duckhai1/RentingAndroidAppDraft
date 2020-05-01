@@ -1,8 +1,7 @@
 package com.example.book2play.api.handler;
 
-import com.example.book2play.api.handler.utils.ConfirmToken;
+import com.example.book2play.api.TokenAuthenticator;
 import com.example.book2play.api.utils.HTTPStatus;
-import com.example.book2play.db.Authenticator;
 import com.example.book2play.db.CourtModel;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.types.Court;
@@ -16,7 +15,7 @@ public class CourtsHandler extends AbstractHandler {
 
     CourtModel model;
 
-    public CourtsHandler(CourtModel model, Authenticator authModel) {
+    public CourtsHandler(CourtModel model, TokenAuthenticator authModel) {
         super(authModel);
         this.model = model;
     }
@@ -58,19 +57,17 @@ public class CourtsHandler extends AbstractHandler {
 
         Collection<Court> courts;
         try {
-            var id = ConfirmToken.getId(token.get(0));
             if (cityId != null && sportCenterId == null) {
                 courts = model.getCityCourts(cityId.get(0));
             } else if (cityId != null) {
-                if (authModel.isPlayer(id)) {
-                    courts = model.getSportCenterCourts(
-                            sportCenterId.get(0),
-                            cityId.get(0)
-                    );
-                } else {
-                    exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+                if (auth.validatePlayer(token.get(0)) == null) {
+                    exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
                     return;
                 }
+                courts = model.getSportCenterCourts(
+                        sportCenterId.get(0),
+                        cityId.get(0)
+                );
             } else {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;

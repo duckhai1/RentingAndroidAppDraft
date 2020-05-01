@@ -4,9 +4,6 @@ import com.example.book2play.db.PlayerModel;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.types.Player;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class MockPlayerModel extends MockModel implements PlayerModel {
 
     private MockModelDataSource ds;
@@ -41,6 +38,7 @@ public class MockPlayerModel extends MockModel implements PlayerModel {
         ds.getPlayers().add(new Player(newPlayerId));
     }
 
+    @Override
     public boolean isPlayerExist(String playerId) {
         return ds.getPlayers().contains(new Player(playerId));
     }

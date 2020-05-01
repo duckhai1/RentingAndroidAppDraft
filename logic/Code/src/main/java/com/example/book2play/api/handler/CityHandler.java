@@ -1,8 +1,7 @@
 package com.example.book2play.api.handler;
 
-import com.example.book2play.api.handler.utils.ConfirmToken;
+import com.example.book2play.api.TokenAuthenticator;
 import com.example.book2play.api.utils.HTTPStatus;
-import com.example.book2play.db.Authenticator;
 import com.example.book2play.db.CityModel;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.types.City;
@@ -15,7 +14,7 @@ public class CityHandler extends AbstractHandler {
 
     CityModel model;
 
-    public CityHandler(CityModel model, Authenticator authModel) {
+    public CityHandler(CityModel model, TokenAuthenticator authModel) {
         super(authModel);
         this.model = model;
     }
@@ -44,13 +43,13 @@ public class CityHandler extends AbstractHandler {
             return;
         }
         try {
-            var id = ConfirmToken.getId(token.get(0));
-            if (authModel.isPlayer(id)) {
-                var cities = model.getCities();
-                responseWithJson(exchange, HTTPStatus.OK, cities);
-            } else {
+            if (auth.validatePlayer(token.get(0)) == null) {
                 exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
+                return;
             }
+
+            var cities = model.getCities();
+            responseWithJson(exchange, HTTPStatus.OK, cities);
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);

@@ -1,21 +1,18 @@
 package com.example.book2play.api.handler;
 
-import com.example.book2play.api.handler.utils.ConfirmToken;
+import com.example.book2play.api.TokenAuthenticator;
 import com.example.book2play.api.utils.HTTPStatus;
-import com.example.book2play.db.Authenticator;
 import com.example.book2play.db.PlayerModel;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.types.Player;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class PlayerHandler extends AbstractHandler {
 
     PlayerModel model;
 
-    public PlayerHandler(PlayerModel model, Authenticator authModel) {
+    public PlayerHandler(PlayerModel model, TokenAuthenticator authModel) {
         super(authModel);
         this.model = model;
     }
@@ -39,15 +36,15 @@ public class PlayerHandler extends AbstractHandler {
     }
 
     private void execPost(HttpExchange exchange) throws IOException {
+        var token = exchange.getRequestHeaders().get("Token");
         try {
-            var player = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Player.class);
-            if (player.getPlayerId() == null) {
-                var e = new Exception("Invalid JSON");
-                LOG.warning("Request was unsuccessful " + e.getMessage());
-                responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+            var id = auth.getId(token.get(0));
+            if (id == null) {
+                exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
                 return;
             }
-            model.createPlayer(player.getPlayerId());
+
+            model.createPlayer(id);
             exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
@@ -64,19 +61,18 @@ public class PlayerHandler extends AbstractHandler {
         var oldPlayerId = params.get("oldPlayerId");
 
         if ((newPlayerId != null && newPlayerId.size() != 1)
-                || (oldPlayerId != null && oldPlayerId.size() != 1)
-        ) {
+                || (oldPlayerId != null && oldPlayerId.size() != 1)) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
         try {
-            if (newPlayerId != null && oldPlayerId != null) {
-                model.updatePlayerId(newPlayerId.get(0), oldPlayerId.get(0));
-            } else {
+            if (newPlayerId == null || oldPlayerId != null) {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }
+
+            model.updatePlayerId(newPlayerId.get(0), oldPlayerId.get(0));
             exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());

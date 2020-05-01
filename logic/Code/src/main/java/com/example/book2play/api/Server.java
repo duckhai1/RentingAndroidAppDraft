@@ -2,6 +2,7 @@ package com.example.book2play.api;
 
 
 import com.example.book2play.api.handler.*;
+import com.example.book2play.api.utils.FbTokenValidator;
 import com.example.book2play.db.*;
 import com.example.book2play.db.models.*;
 import com.sun.net.httpserver.BasicAuthenticator;
@@ -24,7 +25,7 @@ public class Server {
     public static String SLOT_BASE_URL = "/api/slots";
 
     protected AppDataSource ds;
-    protected Authenticator authModel;
+    protected TokenAuthenticator authModel;
     protected BookingModel bookingModel;
     protected CityModel cityModel;
     protected CourtModel courtModel;
@@ -39,13 +40,13 @@ public class Server {
     }
 
     protected void setupModels() {
-        authModel = new MySQLAuthenticator(ds);
         bookingModel = new MySQLBooking(ds);
         cityModel = new MySQLCity(ds);
         courtModel = new MySQLCourt(ds);
         playerModel = new MySQLPlayer(ds);
         sportCenterModel = new MySQLSportCenter(ds);
         staffModel = new MySQLStaff(ds);
+        authModel = new FbTokenValidator(playerModel, staffModel);
     }
 
     /**
