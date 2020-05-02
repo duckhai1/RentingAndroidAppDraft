@@ -33,19 +33,5 @@ public class CityAPIGetTest extends APITestSetup {
         );
         Assert.assertEquals(expected, outCities);
     }
-
-    @Test
-    public void testGetCitiesEmptyDatabase() throws Exception {
-        PLAYER.createPlayer(playerIDs.get(0));
-        var responseFuture = asyncGetJSON(CITY_API_PATH, playerIDs.get(0), null);
-        var response = responseFuture.get();
-        Assert.assertEquals(HTTPStatus.OK, response.statusCode());
-
-        Set<Integer> outCities = GSON.fromJson(
-                response.body(),
-                new TypeToken<HashSet<City>>() {
-                }.getType()
-        );
-        Assert.assertEquals(Collections.emptySet(), outCities);
-    }
 }
+

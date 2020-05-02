@@ -13,11 +13,7 @@ class AuthenHandler {
         fun loginWithFb(activity: Activity, token: String){
             (activity.application as MyApplication).setToken(token)
             (activity.application as MyApplication).setTokenType("FB")
-            val status = CheckPlayerExistAsync(activity).execute().get()
-            // player not exist
-            if (status == HttpURLConnection.HTTP_UNAUTHORIZED.toString()){
-                CreatePlayerAsync(activity).execute()
-            }
+            CreatePlayerAsync(activity).execute()
         }
 
         fun signupPlayer(activity: Activity, playerId: String, password: String){

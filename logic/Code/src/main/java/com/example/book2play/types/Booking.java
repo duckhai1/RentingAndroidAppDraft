@@ -11,9 +11,9 @@ import java.util.Objects;
  * Simple class encapsulates the attributes for a booking
  */
 public class Booking {
-    @Expose(deserialize = false)
+    @Expose
     private String bookingId;
-
+    @Expose
     private Timestamp createdAt;
     @Expose
     private Date bookingDate;
@@ -21,7 +21,7 @@ public class Booking {
     private Time bookingStartTime;
     @Expose
     private Time bookingEndTime;
-    @Expose(deserialize = false)
+    @Expose
     private boolean isPaid;
     @Expose
     private String cityId;
