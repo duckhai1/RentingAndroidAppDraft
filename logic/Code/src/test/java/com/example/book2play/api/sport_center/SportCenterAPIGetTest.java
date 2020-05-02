@@ -9,9 +9,7 @@ import com.google.gson.reflect.TypeToken;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.net.http.HttpResponse;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 
 public class SportCenterAPIGetTest extends APITestSetup {
     @Test
@@ -33,8 +31,7 @@ public class SportCenterAPIGetTest extends APITestSetup {
             query.put("cityId", new ArrayList<>());
             query.get("cityId").add(city.getCityId());
 
-            var responseFuture = asyncGetJSON(SPORT_CENTER_API_PATH, playerIDs.get(0), query);
-            var response = responseFuture.get();
+            var response = getJSON(SPORT_CENTER_API_PATH, playerIDs.get(0), query);
             Assert.assertEquals(HTTPStatus.OK, response.statusCode());
 
             Set<SportCenter> outSportCenters = GSON.fromJson(
@@ -59,8 +56,7 @@ public class SportCenterAPIGetTest extends APITestSetup {
             query.put("cityId", new ArrayList<>());
             query.get("cityId").add("ArbitraryData");
 
-            var responseFuture = asyncGetJSON(SPORT_CENTER_API_PATH, playerIDs.get(0), query);
-            var response = responseFuture.get();
+            var response = getJSON(SPORT_CENTER_API_PATH, playerIDs.get(0), query);
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
             var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
@@ -73,22 +69,14 @@ public class SportCenterAPIGetTest extends APITestSetup {
     @Test
     public void testGetSportCentersInvalidURLEncodedData() throws Exception {
         var cityQueries = new ArrayList<List<String>>();
-        cityQueries.add(null);
         cityQueries.add(new ArrayList<>());
         cityQueries.add(new ArrayList<>());
-        cityQueries.get(2).addAll(cityIDs);
+        cityQueries.get(1).addAll(cityIDs);
 
-        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var cityQuery : cityQueries) {
             var query = new HashMap<String, List<String>>();
-            if (cityQuery != null) {
-                query.put("cityId", cityQuery);
-            }
-            testFutures.add(asyncPut(COURT_API_PATH, null, query));
-        }
-
-        for (var f : testFutures) {
-            var response = f.get();
+            query.put("cityId", cityQuery);
+            var response = put(SPORT_CENTER_API_PATH, null, query);
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
         }
     }

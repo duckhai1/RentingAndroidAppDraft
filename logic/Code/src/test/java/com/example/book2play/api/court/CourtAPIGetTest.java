@@ -10,58 +10,42 @@ import com.google.gson.reflect.TypeToken;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.net.http.HttpResponse;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
 
 public class CourtAPIGetTest extends APITestSetup {
 
     @Test
     public void testGetCourtsInvalidURLEncodedData() throws Exception {
         var cityQueries = new ArrayList<List<String>>();
-        cityQueries.add(null);
         cityQueries.add(new ArrayList<>());
         cityQueries.add(new ArrayList<>());
-        cityQueries.get(2).add(cityIDs.get(0));
+        cityQueries.get(1).add(cityIDs.get(0));
         cityQueries.add(new ArrayList<>());
-        cityQueries.get(3).addAll(cityIDs);
+        cityQueries.get(2).addAll(cityIDs);
 
         var sportCenterQueries = new ArrayList<List<String>>();
-        sportCenterQueries.add(null);
         sportCenterQueries.add(new ArrayList<>());
         sportCenterQueries.add(new ArrayList<>());
-        sportCenterQueries.get(2).add(sportCenterIDs.get(0));
+        sportCenterQueries.get(1).add(sportCenterIDs.get(0));
         sportCenterQueries.add(new ArrayList<>());
-        sportCenterQueries.get(3).addAll(sportCenterIDs);
+        sportCenterQueries.get(2).addAll(sportCenterIDs);
 
-        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var cityQuery : cityQueries) {
             for (var sportCenterQuery : sportCenterQueries) {
-                if (cityQuery != null && cityQuery.size() == 1
-                        && sportCenterQuery != null && sportCenterQuery.size() == 1
-                ) {
+                if (cityQuery.size() == 1 && sportCenterQuery.size() == 1) {
                     continue;
                 }
 
-                if (cityQuery != null && cityQuery.size() == 1
-                        && sportCenterQuery == null
-                ) {
+                if (cityQuery.size() == 1 && sportCenterQuery.size() == 0) {
                     continue;
                 }
+
                 var query = new HashMap<String, List<String>>();
-                if (cityQuery != null) {
-                    query.put("cityId", cityQuery);
-                }
-                if (sportCenterQuery != null) {
-                    query.put("sportCenterId", sportCenterQuery);
-                }
-                testFutures.add(asyncPut(COURT_API_PATH, null, query));
+                query.put("cityId", cityQuery);
+                query.put("sportCenterId", sportCenterQuery);
+                var response = put(COURT_API_PATH, null, query);
+                Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
             }
-        }
-
-        for (var f : testFutures) {
-            var response = f.get();
-            Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
         }
     }
 
@@ -88,8 +72,7 @@ public class CourtAPIGetTest extends APITestSetup {
             query.put("cityId", new ArrayList<>());
             query.get("cityId").add(city.getCityId());
 
-            var responseFuture = asyncGetJSON(COURT_API_PATH, playerIDs.get(0), query);
-            var response = responseFuture.get();
+            var response = getJSON(COURT_API_PATH, playerIDs.get(0), query);
             Assert.assertEquals(HTTPStatus.OK, response.statusCode());
 
             Set<Court> outCourts = GSON.fromJson(
@@ -114,8 +97,7 @@ public class CourtAPIGetTest extends APITestSetup {
             query.put("cityId", new ArrayList<>());
             query.get("cityId").add("ArbitraryData");
 
-            var responseFuture = asyncGetJSON(COURT_API_PATH, playerIDs.get(0), query);
-            var response = responseFuture.get();
+            var response = getJSON(COURT_API_PATH, playerIDs.get(0), query);
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
             var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
@@ -150,8 +132,7 @@ public class CourtAPIGetTest extends APITestSetup {
             query.put("sportCenterId", new ArrayList<>());
             query.get("sportCenterId").add(sportCenter.getSportCenterId());
 
-            CompletableFuture<HttpResponse<String>> responseFuture = asyncGetJSON(COURT_API_PATH, playerIDs.get(0), query);
-            HttpResponse<String> response = responseFuture.get();
+            var response = getJSON(COURT_API_PATH, playerIDs.get(0), query);
             Assert.assertEquals(HTTPStatus.OK, response.statusCode());
 
             Set<Court> outCourts = GSON.fromJson(
@@ -180,8 +161,7 @@ public class CourtAPIGetTest extends APITestSetup {
             query.put("sportCenterId", new ArrayList<>());
             query.get("sportCenterId").add("ArbitraryData");
 
-            var responseFuture = asyncGetJSON(COURT_API_PATH, playerIDs.get(0), query);
-            var response = responseFuture.get();
+            var response = getJSON(COURT_API_PATH, playerIDs.get(0), query);
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
             var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);

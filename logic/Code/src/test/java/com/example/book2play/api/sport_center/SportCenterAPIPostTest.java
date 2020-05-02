@@ -7,26 +7,19 @@ import com.example.types.GenericAPIResult;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 public class SportCenterAPIPostTest extends APITestSetup {
     @Test
     public void testPostSportCenterSuccess() throws Exception {
-        var futures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var cityId : cityIDs) {
             CITY.createCity(cityId);
             for (var sportCenterId : sportCenterIDs) {
-                futures.add(asyncPostJSON(SPORT_CENTER_API_PATH, null, new SportCenter(sportCenterId, cityId)));
+                var response = postJSON(SPORT_CENTER_API_PATH, null, new SportCenter(sportCenterId, cityId));
+                Assert.assertEquals(HTTPStatus.CREATED, response.statusCode());
             }
-        }
-
-        for (var f : futures) {
-            var response = f.get();
-            Assert.assertEquals(HTTPStatus.CREATED, response.statusCode());
         }
     }
 
@@ -39,8 +32,7 @@ public class SportCenterAPIPostTest extends APITestSetup {
 
         for (var code : testInputs) {
             SPORT_CENTER.setToBeThrown(code);
-            var future = asyncPostJSON(SPORT_CENTER_API_PATH, null, new SportCenter("ArbitraryData", "ArbitraryData"));
-            var response = future.get();
+            var response = postJSON(SPORT_CENTER_API_PATH, null, new SportCenter("ArbitraryData", "ArbitraryData"));
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
             var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
@@ -51,7 +43,7 @@ public class SportCenterAPIPostTest extends APITestSetup {
     }
 
     @Test
-    public void testGetCitySportCentersInvalidJSONFormat() throws Exception {
+    public void testGetCitySportCentersInvalidJSONSchema() throws Exception {
         var testInputs = new ArrayList<Map<String, String>>();
         for (var cityId : cityIDs) {
             for (var sportCenterId : sportCenterIDs) {
@@ -62,19 +54,9 @@ public class SportCenterAPIPostTest extends APITestSetup {
             }
         }
 
-        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var data : testInputs) {
-            testFutures.add(asyncPostJSON(SPORT_CENTER_API_PATH, null, data));
-        }
-
-        for (var f : testFutures) {
-            var response = f.get();
+            var response = postJSON(SPORT_CENTER_API_PATH, null, data);
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
-
-            var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
-            Assert.assertNotEquals(null, apiRes);
-            Assert.assertTrue(apiRes.isHasError());
         }
-
     }
 }

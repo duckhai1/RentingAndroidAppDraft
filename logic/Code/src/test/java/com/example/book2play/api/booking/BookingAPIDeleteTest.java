@@ -7,11 +7,9 @@ import com.example.utils.TimeUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class BookingAPIDeleteTest extends APITestSetup {
     @Test
@@ -39,16 +37,11 @@ public class BookingAPIDeleteTest extends APITestSetup {
             }
         }
 
-        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var b : DS.getBookings()) {
             var query = new HashMap<String, List<String>>();
             query.put("bookingId", new ArrayList<>());
             query.get("bookingId").add(b.getBookingId());
-            testFutures.add(asyncDelete(BOOKING_API_PATH, b.getPlayerId(), query));
-        }
-
-        for (var f : testFutures) {
-            var response = f.get();
+            var response = delete(BOOKING_API_PATH, b.getPlayerId(), query);
             Assert.assertEquals(HTTPStatus.ACCEPTED, response.statusCode());
         }
     }
@@ -69,8 +62,7 @@ public class BookingAPIDeleteTest extends APITestSetup {
             query.put("bookingId", new ArrayList<>());
             query.get("bookingId").add("ArbitraryData");
 
-            var responseFuture = asyncDelete(BOOKING_API_PATH, playerIDs.get(0), query);
-            var response = responseFuture.get();
+            var response = delete(BOOKING_API_PATH, playerIDs.get(0), query);
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
             var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
@@ -84,25 +76,15 @@ public class BookingAPIDeleteTest extends APITestSetup {
     public void testDeleteBookingInvalidURLEncodedData() throws Exception {
         PLAYER.createPlayer(playerIDs.get(0));
         var bookingQueries = new ArrayList<List<String>>();
-        bookingQueries.add(null);
         bookingQueries.add(new ArrayList<>());
         bookingQueries.add(new ArrayList<>());
-        bookingQueries.get(2).add("ArbitraryData");
-        bookingQueries.get(2).add("ArbitraryData");
-        bookingQueries.get(2).add("ArbitraryData");
+        bookingQueries.get(1).add("ArbitraryData");
+        bookingQueries.get(1).add("ArbitraryData");
 
-
-        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var bookingQuery : bookingQueries) {
             var query = new HashMap<String, List<String>>();
-            if (bookingQuery != null) {
-                query.put("bookingId", bookingQuery);
-            }
-            testFutures.add(asyncPut(COURT_API_PATH, playerIDs.get(0), query));
-        }
-
-        for (var f : testFutures) {
-            var response = f.get();
+            query.put("bookingId", bookingQuery);
+            var response = put(COURT_API_PATH, playerIDs.get(0), query);
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
         }
     }

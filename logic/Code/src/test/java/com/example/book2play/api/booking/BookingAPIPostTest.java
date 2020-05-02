@@ -8,11 +8,9 @@ import com.example.utils.TimeUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 public class BookingAPIPostTest extends APITestSetup {
     @Test
@@ -21,7 +19,6 @@ public class BookingAPIPostTest extends APITestSetup {
             PLAYER.createPlayer(playerID);
         }
 
-        var futures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var city : cityIDs) {
             CITY.createCity(city);
             for (var center : sportCenterIDs) {
@@ -30,21 +27,17 @@ public class BookingAPIPostTest extends APITestSetup {
                 for (var court : courtIDs) {
                     COURT.createCityCenterCourt(court, city, center);
                     for (var i = 0; i < playerIDs.size(); i++) {
-                        futures.add(asyncPostJSON(BOOKING_API_PATH, playerIDs.get(i), new Booking(
+                        var response = postJSON(BOOKING_API_PATH, playerIDs.get(i), new Booking(
                                 null, null,
                                 TimeUtils.getDate(7),
                                 TimeUtils.getTime(9 + i, 0, 0),
                                 TimeUtils.getTime(10 + i, 0, 0),
                                 false, city, center, court, null
-                        )));
+                        ));
+                        Assert.assertEquals(HTTPStatus.CREATED, response.statusCode());
                     }
                 }
             }
-        }
-
-        for (var f : futures) {
-            var response = f.get();
-            Assert.assertEquals(HTTPStatus.CREATED, response.statusCode());
         }
     }
 
@@ -69,14 +62,13 @@ public class BookingAPIPostTest extends APITestSetup {
         for (var code : testInputs) {
             BOOKING.setToBeThrown(code);
 
-            var responseFuture = asyncPostJSON(BOOKING_API_PATH, playerIDs.get(0), new Booking(
+            var response= postJSON(BOOKING_API_PATH, playerIDs.get(0), new Booking(
                     null, null,
                     TimeUtils.getDate(7),
                     TimeUtils.getTime(9, 0, 0),
                     TimeUtils.getTime(10, 0, 0),
                     false, "ArbitraryData", "ArbitraryData", "ArbitraryData", null
             ));
-            var response = responseFuture.get();
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
             var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
@@ -88,7 +80,7 @@ public class BookingAPIPostTest extends APITestSetup {
     }
 
     @Test
-    public void testPostBookingInvalidJSONFormat() throws Exception {
+    public void testPostBookingInvalidJSONSchema() throws Exception {
         PLAYER.createPlayer(playerIDs.get(0));
         var testInputs = new ArrayList<Map<String, String>>();
         for (var city : cityIDs) {
@@ -108,18 +100,9 @@ public class BookingAPIPostTest extends APITestSetup {
             }
         }
 
-        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var data : testInputs) {
-            testFutures.add(asyncPostJSON(BOOKING_API_PATH, playerIDs.get(0), data));
-        }
-
-        for (var f : testFutures) {
-            var response = f.get();
+            var response = postJSON(BOOKING_API_PATH, playerIDs.get(0), data);
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
-
-            var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
-            Assert.assertNotEquals(null, apiRes);
-            Assert.assertTrue(apiRes.isHasError());
         }
     }
 }

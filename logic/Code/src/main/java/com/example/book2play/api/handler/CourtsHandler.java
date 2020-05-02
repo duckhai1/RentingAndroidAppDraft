@@ -5,6 +5,7 @@ import com.example.book2play.api.utils.HTTPStatus;
 import com.example.book2play.db.CourtModel;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.types.Court;
+import com.google.gson.JsonParseException;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
@@ -42,21 +43,21 @@ public class CourtsHandler extends AbstractHandler {
     }
 
     private void execGet(HttpExchange exchange) throws IOException {
-        var params = splitQuery(exchange.getRequestURI().getRawQuery());
         var token = exchange.getRequestHeaders().get("Token");
+        var params = splitQuery(exchange.getRequestURI().getRawQuery());
         var cityId = params.get("cityId");
         var sportCenterId = params.get("sportCenterId");
 
         if ((token == null || token.size() != 1)
                 || (cityId != null && cityId.size() != 1)
-                || (sportCenterId != null && sportCenterId.size() != 1)
-        ) {
+                || (sportCenterId != null && sportCenterId.size() != 1)) {
+            LOG.warning("Request was unsuccessful, invalid query");
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
-        Collection<Court> courts;
         try {
+            Collection<Court> courts;
             if (cityId != null && sportCenterId == null) {
                 courts = model.getCityCourts(cityId.get(0));
             } else if (cityId != null) {
@@ -64,11 +65,9 @@ public class CourtsHandler extends AbstractHandler {
                     exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
                     return;
                 }
-                courts = model.getSportCenterCourts(
-                        sportCenterId.get(0),
-                        cityId.get(0)
-                );
+                courts = model.getSportCenterCourts(sportCenterId.get(0), cityId.get(0));
             } else {
+                LOG.warning("Request was unsuccessful, invalid query");
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }
@@ -76,21 +75,26 @@ public class CourtsHandler extends AbstractHandler {
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
-        } catch (IllegalArgumentException e) {
-            LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
     }
 
     private void execPost(HttpExchange exchange) throws IOException {
+        Court court;
         try {
-            var court = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Court.class);
-            if (court.getCourtId() == null || court.getSportCenterId() == null || court.getCityId() == null) {
-                var e = new Exception("Invalid JSON");
-                LOG.warning("Request was unsuccessful " + e.getMessage());
-                responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
-                return;
-            }
+            court = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Court.class);
+        } catch (JsonParseException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+            return;
+        }
+
+        if (court.getCourtId() == null || court.getSportCenterId() == null || court.getCityId() == null) {
+            LOG.warning("Request was unsuccessful, invalid query");
+            exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+            return;
+        }
+
+        try {
             model.createCityCenterCourt(
                     court.getCourtId(),
                     court.getCityId(),
@@ -98,9 +102,6 @@ public class CourtsHandler extends AbstractHandler {
             );
             exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
         } catch (MySQLException e) {
-            LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
-        } catch (IllegalArgumentException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
@@ -116,32 +117,24 @@ public class CourtsHandler extends AbstractHandler {
         if ((newCourtId != null && newCourtId.size() != 1)
                 || (oldCourtId != null && oldCourtId.size() != 1)
                 || (sportCenterId != null && sportCenterId.size() != 1)
-                || (cityId != null && cityId.size() != 1)
-        ) {
+                || (cityId != null && cityId.size() != 1)) {
+            LOG.warning("Request was unsuccessful, invalid query");
+            exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+            return;
+        }
+
+        if (newCourtId == null || oldCourtId == null || sportCenterId == null || cityId == null) {
+            LOG.warning("Request was unsuccessful, invalid query");
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
         try {
-            if (newCourtId != null && oldCourtId != null && sportCenterId != null && cityId != null) {
-                model.updateCourtId(
-                        newCourtId.get(0),
-                        oldCourtId.get(0),
-                        cityId.get(0),
-                        sportCenterId.get(0)
-                );
-            } else {
-                exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
-                return;
-            }
+            model.updateCourtId(newCourtId.get(0), oldCourtId.get(0), cityId.get(0), sportCenterId.get(0));
             exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
-        } catch (IllegalArgumentException e) {
-            LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
-
     }
 }

@@ -7,13 +7,13 @@ import java.io.IOException;
 public class MockServer extends Server {
 
     public MockServer(int port,
-                       MockBookingModel bookingModel,
-                       MockCityModel cityModel,
-                       MockCourtModel courtModel,
-                       MockPlayerModel playerModel,
-                       MockSportCenterModel sportCenterModel,
-                       MockStaffModel staffModel,
-                       MockAuthenticator authModel
+                      MockBookingModel bookingModel,
+                      MockCityModel cityModel,
+                      MockCourtModel courtModel,
+                      MockPlayerModel playerModel,
+                      MockSportCenterModel sportCenterModel,
+                      MockStaffModel staffModel,
+                      MockAuthenticator authModel
     ) throws IOException {
         super(null, port);
         this.bookingModel = bookingModel;
@@ -32,6 +32,4 @@ public class MockServer extends Server {
     public void stop() {
         srv.stop(0);
     }
-
-
 }

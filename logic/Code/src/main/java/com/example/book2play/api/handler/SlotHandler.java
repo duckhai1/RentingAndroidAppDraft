@@ -6,6 +6,7 @@ import com.example.book2play.db.BookingModel;
 import com.example.book2play.db.SportCenterModel;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.logic.SlotService;
+import com.example.book2play.types.Booking;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
@@ -53,41 +54,43 @@ public class SlotHandler extends AbstractHandler {
                 || (courtId != null && courtId.size() != 1)
                 || (sportCenterId != null && sportCenterId.size() != 1)
                 || (cityId != null && cityId.size() != 1)
-                || (date != null && date.size() != 1)
-        ) {
+                || (date != null && date.size() != 1)) {
+            LOG.warning("Request was unsuccessful, invalid query");
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
-        try {
-            if (courtId != null && sportCenterId != null && cityId != null && date != null) {
-                if (auth.validatePlayer(token.get(0)) == null) {
-                    exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
-                    return;
-                }
-                var bookings = new LinkedList<>(bookingModel.getCourtBookings(
-                        courtId.get(0),
-                        cityId.get(0),
-                        sportCenterId.get(0),
-                        Date.valueOf(date.get(0))
-                ));
+        if (auth.validatePlayer(token.get(0)) == null) {
+            exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
+            return;
+        }
 
-                var slotService = new SlotService(OPEN_TIME, CLOSE_TIME, MIN_DURATION_IN_MINUTES);
-                var slots = slotService.getAvailableSlots(bookings,
-                        cityId.get(0),
-                        sportCenterId.get(0),
-                        courtId.get(0)
-                );
-                responseWithJson(exchange, HTTPStatus.OK, slots);
-            } else {
-                exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
-            }
+        if (courtId == null || sportCenterId == null || cityId == null || date == null) {
+            LOG.warning("Request was unsuccessful, invalid query");
+            exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+            return;
+        }
+
+        LinkedList<Booking> bookings;
+        try {
+            bookings = new LinkedList<>(bookingModel.getCourtBookings(
+                    courtId.get(0),
+                    cityId.get(0),
+                    sportCenterId.get(0),
+                    Date.valueOf(date.get(0))
+            ));
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
-        } catch (IllegalArgumentException e) {
-            LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+            return;
         }
+
+        var slotService = new SlotService(OPEN_TIME, CLOSE_TIME, MIN_DURATION_IN_MINUTES);
+        var slots = slotService.getAvailableSlots(bookings,
+                cityId.get(0),
+                sportCenterId.get(0),
+                courtId.get(0)
+        );
+        responseWithJson(exchange, HTTPStatus.OK, slots);
     }
 }

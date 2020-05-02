@@ -36,15 +36,11 @@ public class SportCenterAPIPutTest extends APITestSetup {
                 query.get("newSportCenterId").add("New" + sportCenterId);
                 query.put("oldSportCenterId", new ArrayList<>());
                 query.get("oldSportCenterId").add(sportCenterId);
-                testFutures.add(asyncPut(SPORT_CENTER_API_PATH, null, query));
+
+                var response = put(SPORT_CENTER_API_PATH, null, query);
+                Assert.assertEquals(HTTPStatus.ACCEPTED, response.statusCode());
             }
         }
-
-        for (var f : testFutures) {
-            var response = f.get();
-            Assert.assertEquals(HTTPStatus.ACCEPTED, response.statusCode());
-        }
-
     }
 
     @Test
@@ -64,8 +60,7 @@ public class SportCenterAPIPutTest extends APITestSetup {
             query.put("newSportCenterId", new ArrayList<>());
             query.get("newSportCenterId").add("ArbitraryData");
 
-            var future = asyncPut(SPORT_CENTER_API_PATH, null, query);
-            var response = future.get();
+            var response = put(SPORT_CENTER_API_PATH, null, query);
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
             var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
@@ -78,58 +73,42 @@ public class SportCenterAPIPutTest extends APITestSetup {
     @Test
     public void testPutChangeSportCenterIdInvalidURLEncodedData() throws Exception {
         var cityQueries = new ArrayList<List<String>>();
-        cityQueries.add(null);
         cityQueries.add(new ArrayList<>());
         cityQueries.add(new ArrayList<>());
-        cityQueries.get(2).add(cityIDs.get(0));
+        cityQueries.get(1).add(cityIDs.get(0));
         cityQueries.add(new ArrayList<>());
-        cityQueries.get(3).addAll(cityIDs);
+        cityQueries.get(2).addAll(cityIDs);
 
         var oldSportCenterQueries = new ArrayList<List<String>>();
-        oldSportCenterQueries.add(null);
         oldSportCenterQueries.add(new ArrayList<>());
         oldSportCenterQueries.add(new ArrayList<>());
-        oldSportCenterQueries.get(2).add(sportCenterIDs.get(0));
+        oldSportCenterQueries.get(1).add(sportCenterIDs.get(0));
         oldSportCenterQueries.add(new ArrayList<>());
-        oldSportCenterQueries.get(3).addAll(sportCenterIDs);
+        oldSportCenterQueries.get(2).addAll(sportCenterIDs);
 
         var newSportCenterQueries = new ArrayList<List<String>>();
-        newSportCenterQueries.add(null);
         newSportCenterQueries.add(new ArrayList<>());
         newSportCenterQueries.add(new ArrayList<>());
-        newSportCenterQueries.get(2).add(sportCenterIDs.get(0));
+        newSportCenterQueries.get(1).add(sportCenterIDs.get(0));
         newSportCenterQueries.add(new ArrayList<>());
-        newSportCenterQueries.get(3).addAll(sportCenterIDs);
+        newSportCenterQueries.get(2).addAll(sportCenterIDs);
 
-        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var cityQuery : cityQueries) {
             for (var oldSportCenterQuery : oldSportCenterQueries) {
                 for (var newSportCenterQuery : newSportCenterQueries) {
-                    if (cityQuery != null && cityQuery.size() == 1
-                            && oldSportCenterQuery != null && oldSportCenterQuery.size() == 1
-                            && newSportCenterQuery != null && newSportCenterQuery.size() == 1
-                    ) {
+                    if (cityQuery.size() == 1 && oldSportCenterQuery.size() == 1 && newSportCenterQuery.size() == 1) {
                         continue;
                     }
 
                     var query = new HashMap<String, List<String>>();
-                    if (cityQuery != null) {
-                        query.put("cityId", cityQuery);
-                    }
-                    if (oldSportCenterQuery != null) {
-                        query.put("sportCenterId", oldSportCenterQuery);
-                    }
-                    if (newSportCenterQuery != null) {
-                        query.put("sportCenterId", newSportCenterQuery);
-                    }
-                    testFutures.add(asyncPut(SPORT_CENTER_API_PATH, null, query));
+                    query.put("cityId", cityQuery);
+                    query.put("sportCenterId", oldSportCenterQuery);
+                    query.put("sportCenterId", newSportCenterQuery);
+
+                    var response = put(SPORT_CENTER_API_PATH, null, query);
+                    Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
                 }
             }
-        }
-
-        for (var f : testFutures) {
-            var response = f.get();
-            Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
         }
     }
 }

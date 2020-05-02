@@ -9,24 +9,17 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.net.URI;
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 public class CityAPIPostTest extends APITestSetup {
     private final static URI CITY_API_PATH = URI.create("http://" + HOST + ':' + PORT + Server.CITY_BASE_URL);
 
     @Test
     public void testPostCitySuccess() throws Exception {
-        var futures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var s : cityIDs) {
-            futures.add(asyncPostJSON(CITY_API_PATH, null, new City(s)));
-        }
-
-        for (var f : futures) {
-            var response = f.get();
+            var response = postJSON(CITY_API_PATH, null, new City(s));
             Assert.assertEquals(HTTPStatus.CREATED, response.statusCode());
         }
     }
@@ -39,8 +32,7 @@ public class CityAPIPostTest extends APITestSetup {
 
         for (var code : testInputs) {
             CITY.setToBeThrown(code);
-            var future = asyncPostJSON(CITY_API_PATH, null, new City("ArbitraryData"));
-            var response = future.get();
+            var response = postJSON(CITY_API_PATH, null, new City("ArbitraryData"));
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
             var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
@@ -51,7 +43,7 @@ public class CityAPIPostTest extends APITestSetup {
     }
 
     @Test
-    public void testPostCityInvalidJSONFormat() throws Exception {
+    public void testPostCityInvalidJSONSchema() throws Exception {
         var testInputs = new ArrayList<Map<String, String>>();
         for (var id : cityIDs) {
             var data = new HashMap<String, String>();
@@ -59,18 +51,9 @@ public class CityAPIPostTest extends APITestSetup {
             testInputs.add(data);
         }
 
-        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var data : testInputs) {
-            testFutures.add(asyncPostJSON(CITY_API_PATH, null, data));
-        }
-
-        for (var f : testFutures) {
-            var response = f.get();
+            var response = postJSON(CITY_API_PATH, null, data);
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
-
-            var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
-            Assert.assertNotEquals(null, apiRes);
-            Assert.assertTrue(apiRes.isHasError());
         }
     }
 }

@@ -7,11 +7,9 @@ import com.example.types.GenericAPIResult;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class StaffAPIPutTest extends APITestSetup {
 
@@ -28,7 +26,6 @@ public class StaffAPIPutTest extends APITestSetup {
             }
         }
 
-        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var cityId : cityIDs) {
             for (var sportCenterId : sportCenterIDs) {
                 for (var staffId : staffIDs) {
@@ -41,14 +38,11 @@ public class StaffAPIPutTest extends APITestSetup {
                     query.get("oldStaffId").add(staffId);
                     query.put("newStaffId", new ArrayList<>());
                     query.get("newStaffId").add("New" + staffId);
-                    testFutures.add(asyncPut(STAFF_API_PATH, null, query));
+
+                    var response = put(STAFF_API_PATH, null, query);
+                    Assert.assertEquals(HTTPStatus.ACCEPTED, response.statusCode());
                 }
             }
-        }
-
-        for (var f : testFutures) {
-            var response = f.get();
-            Assert.assertEquals(HTTPStatus.ACCEPTED, response.statusCode());
         }
     }
 
@@ -72,8 +66,7 @@ public class StaffAPIPutTest extends APITestSetup {
             query.put("newStaffId", new ArrayList<>());
             query.get("newStaffId").add("ArbitraryData");
 
-            var future = asyncPut(STAFF_API_PATH, null, query);
-            var response = future.get();
+            var response = put(STAFF_API_PATH, null, query);
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
             var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
@@ -88,67 +81,48 @@ public class StaffAPIPutTest extends APITestSetup {
         PLAYER.createPlayer(playerIDs.get(0));
 
         var cityQueries = new ArrayList<List<String>>();
-        cityQueries.add(null);
         cityQueries.add(new ArrayList<>());
         cityQueries.add(new ArrayList<>());
-        cityQueries.get(2).add(cityIDs.get(0));
+        cityQueries.get(1).add(cityIDs.get(0));
         cityQueries.add(new ArrayList<>());
-        cityQueries.get(3).addAll(cityIDs);
+        cityQueries.get(2).addAll(cityIDs);
 
         var sportCenterQueries = new ArrayList<List<String>>();
-        sportCenterQueries.add(null);
         sportCenterQueries.add(new ArrayList<>());
         sportCenterQueries.add(new ArrayList<>());
-        sportCenterQueries.get(2).add(sportCenterIDs.get(0));
+        sportCenterQueries.get(1).add(sportCenterIDs.get(0));
         sportCenterQueries.add(new ArrayList<>());
-        sportCenterQueries.get(3).addAll(sportCenterIDs);
+        sportCenterQueries.get(2).addAll(sportCenterIDs);
 
         var oldStaffQueries = new ArrayList<List<String>>();
-        oldStaffQueries.add(null);
         oldStaffQueries.add(new ArrayList<>());
         oldStaffQueries.add(new ArrayList<>());
-        oldStaffQueries.get(2).add(staffIDs.get(0));
+        oldStaffQueries.get(1).add(staffIDs.get(0));
         oldStaffQueries.add(new ArrayList<>());
-        oldStaffQueries.get(3).addAll(staffIDs);
+        oldStaffQueries.get(2).addAll(staffIDs);
 
         var newStaffQueries = new ArrayList<List<String>>();
-        newStaffQueries.add(null);
         newStaffQueries.add(new ArrayList<>());
         newStaffQueries.add(new ArrayList<>());
-        newStaffQueries.get(2).add(staffIDs.get(0));
+        newStaffQueries.get(1).add(staffIDs.get(0));
         newStaffQueries.add(new ArrayList<>());
-        newStaffQueries.get(3).addAll(staffIDs);
+        newStaffQueries.get(2).addAll(staffIDs);
 
         for (var cityQuery : cityQueries) {
             for (var sportCenterQuery : sportCenterQueries) {
                 for (var oldStaffQuery : oldStaffQueries) {
                     for (var newStaffQuery : newStaffQueries) {
-                        if (cityQuery != null && cityQuery.size() == 1
-                                && sportCenterQuery != null && sportCenterQuery.size() == 1
-                                && oldStaffQuery != null && oldStaffQuery.size() == 1
-                                && newStaffQuery != null && newStaffQuery.size() == 1
-                        ) {
+                        if (cityQuery.size() == 1 && sportCenterQuery.size() == 1 && oldStaffQuery.size() == 1 && newStaffQuery.size() == 1) {
                             continue;
                         }
 
                         var query = new HashMap<String, List<String>>();
-                        if (cityQuery != null) {
-                            query.put("cityId", cityQuery);
-                        }
-                        if (sportCenterQuery != null) {
-                            query.put("sportCenterId", sportCenterQuery);
-                        }
-                        if (oldStaffQuery != null) {
-                            query.put("oldStaffId", oldStaffQuery);
-                        }
-                        if (newStaffQuery != null) {
-                            query.put("newStaffId", newStaffQuery);
-                        }
+                        query.put("cityId", cityQuery);
+                        query.put("sportCenterId", sportCenterQuery);
+                        query.put("oldStaffId", oldStaffQuery);
+                        query.put("newStaffId", newStaffQuery);
 
-                        // this is run sequentially because the current laptop used for testing
-                        // can not handle too many concurrent request
-                        var responseFuture = asyncPut(STAFF_API_PATH, playerIDs.get(0), query);
-                        var response = responseFuture.get();
+                        var response = put(STAFF_API_PATH, playerIDs.get(0), query);
                         Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
                     }
                 }

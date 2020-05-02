@@ -43,20 +43,16 @@ public class PlayerHandler extends AbstractHandler {
             return;
         }
 
-        try {
-            var id = auth.getId(token.get(0));
-            if (id == null) {
-                LOG.warning("Request was unsuccessful invalid token");
-                exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
-                return;
-            }
+        var id = auth.getId(token.get(0));
+        if (id == null) {
+            exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
+            return;
+        }
 
+        try {
             model.createPlayer(id);
             exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
         } catch (MySQLException e) {
-            LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
-        } catch (IllegalArgumentException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
@@ -73,21 +69,17 @@ public class PlayerHandler extends AbstractHandler {
             return;
         }
 
-        try {
-            if (newPlayerId == null || oldPlayerId == null) {
-                exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
-                return;
-            }
+        if (newPlayerId == null || oldPlayerId == null) {
+            exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+            return;
+        }
 
+        try {
             model.updatePlayerId(newPlayerId.get(0), oldPlayerId.get(0));
             exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
-        } catch (IllegalArgumentException e) {
-            LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
-
     }
 }

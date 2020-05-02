@@ -6,11 +6,9 @@ import com.example.types.GenericAPIResult;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class PlayerAPIPutTest extends APITestSetup {
     @Test
@@ -19,18 +17,13 @@ public class PlayerAPIPutTest extends APITestSetup {
             PLAYER.createPlayer(playerId);
         }
 
-        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var playerId : playerIDs) {
             var query = new HashMap<String, List<String>>();
             query.put("oldPlayerId", new ArrayList<>());
             query.get("oldPlayerId").add(playerId);
             query.put("newPlayerId", new ArrayList<>());
             query.get("newPlayerId").add("New" + playerId);
-            testFutures.add(asyncPut(PLAYER_API_PATH, playerId, query));
-        }
-
-        for (var f : testFutures) {
-            var response = f.get();
+            var response = put(PLAYER_API_PATH, playerId, query);
             Assert.assertEquals(HTTPStatus.ACCEPTED, response.statusCode());
         }
     }
@@ -50,8 +43,7 @@ public class PlayerAPIPutTest extends APITestSetup {
             query.put("newPlayerId", new ArrayList<>());
             query.get("newPlayerId").add("ArbitraryData");
 
-            var future = asyncPut(PLAYER_API_PATH, playerIDs.get(0), query);
-            var response = future.get();
+            var response = put(PLAYER_API_PATH, playerIDs.get(0), query);
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
             var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
@@ -66,43 +58,32 @@ public class PlayerAPIPutTest extends APITestSetup {
         PLAYER.createPlayer(playerIDs.get(0));
 
         var oldPlayerQueries = new ArrayList<List<String>>();
-        oldPlayerQueries.add(null);
         oldPlayerQueries.add(new ArrayList<>());
         oldPlayerQueries.add(new ArrayList<>());
-        oldPlayerQueries.get(2).add(playerIDs.get(0));
+        oldPlayerQueries.get(1).add(playerIDs.get(0));
         oldPlayerQueries.add(new ArrayList<>());
-        oldPlayerQueries.get(3).addAll(playerIDs);
+        oldPlayerQueries.get(2).addAll(playerIDs);
 
         var newPlayerQueries = new ArrayList<List<String>>();
-        newPlayerQueries.add(null);
         newPlayerQueries.add(new ArrayList<>());
         newPlayerQueries.add(new ArrayList<>());
-        newPlayerQueries.get(2).add(playerIDs.get(0));
+        newPlayerQueries.get(1).add(playerIDs.get(0));
         newPlayerQueries.add(new ArrayList<>());
-        newPlayerQueries.get(3).addAll(playerIDs);
+        newPlayerQueries.get(2).addAll(playerIDs);
 
-        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var oldPlayerQuery : oldPlayerQueries) {
             for (var newPlayerQuery : newPlayerQueries) {
-                if (newPlayerQuery != null && newPlayerQuery.size() == 1
-                        && oldPlayerQuery != null && oldPlayerQuery.size() == 1) {
+                if (newPlayerQuery.size() == 1 && oldPlayerQuery.size() == 1) {
                     continue;
                 }
 
                 var query = new HashMap<String, List<String>>();
-                if (oldPlayerQuery != null) {
-                    query.put("oldPlayerId", oldPlayerQuery);
-                }
-                if (newPlayerQuery != null) {
-                    query.put("newPlayerId", newPlayerQuery);
-                }
-                testFutures.add(asyncPut(PLAYER_API_PATH, playerIDs.get(0), query));
-            }
-        }
+                query.put("oldPlayerId", oldPlayerQuery);
+                query.put("newPlayerId", newPlayerQuery);
 
-        for (var f : testFutures) {
-            var response = f.get();
-            Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
+                var response = put(PLAYER_API_PATH, playerIDs.get(0), query);
+                Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
+            }
         }
     }
 }

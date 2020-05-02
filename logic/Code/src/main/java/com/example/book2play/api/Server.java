@@ -60,7 +60,7 @@ public class Server {
     public void start(Executor exec) {
         setupModels();
         setRoutes();
-        srv.setExecutor(null); // creates a default executor
+        srv.setExecutor(exec); // creates a default executor
         srv.start();
     }
 

@@ -7,7 +7,6 @@ import com.google.gson.reflect.TypeToken;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,8 +21,7 @@ public class CityAPIGetTest extends APITestSetup {
         }
         PLAYER.createPlayer(playerIDs.get(0));
 
-        var responseFuture = asyncGetJSON(CITY_API_PATH, playerIDs.get(0), null);
-        var response = responseFuture.get();
+        var response= getJSON(CITY_API_PATH, playerIDs.get(0), null);
         Assert.assertEquals(HTTPStatus.OK, response.statusCode());
 
         Set<City> outCities = GSON.fromJson(

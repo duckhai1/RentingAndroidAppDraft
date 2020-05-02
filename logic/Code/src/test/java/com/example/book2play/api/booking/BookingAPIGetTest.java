@@ -7,15 +7,14 @@ import com.example.types.GenericAPIResult;
 import com.example.utils.TimeUtils;
 import com.google.gson.reflect.TypeToken;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.util.*;
 
 public class BookingAPIGetTest extends APITestSetup {
 
-    @Before
-    public void setupLotsOfBookingsWithOneStaff() throws Exception {
+    @Test
+    public void testGetCourtBookingsSuccess() throws Exception {
         for (var playerID : playerIDs) {
             PLAYER.createPlayer(playerID);
         }
@@ -39,10 +38,7 @@ public class BookingAPIGetTest extends APITestSetup {
                 }
             }
         }
-    }
 
-    @Test
-    public void testGetCourtBookingsSuccess() throws Exception {
         for (var cityId : cityIDs) {
             for (var sportCenterId : sportCenterIDs) {
                 for (var courtId : courtIDs) {
@@ -56,8 +52,7 @@ public class BookingAPIGetTest extends APITestSetup {
                     query.put("date", new ArrayList<>());
                     query.get("date").add(TimeUtils.getDate(7).toString());
 
-                    var responseFuture = asyncGetJSON(BOOKING_API_PATH, staffIDs.get(0), query);
-                    var response = responseFuture.get();
+                    var response = getJSON(BOOKING_API_PATH, staffIDs.get(0), query);
                     Assert.assertEquals(HTTPStatus.OK, response.statusCode());
 
                     Set<Booking> outBookings = GSON.fromJson(
@@ -73,41 +68,64 @@ public class BookingAPIGetTest extends APITestSetup {
 
     @Test
     public void testGetCourtBookingsExpectAllMySqlException() throws Exception {
+        CITY.createCity(cityIDs.get(0));
+        SPORT_CENTER.createCityCenter(sportCenterIDs.get(0), cityIDs.get(0));
+        STAFF.createStaff(staffIDs.get(0), cityIDs.get(0), sportCenterIDs.get(0));
+
         var testInputs = new ArrayList<Integer>();
         testInputs.add(460);
         testInputs.add(461);
         testInputs.add(462);
 
         for (var code : testInputs) {
-            for (var city : cityIDs) {
-                for (var sportCenterId : sportCenterIDs) {
-                    BOOKING.setToBeThrown(code);
+            BOOKING.setToBeThrown(code);
 
-                    var query = new HashMap<String, List<String>>();
-                    query.put("cityId", new ArrayList<>());
-                    query.get("cityId").add(city);
-                    query.put("sportCenterId", new ArrayList<>());
-                    query.get("sportCenterId").add(sportCenterId);
-                    query.put("courtId", new ArrayList<>());
-                    query.get("courtId").add("ArbitraryData");
-                    query.put("date", new ArrayList<>());
-                    query.get("date").add(TimeUtils.getDate(7).toString());
+            var query = new HashMap<String, List<String>>();
+            query.put("cityId", new ArrayList<>());
+            query.get("cityId").add(cityIDs.get(0));
+            query.put("sportCenterId", new ArrayList<>());
+            query.get("sportCenterId").add(sportCenterIDs.get(0));
+            query.put("courtId", new ArrayList<>());
+            query.get("courtId").add("ArbitraryData");
+            query.put("date", new ArrayList<>());
+            query.get("date").add(TimeUtils.getDate(7).toString());
 
-                    var responseFuture = asyncGetJSON(BOOKING_API_PATH, staffIDs.get(0), query);
-                    var response = responseFuture.get();
-                    Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
+            var response = getJSON(BOOKING_API_PATH, staffIDs.get(0), query);
+            Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
-                    var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
-                    Assert.assertNotEquals(null, apiRes);
-                    Assert.assertTrue(apiRes.isHasError());
-                    Assert.assertEquals(code.intValue(), apiRes.getStatusCode());
-                }
-            }
+            var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
+            Assert.assertNotEquals(null, apiRes);
+            Assert.assertTrue(apiRes.isHasError());
+            Assert.assertEquals(code.intValue(), apiRes.getStatusCode());
         }
     }
 
     @Test
     public void testGetSportCenterBookingsSuccess() throws Exception {
+        for (var playerID : playerIDs) {
+            PLAYER.createPlayer(playerID);
+        }
+
+        for (var city : cityIDs) {
+            CITY.createCity(city);
+            for (var center : sportCenterIDs) {
+                SPORT_CENTER.createCityCenter(center, city);
+                STAFF.createStaff(staffIDs.get(0), city, center);
+                for (var court : courtIDs) {
+                    COURT.createCityCenterCourt(court, city, center);
+                    for (var i = 0; i < playerIDs.size(); i++) {
+                        BOOKING.createBooking(
+                                TimeUtils.getTimestamp(),
+                                TimeUtils.getDate(7),
+                                TimeUtils.getTime(9 + i, 0, 0),
+                                TimeUtils.getTime(10 + i, 0, 0),
+                                city, center, court, playerIDs.get(i)
+                        );
+                    }
+                }
+            }
+        }
+
         for (var cityId : cityIDs) {
             for (var sportCenterId : sportCenterIDs) {
                 var query = new HashMap<String, List<String>>();
@@ -118,8 +136,7 @@ public class BookingAPIGetTest extends APITestSetup {
                 query.put("date", new ArrayList<>());
                 query.get("date").add(TimeUtils.getDate(7).toString());
 
-                var responseFuture = asyncGetJSON(BOOKING_API_PATH, staffIDs.get(0), query);
-                var response = responseFuture.get();
+                var response = getJSON(BOOKING_API_PATH, staffIDs.get(0), query);
                 Assert.assertEquals(HTTPStatus.OK, response.statusCode());
 
                 Set<Booking> outBookings = GSON.fromJson(
@@ -134,38 +151,60 @@ public class BookingAPIGetTest extends APITestSetup {
 
     @Test
     public void testGetSportCenterBookingsExpectAllMySqlException() throws Exception {
+        CITY.createCity(cityIDs.get(0));
+        SPORT_CENTER.createCityCenter(sportCenterIDs.get(0), cityIDs.get(0));
+        STAFF.createStaff(staffIDs.get(0), cityIDs.get(0), sportCenterIDs.get(0));
         var testInputs = new ArrayList<Integer>();
         testInputs.add(460);
         testInputs.add(461);
 
         for (var code : testInputs) {
-            for (var city : cityIDs) {
-                for (var sportCenterId : sportCenterIDs) {
-                    BOOKING.setToBeThrown(code);
+            BOOKING.setToBeThrown(code);
 
-                    var query = new HashMap<String, List<String>>();
-                    query.put("cityId", new ArrayList<>());
-                    query.get("cityId").add(city);
-                    query.put("sportCenterId", new ArrayList<>());
-                    query.get("sportCenterId").add(sportCenterId);
-                    query.put("date", new ArrayList<>());
-                    query.get("date").add(TimeUtils.getDate(7).toString());
+            var query = new HashMap<String, List<String>>();
+            query.put("cityId", new ArrayList<>());
+            query.get("cityId").add(cityIDs.get(0));
+            query.put("sportCenterId", new ArrayList<>());
+            query.get("sportCenterId").add(sportCenterIDs.get(0));
+            query.put("date", new ArrayList<>());
+            query.get("date").add(TimeUtils.getDate(7).toString());
 
-                    var responseFuture = asyncGetJSON(BOOKING_API_PATH, staffIDs.get(0), query);
-                    var response = responseFuture.get();
-                    Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
+            var response = getJSON(BOOKING_API_PATH, staffIDs.get(0), query);
+            Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
-                    var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
-                    Assert.assertNotEquals(null, apiRes);
-                    Assert.assertTrue(apiRes.isHasError());
-                    Assert.assertEquals(code.intValue(), apiRes.getStatusCode());
-                }
-            }
+            var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
+            Assert.assertNotEquals(null, apiRes);
+            Assert.assertTrue(apiRes.isHasError());
+            Assert.assertEquals(code.intValue(), apiRes.getStatusCode());
         }
     }
 
     @Test
     public void testGetPlayerBookingsInCitySuccess() throws Exception {
+        for (var playerID : playerIDs) {
+            PLAYER.createPlayer(playerID);
+        }
+
+        for (var city : cityIDs) {
+            CITY.createCity(city);
+            for (var center : sportCenterIDs) {
+                SPORT_CENTER.createCityCenter(center, city);
+                STAFF.createStaff(staffIDs.get(0), city, center);
+                for (var court : courtIDs) {
+                    COURT.createCityCenterCourt(court, city, center);
+                    for (var i = 0; i < playerIDs.size(); i++) {
+                        BOOKING.createBooking(
+                                TimeUtils.getTimestamp(),
+                                TimeUtils.getDate(7),
+                                TimeUtils.getTime(9 + i, 0, 0),
+                                TimeUtils.getTime(10 + i, 0, 0),
+                                city, center, court, playerIDs.get(i)
+                        );
+                    }
+                }
+            }
+        }
+
         for (var player : playerIDs) {
             for (var city : cityIDs) {
                 var query = new HashMap<String, List<String>>();
@@ -174,8 +213,7 @@ public class BookingAPIGetTest extends APITestSetup {
                 query.put("date", new ArrayList<>());
                 query.get("date").add(TimeUtils.getDate(7).toString());
 
-                var responseFuture = asyncGetJSON(BOOKING_API_PATH, player, query);
-                var response = responseFuture.get();
+                var response = getJSON(BOOKING_API_PATH, player, query);
                 Assert.assertEquals(HTTPStatus.OK, response.statusCode());
 
                 Set<Booking> outBookings = GSON.fromJson(
@@ -191,37 +229,59 @@ public class BookingAPIGetTest extends APITestSetup {
 
     @Test
     public void testGetPlayerBookingsInCityExpectAllMySqlException() throws Exception {
+        PLAYER.createPlayer(playerIDs.get(0));
+
         var testInputs = new ArrayList<Integer>();
         testInputs.add(460);
         testInputs.add(464);
 
         for (var code : testInputs) {
-            for (var player : playerIDs) {
-                BOOKING.setToBeThrown(code);
+            BOOKING.setToBeThrown(code);
 
-                var query = new HashMap<String, List<String>>();
-                query.put("cityId", new ArrayList<>());
-                query.get("cityId").add("ArbitraryData");
-                query.put("date", new ArrayList<>());
-                query.get("date").add(TimeUtils.getDate(7).toString());
+            var query = new HashMap<String, List<String>>();
+            query.put("cityId", new ArrayList<>());
+            query.get("cityId").add("ArbitraryData");
+            query.put("date", new ArrayList<>());
+            query.get("date").add(TimeUtils.getDate(7).toString());
 
-                var responseFuture = asyncGetJSON(BOOKING_API_PATH, player, query);
-                var response = responseFuture.get();
-                Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
+            var response = getJSON(BOOKING_API_PATH, playerIDs.get(0), query);
+            Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
-                var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
-                Assert.assertNotEquals(null, apiRes);
-                Assert.assertTrue(apiRes.isHasError());
-                Assert.assertEquals(code.intValue(), apiRes.getStatusCode());
-            }
+            var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
+            Assert.assertNotEquals(null, apiRes);
+            Assert.assertTrue(apiRes.isHasError());
+            Assert.assertEquals(code.intValue(), apiRes.getStatusCode());
         }
     }
 
     @Test
     public void testGetPlayerBookingsSuccess() throws Exception {
+        for (var playerID : playerIDs) {
+            PLAYER.createPlayer(playerID);
+        }
+
+        for (var city : cityIDs) {
+            CITY.createCity(city);
+            for (var center : sportCenterIDs) {
+                SPORT_CENTER.createCityCenter(center, city);
+                STAFF.createStaff(staffIDs.get(0), city, center);
+                for (var court : courtIDs) {
+                    COURT.createCityCenterCourt(court, city, center);
+                    for (var i = 0; i < playerIDs.size(); i++) {
+                        BOOKING.createBooking(
+                                TimeUtils.getTimestamp(),
+                                TimeUtils.getDate(7),
+                                TimeUtils.getTime(9 + i, 0, 0),
+                                TimeUtils.getTime(10 + i, 0, 0),
+                                city, center, court, playerIDs.get(i)
+                        );
+                    }
+                }
+            }
+        }
+
         for (var player : playerIDs) {
-            var responseFuture = asyncGetJSON(BOOKING_API_PATH, player, null);
-            var response = responseFuture.get();
+            var response = getJSON(BOOKING_API_PATH, player, null);
             Assert.assertEquals(HTTPStatus.OK, response.statusCode());
 
             Set<Booking> outBookings = GSON.fromJson(
@@ -235,106 +295,86 @@ public class BookingAPIGetTest extends APITestSetup {
 
     @Test
     public void testGetPlayerBookingsExpectAllMySqlException() throws Exception {
+        PLAYER.createPlayer(playerIDs.get(0));
+
         var testInputs = new ArrayList<Integer>();
         testInputs.add(464);
 
         for (var code : testInputs) {
-            for (var player : playerIDs) {
-                BOOKING.setToBeThrown(code);
+            BOOKING.setToBeThrown(code);
 
-                var query = new HashMap<String, List<String>>();
-                query.put("cityId", new ArrayList<>());
-                query.get("cityId").add("ArbitraryData");
-                query.put("date", new ArrayList<>());
-                query.get("date").add(TimeUtils.getDate(7).toString());
+            var query = new HashMap<String, List<String>>();
+            query.put("cityId", new ArrayList<>());
+            query.get("cityId").add("ArbitraryData");
+            query.put("date", new ArrayList<>());
+            query.get("date").add(TimeUtils.getDate(7).toString());
 
-                var responseFuture = asyncGetJSON(BOOKING_API_PATH, player, query);
-                var response = responseFuture.get();
-                Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
+            var response = getJSON(BOOKING_API_PATH, playerIDs.get(0), query);
+            Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
-                var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
-                Assert.assertNotEquals(null, apiRes);
-                Assert.assertTrue(apiRes.isHasError());
-                Assert.assertEquals(code.intValue(), apiRes.getStatusCode());
-            }
+            var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
+            Assert.assertNotEquals(null, apiRes);
+            Assert.assertTrue(apiRes.isHasError());
+            Assert.assertEquals(code.intValue(), apiRes.getStatusCode());
         }
     }
 
     @Test
     public void testGetBookingsInvalidURLEncodedData() throws Exception {
+        PLAYER.createPlayer(playerIDs.get(0));
         var cityQueries = new ArrayList<List<String>>();
-        cityQueries.add(null);
         cityQueries.add(new ArrayList<>());
         cityQueries.add(new ArrayList<>());
-        cityQueries.get(2).add(cityIDs.get(0));
+        cityQueries.get(1).add(cityIDs.get(0));
         cityQueries.add(new ArrayList<>());
-        cityQueries.get(3).addAll(cityIDs);
+        cityQueries.get(2).addAll(cityIDs);
 
         var sportCenterQueries = new ArrayList<List<String>>();
-        sportCenterQueries.add(null);
         sportCenterQueries.add(new ArrayList<>());
         sportCenterQueries.add(new ArrayList<>());
-        sportCenterQueries.get(2).add(sportCenterIDs.get(0));
+        sportCenterQueries.get(1).add(sportCenterIDs.get(0));
         sportCenterQueries.add(new ArrayList<>());
-        sportCenterQueries.get(3).addAll(sportCenterIDs);
+        sportCenterQueries.get(2).addAll(sportCenterIDs);
 
         var courtQueries = new ArrayList<List<String>>();
-        courtQueries.add(null);
         courtQueries.add(new ArrayList<>());
         courtQueries.add(new ArrayList<>());
-        courtQueries.get(2).add(cityIDs.get(0));
+        courtQueries.get(1).add(cityIDs.get(0));
         courtQueries.add(new ArrayList<>());
-        courtQueries.get(3).addAll(courtIDs);
+        courtQueries.get(2).addAll(courtIDs);
 
         var dateQueries = new ArrayList<List<String>>();
-        dateQueries.add(null);
         dateQueries.add(new ArrayList<>());
         dateQueries.add(new ArrayList<>());
-        dateQueries.get(2).add(TimeUtils.getDate(7).toString());
+        dateQueries.get(1).add(TimeUtils.getDate(7).toString());
+        dateQueries.add(new ArrayList<>());
         dateQueries.get(2).add(TimeUtils.getDate(8).toString());
+        dateQueries.get(2).add(TimeUtils.getDate(9).toString());
 
         for (var cityQuery : cityQueries) {
             for (var sportCenterQuery : sportCenterQueries) {
                 for (var courtQuery : courtQueries) {
                     for (var dateQuery : dateQueries) {
-                        if (dateQuery != null && dateQuery.size() == 1
-                                && courtQuery != null && courtQueries.size() == 1
-                                && sportCenterQuery != null && sportCenterQueries.size() == 1
-                                && cityQuery != null && cityQuery.size() == 1) {
+                        if (dateQuery.size() == 1 && cityQuery.size() == 1 && sportCenterQuery.size() == 1 && courtQuery.size() == 1) {
                             continue;
                         }
-
-                        if (dateQuery != null && dateQuery.size() == 1
-                                && sportCenterQuery != null && sportCenterQueries.size() == 1
-                                && cityQuery != null && cityQuery.size() == 1) {
+                        if (dateQuery.size() == 1 && cityQuery.size() == 1 && sportCenterQuery.size() == 1 && courtQuery.size() == 0) {
                             continue;
                         }
-
-                        if (dateQuery != null && dateQuery.size() == 1
-                                && cityQuery != null && cityQuery.size() == 1) {
+                        if (dateQuery.size() == 1 && cityQuery.size() == 1 && sportCenterQuery.size() == 0 && courtQuery.size() == 0) {
                             continue;
                         }
-
-                        if (dateQuery == null && cityQuery == null) {
+                        if (dateQuery.size() == 0 && cityQuery.size() == 0 && sportCenterQuery.size() == 0 && courtQuery.size() == 0) {
                             continue;
                         }
 
                         var query = new HashMap<String, List<String>>();
-                        if (cityQuery != null) {
-                            query.put("cityId", cityQuery);
-                        }
-                        if (sportCenterQuery != null) {
-                            query.put("sportCenterId", sportCenterQuery);
-                        }
-                        if (courtQuery != null) {
-                            query.put("courtId", courtQuery);
-                        }
-                        if (dateQuery != null) {
-                            query.put("date", dateQuery);
-                        }
+                        query.put("cityId", cityQuery);
+                        query.put("sportCenterId", sportCenterQuery);
+                        query.put("courtId", courtQuery);
+                        query.put("date", dateQuery);
 
-                        var responseFuture = asyncPut(STAFF_API_PATH, playerIDs.get(0), query);
-                        var response = responseFuture.get();
+                        var response = getJSON(BOOKING_API_PATH, playerIDs.get(0), query);
                         Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
                     }
                 }

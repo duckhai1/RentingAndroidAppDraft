@@ -7,11 +7,9 @@ import com.example.types.GenericAPIResult;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 public class CourtAPIPutTest extends APITestSetup {
 
@@ -28,7 +26,6 @@ public class CourtAPIPutTest extends APITestSetup {
             }
         }
 
-        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var cityId : cityIDs) {
             for (var sportCenterId : sportCenterIDs) {
                 for (var courtId : courtIDs) {
@@ -41,14 +38,10 @@ public class CourtAPIPutTest extends APITestSetup {
                     query.get("oldCourtId").add(courtId);
                     query.put("newCourtId", new ArrayList<>());
                     query.get("newCourtId").add("New" + courtId);
-                    testFutures.add(asyncPut(COURT_API_PATH, null, query));
+                    var response = put(COURT_API_PATH, null, query);
+                    Assert.assertEquals(HTTPStatus.ACCEPTED, response.statusCode());
                 }
             }
-        }
-
-        for (var f : testFutures) {
-            var response = f.get();
-            Assert.assertEquals(HTTPStatus.ACCEPTED, response.statusCode());
         }
     }
 
@@ -72,8 +65,7 @@ public class CourtAPIPutTest extends APITestSetup {
             query.put("newCourtId", new ArrayList<>());
             query.get("newCourtId").add("ArbitraryData");
 
-            var future = asyncPut(COURT_API_PATH, null, query);
-            var response = future.get();
+            var response = put(COURT_API_PATH, null, query);
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
             var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
@@ -86,72 +78,51 @@ public class CourtAPIPutTest extends APITestSetup {
     @Test
     public void testPutCourtInvalidURLEncodedData() throws Exception {
         var cityQueries = new ArrayList<List<String>>();
-        cityQueries.add(null);
         cityQueries.add(new ArrayList<>());
         cityQueries.add(new ArrayList<>());
-        cityQueries.get(2).add(cityIDs.get(0));
+        cityQueries.get(1).add(cityIDs.get(0));
         cityQueries.add(new ArrayList<>());
-        cityQueries.get(3).addAll(cityIDs);
+        cityQueries.get(2).addAll(cityIDs);
 
         var sportCenterQueries = new ArrayList<List<String>>();
-        sportCenterQueries.add(null);
         sportCenterQueries.add(new ArrayList<>());
         sportCenterQueries.add(new ArrayList<>());
-        sportCenterQueries.get(2).add(sportCenterIDs.get(0));
+        sportCenterQueries.get(1).add(sportCenterIDs.get(0));
         sportCenterQueries.add(new ArrayList<>());
-        sportCenterQueries.get(3).addAll(sportCenterIDs);
+        sportCenterQueries.get(2).addAll(sportCenterIDs);
 
         var oldCourtQueries = new ArrayList<List<String>>();
-        oldCourtQueries.add(null);
         oldCourtQueries.add(new ArrayList<>());
         oldCourtQueries.add(new ArrayList<>());
-        oldCourtQueries.get(2).add(courtIDs.get(0));
+        oldCourtQueries.get(1).add(courtIDs.get(0));
         oldCourtQueries.add(new ArrayList<>());
-        oldCourtQueries.get(3).addAll(courtIDs);
+        oldCourtQueries.get(2).addAll(courtIDs);
 
         var newCourtQueries = new ArrayList<List<String>>();
-        newCourtQueries.add(null);
         newCourtQueries.add(new ArrayList<>());
         newCourtQueries.add(new ArrayList<>());
-        newCourtQueries.get(2).add(courtIDs.get(0));
+        newCourtQueries.get(1).add(courtIDs.get(0));
         newCourtQueries.add(new ArrayList<>());
-        newCourtQueries.get(3).addAll(courtIDs);
+        newCourtQueries.get(2).addAll(courtIDs);
 
-        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var cityQuery : cityQueries) {
             for (var sportCenterQuery : sportCenterQueries) {
                 for (var oldCourtQuery : oldCourtQueries) {
                     for (var newCourtQuery : newCourtQueries) {
-                        if (cityQuery != null && cityQuery.size() == 1
-                                && sportCenterQuery != null && sportCenterQuery.size() == 1
-                                && oldCourtQuery != null && oldCourtQuery.size() == 1
-                                && newCourtQuery != null && newCourtQuery.size() == 1
-                        ) {
+                        if (cityQuery.size() == 1 && sportCenterQuery.size() == 1 && oldCourtQuery.size() == 1 && newCourtQuery.size() == 1) {
                             continue;
                         }
 
                         var query = new HashMap<String, List<String>>();
-                        if (cityQuery != null) {
-                            query.put("cityId", cityQuery);
-                        }
-                        if (sportCenterQuery != null) {
-                            query.put("sportCenterId", sportCenterQuery);
-                        }
-                        if (oldCourtQuery != null) {
-                            query.put("oldCourtId", oldCourtQuery);
-                        }
-                        if (newCourtQuery != null) {
-                            query.put("newCourtId", newCourtQuery);
-                        }
-                        testFutures.add(asyncPut(COURT_API_PATH, null, query));
+                        query.put("cityId", cityQuery);
+                        query.put("sportCenterId", sportCenterQuery);
+                        query.put("oldCourtId", oldCourtQuery);
+                        query.put("newCourtId", newCourtQuery);
+                        var response = put(COURT_API_PATH, null, query);
+                        Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
                     }
                 }
             }
-        }
-
-        for (var f : testFutures) {
-            var response = f.get();
-            Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
         }
     }
 }

@@ -3,7 +3,6 @@ package com.example.book2play.db.models;
 import com.example.book2play.types.*;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -46,5 +45,14 @@ public class MockModelDataSource {
 
     public Set<Staff> getStaffs() {
         return staffs;
+    }
+
+    public void clear() {
+        bookings.clear();
+        cities.clear();
+        courts.clear();
+        players.clear();
+        sportCenters.clear();
+        staffs.clear();
     }
 }

@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.net.http.HttpClient;
@@ -22,9 +23,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
@@ -67,40 +66,36 @@ public class APITestSetup {
 
     private static MockServer SRV;
     private static Executor EXEC;
+    private static HttpClient CLIENT;
 
     @BeforeClass
     public static void setup() {
         EXEC = Executors.newFixedThreadPool(4);
-    }
-
-    @Before
-    public void runAPIServer() throws Exception {
         cityIDs = new ArrayList<>();
         cityIDs.add("City01");
         cityIDs.add("City02");
-        cityIDs.add("City03");
 
         sportCenterIDs = new ArrayList<>();
         sportCenterIDs.add("SportCenter01");
         sportCenterIDs.add("SportCenter02");
-        sportCenterIDs.add("SportCenter03");
 
         courtIDs = new ArrayList<>();
         courtIDs.add("Court01");
         courtIDs.add("Court02");
-        courtIDs.add("Court03");
 
         staffIDs = new ArrayList<>();
         staffIDs.add("Staff01");
         staffIDs.add("Staff02");
-        staffIDs.add("Staff03");
 
         playerIDs = new ArrayList<>();
         playerIDs.add("Player01");
         playerIDs.add("Player02");
-        playerIDs.add("Player03");
 
+        CLIENT = HttpClient.newHttpClient();
+    }
 
+    @Before
+    public void runAPIServer() throws Exception {
         DS = new MockModelDataSource();
         BOOKING = new MockBookingModel(DS);
         CITY = new MockCityModel(DS);
@@ -119,7 +114,7 @@ public class APITestSetup {
         SRV.stop();
     }
 
-    protected CompletableFuture<HttpResponse<String>> asyncPostJSON(URI uri, String token, Object obj) {
+    protected HttpResponse<String> postJSON(URI uri, String token, Object obj) throws InterruptedException, IOException {
         var reqBuilder = HttpRequest.newBuilder(uri)
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/json");
@@ -134,12 +129,12 @@ public class APITestSetup {
             reqBuilder.POST(HttpRequest.BodyPublishers.noBody());
         }
 
-        return HttpClient.newHttpClient()
-                .sendAsync(reqBuilder.build(), HttpResponse.BodyHandlers.ofString());
+        return CLIENT.send(reqBuilder.build(), HttpResponse.BodyHandlers.ofString());
     }
 
-    protected CompletableFuture<HttpResponse<String>> asyncGetJSON(URI uri, String token, Map<String, List<String>> query) {
+    protected HttpResponse<String> getJSON(URI uri, String token, Map<String, List<String>> query) throws InterruptedException, IOException {
         if (query != null) {
+            LOG.info(composeQuery(query));
             uri = URI.create(uri.toString() + composeQuery(query));
         }
 
@@ -151,12 +146,11 @@ public class APITestSetup {
             reqBuilder.header("Token", token);
         }
 
-        return HttpClient.newHttpClient()
-                .sendAsync(reqBuilder.build(), HttpResponse.BodyHandlers.ofString());
+        return CLIENT.send(reqBuilder.build(), HttpResponse.BodyHandlers.ofString());
     }
 
 
-    protected CompletableFuture<HttpResponse<String>> asyncPut(URI uri, String token, Map<String, List<String>> query) {
+    protected HttpResponse<String> put(URI uri, String token, Map<String, List<String>> query) throws IOException, InterruptedException {
         if (query != null) {
             uri = URI.create(uri.toString() + composeQuery(query));
         }
@@ -169,11 +163,10 @@ public class APITestSetup {
             reqBuilder.header("Token", token);
         }
 
-        return HttpClient.newHttpClient()
-                .sendAsync(reqBuilder.build(), HttpResponse.BodyHandlers.ofString());
+        return CLIENT.send(reqBuilder.build(), HttpResponse.BodyHandlers.ofString());
     }
 
-    protected CompletableFuture<HttpResponse<String>> asyncDelete(URI uri, String token, Map<String, List<String>> query) {
+    protected HttpResponse<String> delete(URI uri, String token, Map<String, List<String>> query) throws IOException, InterruptedException {
         if (query != null) {
             uri = URI.create(uri.toString() + composeQuery(query));
         }
@@ -186,8 +179,7 @@ public class APITestSetup {
             reqBuilder.header("Token", token);
         }
 
-        return HttpClient.newHttpClient()
-                .sendAsync(reqBuilder.build(), HttpResponse.BodyHandlers.ofString());
+        return CLIENT.send(reqBuilder.build(), HttpResponse.BodyHandlers.ofString());
     }
 
     protected String composeQuery(Map<String, List<String>> data) {
