@@ -47,33 +47,6 @@ public class SportCenterAPIGetTest extends APITestSetup {
     }
 
     @Test
-    public void testGetCitySportCentersEmpty() throws Exception {
-        for (var cityId : cityIDs) {
-            var city = new City(cityId);
-            CITY.createCity(cityId);
-        }
-        PLAYER.createPlayer(playerIDs.get(0));
-
-        for (var cityId : cityIDs) {
-            var query = new HashMap<String, List<String>>();
-            query.put("cityId", new ArrayList<>());
-            query.get("cityId").add(cityId);
-
-            var responseFuture = asyncGetJSON(SPORT_CENTER_API_PATH, playerIDs.get(0), query);
-            var response = responseFuture.get();
-            Assert.assertEquals(HTTPStatus.OK, response.statusCode());
-
-            Set<Integer> outSportCenters = GSON.fromJson(
-                    response.body(),
-                    new TypeToken<HashSet<SportCenter>>() {
-                    }.getType()
-            );
-            Assert.assertEquals(Collections.emptySet(), outSportCenters);
-        }
-
-    }
-
-    @Test
     public void testGetCitySportCentersExpectAllMySqlException() throws Exception {
         var testInputs = new ArrayList<Integer>();
         testInputs.add(460);

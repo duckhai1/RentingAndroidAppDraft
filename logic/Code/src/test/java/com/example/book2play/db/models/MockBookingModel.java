@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 // TODO: throws exception
@@ -138,15 +139,19 @@ public class MockBookingModel extends MockModel implements BookingModel {
             throw new MySQLException(466);
         }
 
-        if (endTime.getTime() - startTime.getTime() >= 45 * 60 * 1000) {
+        var bookingDuration = TimeUnit.MINUTES.convert(
+                endTime.getTime() - startTime.getTime(),
+                TimeUnit.MILLISECONDS
+        );
+        if (bookingDuration != 45 && bookingDuration != 60 && bookingDuration != 75 && bookingDuration != 90) {
             throw new MySQLException(467);
         }
 
-        if (startTime.before(Time.valueOf("07:00:00"))) {
+        if (startTime.getTime() < Time.valueOf("07:00:00").getTime()) {
             throw new MySQLException(468);
         }
 
-        if (endTime.after(Time.valueOf("21:00:00"))) {
+        if (endTime.getTime() > Time.valueOf("21:00:00").getTime()) {
             throw new MySQLException(469);
         }
 

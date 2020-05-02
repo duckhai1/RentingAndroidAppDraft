@@ -1,6 +1,9 @@
 package com.example.book2play.db.models;
 
+import java.util.logging.Logger;
+
 public class MockModel {
+    protected static final Logger LOG = Logger.getLogger("MOCK_MODEL");
     private int toBeThrown;
 
     public MockModel() {

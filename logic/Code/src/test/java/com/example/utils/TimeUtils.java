@@ -1,19 +1,16 @@
 package com.example.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.Logger;
 
 public class TimeUtils {
 
-    private final static Logger LOG = Logger.getLogger("UTILS");
-
     public static java.sql.Timestamp getTimestamp() {
         var cal = Calendar.getInstance();
         cal.setTime(new java.util.Date());
 
-        var date = new java.sql.Timestamp(cal.getTimeInMillis());
-        LOG.info("getDate() " + date);
-        return date;
+        return new java.sql.Timestamp(cal.getTimeInMillis());
     }
 
     public static java.sql.Date getDate(int delta) {
@@ -21,9 +18,7 @@ public class TimeUtils {
         cal.setTime(new java.util.Date());
         cal.add(Calendar.DATE, delta);
 
-        var date = new java.sql.Date(cal.getTimeInMillis());
-        LOG.info("getDate() " + date);
-        return date;
+        return new java.sql.Date(cal.getTimeInMillis());
     }
 
     public static java.sql.Time getTime(int hours, int minutes, int seconds) {
@@ -32,8 +27,8 @@ public class TimeUtils {
         cal.set(Calendar.MINUTE, minutes);
         cal.set(Calendar.SECOND, seconds);
 
-        var time = new java.sql.Time(cal.getTimeInMillis());
-        LOG.info("getTime() " + time);
-        return time;
+        var fmt = new SimpleDateFormat();
+        fmt.applyPattern("HH:mm:ss");
+        return java.sql.Time.valueOf(fmt.format(cal.getTime()));
     }
 }
