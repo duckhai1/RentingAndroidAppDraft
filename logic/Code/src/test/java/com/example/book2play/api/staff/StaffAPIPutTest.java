@@ -85,6 +85,8 @@ public class StaffAPIPutTest extends APITestSetup {
 
     @Test
     public void testPutStaffInvalidURLEncodedData() throws Exception {
+        PLAYER.createPlayer(playerIDs.get(0));
+
         var cityQueries = new ArrayList<List<String>>();
         cityQueries.add(null);
         cityQueries.add(new ArrayList<>());
@@ -117,7 +119,6 @@ public class StaffAPIPutTest extends APITestSetup {
         newStaffQueries.add(new ArrayList<>());
         newStaffQueries.get(3).addAll(staffIDs);
 
-        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var cityQuery : cityQueries) {
             for (var sportCenterQuery : sportCenterQueries) {
                 for (var oldStaffQuery : oldStaffQueries) {
@@ -143,15 +144,15 @@ public class StaffAPIPutTest extends APITestSetup {
                         if (newStaffQuery != null) {
                             query.put("newStaffId", newStaffQuery);
                         }
-                        testFutures.add(asyncPut(STAFF_API_PATH, null, query));
+
+                        // this is run sequentially because the current laptop used for testing
+                        // can not handle too many concurrent request
+                        var responseFuture = asyncPut(STAFF_API_PATH, playerIDs.get(0), query);
+                        var response = responseFuture.get();
+                        Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
                     }
                 }
             }
-        }
-
-        for (var f : testFutures) {
-            var response = f.get();
-            Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
         }
     }
 }

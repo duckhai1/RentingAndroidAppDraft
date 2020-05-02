@@ -38,6 +38,7 @@ public class PlayerAPIPutTest extends APITestSetup {
     @Test
     public void testPutPlayerExpectAllMySqlExceptions() throws Exception {
         var testInputs = new ArrayList<Integer>();
+        PLAYER.createPlayer(playerIDs.get(0));
         testInputs.add(405);
         testInputs.add(464);
 
@@ -49,7 +50,7 @@ public class PlayerAPIPutTest extends APITestSetup {
             query.put("newPlayerId", new ArrayList<>());
             query.get("newPlayerId").add("ArbitraryData");
 
-            var future = asyncPut(PLAYER_API_PATH, "ArbitraryData", query);
+            var future = asyncPut(PLAYER_API_PATH, playerIDs.get(0), query);
             var response = future.get();
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
@@ -62,6 +63,8 @@ public class PlayerAPIPutTest extends APITestSetup {
 
     @Test
     public void testPutPlayerInvalidURLEncodedData() throws Exception {
+        PLAYER.createPlayer(playerIDs.get(0));
+
         var oldPlayerQueries = new ArrayList<List<String>>();
         oldPlayerQueries.add(null);
         oldPlayerQueries.add(new ArrayList<>());
@@ -93,7 +96,7 @@ public class PlayerAPIPutTest extends APITestSetup {
                 if (newPlayerQuery != null) {
                     query.put("newPlayerId", newPlayerQuery);
                 }
-                testFutures.add(asyncPut(PLAYER_API_PATH, "ArbitraryData", query));
+                testFutures.add(asyncPut(PLAYER_API_PATH, playerIDs.get(0), query));
             }
         }
 

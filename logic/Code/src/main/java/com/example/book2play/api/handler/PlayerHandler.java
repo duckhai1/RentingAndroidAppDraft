@@ -38,6 +38,7 @@ public class PlayerHandler extends AbstractHandler {
     private void execPost(HttpExchange exchange) throws IOException {
         var token = exchange.getRequestHeaders().get("Token");
         if (token == null || token.size() != 1) {
+            LOG.warning("Request was unsuccessful token not found");
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
@@ -45,6 +46,7 @@ public class PlayerHandler extends AbstractHandler {
         try {
             var id = auth.getId(token.get(0));
             if (id == null) {
+                LOG.warning("Request was unsuccessful invalid token");
                 exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
                 return;
             }
@@ -72,7 +74,7 @@ public class PlayerHandler extends AbstractHandler {
         }
 
         try {
-            if (newPlayerId == null || oldPlayerId != null) {
+            if (newPlayerId == null || oldPlayerId == null) {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }

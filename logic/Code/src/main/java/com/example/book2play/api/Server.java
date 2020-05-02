@@ -9,6 +9,7 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.util.concurrent.Executor;
 
 /**
  * Simple class to encapsulate the data source, and connection information used for the HTTP API server
@@ -53,6 +54,10 @@ public class Server {
      * Block the current thread where it is called
      */
     public void start() {
+        start(null);
+    }
+
+    public void start(Executor exec) {
         setupModels();
         setRoutes();
         srv.setExecutor(null); // creates a default executor

@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 
 import java.net.URI;
 import java.net.URLEncoder;
@@ -22,6 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 public class APITestSetup {
@@ -62,6 +66,12 @@ public class APITestSetup {
     protected static ArrayList<String> playerIDs;
 
     private static MockServer SRV;
+    private static Executor EXEC;
+
+    @BeforeClass
+    public static void setup() {
+        EXEC = Executors.newFixedThreadPool(4);
+    }
 
     @Before
     public void runAPIServer() throws Exception {
@@ -101,7 +111,7 @@ public class APITestSetup {
         AUTH = new MockAuthenticator(DS);
 
         SRV = new MockServer(PORT, BOOKING, CITY, COURT, PLAYER, SPORT_CENTER, STAFF, AUTH);
-        SRV.start();
+        SRV.start(EXEC);
     }
 
     @After
@@ -109,78 +119,75 @@ public class APITestSetup {
         SRV.stop();
     }
 
+    protected CompletableFuture<HttpResponse<String>> asyncPostJSON(URI uri, String token, Object obj) {
+        var reqBuilder = HttpRequest.newBuilder(uri)
+                .header("Accept", "application/json")
+                .header("Content-Type", "application/json");
+
+        if (token != null) {
+            reqBuilder.header("Token", token);
+        }
+
+        if (obj != null) {
+            reqBuilder.POST(HttpRequest.BodyPublishers.ofString(GSON.toJson(obj)));
+        } else {
+            reqBuilder.POST(HttpRequest.BodyPublishers.noBody());
+        }
+
+        return HttpClient.newHttpClient()
+                .sendAsync(reqBuilder.build(), HttpResponse.BodyHandlers.ofString());
+    }
+
     protected CompletableFuture<HttpResponse<String>> asyncGetJSON(URI uri, String token, Map<String, List<String>> query) {
         if (query != null) {
             uri = URI.create(uri.toString() + composeQuery(query));
         }
-        var reqBuilder = HttpRequest.newBuilder(uri);
 
-        if (token != null) {
-            reqBuilder.header("Token", token);
-        }
-
-        var request = reqBuilder
-                .header("Accept", "application/json")
+        var reqBuilder = HttpRequest.newBuilder(uri)
                 .GET()
-                .build();
-
-        return HttpClient.newHttpClient()
-                .sendAsync(request, HttpResponse.BodyHandlers.ofString());
-    }
-
-    protected CompletableFuture<HttpResponse<String>> asyncPostJSON(URI uri, String token, Object obj) {
-        var reqBuilder = HttpRequest.newBuilder(uri);
+                .header("Accept", "application/json");
 
         if (token != null) {
             reqBuilder.header("Token", token);
         }
 
-        var request = reqBuilder
-                .header("Accept", "application/json")
-                .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(GSON.toJson(obj)))
-                .build();
-
         return HttpClient.newHttpClient()
-                .sendAsync(request, HttpResponse.BodyHandlers.ofString());
+                .sendAsync(reqBuilder.build(), HttpResponse.BodyHandlers.ofString());
     }
+
 
     protected CompletableFuture<HttpResponse<String>> asyncPut(URI uri, String token, Map<String, List<String>> query) {
         if (query != null) {
             uri = URI.create(uri.toString() + composeQuery(query));
         }
-        var reqBuilder = HttpRequest.newBuilder(uri);
+
+        var reqBuilder = HttpRequest.newBuilder(uri)
+                .PUT(HttpRequest.BodyPublishers.noBody())
+                .header("Accept", "application/json");
 
         if (token != null) {
             reqBuilder.header("Token", token);
         }
 
-        var request = reqBuilder
-                .header("Accept", "application/json")
-                .PUT(HttpRequest.BodyPublishers.noBody())
-                .build();
-
         return HttpClient.newHttpClient()
-                .sendAsync(request, HttpResponse.BodyHandlers.ofString());
+                .sendAsync(reqBuilder.build(), HttpResponse.BodyHandlers.ofString());
     }
 
     protected CompletableFuture<HttpResponse<String>> asyncDelete(URI uri, String token, Map<String, List<String>> query) {
         if (query != null) {
             uri = URI.create(uri.toString() + composeQuery(query));
         }
-        var reqBuilder = HttpRequest.newBuilder(uri);
+
+        var reqBuilder = HttpRequest.newBuilder(uri)
+                .DELETE()
+                .header("Accept", "application/json");
 
         if (token != null) {
             reqBuilder.header("Token", token);
         }
 
-        var request = reqBuilder
-                .header("Accept", "application/json")
-                .DELETE()
-                .build();
-
         return HttpClient.newHttpClient()
-                .sendAsync(request, HttpResponse.BodyHandlers.ofString());
+                .sendAsync(reqBuilder.build(), HttpResponse.BodyHandlers.ofString());
     }
 
     protected String composeQuery(Map<String, List<String>> data) {

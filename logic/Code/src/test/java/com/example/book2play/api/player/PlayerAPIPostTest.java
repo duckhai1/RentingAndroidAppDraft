@@ -50,6 +50,6 @@ public class PlayerAPIPostTest extends APITestSetup {
         var responseFuture = asyncPostJSON(PLAYER_API_PATH, null, null);
         var response = responseFuture.get();
 
-        Assert.assertEquals(HTTPStatus.UNAUTHORIZED, response.statusCode());
+        Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
     }
 }
