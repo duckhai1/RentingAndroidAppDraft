@@ -2,7 +2,7 @@ package com.example.book2play.api;
 
 
 import com.example.book2play.api.handler.*;
-import com.example.book2play.api.utils.FbTokenValidator;
+import com.example.book2play.api.utils.TokenValidator;
 import com.example.book2play.db.*;
 import com.example.book2play.db.models.*;
 import com.sun.net.httpserver.HttpServer;
@@ -47,7 +47,7 @@ public class Server {
         playerModel = new MySQLPlayer(ds);
         sportCenterModel = new MySQLSportCenter(ds);
         staffModel = new MySQLStaff(ds);
-        authModel = new FbTokenValidator(playerModel, staffModel);
+        authModel = new TokenValidator(playerModel, staffModel);
     }
 
     /**

@@ -13,14 +13,14 @@ import com.restfb.types.User;
 import java.util.logging.Logger;
 
 
-public class FbTokenValidator implements TokenAuthenticator {
+public class TokenValidator implements TokenAuthenticator {
 
     private static Logger LOG = Logger.getLogger("AUTHENTICATOR");
 
     private PlayerModel playerModel;
     private StaffModel staffModel;
 
-    public FbTokenValidator(PlayerModel playerModel, StaffModel staffModel) {
+    public TokenValidator(PlayerModel playerModel, StaffModel staffModel) {
         this.playerModel = playerModel;
         this.staffModel = staffModel;
     }
