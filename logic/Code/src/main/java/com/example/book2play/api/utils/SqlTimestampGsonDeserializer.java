@@ -13,6 +13,10 @@ import java.sql.Timestamp;
  */
 public class SqlTimestampGsonDeserializer implements JsonDeserializer<Timestamp> {
     public Timestamp deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return Timestamp.valueOf(json.getAsJsonPrimitive().getAsString());
+        try {
+            return Timestamp.valueOf(json.getAsJsonPrimitive().getAsString());
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

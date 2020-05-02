@@ -3,7 +3,7 @@ package com.example.book2play.db.models;
 import com.example.book2play.db.driver.MySqlDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.db.models.utils.ResultSetUtils;
-import com.example.test_utils.TimeUtils;
+import com.example.utils.TimeUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Logger;
 
-public abstract class ModelTestSetup {
+public abstract class DBModelsTestSetup {
 
     protected final static Logger LOG = Logger.getLogger("TEST");
 

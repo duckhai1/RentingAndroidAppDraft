@@ -14,6 +14,9 @@ import java.text.SimpleDateFormat;
  */
 public class SqlTimeGsonSerializer implements JsonSerializer<Time> {
     public JsonElement serialize(Time src, Type typeOfSrc, JsonSerializationContext context) {
+        if (src == null) {
+            return new JsonPrimitive("");
+        }
         var fmt = new SimpleDateFormat();
         fmt.applyPattern("HH:mm:ss");
         return new JsonPrimitive(fmt.format(src));

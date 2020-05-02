@@ -4,60 +4,66 @@ import com.example.book2play.db.PlayerModel;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.types.Player;
 
-import java.util.HashSet;
-import java.util.Set;
+public class MockPlayerModel extends MockModel implements PlayerModel {
 
-public class MockPlayerModel implements PlayerModel {
+    private MockModelDataSource ds;
 
-    private Set<Player> players;
-
-    private static MockPlayerModel SINGLETON = null;
-
-    private MockPlayerModel() {
-        players = new HashSet<>();
+    public MockPlayerModel(MockModelDataSource ds) {
+        this.ds = ds;
     }
-
-    public static MockPlayerModel getInstance() {
-        if (SINGLETON == null) {
-            SINGLETON = new MockPlayerModel();
-        }
-
-        return SINGLETON;
-    }
-
 
     @Override
     public void createPlayer(String playerId) throws MySQLException {
-        players.add(new Player(playerId));
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
+        var newPlayer = new Player(playerId);
+        if (ds.getPlayers().contains(newPlayer)) {
+            throw new MySQLException(405);
+        }
+        ds.getPlayers().add(newPlayer);
     }
 
     @Override
     public void updatePlayerId(String newPlayerId, String oldPlayerId) throws MySQLException {
-        Player updatedPlayer = null;
-        for (var p : players) {
-            if (p.getPlayerId().equals(oldPlayerId)) {
-                updatedPlayer = p;
-                break;
-            }
+        if (getToBeThrown() != 0) {
+            throw new MySQLException(getToBeThrown());
+        }
+        var oldPlayer = new Player(oldPlayerId);
+        if (!ds.getPlayers().contains(oldPlayer)) {
+            throw new MySQLException(464);
         }
 
-        if (updatedPlayer != null) {
-            players.remove(updatedPlayer);
-            players.add(new Player(newPlayerId));
-        }
+        ds.getPlayers().remove(oldPlayer);
+        ds.getPlayers().add(new Player(newPlayerId));
     }
 
-    public boolean playerExists(String playerId) {
-        for (var p : players) {
-            if (p.getPlayerId().equals(playerId)) {
-                return true;
-            }
-        }
+    @Override
+    public boolean isPlayerExist(String playerId) {
+        return ds.getPlayers().contains(new Player(playerId));
+    }
 
-        return false;
+    @Override
+    public String getPlayerId(String token) throws MySQLException {
+        return null;
+    }
+
+    @Override
+    public void signupPlayer(String playerId, String password) throws MySQLException {
+
+    }
+
+    @Override
+    public String loginPlayer(String playerId, String password) throws MySQLException {
+        return null;
+    }
+
+    @Override
+    public void logoutPlayer(String token) throws MySQLException {
+
     }
 
     public void clearPlayers() {
-        players.clear();
+        ds.getPlayers().clear();
     }
 }

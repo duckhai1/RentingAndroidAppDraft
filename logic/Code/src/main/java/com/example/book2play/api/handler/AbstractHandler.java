@@ -1,11 +1,10 @@
 package com.example.book2play.api.handler;
 
+import com.example.book2play.api.TokenAuthenticator;
 import com.example.book2play.api.utils.SqlTimeGsonDeserializer;
 import com.example.book2play.api.utils.SqlTimeGsonSerializer;
 import com.example.book2play.api.utils.SqlTimestampGsonDeserializer;
 import com.example.book2play.api.utils.SqlTimestampGsonSerializer;
-import com.example.book2play.db.Authenticator;
-import com.example.book2play.db.driver.MySqlDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,10 +45,10 @@ public abstract class AbstractHandler implements HttpHandler {
             .registerTypeAdapter(Timestamp.class, new SqlTimestampGsonSerializer())
             .registerTypeAdapter(Timestamp.class, new SqlTimestampGsonDeserializer())
             .create();
-    protected Authenticator authModel;
+    protected TokenAuthenticator auth;
 
-    public AbstractHandler(Authenticator authModel) {
-        this.authModel = authModel;
+    public AbstractHandler(TokenAuthenticator auth) {
+        this.auth = auth;
     }
 
     protected void responseWithJson(HttpExchange exchange, int statusCode, Object body) throws IOException {
@@ -76,7 +75,7 @@ public abstract class AbstractHandler implements HttpHandler {
 
     protected void responseErrorAsJson(HttpExchange exchange, int statusCode, Exception e) throws IOException {
         var jsonObj = new JsonObject();
-        jsonObj.addProperty("error", true);
+        jsonObj.addProperty("hasError", true);
         jsonObj.addProperty("message", e.getMessage());
 
         responseWithJson(exchange, statusCode, jsonObj);
@@ -96,28 +95,5 @@ public abstract class AbstractHandler implements HttpHandler {
 
     private String decode(final String encoded) {
         return encoded == null ? null : URLDecoder.decode(encoded, StandardCharsets.UTF_8);
-    }
-
-    // get playerID of token
-    protected String getId(String token, String tokenType) throws MySQLException {
-        LOG.info("TokenType: "+ tokenType);
-        if (tokenType.equals("FB")){
-            FacebookClient facebookClient = new DefaultFacebookClient(token);
-
-            User user = facebookClient.fetchObject("me",
-                    User.class,
-                    Parameter.with("fields", "id"));
-            if (user == null){
-                throw new FacebookOAuthException("Bad user data", "user is null");
-            }
-
-            return user.getId();
-        } else if (tokenType.equals("DB")){
-            LOG.info("get playerId from token " + token.toString());
-            LOG.info("playerID: " + authModel.getPlayerId(token.toString()));
-            return authModel.getPlayerId(token);
-        } else {
-            throw new RuntimeException("Unrecognized token");
-        }
     }
 }

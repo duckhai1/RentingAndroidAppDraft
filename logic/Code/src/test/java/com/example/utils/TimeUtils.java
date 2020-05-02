@@ -1,4 +1,4 @@
-package com.example.test_utils;
+package com.example.utils;
 
 import java.util.Calendar;
 import java.util.logging.Logger;

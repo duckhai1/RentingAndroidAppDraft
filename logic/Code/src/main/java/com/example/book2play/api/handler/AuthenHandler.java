@@ -1,9 +1,10 @@
 package com.example.book2play.api.handler;
 
-import com.example.book2play.api.handler.utils.ConfirmToken;
+import com.example.book2play.api.TokenAuthenticator;
 import com.example.book2play.api.utils.HTTPStatus;
-import com.example.book2play.db.Authenticator;
+
 import com.example.book2play.db.PlayerModel;
+import com.example.book2play.db.StaffModel;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.types.Booking;
 import com.google.gson.JsonObject;
@@ -15,8 +16,13 @@ import java.sql.Timestamp;
 
 public class AuthenHandler extends AbstractHandler {
 
-    public AuthenHandler(Authenticator authModel) {
+    PlayerModel pmodel;
+    StaffModel smodel;
+
+    public AuthenHandler(PlayerModel pmodel, StaffModel smodel, TokenAuthenticator authModel) {
         super(authModel);
+        this.pmodel = pmodel;
+        this.smodel = smodel;
     }
 
     @Override
@@ -47,7 +53,7 @@ public class AuthenHandler extends AbstractHandler {
     private void execPost(HttpExchange exchange) throws IOException {
         try {
             var playerInfo = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), JsonObject.class);
-            authModel.signupPlayer(
+            pmodel.signupPlayer(
                     playerInfo.get("playerId").getAsString(),
                     playerInfo.get("password").getAsString()
             );
@@ -64,7 +70,7 @@ public class AuthenHandler extends AbstractHandler {
     private void execPut(HttpExchange exchange) throws IOException {
         try {
             var playerInfo = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), JsonObject.class);
-            String token = authModel.loginPlayer(
+            String token = pmodel.loginPlayer(
                     playerInfo.get("playerId").getAsString(),
                     playerInfo.get("password").getAsString()
             );
@@ -88,7 +94,7 @@ public class AuthenHandler extends AbstractHandler {
         }
 
         try {
-            authModel.logoutPlayer(token.get(0));
+            pmodel.logoutPlayer(token.get(0));
             exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
