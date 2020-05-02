@@ -6,6 +6,7 @@ import com.example.book2play.db.models.utils.ResultSetUtils;
 import com.example.book2play.types.Booking;
 
 import java.sql.*;
+import java.util.Calendar;
 import java.util.Collection;
 
 /**
@@ -14,8 +15,11 @@ import java.util.Collection;
  */
 public class MySQLBooking extends AbstractModel implements com.example.book2play.db.BookingModel {
 
+    private Calendar cal;
+
     public MySQLBooking(AppDataSource db) {
         super(db);
+        cal = Calendar.getInstance();
     }
 
     /**
@@ -42,7 +46,7 @@ public class MySQLBooking extends AbstractModel implements com.example.book2play
             stm.setString(1, courtId);
             stm.setString(2, cityId);
             stm.setString(3, sportCenterId);
-            stm.setDate(4, date);
+            stm.setDate(4, date, cal);
             stm.registerOutParameter(5, Types.INTEGER);
 
             rs = stm.executeQuery();
@@ -84,7 +88,7 @@ public class MySQLBooking extends AbstractModel implements com.example.book2play
             stm = conn.prepareCall("{CALL getSportCenterBookings(?, ?, ?, ?)}");
             stm.setString(1, sportCenterId);
             stm.setString(2, cityId);
-            stm.setDate(3, date);
+            stm.setDate(3, date, cal);
             stm.registerOutParameter(4, Types.INTEGER);
 
             rs = stm.executeQuery();
@@ -165,7 +169,7 @@ public class MySQLBooking extends AbstractModel implements com.example.book2play
             stm = conn.prepareCall("{CALL getPlayerBookingsInCity(?, ?, ?, ?)}");
             stm.setString(1, playerId);
             stm.setString(2, cityId);
-            stm.setDate(3, date);
+            stm.setDate(3, date, cal);
             stm.registerOutParameter(4, Types.INTEGER);
 
             rs = stm.executeQuery();
@@ -216,10 +220,10 @@ public class MySQLBooking extends AbstractModel implements com.example.book2play
         try {
             conn = this.db.getConnection();
             stm = conn.prepareCall("{CALL createBooking(?, ?, ?, ?, ?, ?, ?, ?, ?)}");
-            stm.setTimestamp(1, timestamp);
-            stm.setDate(2, date);
-            stm.setTime(3, startTime);
-            stm.setTime(4, endTime);
+            stm.setTimestamp(1, timestamp, cal);
+            stm.setDate(2, date, cal);
+            stm.setTime(3, startTime, cal);
+            stm.setTime(4, endTime, cal);
             stm.setString(5, cityId);
             stm.setString(6, sportCenterId);
             stm.setString(7, courtId);
