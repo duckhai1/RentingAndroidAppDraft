@@ -1,8 +1,7 @@
 package com.example.book2play.api.handler;
 
-import com.example.book2play.api.handler.utils.ConfirmToken;
+import com.example.book2play.api.TokenAuthenticator;
 import com.example.book2play.api.utils.HTTPStatus;
-import com.example.book2play.db.Authenticator;
 import com.example.book2play.db.StaffModel;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.types.Staff;
@@ -14,7 +13,7 @@ import java.io.InputStreamReader;
 public class StaffHandler extends AbstractHandler {
     StaffModel model;
 
-    public StaffHandler(StaffModel model, Authenticator authModel) {
+    public StaffHandler(StaffModel model, TokenAuthenticator authModel) {
         super(authModel);
         this.model = model;
     }
@@ -22,14 +21,10 @@ public class StaffHandler extends AbstractHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         try {
-            if ("GET".equals(exchange.getRequestMethod())) {
-                execGet(exchange);
-            } else if ("POST".equals(exchange.getRequestMethod())) {
+            if ("POST".equals(exchange.getRequestMethod())) {
                 execPost(exchange);
             } else if ("PUT".equals(exchange.getRequestMethod())) {
                 execPut(exchange);
-            } else if ("DELETE".equals(exchange.getRequestMethod())) {
-                execDelete(exchange);
             } else {
                 exchange.sendResponseHeaders(HTTPStatus.METHOD_NOT_ALLOWED, -1); // NOT ALLOWED
             }
@@ -40,32 +35,30 @@ public class StaffHandler extends AbstractHandler {
         exchange.close();
     }
 
-    private void execGet(HttpExchange exchange) {
-    }
-
     private void execPost(HttpExchange exchange) throws IOException {
+        var token = exchange.getRequestHeaders().get("Token");
+        if (token == null || token.size() != 1) {
+            exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+            return;
+        }
+
         try {
-            var token = exchange.getRequestHeaders().get("Token");
-            if (token == null || token.size() != 1){
-                exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+            var id = auth.getId(token.get(0));
+            if (id == null) {
+                exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
                 return;
             }
-            var id = ConfirmToken.getId(token.get(0));
+
             var staff = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), Staff.class);
-            if(!authModel.isStaff(
-                    id,
-                    staff.getCityId(),
-                    staff.getSportCenterId()
-            )) {
-                model.createStaff(
-                        id,
-                        staff.getCityId(),
-                        staff.getSportCenterId()
-                );
-                exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
-            } else {
-                exchange.sendResponseHeaders(HTTPStatus.CONFLICT, -1);
+            if (staff.getSportCenterId() == null || staff.getCityId() == null) {
+                var e = new Exception("Invalid JSON");
+                LOG.warning("Request was unsuccessful " + e.getMessage());
+                responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+                return;
             }
+
+            model.createStaff(id, staff.getCityId(), staff.getSportCenterId());
+            exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
@@ -111,8 +104,5 @@ public class StaffHandler extends AbstractHandler {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
-    }
-
-    private void execDelete(HttpExchange exchange) {
     }
 }

@@ -1,11 +1,10 @@
 package com.example.book2play.api.handler;
 
+import com.example.book2play.api.TokenAuthenticator;
 import com.example.book2play.api.utils.SqlTimeGsonDeserializer;
 import com.example.book2play.api.utils.SqlTimeGsonSerializer;
 import com.example.book2play.api.utils.SqlTimestampGsonDeserializer;
 import com.example.book2play.api.utils.SqlTimestampGsonSerializer;
-import com.example.book2play.db.Authenticator;
-import com.example.book2play.db.driver.MySqlDataSource;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -41,10 +40,10 @@ public abstract class AbstractHandler implements HttpHandler {
             .registerTypeAdapter(Timestamp.class, new SqlTimestampGsonSerializer())
             .registerTypeAdapter(Timestamp.class, new SqlTimestampGsonDeserializer())
             .create();
-    protected Authenticator authModel;
+    protected TokenAuthenticator auth;
 
-    public AbstractHandler(Authenticator authModel) {
-        this.authModel = authModel;
+    public AbstractHandler(TokenAuthenticator auth) {
+        this.auth = auth;
     }
 
     protected void responseWithJson(HttpExchange exchange, int statusCode, Object body) throws IOException {
@@ -71,7 +70,7 @@ public abstract class AbstractHandler implements HttpHandler {
 
     protected void responseErrorAsJson(HttpExchange exchange, int statusCode, Exception e) throws IOException {
         var jsonObj = new JsonObject();
-        jsonObj.addProperty("error", true);
+        jsonObj.addProperty("hasError", true);
         jsonObj.addProperty("message", e.getMessage());
 
         responseWithJson(exchange, statusCode, jsonObj);

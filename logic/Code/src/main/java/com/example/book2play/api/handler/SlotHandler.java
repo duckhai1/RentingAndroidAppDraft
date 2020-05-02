@@ -1,8 +1,7 @@
 package com.example.book2play.api.handler;
 
-import com.example.book2play.api.handler.utils.ConfirmToken;
+import com.example.book2play.api.TokenAuthenticator;
 import com.example.book2play.api.utils.HTTPStatus;
-import com.example.book2play.db.Authenticator;
 import com.example.book2play.db.BookingModel;
 import com.example.book2play.db.SportCenterModel;
 import com.example.book2play.db.exceptions.MySQLException;
@@ -21,7 +20,7 @@ public class SlotHandler extends AbstractHandler {
     BookingModel bookingModel;
     SportCenterModel sportCenterModel;
 
-    public SlotHandler(BookingModel bookingModel, SportCenterModel sportCenterModel, Authenticator authModel) {
+    public SlotHandler(BookingModel bookingModel, SportCenterModel sportCenterModel, TokenAuthenticator authModel) {
         super(authModel);
         this.bookingModel = bookingModel;
         this.sportCenterModel = sportCenterModel;
@@ -61,26 +60,25 @@ public class SlotHandler extends AbstractHandler {
         }
 
         try {
-            var id = ConfirmToken.getId(token.get(0));
             if (courtId != null && sportCenterId != null && cityId != null && date != null) {
-                if (authModel.isPlayer(id)) {
-                    var bookings = new LinkedList<>(bookingModel.getCourtBookings(
-                            courtId.get(0),
-                            cityId.get(0),
-                            sportCenterId.get(0),
-                            Date.valueOf(date.get(0))
-                    ));
-
-                    var slotService = new SlotService(OPEN_TIME, CLOSE_TIME, MIN_DURATION_IN_MINUTES);
-                    var slots = slotService.getAvailableSlots(bookings,
-                            cityId.get(0),
-                            sportCenterId.get(0),
-                            courtId.get(0)
-                    );
-                    responseWithJson(exchange, HTTPStatus.OK, slots);
-                } else {
+                if (auth.validatePlayer(token.get(0)) == null) {
                     exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
+                    return;
                 }
+                var bookings = new LinkedList<>(bookingModel.getCourtBookings(
+                        courtId.get(0),
+                        cityId.get(0),
+                        sportCenterId.get(0),
+                        Date.valueOf(date.get(0))
+                ));
+
+                var slotService = new SlotService(OPEN_TIME, CLOSE_TIME, MIN_DURATION_IN_MINUTES);
+                var slots = slotService.getAvailableSlots(bookings,
+                        cityId.get(0),
+                        sportCenterId.get(0),
+                        courtId.get(0)
+                );
+                responseWithJson(exchange, HTTPStatus.OK, slots);
             } else {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             }

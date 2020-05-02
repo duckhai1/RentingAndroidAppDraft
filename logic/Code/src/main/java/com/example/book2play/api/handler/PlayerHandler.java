@@ -1,21 +1,18 @@
 package com.example.book2play.api.handler;
 
-import com.example.book2play.api.handler.utils.ConfirmToken;
+import com.example.book2play.api.TokenAuthenticator;
 import com.example.book2play.api.utils.HTTPStatus;
-import com.example.book2play.db.Authenticator;
 import com.example.book2play.db.PlayerModel;
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.types.Player;
 import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 public class PlayerHandler extends AbstractHandler {
 
     PlayerModel model;
 
-    public PlayerHandler(PlayerModel model, Authenticator authModel) {
+    public PlayerHandler(PlayerModel model, TokenAuthenticator authModel) {
         super(authModel);
         this.model = model;
     }
@@ -23,14 +20,10 @@ public class PlayerHandler extends AbstractHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         try {
-            if ("GET".equals(exchange.getRequestMethod())) {
-                execGet(exchange);
-            } else if ("POST".equals(exchange.getRequestMethod())) {
+            if ("POST".equals(exchange.getRequestMethod())) {
                 execPost(exchange);
             } else if ("PUT".equals(exchange.getRequestMethod())) {
                 execPut(exchange);
-            } else if ("DELETE".equals(exchange.getRequestMethod())) {
-                execDelete(exchange);
             } else {
                 exchange.sendResponseHeaders(HTTPStatus.METHOD_NOT_ALLOWED, -1);// 405 Method Not Allowed
             }
@@ -42,42 +35,24 @@ public class PlayerHandler extends AbstractHandler {
         exchange.close();
     }
 
-    private void execGet(HttpExchange exchange) throws IOException {
-        try {
-            var token = exchange.getRequestHeaders().get("Token");
-            if (token == null || token.size() != 1){
-                exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
-                return;
-            }
-            var id = ConfirmToken.getId(token.get(0));
-            if(authModel.isPlayer(id)) {
-                exchange.sendResponseHeaders(HTTPStatus.OK, -1);
-            } else {
-                exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
-            }
-        } catch (MySQLException e) {
-            LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
-        } catch (IllegalArgumentException e) {
-            LOG.warning("Request was unsuccessful " + e.getMessage());
-            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
-        }
-    }
-
     private void execPost(HttpExchange exchange) throws IOException {
+        var token = exchange.getRequestHeaders().get("Token");
+        if (token == null || token.size() != 1) {
+            LOG.warning("Request was unsuccessful token not found");
+            exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+            return;
+        }
+
         try {
-            var token = exchange.getRequestHeaders().get("Token");
-            if (token == null || token.size() != 1){
-                exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+            var id = auth.getId(token.get(0));
+            if (id == null) {
+                LOG.warning("Request was unsuccessful invalid token");
+                exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
                 return;
             }
-            var id = ConfirmToken.getId(token.get(0));
-            if(!authModel.isPlayer(id)) {
-                model.createPlayer(id);
-                exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
-            } else {
-                exchange.sendResponseHeaders(HTTPStatus.CONFLICT, -1);
-            }
+
+            model.createPlayer(id);
+            exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
@@ -93,19 +68,18 @@ public class PlayerHandler extends AbstractHandler {
         var oldPlayerId = params.get("oldPlayerId");
 
         if ((newPlayerId != null && newPlayerId.size() != 1)
-                || (oldPlayerId != null && oldPlayerId.size() != 1)
-        ) {
+                || (oldPlayerId != null && oldPlayerId.size() != 1)) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
         try {
-            if (newPlayerId != null && oldPlayerId != null) {
-                model.updatePlayerId(newPlayerId.get(0), oldPlayerId.get(0));
-            } else {
+            if (newPlayerId == null || oldPlayerId == null) {
                 exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
                 return;
             }
+
+            model.updatePlayerId(newPlayerId.get(0), oldPlayerId.get(0));
             exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
@@ -115,8 +89,5 @@ public class PlayerHandler extends AbstractHandler {
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
 
-    }
-
-    private void execDelete(HttpExchange exchange) {
     }
 }

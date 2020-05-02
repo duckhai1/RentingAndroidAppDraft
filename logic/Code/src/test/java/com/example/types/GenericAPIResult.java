@@ -1,4 +1,4 @@
-package com.example.book2play.api;
+package com.example.types;
 
 import com.google.gson.annotations.Expose;
 

@@ -1,8 +1,7 @@
 package com.example.book2play.api.handler;
 
-import com.example.book2play.api.handler.utils.ConfirmToken;
+import com.example.book2play.api.TokenAuthenticator;
 import com.example.book2play.api.utils.HTTPStatus;
-import com.example.book2play.db.Authenticator;
 import com.example.book2play.db.CityModel;
 import com.example.book2play.db.exceptions.MySQLException;
 import com.example.book2play.types.City;
@@ -15,7 +14,7 @@ public class CityHandler extends AbstractHandler {
 
     CityModel model;
 
-    public CityHandler(CityModel model, Authenticator authModel) {
+    public CityHandler(CityModel model, TokenAuthenticator authModel) {
         super(authModel);
         this.model = model;
     }
@@ -27,10 +26,6 @@ public class CityHandler extends AbstractHandler {
                 execGet(exchange);
             } else if ("POST".equals(exchange.getRequestMethod())) {
                 execPost(exchange);
-            } else if ("PUT".equals(exchange.getRequestMethod())) {
-                execPut(exchange);
-            } else if ("DELETE".equals(exchange.getRequestMethod())) {
-                execDelete(exchange);
             } else {
                 exchange.sendResponseHeaders(HTTPStatus.METHOD_NOT_ALLOWED, -1); // NOT ALLOWED
             }
@@ -48,13 +43,13 @@ public class CityHandler extends AbstractHandler {
             return;
         }
         try {
-            var id = ConfirmToken.getId(token.get(0));
-            if (authModel.isPlayer(id)) {
-                var cities = model.getCities();
-                responseWithJson(exchange, HTTPStatus.OK, cities);
-            } else {
+            if (auth.validatePlayer(token.get(0)) == null) {
                 exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
+                return;
             }
+
+            var cities = model.getCities();
+            responseWithJson(exchange, HTTPStatus.OK, cities);
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
@@ -64,6 +59,13 @@ public class CityHandler extends AbstractHandler {
     private void execPost(HttpExchange exchange) throws IOException {
         try {
             var city = GSON.fromJson(new InputStreamReader(exchange.getRequestBody()), City.class);
+            if (city.getCityId() == null) {
+                var e = new Exception("Invalid JSON");
+                LOG.warning("Request was unsuccessful " + e.getMessage());
+                responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+                return;
+            }
+
             model.createCity(city.getCityId());
             exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);
         } catch (MySQLException e) {
@@ -73,11 +75,5 @@ public class CityHandler extends AbstractHandler {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
         }
-    }
-
-    private void execPut(HttpExchange exchange) {
-    }
-
-    private void execDelete(HttpExchange exchange) {
     }
 }

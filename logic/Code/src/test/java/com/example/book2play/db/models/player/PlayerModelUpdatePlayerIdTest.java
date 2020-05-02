@@ -1,8 +1,8 @@
 package com.example.book2play.db.models.player;
 
 import com.example.book2play.db.exceptions.MySQLException;
-import com.example.book2play.db.models.ModelTestSetup;
-import com.example.test_utils.Pair;
+import com.example.book2play.db.models.DBModelsTestSetup;
+import com.example.types.Pair;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -10,7 +10,7 @@ import java.util.HashSet;
 
 import static org.junit.Assert.fail;
 
-public class PlayerModelUpdatePlayerIdTest extends ModelTestSetup {
+public class PlayerModelUpdatePlayerIdTest extends DBModelsTestSetup {
 
     @Test
     public void testUpdatePlayerIdSuccessfully() throws Exception {

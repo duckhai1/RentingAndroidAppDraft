@@ -2,7 +2,7 @@ package com.example.book2play.logic;
 
 import com.example.book2play.types.Booking;
 import com.example.book2play.types.Slot;
-import com.example.test_utils.TimeUtils;
+import com.example.utils.TimeUtils;
 import org.junit.Test;
 
 import java.sql.Date;
