@@ -41,7 +41,6 @@ public class BookingUtils {
             LOG.warning(e.getMessage());
         }
 
-        LOG.info(bookingId);
         return new Booking(
                 bookingId,
                 createdAt,

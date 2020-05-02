@@ -102,31 +102,6 @@ public class CourtAPIGetTest extends APITestSetup {
     }
 
     @Test
-    public void testGetCityCourtsEmpty() throws Exception {
-        for (var cityId : cityIDs) {
-            CITY.createCity(cityId);
-        }
-        PLAYER.createPlayer(playerIDs.get(0));
-
-        for (var cityId : cityIDs) {
-            var query = new HashMap<String, List<String>>();
-            query.put("cityId", new ArrayList<>());
-            query.get("cityId").add(cityId);
-
-            var responseFuture = asyncGetJSON(COURT_API_PATH, playerIDs.get(0), query);
-            var response = responseFuture.get();
-            Assert.assertEquals(HTTPStatus.OK, response.statusCode());
-
-            Set<Integer> outCourts = GSON.fromJson(
-                    response.body(),
-                    new TypeToken<HashSet<Court>>() {
-                    }.getType()
-            );
-            Assert.assertEquals(Collections.emptySet(), outCourts);
-        }
-    }
-
-    @Test
     public void testGetCityCourtsExpectAllMySqlExceptions() throws Exception {
         PLAYER.createPlayer(playerIDs.get(0));
         var testInputs = new ArrayList<Integer>();
@@ -185,38 +160,6 @@ public class CourtAPIGetTest extends APITestSetup {
                     }.getType()
             );
             Assert.assertEquals(expected.get(sportCenter), outCourts);
-        }
-    }
-
-    @Test
-    public void testGetSportCenterCourtsEmpty() throws Exception {
-        var sportCenters = new ArrayList<SportCenter>();
-        for (var cityId : cityIDs) {
-            CITY.createCity(cityId);
-            for (var sportCenterId : sportCenterIDs) {
-                SPORT_CENTER.createCityCenter(sportCenterId, cityId);
-                sportCenters.add(new SportCenter(sportCenterId, cityId));
-            }
-        }
-        PLAYER.createPlayer(playerIDs.get(0));
-
-        for (var sportCenter : sportCenters) {
-            var query = new HashMap<String, List<String>>();
-            query.put("cityId", new ArrayList<>());
-            query.get("cityId").add(sportCenter.getCityId());
-            query.put("sportCenterId", new ArrayList<>());
-            query.get("sportCenterId").add(sportCenter.getSportCenterId());
-
-            CompletableFuture<HttpResponse<String>> responseFuture = asyncGetJSON(COURT_API_PATH, playerIDs.get(0), query);
-            HttpResponse<String> response = responseFuture.get();
-            Assert.assertEquals(HTTPStatus.OK, response.statusCode());
-
-            Set<Integer> outCourts = GSON.fromJson(
-                    response.body(),
-                    new TypeToken<HashSet<Court>>() {
-                    }.getType()
-            );
-            Assert.assertEquals(Collections.emptySet(), outCourts);
         }
     }
 
