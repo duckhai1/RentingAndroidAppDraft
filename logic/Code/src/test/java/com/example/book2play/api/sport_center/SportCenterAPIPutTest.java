@@ -36,7 +36,7 @@ public class SportCenterAPIPutTest extends APITestSetup {
                 query.get("newSportCenterId").add("New" + sportCenterId);
                 query.put("oldSportCenterId", new ArrayList<>());
                 query.get("oldSportCenterId").add(sportCenterId);
-                testFutures.add(asyncPut(SPORT_CENTER_API_PATH, query));
+                testFutures.add(asyncPut(SPORT_CENTER_API_PATH, null, query));
             }
         }
 
@@ -64,7 +64,7 @@ public class SportCenterAPIPutTest extends APITestSetup {
             query.put("newSportCenterId", new ArrayList<>());
             query.get("newSportCenterId").add("ArbitraryData");
 
-            var future = asyncPut(SPORT_CENTER_API_PATH, query);
+            var future = asyncPut(SPORT_CENTER_API_PATH, null, query);
             var response = future.get();
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
@@ -122,7 +122,7 @@ public class SportCenterAPIPutTest extends APITestSetup {
                     if (newSportCenterQuery != null) {
                         query.put("sportCenterId", newSportCenterQuery);
                     }
-                    testFutures.add(asyncPut(SPORT_CENTER_API_PATH, query));
+                    testFutures.add(asyncPut(SPORT_CENTER_API_PATH, null, query));
                 }
             }
         }

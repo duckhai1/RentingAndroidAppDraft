@@ -1,14 +1,12 @@
 package com.example.book2play.api.staff;
 
 import com.example.book2play.api.APITestSetup;
-import com.example.book2play.api.Server;
 import com.example.book2play.api.utils.HTTPStatus;
 import com.example.book2play.types.Staff;
 import com.example.types.GenericAPIResult;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.net.URI;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +23,7 @@ public class StaffAPIPostTest extends APITestSetup {
             for (var sportCenterId : sportCenterIDs) {
                 SPORT_CENTER.createCityCenter(sportCenterId, cityId);
                 for (var staffId : staffIDs) {
-                    futures.add(asyncPostJSON(STAFF_API_PATH, new Staff(staffId, cityId, sportCenterId)));
+                    futures.add(asyncPostJSON(STAFF_API_PATH, staffId, new Staff(staffId, cityId, sportCenterId)));
                 }
             }
         }
@@ -46,7 +44,7 @@ public class StaffAPIPostTest extends APITestSetup {
 
         for (var code : testInputs) {
             STAFF.setToBeThrown(code);
-            var future = asyncPostJSON(STAFF_API_PATH, new Staff("ArbitraryData", "ArbitraryData", "ArbitraryData"));
+            var future = asyncPostJSON(STAFF_API_PATH, "ArbitraryData", new Staff("ArbitraryData", "ArbitraryData", "ArbitraryData"));
             var response = future.get();
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
@@ -74,7 +72,7 @@ public class StaffAPIPostTest extends APITestSetup {
 
         var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var data : testInputs) {
-            testFutures.add(asyncPostJSON(STAFF_API_PATH, data));
+            testFutures.add(asyncPostJSON(STAFF_API_PATH, "ArbitraryData", data));
         }
 
         for (var f : testFutures) {

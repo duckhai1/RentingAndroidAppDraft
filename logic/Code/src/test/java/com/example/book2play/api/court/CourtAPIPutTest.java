@@ -41,7 +41,7 @@ public class CourtAPIPutTest extends APITestSetup {
                     query.get("oldCourtId").add(courtId);
                     query.put("newCourtId", new ArrayList<>());
                     query.get("newCourtId").add("New" + courtId);
-                    testFutures.add(asyncPut(COURT_API_PATH, query));
+                    testFutures.add(asyncPut(COURT_API_PATH, null, query));
                 }
             }
         }
@@ -72,7 +72,7 @@ public class CourtAPIPutTest extends APITestSetup {
             query.put("newCourtId", new ArrayList<>());
             query.get("newCourtId").add("ArbitraryData");
 
-            var future = asyncPut(COURT_API_PATH, query);
+            var future = asyncPut(COURT_API_PATH, null, query);
             var response = future.get();
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
@@ -143,7 +143,7 @@ public class CourtAPIPutTest extends APITestSetup {
                         if (newCourtQuery != null) {
                             query.put("newCourtId", newCourtQuery);
                         }
-                        testFutures.add(asyncPut(COURT_API_PATH, query));
+                        testFutures.add(asyncPut(COURT_API_PATH, null, query));
                     }
                 }
             }

@@ -5,7 +5,6 @@ import com.example.book2play.api.handler.*;
 import com.example.book2play.api.utils.FbTokenValidator;
 import com.example.book2play.db.*;
 import com.example.book2play.db.models.*;
-import com.sun.net.httpserver.BasicAuthenticator;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
@@ -61,14 +60,7 @@ public class Server {
     }
 
     private void setRoutes() {
-        var bookingCtx = srv.createContext(BOOKING_BASE_URL, new BookingsHandler(bookingModel, authModel));
-        bookingCtx.setAuthenticator(new BasicAuthenticator("myrealm") {
-            @Override
-            public boolean checkCredentials(String user, String pwd) {
-                return user.equals("admin") && pwd.equals("admin");
-            }
-        });
-
+        srv.createContext(BOOKING_BASE_URL, new BookingsHandler(bookingModel, authModel));
         srv.createContext(SPORT_CENTER_BASE_URL, new SportCentersHandler(sportCenterModel, authModel));
         srv.createContext(CITY_BASE_URL, new CityHandler(cityModel, authModel));
         srv.createContext(COURT_BASE_URL, new CourtsHandler(courtModel, authModel));

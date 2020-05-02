@@ -26,17 +26,18 @@ public class SportCenterAPIGetTest extends APITestSetup {
                 expected.get(city).add(new SportCenter(sportCenterId, cityId));
             }
         }
+        PLAYER.createPlayer(playerIDs.get(0));
 
         for (var city : expected.keySet()) {
             var query = new HashMap<String, List<String>>();
             query.put("cityId", new ArrayList<>());
             query.get("cityId").add(city.getCityId());
 
-            var responseFuture = asyncGetJSON(SPORT_CENTER_API_PATH, query);
+            var responseFuture = asyncGetJSON(SPORT_CENTER_API_PATH, playerIDs.get(0), query);
             var response = responseFuture.get();
             Assert.assertEquals(HTTPStatus.OK, response.statusCode());
 
-            Set<Integer> outSportCenters = GSON.fromJson(
+            Set<SportCenter> outSportCenters = GSON.fromJson(
                     response.body(),
                     new TypeToken<HashSet<SportCenter>>() {
                     }.getType()
@@ -51,13 +52,14 @@ public class SportCenterAPIGetTest extends APITestSetup {
             var city = new City(cityId);
             CITY.createCity(cityId);
         }
+        PLAYER.createPlayer(playerIDs.get(0));
 
         for (var cityId : cityIDs) {
             var query = new HashMap<String, List<String>>();
             query.put("cityId", new ArrayList<>());
             query.get("cityId").add(cityId);
 
-            var responseFuture = asyncGetJSON(SPORT_CENTER_API_PATH, query);
+            var responseFuture = asyncGetJSON(SPORT_CENTER_API_PATH, playerIDs.get(0), query);
             var response = responseFuture.get();
             Assert.assertEquals(HTTPStatus.OK, response.statusCode());
 
@@ -75,6 +77,7 @@ public class SportCenterAPIGetTest extends APITestSetup {
     public void testGetCitySportCentersExpectAllMySqlException() throws Exception {
         var testInputs = new ArrayList<Integer>();
         testInputs.add(460);
+        PLAYER.createPlayer(playerIDs.get(0));
 
         for (var code : testInputs) {
             SPORT_CENTER.setToBeThrown(code);
@@ -83,7 +86,7 @@ public class SportCenterAPIGetTest extends APITestSetup {
             query.put("cityId", new ArrayList<>());
             query.get("cityId").add("ArbitraryData");
 
-            var responseFuture = asyncGetJSON(SPORT_CENTER_API_PATH, query);
+            var responseFuture = asyncGetJSON(SPORT_CENTER_API_PATH, playerIDs.get(0), query);
             var response = responseFuture.get();
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
@@ -108,7 +111,7 @@ public class SportCenterAPIGetTest extends APITestSetup {
             if (cityQuery != null) {
                 query.put("cityId", cityQuery);
             }
-            testFutures.add(asyncPut(COURT_API_PATH, query));
+            testFutures.add(asyncPut(COURT_API_PATH, null, query));
         }
 
         for (var f : testFutures) {

@@ -37,6 +37,11 @@ public class StaffHandler extends AbstractHandler {
 
     private void execPost(HttpExchange exchange) throws IOException {
         var token = exchange.getRequestHeaders().get("Token");
+        if (token == null || token.size() != 1) {
+            exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+            return;
+        }
+
         try {
             var id = auth.getId(token.get(0));
             if (id == null) {

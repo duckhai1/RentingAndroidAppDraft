@@ -20,7 +20,7 @@ public class SportCenterAPIPostTest extends APITestSetup {
         for (var cityId : cityIDs) {
             CITY.createCity(cityId);
             for (var sportCenterId : sportCenterIDs) {
-                futures.add(asyncPostJSON(SPORT_CENTER_API_PATH, new SportCenter(sportCenterId, cityId)));
+                futures.add(asyncPostJSON(SPORT_CENTER_API_PATH, null, new SportCenter(sportCenterId, cityId)));
             }
         }
 
@@ -39,7 +39,7 @@ public class SportCenterAPIPostTest extends APITestSetup {
 
         for (var code : testInputs) {
             SPORT_CENTER.setToBeThrown(code);
-            var future = asyncPostJSON(SPORT_CENTER_API_PATH, new SportCenter("ArbitraryData", "ArbitraryData"));
+            var future = asyncPostJSON(SPORT_CENTER_API_PATH, null, new SportCenter("ArbitraryData", "ArbitraryData"));
             var response = future.get();
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
@@ -64,7 +64,7 @@ public class SportCenterAPIPostTest extends APITestSetup {
 
         var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var data : testInputs) {
-            testFutures.add(asyncPostJSON(SPORT_CENTER_API_PATH, data));
+            testFutures.add(asyncPostJSON(SPORT_CENTER_API_PATH, null, data));
         }
 
         for (var f : testFutures) {

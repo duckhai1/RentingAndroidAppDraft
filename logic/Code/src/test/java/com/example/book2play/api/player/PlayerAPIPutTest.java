@@ -26,7 +26,7 @@ public class PlayerAPIPutTest extends APITestSetup {
             query.get("oldPlayerId").add(playerId);
             query.put("newPlayerId", new ArrayList<>());
             query.get("newPlayerId").add("New" + playerId);
-            testFutures.add(asyncPut(PLAYER_API_PATH, query));
+            testFutures.add(asyncPut(PLAYER_API_PATH, playerId, query));
         }
 
         for (var f : testFutures) {
@@ -49,7 +49,7 @@ public class PlayerAPIPutTest extends APITestSetup {
             query.put("newPlayerId", new ArrayList<>());
             query.get("newPlayerId").add("ArbitraryData");
 
-            var future = asyncPut(PLAYER_API_PATH, query);
+            var future = asyncPut(PLAYER_API_PATH, "ArbitraryData", query);
             var response = future.get();
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
@@ -93,7 +93,7 @@ public class PlayerAPIPutTest extends APITestSetup {
                 if (newPlayerQuery != null) {
                     query.put("newPlayerId", newPlayerQuery);
                 }
-                testFutures.add(asyncPut(PLAYER_API_PATH, query));
+                testFutures.add(asyncPut(PLAYER_API_PATH, "ArbitraryData", query));
             }
         }
 

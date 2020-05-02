@@ -41,7 +41,7 @@ public class StaffAPIPutTest extends APITestSetup {
                     query.get("oldStaffId").add(staffId);
                     query.put("newStaffId", new ArrayList<>());
                     query.get("newStaffId").add("New" + staffId);
-                    testFutures.add(asyncPut(STAFF_API_PATH, query));
+                    testFutures.add(asyncPut(STAFF_API_PATH, null, query));
                 }
             }
         }
@@ -72,7 +72,7 @@ public class StaffAPIPutTest extends APITestSetup {
             query.put("newStaffId", new ArrayList<>());
             query.get("newStaffId").add("ArbitraryData");
 
-            var future = asyncPut(STAFF_API_PATH, query);
+            var future = asyncPut(STAFF_API_PATH, null, query);
             var response = future.get();
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
@@ -143,7 +143,7 @@ public class StaffAPIPutTest extends APITestSetup {
                         if (newStaffQuery != null) {
                             query.put("newStaffId", newStaffQuery);
                         }
-                        testFutures.add(asyncPut(STAFF_API_PATH, query));
+                        testFutures.add(asyncPut(STAFF_API_PATH, null, query));
                     }
                 }
             }

@@ -9,8 +9,6 @@ import org.junit.Test;
 
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 public class PlayerAPIPostTest extends APITestSetup {
@@ -18,7 +16,7 @@ public class PlayerAPIPostTest extends APITestSetup {
     public void testPostPlayerSuccess() throws Exception {
         var futures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var s : playerIDs) {
-            futures.add(asyncPostJSON(PLAYER_API_PATH, new Player(s)));
+            futures.add(asyncPostJSON(PLAYER_API_PATH, s, null));
         }
 
         for (var f : futures) {
@@ -36,7 +34,7 @@ public class PlayerAPIPostTest extends APITestSetup {
 
         for (var code : testInputs) {
             PLAYER.setToBeThrown(code);
-            var future = asyncPostJSON(PLAYER_API_PATH, new Player("ArbitraryData"));
+            var future = asyncPostJSON(PLAYER_API_PATH, "ArbitraryData", new Player("ArbitraryData"));
             var response = future.get();
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
@@ -48,26 +46,10 @@ public class PlayerAPIPostTest extends APITestSetup {
     }
 
     @Test
-    public void testPostPlayerInvalidJSONFormat() throws Exception {
-        var testInputs = new ArrayList<Map<String, String>>();
-        for (var id : playerIDs) {
-            var data = new HashMap<String, String>();
-            data.put("playerName", id);
-            testInputs.add(data);
-        }
+    public void testPostPlayerUnauthorized() throws Exception {
+        var responseFuture = asyncPostJSON(PLAYER_API_PATH, null, null);
+        var response = responseFuture.get();
 
-        var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
-        for (var data : testInputs) {
-            testFutures.add(asyncPostJSON(CITY_API_PATH, data));
-        }
-
-        for (var f : testFutures) {
-            var response = f.get();
-            Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
-
-            var apiRes = GSON.fromJson(response.body(), GenericAPIResult.class);
-            Assert.assertNotEquals(null, apiRes);
-            Assert.assertTrue(apiRes.isHasError());
-        }
+        Assert.assertEquals(HTTPStatus.UNAUTHORIZED, response.statusCode());
     }
 }

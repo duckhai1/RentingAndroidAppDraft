@@ -8,7 +8,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,11 +22,11 @@ public class CityAPIGetTest extends APITestSetup {
         }
         PLAYER.createPlayer(playerIDs.get(0));
 
-        var responseFuture = asyncGetJSON(CITY_API_PATH, playerIDs.get(0), new HashMap<>());
+        var responseFuture = asyncGetJSON(CITY_API_PATH, playerIDs.get(0), null);
         var response = responseFuture.get();
         Assert.assertEquals(HTTPStatus.OK, response.statusCode());
 
-        Set<Integer> outCities = GSON.fromJson(
+        Set<City> outCities = GSON.fromJson(
                 response.body(),
                 new TypeToken<HashSet<City>>() {
                 }.getType()
@@ -37,7 +36,8 @@ public class CityAPIGetTest extends APITestSetup {
 
     @Test
     public void testGetCitiesEmptyDatabase() throws Exception {
-        var responseFuture = asyncGetJSON(CITY_API_PATH, new HashMap<>());
+        PLAYER.createPlayer(playerIDs.get(0));
+        var responseFuture = asyncGetJSON(CITY_API_PATH, playerIDs.get(0), null);
         var response = responseFuture.get();
         Assert.assertEquals(HTTPStatus.OK, response.statusCode());
 

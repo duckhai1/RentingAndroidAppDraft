@@ -22,7 +22,7 @@ public class CityAPIPostTest extends APITestSetup {
     public void testPostCitySuccess() throws Exception {
         var futures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var s : cityIDs) {
-            futures.add(asyncPostJSON(CITY_API_PATH, new City(s)));
+            futures.add(asyncPostJSON(CITY_API_PATH, null, new City(s)));
         }
 
         for (var f : futures) {
@@ -39,7 +39,7 @@ public class CityAPIPostTest extends APITestSetup {
 
         for (var code : testInputs) {
             CITY.setToBeThrown(code);
-            var future = asyncPostJSON(CITY_API_PATH, new City("ArbitraryData"));
+            var future = asyncPostJSON(CITY_API_PATH, null, new City("ArbitraryData"));
             var response = future.get();
             Assert.assertEquals(HTTPStatus.BAD_REQUEST, response.statusCode());
 
@@ -61,7 +61,7 @@ public class CityAPIPostTest extends APITestSetup {
 
         var testFutures = new ArrayList<CompletableFuture<HttpResponse<String>>>();
         for (var data : testInputs) {
-            testFutures.add(asyncPostJSON(CITY_API_PATH, data));
+            testFutures.add(asyncPostJSON(CITY_API_PATH, null, data));
         }
 
         for (var f : testFutures) {

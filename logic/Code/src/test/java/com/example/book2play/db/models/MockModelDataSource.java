@@ -2,8 +2,10 @@ package com.example.book2play.db.models;
 
 import com.example.book2play.types.*;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MockModelDataSource {
     private Set<Booking> bookings;
@@ -14,12 +16,12 @@ public class MockModelDataSource {
     private Set<Staff> staffs;
 
     public MockModelDataSource() {
-        bookings = new HashSet<>();
-        cities = new HashSet<>();
-        courts = new HashSet<>();
-        players = new HashSet<>();
-        sportCenters = new HashSet<>();
-        staffs = new HashSet<>();
+        bookings = Collections.newSetFromMap(new ConcurrentHashMap<>());
+        cities = Collections.newSetFromMap(new ConcurrentHashMap<>());
+        courts = Collections.newSetFromMap(new ConcurrentHashMap<>());
+        players = Collections.newSetFromMap(new ConcurrentHashMap<>());
+        sportCenters = Collections.newSetFromMap(new ConcurrentHashMap<>());
+        staffs = Collections.newSetFromMap(new ConcurrentHashMap<>());
     }
 
     public Set<Booking> getBookings() {
