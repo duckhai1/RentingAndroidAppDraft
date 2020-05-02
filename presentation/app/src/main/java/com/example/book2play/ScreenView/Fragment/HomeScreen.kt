@@ -16,6 +16,8 @@ import kotlinx.android.synthetic.main.fragment_home.*
  */
 class HomeScreen : Fragment() {
 
+    // TODO update algorithm for choosing best center in next update
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

@@ -9,6 +9,7 @@ import android.os.Environment
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.view.WindowManager
@@ -18,8 +19,10 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.example.LogicConnection.Handler.AuthenHandler
 import com.example.book2play.R
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.android.synthetic.main.screen_sign_up.*
 import java.io.FileNotFoundException
 import java.io.InputStream
 
@@ -72,6 +75,10 @@ class SignUpScreen : AppCompatActivity() {
         btnSignup = findViewById<View>(R.id.signUpBtn) as Button
         btnSignup!!.setOnClickListener {
             submitForm()
+            val playerId = username.text.toString()
+            val password = password.text.toString()
+            Log.d("login", "signup screen: "+playerId +"/"+password)
+            AuthenHandler.signupPlayer(this, playerId, password)
         }
     }
 
@@ -96,7 +103,6 @@ class SignUpScreen : AppCompatActivity() {
         if (!validatePassword()) {
             return
         }
-        Toast.makeText(this@SignUpScreen, "Nibba tks", Toast.LENGTH_LONG).show()
     }
 
     //VALIDATE FOR EACH COMPONENTS IN REGISTRATION

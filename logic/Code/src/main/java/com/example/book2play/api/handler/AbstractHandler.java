@@ -113,6 +113,8 @@ public abstract class AbstractHandler implements HttpHandler {
 
             return user.getId();
         } else if (tokenType.equals("DB")){
+            LOG.info("get playerId from token " + token.toString());
+            LOG.info("playerID: " + authModel.getPlayerId(token.toString()));
             return authModel.getPlayerId(token);
         } else {
             throw new RuntimeException("Unrecognized token");

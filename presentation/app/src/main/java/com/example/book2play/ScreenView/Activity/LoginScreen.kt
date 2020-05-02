@@ -49,8 +49,15 @@ class LoginScreen : AppCompatActivity() {
 
         // TODO check login authorization
         signinBtn.setOnClickListener {
-            val intent = Intent(applicationContext, MainActivity::class.java)
-            startActivity(intent)
+            val playerId = usernameInput.text.toString()
+            val password = passwordInput.text.toString()
+            if (playerId != "" && password != "") {
+                AuthenHandler.loginPlayer(this, playerId, password)
+                Log.d("login", "Token: " + (this.application as MyApplication).getToken())
+                Log.d("login", "Token type: " + (this.application as MyApplication).getTokenType())
+            } else {
+                Toast.makeText(this, "Please login to your account", Toast.LENGTH_SHORT).show()
+            }
         }
 
         //create clickable SIGN UP

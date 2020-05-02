@@ -10,8 +10,8 @@ class LogoutPlayerAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
         var result : String? = null
         try {
             result = ConnectionHandler.sendDelete(
-                BASEURL + "/bookings",
-                "{}",
+                BASEURL + "/authen",
+                "",
                 Token,
                 TokenType
             )

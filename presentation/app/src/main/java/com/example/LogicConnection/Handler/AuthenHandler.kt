@@ -29,13 +29,11 @@ class AuthenHandler {
             if (token != null){
                 (activity.application as MyApplication).setToken(token)
                 (activity.application as MyApplication).setTokenType("DB")
-                val home_intent = Intent(activity, MainActivity::class.java)
-                activity.startActivity(home_intent)
             }
         }
 
         fun logoutPlayer(activity: Activity, token: String){
-            val status = LoginPlayerAsync(activity).execute().get()
+            val status = LogoutPlayerAsync(activity).execute().get()
             if (status == HttpURLConnection.HTTP_OK.toString()){
                 (activity.application as MyApplication).setToken("")
                 (activity.application as MyApplication).setTokenType("")

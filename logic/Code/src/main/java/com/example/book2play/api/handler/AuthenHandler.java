@@ -83,13 +83,13 @@ public class AuthenHandler extends AbstractHandler {
     private void execDelete(HttpExchange exchange) throws IOException{
         var token = exchange.getRequestHeaders().get("Token");
         if ((token == null || token.size() != 1)) {
-            exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
+            exchange.sendResponseHeaders(HTTPStatus.OK, -1);
             return;
         }
 
         try {
             authModel.logoutPlayer(token.get(0));
-            exchange.sendResponseHeaders(HTTPStatus.OK, -1);
+            exchange.sendResponseHeaders(HTTPStatus.ACCEPTED, -1);
         } catch (MySQLException e) {
             LOG.warning("Request was unsuccessful " + e.getMessage());
             responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);

@@ -81,6 +81,7 @@
         android:hint="  Password*"
         android:inputType="textPassword"
         android:textSize="15sp"
+        app:passwordToggleEnabled="true"
         app:layout_constraintBottom_toTopOf="@+id/PolicyTxt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
