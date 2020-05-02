@@ -6,7 +6,7 @@ DELIMITER //
 DROP PROCEDURE IF EXISTS signupPlayer //
 CREATE PROCEDURE signupPlayer (
 	IN inPlayerId VARCHAR(100),
-    IN inPlayerPass VARCHAR(100),
+    IN inPlayerPass VARCHAR(512),
     OUT statusCode INT
 )
 BEGIN

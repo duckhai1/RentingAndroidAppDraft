@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 if ((this.application as MyApplication).getTokenType() == "FB") {
                     LoginManager.getInstance().logOut()
                 } else {
-                    AuthenHandler.logoutPlayer(this, (this.application as MyApplication).getToken())
+                    AuthenHandler.logoutPlayer(this)
                 }
                 logoutFragment =
                     LogoutScreen()

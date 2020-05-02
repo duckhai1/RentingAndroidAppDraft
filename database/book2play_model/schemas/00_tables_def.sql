@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS staffs (
 CREATE TABLE IF NOT EXISTS players (
     playerPk INT NOT NULL AUTO_INCREMENT,
     playerId VARCHAR(100) NOT NULL,
-    playerPass VARCHAR(100) DEFAULT "",
+    playerPass VARCHAR(512) DEFAULT "",
     token VARCHAR(100) DEFAULT "",
 
     PRIMARY KEY (playerPk),
