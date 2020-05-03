@@ -19,7 +19,6 @@ Query all the attributes of a court booking identified by the given courtId, cit
 
 **Return** `R(bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId)`
 
-**Return** `R(bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId)`
 
 `getCitySportCenters(IN inCityId, OUT statusCode)`
 ---
@@ -33,6 +32,7 @@ Query all the attributes of a sportcenter identified by the given sportCenterId,
 
 **Return** `R(sportCenterId, cityId)`
 
+
 `getPlayerBookings(IN inPlayerId, OUT statusCode)`
 ---
 Query all the attributes of a sportcenter identified by the given playerId.
@@ -44,7 +44,7 @@ Query all the attributes of a sportcenter identified by the given playerId.
     +  *464 - INVALID PLAYER ID*
 
 **Return** `R(bookingId, timeStam, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId)`
- 
+
 
 `getSportcenterBookings(IN inSportCenterId, IN inCityId, IN inBookingDate, OUT statusCode)`
 ---
@@ -62,6 +62,7 @@ Query all the attributes of all bookings of the sportcenter identified by the gi
 
 **Return** `R(bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId)`
 
+
 `getSportCenterCourts(IN inSportCenterId, IN inCityId, OUT statusCode)`
 ---
 Query all the court from the sport center identified by the given sportcenterId and cityId.
@@ -76,6 +77,7 @@ Query all the court from the sport center identified by the given sportcenterId 
 
 **Return** `R(courtId, cityId, sportCenterId)`
 
+
 `getCities(OUT statusCode)`
 ---
 Get all cities 
@@ -85,6 +87,7 @@ Get all cities
     + *200 - SUCCESS*
 
 **Return** `R(cityId)`
+
 
 `getCityCourts(IN inCityId, OUT statusCode)`
 ---
@@ -97,6 +100,7 @@ Query all the court from the city identified by the given cityId.
     + *460 - INVALID CITY ID*
 
 **Return** `R(courtId, cityId, sportCenterId)`
+
 
 `getPlayerBookingsInCity(IN inPlayerId, IN inCityId, IN inBookingDate, OUT statusCode)`
 ---
@@ -114,6 +118,7 @@ Query all the attributes of all bookings identified by the given playerId, cityI
 
 **Return** `R(bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId)`
 
+
 `createCity(IN inCityId, OUT statusCode)`
 ---
 Create a new city with the given cityId.
@@ -127,6 +132,7 @@ Create a new city with the given cityId.
 
 **Return** `R()`
 
+
 `createPlayer(IN inPlayerId, OUT statusCode)`
 ---
 Create a new player.
@@ -139,6 +145,7 @@ Create a new player.
     + *405 - PLAYER ID ALREADY EXISTS*
 
 **Return** `R()`
+
 
 `createCityCenter(IN inSportCenterId, IN inCityId, OUT statusCode)`
 ---
@@ -154,6 +161,7 @@ Create new Sportcenter with the given sportCenterId and cityId.
     + *403 - SPORTCENTER ID ALREADY EXISTS*
 
 **Return** `R()`
+
 
 `createCityCenterCourt(IN inCourtId, IN inCityId, IN inSportCenterId, OUT statusCode)`
 ---
@@ -172,6 +180,7 @@ Create a new court with the given courId, cityId, sportCenterId
 
 **Return** `R()`
 
+
 `createStaff(IN inStaffId, IN inCityId, IN inSportCenterId, OUT statusCode)`
 ---
 Create a new staff with given cityId, sportCenterId.
@@ -188,6 +197,7 @@ Create a new staff with given cityId, sportCenterId.
     + *406 - STAFFID ALREADY EXISTS*
 
 **Return** `R()`
+
 
 `createBooking(IN inTimeStamp, IN inDate, IN inStartTime, IN inEndTime, IN inCityId, IN inSportCenterId, IN inCourtId, IN inplayerId, OUT statusCode)`
 ---
@@ -220,6 +230,7 @@ Create a new booking
 
 **Return** `R()`
 
+
 `updateBookingStatus(IN inStatus, IN inBookingId, IN inCityId, IN inSportCenterId, IN inStaffId, OUT statuscode)`
 ---
 Update new booking status with given status, bookingId, cityId, sportCenterId and staffId.
@@ -240,6 +251,7 @@ Update new booking status with given status, bookingId, cityId, sportCenterId an
 
 **Return** `R()`
 
+
 `updateCourtId(IN newCourtId, IN inCourtId, inCityId, inSportCenterId, OUT statusCode)`
 ---
 Update a new courtId with given new courtId.
@@ -259,6 +271,7 @@ Update a new courtId with given new courtId.
   
 **Return** `R()`
 
+
 `updatePlayerId(IN newplayerId, IN inPlayerId, OUT statusCode)`
 ---
 Update a new player id
@@ -272,6 +285,7 @@ Update a new player id
     + *405 - PLAYER ID ALREADY EXISTS*
 
 **Return** `R()`
+
 
 `updateSportcenterId(IN newSportCenterid, IN inSportCenterId, IN inCityId, OUT statusCode)`
 ---
@@ -288,6 +302,7 @@ Update a new sportcenter id with given new sportcenter id.
     + *403 - SPORTCENTER ID ALREADY EXISTS*
   
 **Return** `R()`
+
 
 `updateStaffId(IN newStaffId, IN inStaffId, IN inCityId, IN inSportCenterId, OUT statusCode)`
 ---
@@ -306,6 +321,7 @@ Update a new staff with a given new staff id.
     + *406 - STAFF ID ALREADY EXISTS*
   
 **Return** `R()`
+
 
 `cancelBooking(IN inBookingId, IN inPlayerId, OUT statusCode)`
 ---
