@@ -32,3 +32,4 @@ Coding conventions:
 | 467 | INVALID DURATION | An invalid booking duration was provided |
 | 468 | INVALID START TIME | An invalid start time was provided |
 | 469 | INVALID END TIME | An invalid end time was provided |
+

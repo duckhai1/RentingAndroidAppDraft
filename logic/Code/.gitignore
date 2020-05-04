@@ -38,6 +38,7 @@
 *.iml
 *.ipr
 
+
 # CMake
 cmake-build-*/
 
@@ -123,4 +124,5 @@ Temporary Items
 src/main/resources/mysql_database.properties
 src/test/resources/mysql_database.properties
 target/
+
 
