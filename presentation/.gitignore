@@ -1,12 +1,3 @@
-Skip to content
- github / gitignore
-Code Pull requests 116 Projects 0 Actions Security Pulse Community
-gitignore/Android.gitignore
-@MichalDanielDobrzanski MichalDanielDobrzanski Added aar file type to gitignore (#3233)
-1c11457 on Nov 18, 2019
-@shiftkey@arcresu@tral@Neargye@friederbluemle@callingshotgun@AdrianVovk@wRorsjakz@malhobayyeb@Zarkopafilis@Yousha@whoshuu@evorion@szpssky@aslamanver@SamWhited@esaalii@exarus@nistix@neetrath@mohsenoid@mquigley@kevinmost@vitorprado@jsoref@jshou
-85 lines (68 sloc)  1.4 KB
-  
 # Built application files
 *.apk
 *.aar
@@ -92,6 +83,7 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+# lint/reports/
 © 2020 GitHub, Inc.
 Terms
 Privacy
@@ -104,3 +96,4 @@ API
 Training
 Blog
 About
+

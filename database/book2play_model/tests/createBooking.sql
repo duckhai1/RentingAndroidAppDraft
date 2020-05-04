@@ -86,8 +86,8 @@ INSERT INTO bookings (
 VALUES
     (
         '1', DATE_ADD(NOW(), INTERVAL -17 DAY), DATE_ADD(CURDATE(), INTERVAL -7 DAY), '09:00:00', '10:30:00', TRUE,
-        ( SELECT courtPk FROM courts NATURAL JOIN sportcenters NATURAL JOIN cities
-            WHERE cityId = 'A' AND sportcenterId = 'B' AND courtId = 'C'),
+        ( SELECT courtPk FROM courts NATURAL JOIN sportCenters NATURAL JOIN cities
+            WHERE cityId = 'A' AND sportCenterId = 'B' AND courtId = 'C'),
         (
             SELECT playerPk
             FROM players
@@ -117,8 +117,8 @@ INSERT INTO bookings (
 VALUES
     (
         '1', DATE_ADD(NOW(), INTERVAL -17 DAY), DATE_ADD(CURDATE(), INTERVAL -7 DAY), '09:00:00', '10:30:00',
-        ( SELECT courtPk FROM courts NATURAL JOIN sportcenters NATURAL JOIN cities
-            WHERE cityId = 'A' AND sportcenterId = 'B' AND courtId = 'C'),
+        ( SELECT courtPk FROM courts NATURAL JOIN sportCenters NATURAL JOIN cities
+            WHERE cityId = 'A' AND sportCenterId = 'B' AND courtId = 'C'),
         (
             SELECT playerPk
             FROM players
