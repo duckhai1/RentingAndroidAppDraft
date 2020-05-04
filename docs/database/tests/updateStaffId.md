@@ -18,7 +18,7 @@ testGetStaffInfoInvalidStaffId
 ---
 + _Objective_: test if the request is rejected when `inStaffId` is invalid.
 + _Precondition_:
-    + `inStaffId` is not an alphanumeric characters sequence and uniquely identifies a row in `staff` relation.
+    + `inStaffId` does not exist in the database.
     + `inCityId` is an alphanumeric characters sequence and uniquely identifies a row in `city` relation.
     + `inSportCenterId` is an alphanumeric characters sequence and uniquely identifies a row in `sportCenter` relation.
 + _Step_: Call the stored procedures once with data that sastifies the preconditions
@@ -45,7 +45,7 @@ testGetStaffInfoInvalidCityId
 + _Precondition_:
     + `newStaffId` is an alphanumeric characters sequence.
     + `inStaffId` is an alphanumeric characters sequence and uniquely identifies a row in `staff` relation.
-    + `inCityId` is not alphanumeric characters sequence and uniquely identifies a row in `city` relation.
+    + `inCityId` does not exist in the database.
     + `inSportCenterId` is an alphanumeric characters sequence and uniquely identifies a row in `sportCenter` relation.
 + _Step_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass condition_:
@@ -59,7 +59,7 @@ testUpdateStaffInvalidCitySportCenterId
     + `newStaffId` is an alphanumeric characters sequence.
     + `inStaffId` is an alphanumeric characters sequence and uniquely identifies a row in `staff` relation.
     + `inCityId` is alphanumeric characters sequence and uniquely identifies a row in `city` relation.
-    + `inSportCenterId` is not an alphanumeric characters sequence and uniquely identifies a row in `sportCenter` relation.
+    + `inSportCenterId` does not exist in the database.
 + _Step_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass condition_:
     + `statusCode` equals to *461 - INVALID SPORTCENTER ID*

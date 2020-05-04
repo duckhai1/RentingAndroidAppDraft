@@ -42,7 +42,7 @@ testUpdateSportCenterIdIdInvalidInputId
 + _Objective_: test if the request is rejected when `inSportCenterId` is invalid.
 + _Precondition_:
     + `inCityId` is an alphanumeric characters sequence and uniquely identifies a row in `city` relation.
-    + `inSportCenterId` is not an alphanumeric characters sequence and uniquely identifies a row in `sportCenter` relation.
+    + `inSportCenterId` does not exist in the database.
     + `newSportCenterId` is an alphanumeric characters sequence.
 + _Step_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass condition_:
@@ -53,7 +53,7 @@ testUpdateSportCenterIdIdInvalidCityId
 ---
 + _Objective_: test if the request is rejected when `inCityId` is invalid.
 + _Precondition_:
-    + `inCityId` is not an alphanumeric characters sequence and uniquely identifies a row in `city` relation.
+    + `inCityId` does not exist in the database.
     + `inSportCenterId` is an alphanumeric characters sequence and uniquely identifies a row in `sportCenter` relation.
     + `newSportCenterId` is an alphanumeric characters sequence.
 + _Step_: Call the stored procedures once with data that sastifies the preconditions

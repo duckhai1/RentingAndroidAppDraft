@@ -15,7 +15,7 @@ testCityCourtInvalidCityId
 ---
 + _Objective_: test if the request is rejected when `inCityId` is invalid.
 + _Precondition_:
-    + `inCityId` is not an alphanumeric characters sequence and uniquely identifies a row in `city` relation.
+    + `inCityId` does not exist in the database.
 + _Step_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass condition_:
     + `statusCode` is equal to *460 - INVALID CITY ID*
