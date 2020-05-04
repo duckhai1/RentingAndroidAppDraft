@@ -7,79 +7,293 @@ testCreateMultipleBookingsUptoTheLimit
 + _Preconditions_:
 	+ `inTimeStamp` is the time instance when the stored procedure is called
 	+ `inBookingDate` comes after the date when the interface is called
+	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
+	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
 	+ Duration between `bookingStartTime` and `bookingStartTime` is 45 minutes, 1 hour, 1 hour 15 minutes, or 1 hour 30 minutes
 	+ `inCityId` uniquely identifies a row in `city` relation
 	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
 	+ `inCourtId` uniquely identifies a row in `court` relation
 	+ `inPlayerId` uniquely identifies a row in `player` relation
 	+ The `booking` relation is empty
-+ _Steps__: Call the stored procedures 3 times with valid data to create 3 bookings in 3 different date
++ _Steps_: Call the stored procedures 3 times with data that sastifies the preconditions and each call is made with a different `bookingDate`
 + _Pass conditions_:
-	+ `statusCode` is equal to *200 - SUCCESS*
+	+ `statusCode` is equal to *200 - SUCCESS* for every call
 
-	test if the request is accepted and a booking is created when `caller` is valid and all the parameters are valid
-    + **`testMakeBookingInvalidBooking`**: test if the request is rejected when the `caller` is valid and the booking is invalid, i.e.,
-        + _Preconditions_:
-            + `playerId` uniquely identifies a row in `Player` relation
-            + `courtId` uniquely identifies a row in `Court` relation
-            + `date` is in `DATE` format and `date` comes after the date when the interface is called
-            + `dateCreated` is in `DATE` format and is equal to the date when the interface is called
-            + `startTime` and `endTime` is in `TIMESTAMP` format, `startTime` comes before `endTime`, and `startTime` comes after the time when the interface is called
-            + The player does not have unpaid booking
-            + The player does not have three upcomming bookings
-            + There exists another booking with the same `courtId` and the same `date`, but its `startTime` and `endTime` overlapping with the new booking
-        + _Pass conditions_:
-            + ```errorCode``` is equal to *413 - OVERLAPPED BOOKING*
-    + **`testMakeBookingPendingPayment`**: test if the request is rejected when the `caller` is valid and the player has past unpaid payment
-        + _Preconditions_:
-            + `playerId` uniquely identifies a row in `Player` relation
-            + `courtId` uniquely identifies a row in `Court` relation
-            + `date` is in `DATE` format and `date` comes after the date when the interface is called
-            + `dateCreated` is in `DATE` format and is equal to the date when the interface is called
-            + `startTime` and `endTime` is in `TIMESTAMP` format, `startTime` comes before `endTime`, and `startTime` comes after the time when the interface is called
-            + The player has unpaid booking
-            + The player does not have three upcomming bookings
-            + There does not exist another booking with the same `courtId` and the same `date`, but its `startTime` and `endTime` overlapping with the new booking
-        + _Pass conditions_:
-            + ```errorCode``` is equal to *412 - UNPAID BOOKING FOUND*
-    + **`testMakeBookingLimitExceed`**: test if the server behaves as expected when the player has already had 3 future bookings
-        + _Preconditions_:
-            + `playerId` uniquely identifies a row in `Player` relation
-            + `courtId` uniquely identifies a row in `Court` relation
-            + `date` is formatted as "YYYY-MM-DD", i.e., 4-digit year, 2-digit month, and 2-digit day of the month which are separated by "-" *(hyphens)*, and ordered as given **AND**  `date` comes after the date when the interface is called
-            + `startTime` and `endTime` is formatted as "HH:mm:ss", i.e., 2-digit hour, 2-digit minute, and 2-digit second which are separated by ":" *(colon)*,, and ordered as given **AND** `startTime` comes before `endTime` **AND** `startTime` comes after the time when the interface is called
-            + The player does not have unpaid booking
-            + The player already has three upcomming bookings
-            + There does not exist another booking with the same `courtId` and the same `date`, but its `startTime` and `endTime` overlapping with the new booking
-        + _Pass conditions_:
-            + ```errorCode``` is equal to *410 - BOOKINGS LIMIT REACHED*
-    + **`testMakeBookingUnauthorized`**:  test if the request is rejected when `playerId` is invalid
-         + _Preconditions_:
-            + `playerId` does not identify a row in `Player` relation
-        + _Pass conditions_:
-            + ```errorCode``` is equal to *401 - UNAUTHORIZED*
-    + **`testMakeBookingInvalidCourtId`**:  test if the request is rejected `courtId` is invalid
-        + _Preconditions_:
-            + `courtId` does not identify a row in `Court` relation
-        + _Pass conditions_:
-            + ```errorCode``` is equal to *462 - INVALID COURT ID*
-    + **`testMakeBookingInvalidDate`**: test if the request is rejected when `date` is invalid
-        + _Preconditions_:
-            + `date` is not in `DATE` format
-        + _Pass conditions_:
-            + ```errorCode``` is equal to *466 - INVALID DATE*
-    + **`testMakeBookingInvalidDuration`**: test if the request is rejected when the duration between `startTime` and `endTime` is invalid
-        + _Preconditions_:
-            + The period between `startTime` and `endTime` is not *45 minutes*, *1 hour*, *1 hour and 15 minutes*, or *1 hour and 30 minutes*
-        + _Pass conditions_:
-            + ```errorCode``` is equal to *467 - INVALID DURATION*
-    + **`testMakeBookingInvalidStartTime`**: test if the request is rejected when `startTime` is invalid
-        + _Preconditions_:
-            + `startTime` is not in `TIMESTAMP` format **OR** `startTime` does not come before `endTime` **OR** `startTime` does not come after the time when the interface is called
-        + _Pass conditions_:
-            + ```errorCode``` is equal to *468 - INVALID START TIME*
-    + **`testMakeBookingInvalidEndTime`**: test if the request is rejected when `endTime` is invalid
-        + _Preconditions_:
-            + `startTime` is not in `TIMESTAMP` format
-        + _Pass conditions_:
-            + ```errorCode``` is equal to *469 - INVALID END TIME*
+testCreateDuplicateBooking
+---
++ _Objective__: Test if a request is rejected when it contains identical data to an existing booking
++ _Preconditions_:
+	+ There exist a single booking in the database with `bookingDate` comes after the current date when the stored procedure is called
+	+ `inTimeStamp` is the time instance when the stored procedure is called
+	+ `inBookingDate` equals to the `bookingDate` of the existing booking
+	+ `inBookingStartTime` equals to the `bookingStartTime` of the existing booking
+	+ `inBookingEndTime` equals to the `bookingEndTime` of the existing booking
+	+ `inCityId` equals to the `cityId` of the existing booking
+	+ `inSportCenterId` equals to the `sportCenterId` of the existing booking
+	+ `inCourtId` equals to the `courtId` of the existing booking
+	+ `inPlayerId` equals to the `playerId` of the existing booking
++ _Steps_: Call the stored procedures once with data that sastifies the preconditions
++ _Pass conditions_:
+	+ `statusCode` is equal to *407 - BOOKING ALREADY EXISTS*
+
+testCreateBookingWhenBookingsLimitReached
+---
++ _Objective__: Test if a request is rejected
++ _Preconditions_:
+	+ The player with `playerId` equals to `inPlayerId` has 3 upcomming bookings
+	+ `inTimeStamp` is the time instance when the stored procedure is called
+	+ `inBookingDate` comes after the date when the interface is called
+	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
+	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
+	+ Duration between `bookingStartTime` and `bookingStartTime` is 45 minutes, 1 hour, 1 hour 15 minutes, or 1 hour 30 minutes
+	+ `inCityId` uniquely identifies a row in `city` relation
+	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` uniquely identifies a row in `court` relation
+	+ `inPlayerId` uniquely identifies a row in `player` relation
++ _Steps_: Call the stored procedures once with data that sastifies the preconditions
++ _Pass conditions_:
+	+ `statusCode` is equal to *410 - BOOKINGS LIMIT REACHED*
+
+testCreateBookingOverlappingTimeCase01
+---
++ _Objective__: Test if a request is rejected when the booking overalaped with another existing booking
++ _Preconditions_:
+	+ The `booking` relation contains a booking with `bookingStartTime = "09:00:00"` and `bookingEndTime = "10:30:00"`
+	+ `inTimeStamp` is the time instance when the stored procedure is called
+	+ `inBookingDate` comes after the date when the interface is called
+	+ `inBookingStartTime` is set to `"10:00:00"`
+	+ `inBookingEndTime` is set to `"11:30:00"`
+	+ `inCityId` equals to the `cityId` of the existing booking
+	+ `inSportCenterId` equals to the `sportCenterId` of the existing booking
+	+ `inCourtId` equals to the `courtId` of the existing booking
+	+ `inPlayerId` uniquely identifies a row in `player` relation
++ _Steps_: Call the stored procedures once with data that sastifies the preconditions
++ _Pass conditions_:
+	+ `statusCode` is equal to *413 - OVERLAPPED BOOKING FOUND*
+
+testCreateBookingOverlappingTimeCase02
+---
++ _Objective__: Test if a request is rejected when the booking overalaped with another existing booking
++ _Preconditions_:
+	+ The `booking` relation contains a booking with `bookingStartTime = "09:00:00"` and `bookingEndTime = "10:30:00"`
+	+ `inTimeStamp` is the time instance when the stored procedure is called
+	+ `inBookingDate` comes after the date when the interface is called
+	+ `inBookingStartTime` is set to `"08:30:00"`
+	+ `inBookingEndTime` is set to `"10:00:00"`
+	+ `inCityId` equals to the `cityId` of the existing booking
+	+ `inSportCenterId` equals to the `sportCenterId` of the existing booking
+	+ `inCourtId` equals to the `courtId` of the existing booking
+	+ `inPlayerId` uniquely identifies a row in `player` relation
++ _Steps_: Call the stored procedures once with data that sastifies the preconditions
++ _Pass conditions_:
+	+ `statusCode` is equal to *413 - OVERLAPPED BOOKING FOUND*
+
+testCreateBookingOverlappingTimeCase03
+---
++ _Objective__: Test if a request is rejected when the booking overalaped with another existing booking
++ _Preconditions_:
+	+ The `booking` relation contains a booking with `bookingStartTime = "09:00:00"` and `bookingEndTime = "10:30:00"`
+	+ `inTimeStamp` is the time instance when the stored procedure is called
+	+ `inBookingDate` comes after the date when the interface is called
+	+ `inBookingStartTime` is set to `"09:00:00"`
+	+ `inBookingEndTime` is set to `"10:00:00"`
+	+ `inCityId` equals to the `cityId` of the existing booking
+	+ `inSportCenterId` equals to the `sportCenterId` of the existing booking
+	+ `inCourtId` equals to the `courtId` of the existing booking
+	+ `inPlayerId` uniquely identifies a row in `player` relation
++ _Steps_: Call the stored procedures once with data that sastifies the preconditions
++ _Pass conditions_:
+	+ `statusCode` is equal to *413 - OVERLAPPED BOOKING FOUND*
+
+testCreateBookingOverlappingTimeCase04
+---
++ _Objective__: Test if a request is rejected when the booking overalaped with another existing booking
++ _Preconditions_:
+	+ The `booking` relation contains a booking with `bookingStartTime = "09:00:00"` and `bookingEndTime = "10:30:00"`
+	+ `inTimeStamp` is the time instance when the stored procedure is called
+	+ `inBookingDate` comes after the date when the interface is called
+	+ `inBookingStartTime` is set to `"09:30:00"`
+	+ `inBookingEndTime` is set to `"10:30:00"`
+	+ `inCityId` equals to the `cityId` of the existing booking
+	+ `inSportCenterId` equals to the `sportCenterId` of the existing booking
+	+ `inCourtId` equals to the `courtId` of the existing booking
+	+ `inPlayerId` uniquely identifies a row in `player` relation
++ _Steps_: Call the stored procedures once with data that sastifies the preconditions
++ _Pass conditions_:
+	+ `statusCode` is equal to *413 - OVERLAPPED BOOKING FOUND*
+
+testCreateBookingWithInvalidCityId
+---
++ _Objective__: Test if a request is rejected when an invalid city id is provided
++ _Preconditions_:
+	+ `inTimeStamp` is the time instance when the stored procedure is called
+	+ `inBookingDate` comes after the date when the interface is called
+	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
+	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
+	+ Duration between `bookingStartTime` and `bookingStartTime` is 45 minutes, 1 hour, 1 hour 15 minutes, or 1 hour 30 minutes
+	+ `inCityId` does not uniquely identify a row in `city` relation
+	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` uniquely identifies a row in `court` relation
+	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ The `booking` relation is empty
++ _Steps_: Call the stored procedures once with data that sastifies the preconditions
++ _Pass conditions_:
+	+ `statusCode` is equal to *460 - INVALID CITY ID*
+
+testCreateBookingWithInvalidSportCenterId
+---
++ _Objective__: Test if a request is rejected when an invalid sport center id is provided
++ _Preconditions_:
+	+ `inTimeStamp` is the time instance when the stored procedure is called
+	+ `inBookingDate` comes after the date when the interface is called
+	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
+	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
+	+ Duration between `bookingStartTime` and `bookingStartTime` is 45 minutes, 1 hour, 1 hour 15 minutes, or 1 hour 30 minutes
+	+ `inCityId` uniquely identifies a row in `city` relation
+	+ `inSportCenterId` does not uniquely identify a row in `sportCenter` relation
+	+ `inCourtId` uniquely identifies a row in `court` relation
+	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ The `booking` relation is empty
++ _Steps_: Call the stored procedures once with data that sastifies the preconditions
++ _Pass conditions_:
+	+ `statusCode` is equal to *461 - INVALID SPORT CENTER ID*
+
+testCreateBookingWithInvalidCourtId
+---
++ _Objective__: Test if a request is rejected when an invalid court id is provided
++ _Preconditions_:
+	+ `inTimeStamp` is the time instance when the stored procedure is called
+	+ `inBookingDate` comes after the date when the interface is called
+	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
+	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
+	+ Duration between `bookingStartTime` and `bookingStartTime` is 45 minutes, 1 hour, 1 hour 15 minutes, or 1 hour 30 minutes
+	+ `inCityId` uniquely identifies a row in `city` relation
+	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` does not uniquely identify a row in `court` relation
+	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ The `booking` relation is empty
++ _Steps_: Call the stored procedures once with data that sastifies the preconditions
++ _Pass conditions_:
+	+ `statusCode` is equal to *462 - INVALID COURT ID*
+
+testCreateBookingWithInvalidPlayerId
+---
++ _Objective__: Test if a request is rejected when an invalid player id is provided
++ _Preconditions_:
+	+ `inTimeStamp` is the time instance when the stored procedure is called
+	+ `inBookingDate` comes after the date when the interface is called
+	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
+	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
+	+ Duration between `bookingStartTime` and `bookingStartTime` is 45 minutes, 1 hour, 1 hour 15 minutes, or 1 hour 30 minutes
+	+ `inCityId` uniquely identifies a row in `city` relation
+	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` uniquely identifies a row in `court` relation
+	+ `inPlayerId` does not uniquely identify a row in `player` relation
+	+ The `booking` relation is empty
++ _Steps_: Call the stored procedures once with data that sastifies the preconditions
++ _Pass conditions_:
+	+ `statusCode` is equal to *464 - INVALID PLAYER ID*
+
+testCreateBookingWithInvalidDate
+---
++ _Objective__: Test if a request is rejected when an invalid date is provided
++ _Preconditions_:
+	+ `inTimeStamp` is the time instance when the stored procedure is called
+	+ `inBookingDate` comes before the date when the interface is called
+	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
+	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
+	+ Duration between `bookingStartTime` and `bookingStartTime` is 45 minutes, 1 hour, 1 hour 15 minutes, or 1 hour 30 minutes
+	+ `inCityId` uniquely identifies a row in `city` relation
+	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` uniquely identifies a row in `court` relation
+	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ The `booking` relation is empty
++ _Steps_: Call the stored procedures once with data that sastifies the preconditions
++ _Pass conditions_:
+	+ `statusCode` is equal to *466 - INVALID DATE*
+
+testCreateBookingWithInvalidDuration
+---
++ _Objective__: Test if a request is rejected when an invalid duration is provided
++ _Preconditions_:
+	+ `inTimeStamp` is the time instance when the stored procedure is called
+	+ `inBookingDate` comes after the date when the interface is called
+	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
+	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
+	+ Duration between `bookingStartTime` and `bookingStartTime` is not 45 minutes, 1 hour, 1 hour 15 minutes, or 1 hour 30 minutes
+	+ `inCityId` uniquely identifies a row in `city` relation
+	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` uniquely identifies a row in `court` relation
+	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ The `booking` relation is empty
++ _Steps_: Call the stored procedures once with data that sastifies the preconditions
++ _Pass conditions_:
+	+ `statusCode` is equal to *467 - INVALID DURATION*
+
+testCreateBookingStartTimeNotFactorOf15Min
+---
++ _Objective__: Test if a request is rejected when the provided start time is not a factor of 15 minutes
++ _Preconditions_:
+	+ `inTimeStamp` is the time instance when the stored procedure is called
+	+ `inBookingDate` comes after the date when the interface is called
+	+ `bookingStartTime` is not a factor of 15 minutes
+	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
+	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
+	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` uniquely identifies a row in `court` relation
+	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ The `booking` relation is empty
++ _Steps_: Call the stored procedures once with data that sastifies the preconditions
++ _Pass conditions_:
+	+ `statusCode` is equal to *468 - INVALID START TIME*
+
+testCreateBookingEndTimeNotFactorOf15Min
+---
++ _Objective__: Test if a request is rejected when the provided end time is not a factor of 15 minutes
++ _Preconditions_:
+	+ `inTimeStamp` is the time instance when the stored procedure is called
+	+ `inBookingDate` comes after the date when the interface is called
+	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
+	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
+	+ `inCityId` uniquely identifies a row in `city` relation
+	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` uniquely identifies a row in `court` relation
+	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ The `booking` relation is empty
++ _Steps_: Call the stored procedures once with data that sastifies the preconditions
++ _Pass conditions_:
+	+ `statusCode` is equal to *469 - INVALID END TIME*
+
+testCreateBookingStartTimeNotInWorkingHours
+---
++ _Objective__: Test if a request is rejected when the provided start time is not a factor of 15 minutes
++ _Preconditions_:
+	+ `inTimeStamp` is the time instance when the stored procedure is called
+	+ `inBookingDate` comes after the date when the interface is called
+	+ `inBookingStartTime` is a factor of 15 minutes and comes before `"07:00:00"`
+	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
+	+ `inCityId` uniquely identifies a row in `city` relation
+	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` uniquely identifies a row in `court` relation
+	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ The `booking` relation is empty
++ _Steps_: Call the stored procedures once with data that sastifies the preconditions
++ _Pass conditions_:
+	+ `statusCode` is equal to *468 - INVALID START TIME*
+
+testCreateBookingEndTimeNotInWorkingHours
+---
++ _Objective__: Test if a request is rejected when the provided end time is not a factor of 15 minutes
++ _Preconditions_:
+	+ `inTimeStamp` is the time instance when the stored procedure is called
+	+ `inBookingDate` comes after the date when the interface is called
+	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
+	+ `inBookingEndTime` is a factor of 15 minutes and comes after `"21:00:00"`
+	+ `inCityId` uniquely identifies a row in `city` relation
+	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` uniquely identifies a row in `court` relation
+	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ The `booking` relation is empty
++ _Steps_: Call the stored procedures once with data that sastifies the preconditions
++ _Pass conditions_:
+	+ `statusCode` is equal to *469 - INVALID END TIME*
