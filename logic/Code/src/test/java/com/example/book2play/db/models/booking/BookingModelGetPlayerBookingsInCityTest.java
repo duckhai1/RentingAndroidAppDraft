@@ -67,7 +67,7 @@ public class BookingModelGetPlayerBookingsInCityTest extends DBModelsTestSetup {
     }
 
     @Test
-    public void getBookingsInCitySuccessfully() throws Exception {
+    public void getPlayerBookingsInCitySuccessfully() throws Exception {
         var expectedOutputs = new ArrayList<HashSet<Booking>>();
         var testInputs = new ArrayList<String>();
         testInputs.add("HCM");
@@ -90,7 +90,7 @@ public class BookingModelGetPlayerBookingsInCityTest extends DBModelsTestSetup {
     }
 
     @Test
-    public void getBookingsInCityInvalidPlayerId() {
+    public void getPlayerBookingsInCityInvalidPlayerId() {
         final int EXPECTED_CODE = 464;
         var testInputs = new ArrayList<String>();
         testInputs.add("@lice");
@@ -108,7 +108,7 @@ public class BookingModelGetPlayerBookingsInCityTest extends DBModelsTestSetup {
     }
 
     @Test
-    public void getBookingsInCityInvalidCityId() {
+    public void getPlayerBookingsInCityInvalidCityId() {
         final int EXPECTED_CODE = 460;
         var testInputs = new ArrayList<String>();
         testInputs.add("H*M");
@@ -127,7 +127,7 @@ public class BookingModelGetPlayerBookingsInCityTest extends DBModelsTestSetup {
     }
 
     @Test
-    public void getBookingsInCityNoBookingInGivenDate() throws Exception {
+    public void getPlayerBookingsInCityNoBookingInGivenDate() throws Exception {
         var testInputs = new ArrayList<Date>();
         testInputs.add(TimeUtils.getDate(5));
         testInputs.add(TimeUtils.getDate(20));
