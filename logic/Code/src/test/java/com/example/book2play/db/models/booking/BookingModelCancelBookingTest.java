@@ -156,7 +156,7 @@ public class BookingModelCancelBookingTest extends DBModelsTestSetup {
     }
 
     @Test
-    public void testCancelBookingWithUnauthorized() throws Exception {
+    public void testCancelBookingUnauthorized() throws Exception {
         final int EXPECTED_CODE = 401;
         var inputBookings = new ArrayList<Booking>();
         inputBookings.add(BookingUtils.createBooking(
