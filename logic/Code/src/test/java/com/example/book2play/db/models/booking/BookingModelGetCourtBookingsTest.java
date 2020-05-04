@@ -115,6 +115,25 @@ public class BookingModelGetCourtBookingsTest extends DBModelsTestSetup {
     }
 
     @Test
+    public void getBookingsInvalidSportCenterId() {
+        final int EXPECTED_CODE = 461;
+        var testInputs = new ArrayList<String>();
+        testInputs.add("Q!");
+        testInputs.add("!Q");
+        testInputs.add("Q!1");
+        testInputs.add("HoanKiem");
+
+        for (var sportCenterId : testInputs) {
+            try {
+                var output = BOOKING.getCourtBookings("Court1", "HCM", sportCenterId, TimeUtils.getDate(7));
+                fail("Expecting MySQLException with statusCode " + EXPECTED_CODE);
+            } catch (MySQLException e) {
+                Assert.assertEquals(EXPECTED_CODE, e.getStatusCode());
+            }
+        }
+    }
+
+    @Test
     public void getBookingsInvalidCityId() {
         final int EXPECTED_CODE = 460;
         var testInputs = new ArrayList<String>();

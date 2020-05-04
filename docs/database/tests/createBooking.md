@@ -10,10 +10,10 @@ testCreateMultipleBookingsUptoTheLimit
 	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
 	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
 	+ Duration between `bookingStartTime` and `bookingStartTime` is 45 minutes, 1 hour, 1 hour 15 minutes, or 1 hour 30 minutes
-	+ `inCityId` uniquely identifies a row in `city` relation
-	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
-	+ `inCourtId` uniquely identifies a row in `court` relation
-	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ `inCityId` is an alphanumeric characters sequence and uniquely identifies a row in `city` relation
+	+ `inSportCenterId` is an alphanumeric characters sequence and uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` is an alphanumeric characters sequence and uniquely identifies a row in `court` relation
+	+ `inPlayerId` is an alphanumeric characters sequence and uniquely identifies a row in `player` relation
 	+ The `booking` relation is empty
 + _Steps_: Call the stored procedures 3 times with data that sastifies the preconditions and each call is made with a different `bookingDate`
 + _Pass conditions_:
@@ -46,10 +46,10 @@ testCreateBookingWhenBookingsLimitReached
 	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
 	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
 	+ Duration between `bookingStartTime` and `bookingStartTime` is 45 minutes, 1 hour, 1 hour 15 minutes, or 1 hour 30 minutes
-	+ `inCityId` uniquely identifies a row in `city` relation
-	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
-	+ `inCourtId` uniquely identifies a row in `court` relation
-	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ `inCityId` is an alphanumeric characters sequence and uniquely identifies a row in `city` relation
+	+ `inSportCenterId` is an alphanumeric characters sequence and uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` is an alphanumeric characters sequence and uniquely identifies a row in `court` relation
+	+ `inPlayerId` is an alphanumeric characters sequence and uniquely identifies a row in `player` relation
 + _Steps_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass conditions_:
 	+ `statusCode` is equal to *410 - BOOKINGS LIMIT REACHED*
@@ -66,7 +66,7 @@ testCreateBookingOverlappingTimeCase01
 	+ `inCityId` equals to the `cityId` of the existing booking
 	+ `inSportCenterId` equals to the `sportCenterId` of the existing booking
 	+ `inCourtId` equals to the `courtId` of the existing booking
-	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ `inPlayerId` is an alphanumeric characters sequence and uniquely identifies a row in `player` relation
 + _Steps_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass conditions_:
 	+ `statusCode` is equal to *413 - OVERLAPPED BOOKING FOUND*
@@ -83,7 +83,7 @@ testCreateBookingOverlappingTimeCase02
 	+ `inCityId` equals to the `cityId` of the existing booking
 	+ `inSportCenterId` equals to the `sportCenterId` of the existing booking
 	+ `inCourtId` equals to the `courtId` of the existing booking
-	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ `inPlayerId` is an alphanumeric characters sequence and uniquely identifies a row in `player` relation
 + _Steps_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass conditions_:
 	+ `statusCode` is equal to *413 - OVERLAPPED BOOKING FOUND*
@@ -100,7 +100,7 @@ testCreateBookingOverlappingTimeCase03
 	+ `inCityId` equals to the `cityId` of the existing booking
 	+ `inSportCenterId` equals to the `sportCenterId` of the existing booking
 	+ `inCourtId` equals to the `courtId` of the existing booking
-	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ `inPlayerId` is an alphanumeric characters sequence and uniquely identifies a row in `player` relation
 + _Steps_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass conditions_:
 	+ `statusCode` is equal to *413 - OVERLAPPED BOOKING FOUND*
@@ -117,7 +117,7 @@ testCreateBookingOverlappingTimeCase04
 	+ `inCityId` equals to the `cityId` of the existing booking
 	+ `inSportCenterId` equals to the `sportCenterId` of the existing booking
 	+ `inCourtId` equals to the `courtId` of the existing booking
-	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ `inPlayerId` is an alphanumeric characters sequence and uniquely identifies a row in `player` relation
 + _Steps_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass conditions_:
 	+ `statusCode` is equal to *413 - OVERLAPPED BOOKING FOUND*
@@ -132,9 +132,9 @@ testCreateBookingWithInvalidCityId
 	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
 	+ Duration between `bookingStartTime` and `bookingStartTime` is 45 minutes, 1 hour, 1 hour 15 minutes, or 1 hour 30 minutes
 	+ `inCityId` does not uniquely identify a row in `city` relation
-	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
-	+ `inCourtId` uniquely identifies a row in `court` relation
-	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ `inSportCenterId` is an alphanumeric characters sequence and uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` is an alphanumeric characters sequence and uniquely identifies a row in `court` relation
+	+ `inPlayerId` is an alphanumeric characters sequence and uniquely identifies a row in `player` relation
 	+ The `booking` relation is empty
 + _Steps_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass conditions_:
@@ -149,10 +149,10 @@ testCreateBookingWithInvalidSportCenterId
 	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
 	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
 	+ Duration between `bookingStartTime` and `bookingStartTime` is 45 minutes, 1 hour, 1 hour 15 minutes, or 1 hour 30 minutes
-	+ `inCityId` uniquely identifies a row in `city` relation
+	+ `inCityId` is an alphanumeric characters sequence and uniquely identifies a row in `city` relation
 	+ `inSportCenterId` does not uniquely identify a row in `sportCenter` relation
-	+ `inCourtId` uniquely identifies a row in `court` relation
-	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ `inCourtId` is an alphanumeric characters sequence and uniquely identifies a row in `court` relation
+	+ `inPlayerId` is an alphanumeric characters sequence and uniquely identifies a row in `player` relation
 	+ The `booking` relation is empty
 + _Steps_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass conditions_:
@@ -167,10 +167,10 @@ testCreateBookingWithInvalidCourtId
 	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
 	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
 	+ Duration between `bookingStartTime` and `bookingStartTime` is 45 minutes, 1 hour, 1 hour 15 minutes, or 1 hour 30 minutes
-	+ `inCityId` uniquely identifies a row in `city` relation
-	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
+	+ `inCityId` is an alphanumeric characters sequence and uniquely identifies a row in `city` relation
+	+ `inSportCenterId` is an alphanumeric characters sequence and uniquely identifies a row in `sportCenter` relation
 	+ `inCourtId` does not uniquely identify a row in `court` relation
-	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ `inPlayerId` is an alphanumeric characters sequence and uniquely identifies a row in `player` relation
 	+ The `booking` relation is empty
 + _Steps_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass conditions_:
@@ -185,9 +185,9 @@ testCreateBookingWithInvalidPlayerId
 	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
 	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
 	+ Duration between `bookingStartTime` and `bookingStartTime` is 45 minutes, 1 hour, 1 hour 15 minutes, or 1 hour 30 minutes
-	+ `inCityId` uniquely identifies a row in `city` relation
-	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
-	+ `inCourtId` uniquely identifies a row in `court` relation
+	+ `inCityId` is an alphanumeric characters sequence and uniquely identifies a row in `city` relation
+	+ `inSportCenterId` is an alphanumeric characters sequence and uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` is an alphanumeric characters sequence and uniquely identifies a row in `court` relation
 	+ `inPlayerId` does not uniquely identify a row in `player` relation
 	+ The `booking` relation is empty
 + _Steps_: Call the stored procedures once with data that sastifies the preconditions
@@ -203,10 +203,10 @@ testCreateBookingWithInvalidDate
 	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
 	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
 	+ Duration between `bookingStartTime` and `bookingStartTime` is 45 minutes, 1 hour, 1 hour 15 minutes, or 1 hour 30 minutes
-	+ `inCityId` uniquely identifies a row in `city` relation
-	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
-	+ `inCourtId` uniquely identifies a row in `court` relation
-	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ `inCityId` is an alphanumeric characters sequence and uniquely identifies a row in `city` relation
+	+ `inSportCenterId` is an alphanumeric characters sequence and uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` is an alphanumeric characters sequence and uniquely identifies a row in `court` relation
+	+ `inPlayerId` is an alphanumeric characters sequence and uniquely identifies a row in `player` relation
 	+ The `booking` relation is empty
 + _Steps_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass conditions_:
@@ -221,10 +221,10 @@ testCreateBookingWithInvalidDuration
 	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
 	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
 	+ Duration between `bookingStartTime` and `bookingStartTime` is not 45 minutes, 1 hour, 1 hour 15 minutes, or 1 hour 30 minutes
-	+ `inCityId` uniquely identifies a row in `city` relation
-	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
-	+ `inCourtId` uniquely identifies a row in `court` relation
-	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ `inCityId` is an alphanumeric characters sequence and uniquely identifies a row in `city` relation
+	+ `inSportCenterId` is an alphanumeric characters sequence and uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` is an alphanumeric characters sequence and uniquely identifies a row in `court` relation
+	+ `inPlayerId` is an alphanumeric characters sequence and uniquely identifies a row in `player` relation
 	+ The `booking` relation is empty
 + _Steps_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass conditions_:
@@ -239,9 +239,9 @@ testCreateBookingStartTimeNotFactorOf15Min
 	+ `bookingStartTime` is not a factor of 15 minutes
 	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
 	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
-	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
-	+ `inCourtId` uniquely identifies a row in `court` relation
-	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ `inSportCenterId` is an alphanumeric characters sequence and uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` is an alphanumeric characters sequence and uniquely identifies a row in `court` relation
+	+ `inPlayerId` is an alphanumeric characters sequence and uniquely identifies a row in `player` relation
 	+ The `booking` relation is empty
 + _Steps_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass conditions_:
@@ -255,10 +255,10 @@ testCreateBookingEndTimeNotFactorOf15Min
 	+ `inBookingDate` comes after the date when the interface is called
 	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
 	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
-	+ `inCityId` uniquely identifies a row in `city` relation
-	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
-	+ `inCourtId` uniquely identifies a row in `court` relation
-	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ `inCityId` is an alphanumeric characters sequence and uniquely identifies a row in `city` relation
+	+ `inSportCenterId` is an alphanumeric characters sequence and uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` is an alphanumeric characters sequence and uniquely identifies a row in `court` relation
+	+ `inPlayerId` is an alphanumeric characters sequence and uniquely identifies a row in `player` relation
 	+ The `booking` relation is empty
 + _Steps_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass conditions_:
@@ -272,10 +272,10 @@ testCreateBookingStartTimeNotInWorkingHours
 	+ `inBookingDate` comes after the date when the interface is called
 	+ `inBookingStartTime` is a factor of 15 minutes and comes before `"07:00:00"`
 	+ `inBookingEndTime` is a factor of 15 minutes and comes before `"21:00:00"`
-	+ `inCityId` uniquely identifies a row in `city` relation
-	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
-	+ `inCourtId` uniquely identifies a row in `court` relation
-	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ `inCityId` is an alphanumeric characters sequence and uniquely identifies a row in `city` relation
+	+ `inSportCenterId` is an alphanumeric characters sequence and uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` is an alphanumeric characters sequence and uniquely identifies a row in `court` relation
+	+ `inPlayerId` is an alphanumeric characters sequence and uniquely identifies a row in `player` relation
 	+ The `booking` relation is empty
 + _Steps_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass conditions_:
@@ -289,10 +289,10 @@ testCreateBookingEndTimeNotInWorkingHours
 	+ `inBookingDate` comes after the date when the interface is called
 	+ `inBookingStartTime` is a factor of 15 minutes and comes after `"07:00:00"`
 	+ `inBookingEndTime` is a factor of 15 minutes and comes after `"21:00:00"`
-	+ `inCityId` uniquely identifies a row in `city` relation
-	+ `inSportCenterId` uniquely identifies a row in `sportCenter` relation
-	+ `inCourtId` uniquely identifies a row in `court` relation
-	+ `inPlayerId` uniquely identifies a row in `player` relation
+	+ `inCityId` is an alphanumeric characters sequence and uniquely identifies a row in `city` relation
+	+ `inSportCenterId` is an alphanumeric characters sequence and uniquely identifies a row in `sportCenter` relation
+	+ `inCourtId` is an alphanumeric characters sequence and uniquely identifies a row in `court` relation
+	+ `inPlayerId` is an alphanumeric characters sequence and uniquely identifies a row in `player` relation
 	+ The `booking` relation is empty
 + _Steps_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass conditions_:
