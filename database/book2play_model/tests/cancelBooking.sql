@@ -5,7 +5,7 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B', 'A', @statusCode);
 CALL createCityCenterCourt('C', 'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
 CALL cancelBooking('1', 'P', @statusCode);
 -- expected: no error code
 
@@ -18,7 +18,7 @@ CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
 CALL createBooking(
-	'1', NOW(),
+	NOW(),
 	(
 		SELECT CASE
 			WHEN TIMEDIFF(DATE_ADD(DATE_ADD(CURDATE(), INTERVAL 1 DAY), INTERVAL 9 HOUR), NOW()) < TIME('24:00:00')
@@ -38,7 +38,7 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
 CALL cancelBooking('2', 'P', @statusCode);
 -- expected: error code 465
 
@@ -50,7 +50,7 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('X', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'X', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'X', @statusCode);
 CALL cancelBooking('2', 'Y', @statusCode);
 -- expected: error code 464
 
@@ -63,7 +63,7 @@ CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('X', @statusCode);
 CALL createPlayer('Y', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'X', @statusCode);
-CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 11 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'Y', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'X', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 11 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'Y', @statusCode);
 CALL cancelBooking('2', 'X', @statusCode);
 -- expected: error code 401

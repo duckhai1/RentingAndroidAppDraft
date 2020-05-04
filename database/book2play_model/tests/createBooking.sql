@@ -6,7 +6,7 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '11:00:00', '12:00:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '11:00:00', '12:00:00', 'A', 'B', 'C', 'P', @statusCode);
 -- expected: no error code
 
 
@@ -17,8 +17,8 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '11:00:00', '12:00:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '11:00:00', '12:00:00', 'A', 'B', 'C', 'P', @statusCode);
 -- expected: error code 407
 
 
@@ -27,11 +27,11 @@ CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '11:00:00', 
     and all the provided date, times, and ids are correct
 */
 CALL createCity('A', @statusCode);
-CALL createCityCenter('B',  'A', @statusCode);
-CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
+CALL createCityCenter('B', 'A', @statusCode);
+CALL createCityCenterCourt('C', 'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
-CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 8 DAY), '11:00:00', '12:00:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 8 DAY), '11:00:00', '12:00:00', 'A', 'B', 'C', 'P', @statusCode);
 -- expected: no error code
 
 
@@ -44,9 +44,9 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
-CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 8 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
-CALL createBooking('3', NOW(), DATE_ADD(CURDATE(), INTERVAL 9 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 8 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 9 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
 -- expected: no error code
 
 
@@ -58,10 +58,10 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
-CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 8 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
-CALL createBooking('3', NOW(), DATE_ADD(CURDATE(), INTERVAL 9 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
-CALL createBooking('4', NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 8 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 9 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 10 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
 -- expected: error code 410
 
 
@@ -74,27 +74,42 @@ CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
 INSERT INTO bookings (
-    bookingId,
-    createdAt,
-    bookingDate,
-    bookingStartTime,
-    bookingEndTime,
-    isPaid,
-    courtPk,
-    playerPk
+    inTimeStamp,
+    inDate,
+    inBookingStartTime,
+    inBookingEndTime,
+    inCityId,
+    inSportcenterId,
+    inCourtId,
+    inPlayerId
 )
 VALUES
     (
-        '1', DATE_ADD(NOW(), INTERVAL -17 DAY), DATE_ADD(CURDATE(), INTERVAL -7 DAY), '09:00:00', '10:30:00', TRUE,
-        ( SELECT courtPk FROM courts NATURAL JOIN sportCenters NATURAL JOIN cities
+        DATE_ADD(NOW(), INTERVAL -17 DAY), DATE_ADD(CURDATE(), INTERVAL -7 DAY), '09:00:00', '10:30:00',
+        (
+            SELECT cityId 
+            FROM cities 
+            WHERE cityId = 'A'),
+        (
+            SELECT sportCenterId 
+            FROM sportCenters NATURAL JOIN cities
+		    WHERE cityId = 'A'),
+        (
+            SELECT courtId 
+            FROM courts NATURAL JOIN sportCenters NATURAL JOIN cities
             WHERE cityId = 'A' AND sportCenterId = 'B' AND courtId = 'C'),
         (
-            SELECT playerPk
+            SELECT playerId
             FROM players
             WHERE playerId = 'P'
+        ),
+        (   
+            FROM bookings
+		    NATURAL JOIN players
+		    WHERE playerId = inPlayerId AND isPaid = TRUE
         )
     );
-CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '11:00:00', '12:00:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '11:00:00', '12:00:00', 'A', 'B', 'C', 'P', @statusCode);
 -- expected: no error code
 
 /*
@@ -106,26 +121,42 @@ CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
 INSERT INTO bookings (
-    bookingId,
-    createdAt,
-    bookingDate,
-    bookingStartTime,
-    bookingEndTime,
-    courtPk,
-    playerPk
+    inTimeStamp,
+    inDate,
+    inBookingStartTime,
+    inBookingEndTime,
+    inCityId,
+    inSportcenterId,
+    inCourtId,
+    inPlayerId
 )
 VALUES
     (
-        '1', DATE_ADD(NOW(), INTERVAL -17 DAY), DATE_ADD(CURDATE(), INTERVAL -7 DAY), '09:00:00', '10:30:00',
-        ( SELECT courtPk FROM courts NATURAL JOIN sportCenters NATURAL JOIN cities
+        DATE_ADD(NOW(), INTERVAL -17 DAY), DATE_ADD(CURDATE(), INTERVAL -7 DAY), '09:00:00', '10:30:00',
+        (
+            SELECT cityId 
+            FROM cities 
+            WHERE cityId = 'A'),
+        (
+            SELECT sportCenterId 
+            FROM sportCenters NATURAL JOIN cities
+		    WHERE cityId = 'A'),
+        (
+            SELECT courtId 
+            FROM courts NATURAL JOIN sportCenters NATURAL JOIN cities
             WHERE cityId = 'A' AND sportCenterId = 'B' AND courtId = 'C'),
         (
-            SELECT playerPk
+            SELECT playerId
             FROM players
             WHERE playerId = 'P'
+        ),
+        (   
+            FROM bookings
+		    NATURAL JOIN players
+		    WHERE playerId = inPlayerId AND isPaid = FALSE
         )
     );
-CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '11:00:00', '12:00:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '11:00:00', '12:00:00', 'A', 'B', 'C', 'P', @statusCode);
 -- expected: error code 412
 
 
@@ -140,8 +171,8 @@ CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('X', @statusCode);
 CALL createPlayer('Y', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'X', @statusCode);
-CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '10:30:00', '12:00:00', 'A', 'B', 'C', 'Y', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'X', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '10:30:00', '12:00:00', 'A', 'B', 'C', 'Y', @statusCode);
 -- expected: no error code
 
 
@@ -157,9 +188,9 @@ CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('X', @statusCode);
 CALL createPlayer('Y', @statusCode);
 CALL createPlayer('Z', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'Z', @statusCode);
-CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '12:00:00', '13:30:00', 'A', 'B', 'C', 'Y', @statusCode);
-CALL createBooking('3', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '10:30:00', '12:00:00', 'A', 'B', 'C', 'Z', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'Z', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '12:00:00', '13:30:00', 'A', 'B', 'C', 'Y', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '10:30:00', '12:00:00', 'A', 'B', 'C', 'Z', @statusCode);
 -- expected: no error code
 
 
@@ -174,8 +205,8 @@ CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('X', @statusCode);
 CALL createPlayer('Y', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'X', @statusCode);
-CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '10:00:00', '11:30:00', 'A', 'B', 'C', 'Y', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'X', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '10:00:00', '11:30:00', 'A', 'B', 'C', 'Y', @statusCode);
 -- expected: error code 413
 
 
@@ -186,12 +217,12 @@ CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '10:00:00', 
     (2nd case)
 */
 CALL createCity('A', @statusCode);
-CALL createCityCenter('B',  'A', @statusCode);
-CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
+CALL createCityCenter('B', 'A', @statusCode);
+CALL createCityCenterCourt('C', 'A', 'B', @statusCode);
 CALL createPlayer('X', @statusCode);
 CALL createPlayer('Y', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'X', @statusCode);
-CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '08:00:00', '09:30:00', 'A', 'B', 'C', 'Y', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'X', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '08:00:00', '09:30:00', 'A', 'B', 'C', 'Y', @statusCode);
 -- expected: error code 413
 
 
@@ -202,12 +233,12 @@ CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '08:00:00', 
     (3nd case)
 */
 CALL createCity('A', @statusCode);
-CALL createCityCenter('B',  'A', @statusCode);
-CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
+CALL createCityCenter('B', 'A', @statusCode);
+CALL createCityCenterCourt('C', 'A', 'B', @statusCode);
 CALL createPlayer('X', @statusCode);
 CALL createPlayer('Y', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'X', @statusCode);
-CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:00:00', 'A', 'B', 'C', 'Y', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'X', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:00:00', 'A', 'B', 'C', 'Y', @statusCode);
 -- expected: error code 413
 
 
@@ -218,12 +249,12 @@ CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', 
     (4th case)
 */
 CALL createCity('A', @statusCode);
-CALL createCityCenter('B',  'A', @statusCode);
-CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
+CALL createCityCenter('B', 'A', @statusCode);
+CALL createCityCenterCourt('C', 'A', 'B', @statusCode);
 CALL createPlayer('X', @statusCode);
 CALL createPlayer('Y', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'X', @statusCode);
-CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:30:00', '10:30:00', 'A', 'B', 'C', 'Y', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'X', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:30:00', '10:30:00', 'A', 'B', 'C', 'Y', @statusCode);
 -- expected: error code 413
 
 
@@ -238,8 +269,8 @@ CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('X', @statusCode);
 CALL createPlayer('Y', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'X', @statusCode);
-CALL createBooking('2', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'Y', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'X', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'Y', @statusCode);
 -- expected: error code 413
 
 
@@ -250,7 +281,7 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', '0', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', '0', 'B', 'C', 'P', @statusCode);
 -- expected: error code 460
 
 
@@ -261,7 +292,7 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', '0', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', '0', 'C', 'P', @statusCode);
 -- expected: error code 461
 
 
@@ -272,7 +303,7 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', '0', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', '0', 'P', @statusCode);
 -- expected: error code 462
 
 
@@ -283,7 +314,7 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', '0', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', '0', @statusCode);
 -- expected: error code 464
 
 
@@ -294,7 +325,7 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL -7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL -7 DAY), '09:00:00', '10:30:00', 'A', 'B', 'C', 'P', @statusCode);
 -- expected: error code 466
 
 
@@ -308,7 +339,7 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '09:30:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '09:30:00', 'A', 'B', 'C', 'P', @statusCode);
 -- expected: error code 467
 
 
@@ -322,7 +353,7 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '11:00:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '11:00:00', 'A', 'B', 'C', 'P', @statusCode);
 -- expected: error code 467
 
 
@@ -334,7 +365,7 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:10:00', '10:00:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:10:00', '10:00:00', 'A', 'B', 'C', 'P', @statusCode);
 -- expected: error code 468
 
 
@@ -345,7 +376,7 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '06:00:00', '07:30:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '06:00:00', '07:30:00', 'A', 'B', 'C', 'P', @statusCode);
 -- expected: error code 468
 
 
@@ -357,7 +388,7 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:10:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '09:00:00', '10:10:00', 'A', 'B', 'C', 'P', @statusCode);
 -- expected: error code 469
 
 
@@ -368,5 +399,5 @@ CALL createCity('A', @statusCode);
 CALL createCityCenter('B',  'A', @statusCode);
 CALL createCityCenterCourt('C',  'A', 'B', @statusCode);
 CALL createPlayer('P', @statusCode);
-CALL createBooking('1', NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '20:00:00', '21:30:00', 'A', 'B', 'C', 'P', @statusCode);
+CALL createBooking(NOW(), DATE_ADD(CURDATE(), INTERVAL 7 DAY), '20:00:00', '21:30:00', 'A', 'B', 'C', 'P', @statusCode);
 -- expected: error code 469

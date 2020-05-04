@@ -1,56 +1,6 @@
 Stored procedures
 ===
 
-`getBookingInfo(IN inBookingId, OUT statusCode)`
----
-Query all the attributes of a single booking identitfied by the given booking id.
-
-**Parameters:**
-+ `inBookingId - VARCHAR(100)` is an alphanumeric chararacters sequence that uniquely identitfy a booking.
-+ `statusCode - INT` is set by the database and indicates whether any error happened during the execution:
-	+ *200 - SUCCESS*
-	+ *465 - INVALID BOOKING ID*
-
-**Return:** `R(bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId,courtId, playerId)`
-
-`getSportCenterInfo(IN inSportCenterId, IN inCityId, OUT statusCode)`
----
-Query all the attributes of a single sport center identitfied by the given sportCenterId and cityId.
-
-**Parameters:**
-+ `inSportCenterId - VARCHAR(100)` is an alphanumeric chararacters sequence that uniquely identitfy a sport center in a given city.
-+ `inCityId - VARCHAR(100)` is an alphanumeric chararacters sequence that uniquely identitfy a city.
-+ `statusCode - INT` is set by the data and indicates whether any error happended during the execution:
-	+ *200 - SUCCESS*
-	+ *460 - INVALID CITY ID*
-	+ *461 - INVALID SPORT CENTER ID*
-
-**Return:** `R(sportCenterId, cityId)`
-
-`getPlayerBookings(IN inPlayerId, OUT statusCode)`
----
-Query all the attributes of a single player's booking identified by the given player id.
-
-**Parameter:**
-+ `inPlayerId - VARCHAR(100)` is an alphanumeric characters sequence that uniquely identify a player.
-+ `satusCode - INT` is set by the data and indicates whether any error happended during the execution:
-    + *200 - SUCCESS*
-    + *464 - INVALID PLAYERID*
-
-**Return** `R(bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId)`
-
-`getPlayerInfo(IN inPlayerId, OUT statusCode)`
----
-Query all the attributes of a single player's information identified by the given player id.
-
-**Parameter:**
-+ `inPlayerId - VARCHAR(100)` is an alphanumeric characters sequence that uniquely identify a player.
-+ `statusCode - INT` is set by the data and indicates whether any error happended during the execution:
-    + *200 - SUCCESS*
-    + *464 - INVALID PLAYERID*
-
-**Return** `R(playerId)`
-
 `getCourtBookings(IN inCourtId, IN inCityId, IN inSportCenterId, IN inBookingDate, OUT statusCode)`
 ---
 Query all the attributes of a court booking identified by the given courtId, cityId, sportCenterId, bookingDate.
@@ -69,31 +19,32 @@ Query all the attributes of a court booking identified by the given courtId, cit
 
 **Return** `R(bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId)`
 
-`getBookings(IN cityId, IN inBookingDate, OUT statusCode)`
----
-Query all the attributes of all bookings identified by the given bookingDate and cityId.
 
-**Parameter:**
-+ `inCityId - VARCHAR(100)` is an alphanumeric characters sequence that uniquely identify a city.
-+ `inBookingDate - DATE` is a date value that identify the booking date.
-+ `statusCode - INT` is set by the data and indicates whether any error happended during the execution:
-      + *200 - SUCCESS*
-      + *460 - INVALID CITY ID*
-
-**Return** `R(bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId)`
-
-`getCitySportCenters(IN inSportCenterId, IN inCityId, OUT statusCode)`
+`getCitySportCenters(IN inCityId, OUT statusCode)`
 ---
 Query all the attributes of a sportcenter identified by the given sportCenterId, cityId.
 
 **Parameter**
-+ `inSportCenterId - VARCHAR(100)` is an alphanumeric characters sequence that uniquely identify a sportcenter in a given city.
-+ `inCityId - VARCHAR(100)` is an alphanumeric characters sequence that uniquely identify a city 
++ `inCityId - VARCHAR(100)` is an alphanumeric characters sequence that uniquely identify a city.
 + `statusCode - INT` is set by the data and indicates whether any error happended during the execution:
     + *200 - SUCCESS*
     + *460 - INVALID CITY ID*
 
 **Return** `R(sportCenterId, cityId)`
+
+
+`getPlayerBookings(IN inPlayerId, OUT statusCode)`
+---
+Query all the attributes of a sportcenter identified by the given playerId.
+
+**Parameter**
++ `inPlayerId - VARCHAR(100)` is an alphanumeric characters sequence that uniquely identify a player.
++ `statusCode - INT` is set by the data and indicates whether any error happended during the execution:
+    +  *200 - SUCCESS*
+    +  *464 - INVALID PLAYER ID*
+
+**Return** `R(bookingId, timeStam, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId)`
+
 
 `getSportcenterBookings(IN inSportCenterId, IN inCityId, IN inBookingDate, OUT statusCode)`
 ---
@@ -111,21 +62,6 @@ Query all the attributes of all bookings of the sportcenter identified by the gi
 
 **Return** `R(bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId)`
 
-`getCourtInfo(IN inCourtId, IN inCityId, IN inSportCenterId, OUT statusCode)`
----
-Query all the attributes of a court identified by the given courtId, cityId and sportCenterId.
-
-**Parameter**
-+ `inCourtId - VARCHAR(100)` is an alphanumeric characters sequencee that uniquely identify a court in a given sport center.
-+ `inCityId - VARCHAR(100)` is an alphanumreic characters sequence that uniquely identify a city
-+ `inSportCenterId - VARCHAR(100)` is an alphanumeric characters sequence that uniquely identify a sport center in a given city.
-+ `statusCode - INT` is set by the data and indicates whether any error happended during the execution:
-    + *200 - SUCCESS*
-    + *400 - INVALID CITY ID*
-    + *461 - INVALID SPORTCENTER ID*
-    + *462 - INVALID COURT ID*
-  
-**Return** `R(courtId, cityId, sportCenterId)`
 
 `getSportCenterCourts(IN inSportCenterId, IN inCityId, OUT statusCode)`
 ---
@@ -141,6 +77,7 @@ Query all the court from the sport center identified by the given sportcenterId 
 
 **Return** `R(courtId, cityId, sportCenterId)`
 
+
 `getCities(OUT statusCode)`
 ---
 Get all cities 
@@ -150,6 +87,7 @@ Get all cities
     + *200 - SUCCESS*
 
 **Return** `R(cityId)`
+
 
 `getCityCourts(IN inCityId, OUT statusCode)`
 ---
@@ -162,6 +100,7 @@ Query all the court from the city identified by the given cityId.
     + *460 - INVALID CITY ID*
 
 **Return** `R(courtId, cityId, sportCenterId)`
+
 
 `getPlayerBookingsInCity(IN inPlayerId, IN inCityId, IN inBookingDate, OUT statusCode)`
 ---
@@ -179,21 +118,6 @@ Query all the attributes of all bookings identified by the given playerId, cityI
 
 **Return** `R(bookingId, createdAt, bookingDate, bookingStartTime, bookingEndTime, isPaid, cityId, sportCenterId, courtId, playerId)`
 
-`getStaffInfo(IN inStaffId, IN inCityId, IN inSportCenterId, OUT statusCode)`
----
-Query all the attributes of a staff identified by the given staffId, cityId and sportCenterId.
-
-**Parameter**
-+ `inStaffId - VARCHAR(100)` is an alphanumeric characters sequence that uniquely identify a staff. 
-+ `inCityId - VARCHAR(100)` is an alphanumeric characters sequence that uniquely identify a city.
-+ `inSportCenterId - VARCHAR(100)` is an alphanumeric characters sequence that uniquely identify a sport center in a city.
-+ `statusCode - INT` is set by the data and indicates whether any error happended during the execution:
-    + *200 - SUCCESS*
-    + *460 - INVALID CITY ID*
-    + *461 - INVALID SPORTCENTER ID*
-    + *463 - INVALID STAFF ID*
-
-**Return** `R(staffId, sportCenterId, cityId)`
 
 `createCity(IN inCityId, OUT statusCode)`
 ---
@@ -208,6 +132,7 @@ Create a new city with the given cityId.
 
 **Return** `R()`
 
+
 `createPlayer(IN inPlayerId, OUT statusCode)`
 ---
 Create a new player.
@@ -220,6 +145,7 @@ Create a new player.
     + *405 - PLAYER ID ALREADY EXISTS*
 
 **Return** `R()`
+
 
 `createCityCenter(IN inSportCenterId, IN inCityId, OUT statusCode)`
 ---
@@ -235,6 +161,7 @@ Create new Sportcenter with the given sportCenterId and cityId.
     + *403 - SPORTCENTER ID ALREADY EXISTS*
 
 **Return** `R()`
+
 
 `createCityCenterCourt(IN inCourtId, IN inCityId, IN inSportCenterId, OUT statusCode)`
 ---
@@ -253,6 +180,7 @@ Create a new court with the given courId, cityId, sportCenterId
 
 **Return** `R()`
 
+
 `createStaff(IN inStaffId, IN inCityId, IN inSportCenterId, OUT statusCode)`
 ---
 Create a new staff with given cityId, sportCenterId.
@@ -270,12 +198,12 @@ Create a new staff with given cityId, sportCenterId.
 
 **Return** `R()`
 
-`createBooking(IN inBookingId, IN inTimeStamp, IN inDate, IN inStartTime, IN inEndTime, IN inCityId, IN inSportCenterId, IN inCourtId, IN inplayerId, OUT statusCode)`
+
+`createBooking(IN inTimeStamp, IN inDate, IN inStartTime, IN inEndTime, IN inCityId, IN inSportCenterId, IN inCourtId, IN inplayerId, OUT statusCode)`
 ---
 Create a new booking 
 
 **Parameter**
-+ `inBookingId - VARCHAR(100)` is an alphanumeric character sequence that uniquely identify a booking 
 + `inTimeStamp - TIMESTAMP` is a date and time sequence that uniquely identify the booking date and time.
 + `inDate - DATE` is a date sequence that identify the playing date.
 + `inStartTime - TIME` is a time sequence that identify the start time of the playing time.
@@ -302,6 +230,7 @@ Create a new booking
 
 **Return** `R()`
 
+
 `updateBookingStatus(IN inStatus, IN inBookingId, IN inCityId, IN inSportCenterId, IN inStaffId, OUT statuscode)`
 ---
 Update new booking status with given status, bookingId, cityId, sportCenterId and staffId.
@@ -322,6 +251,7 @@ Update new booking status with given status, bookingId, cityId, sportCenterId an
 
 **Return** `R()`
 
+
 `updateCourtId(IN newCourtId, IN inCourtId, inCityId, inSportCenterId, OUT statusCode)`
 ---
 Update a new courtId with given new courtId.
@@ -341,11 +271,13 @@ Update a new courtId with given new courtId.
   
 **Return** `R()`
 
-`updatePlayerId(IN inPlayerId, OUT statusCode)`
+
+`updatePlayerId(IN newplayerId, IN inPlayerId, OUT statusCode)`
 ---
 Update a new player id
 
 **Parameter**
++ `newPlayerId - VARCHAR(100)` is an alphanumeric characters sequcence that uniquely identify a player.
 + `inPlayerId - VARCHAR(100)` is an alphanumeric characters sequcence that uniquely identify a player.
 + `statusCode - INT` is set by the data and indicates whether any error happended during the execution:
     + *200 - SUCCESS*
@@ -353,6 +285,7 @@ Update a new player id
     + *405 - PLAYER ID ALREADY EXISTS*
 
 **Return** `R()`
+
 
 `updateSportcenterId(IN newSportCenterid, IN inSportCenterId, IN inCityId, OUT statusCode)`
 ---
@@ -369,6 +302,7 @@ Update a new sportcenter id with given new sportcenter id.
     + *403 - SPORTCENTER ID ALREADY EXISTS*
   
 **Return** `R()`
+
 
 `updateStaffId(IN newStaffId, IN inStaffId, IN inCityId, IN inSportCenterId, OUT statusCode)`
 ---
@@ -387,6 +321,7 @@ Update a new staff with a given new staff id.
     + *406 - STAFF ID ALREADY EXISTS*
   
 **Return** `R()`
+
 
 `cancelBooking(IN inBookingId, IN inPlayerId, OUT statusCode)`
 ---

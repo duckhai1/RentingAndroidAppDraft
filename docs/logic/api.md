@@ -1,15 +1,22 @@
 API URLs
 ===
 
-getCourtBookings */api/bookings[?courtId=&sportCenterId=&cityId=&date=]*
+GET */api/bookings[?courtId=&sportCenterId=&cityId=&date=]*
 ---
-**URL encoded keys:**
+Get bookings of the given court
+
+**Request query:**
 + `courtId` an alphanumeric characters sequence, represents the the identifier of the court.
 + `sportCenterId` an alphanumeric characters sequence, represents the identifier of the sport center.
 + `cityId` an alphanumeric characters sequence, represents the unique identifier of the city.
 + `date` the date of all the bookings, formatted as `HH:mm:ss`
 
-**On success:** JSON encoded data
+**Posible responses:**
++ `200 - OK`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (200 - OK):** (JSON encoded)
 ```
 [
 	{
@@ -24,25 +31,34 @@ getCourtBookings */api/bookings[?courtId=&sportCenterId=&cityId=&date=]*
 		"courtId": "alphanumericCharSequence",
 		"playerId": "alphanumericCharSequence"
 	}
-
+	...
 ]
 ```
-**On failure** JSON encoded data
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database reports a an error status code)
 ```
 {
-	"error": boolean
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
 
-getSportCenterBookings */api/bookings[?sportCenterId=&cityId=&date=]*
+GET */api/bookings[?sportCenterId=&cityId=&date=]*
 ---
-**URL encoded keys:**
+Get bookings of the given sport center
+
+**Request query:**
 + `sportCenterId` a numeric characters sequence that uniquely identifies the sport center.
 + `cityId` a numeric characters sequence that uniquely identifies the city.
 + `date` the date of all the bookings, formatted as `HH:mm:ss`.
-  
-**On scuccess:** JSON encoded data
+
+**Posible responses:**
++ `200 - OK`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (200 - OK):** JSON encoded data
 ```
 [
 	{
@@ -57,22 +73,32 @@ getSportCenterBookings */api/bookings[?sportCenterId=&cityId=&date=]*
 		"courtId": "alphanumericCharSequence",
 		"playerId": "alphanumericCharSequence"
 	}
+	...
 ]
 ```
-**On failure:** JSON encoded data
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database reports a an error status code)
 ```
 {
-	"error": boolean
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
 
-getPlayerBookings */api/bookings[?playerId=]*
+GET */api/bookings[?playerId=]*
 ---
-**URL encoded keys**
+Get bookings of the given player
+
+**Request query**
 + `playerId` an alphanumeric characters sequence, represents the unique identifier of the player.
 
-**On scuccess:** JSON encoded data
+**Posible responses:**
++ `200 - OK`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (200 - OK):** JSON encoded data
 ```
 [
 	{
@@ -87,24 +113,34 @@ getPlayerBookings */api/bookings[?playerId=]*
 		"courtId": "alphanumericCharSequence",
 		"playerId": "alphanumericCharSequence"
 	}
+	...
 ]
 ```
-**On failure:** JSON encoded data
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database reports a an error status code)
 ```
 {
-	"error": boolean
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
 
-getPlayerBookingsInCity */api/bookings[?playerId=&cityId=&date=]*
+GET */api/bookings[?playerId=&cityId=&date=]*
 ---
-**URL encoded keys**
+Get bookings of the given player for the given city
+
+**Request query**
 + `playerId` an alphanumeric characters sequence, represents the unique identifier of the player.
-+ `cityId` an alphanumeric characters sequence, represents the unique identifier of the city. 
++ `cityId` an alphanumeric characters sequence, represents the unique identifier of the city.
 + `date` the date of all the bookings, formatted as `HH:mm:ss`.
 
-**On scuccess:** JSON encoded data
+**Posible responses:**
++ `200 - OK`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (200 - OK):** JSON encoded data
 ```
 [
 	{
@@ -118,156 +154,149 @@ getPlayerBookingsInCity */api/bookings[?playerId=&cityId=&date=]*
 		"sportCenterId": "alphanumericCharSequence",
 		"courtId": "alphanumericCharSequence",
 		"playerId": "alphanumericCharSequence"
+	}
+	...
 ]
 ```
-**On failure:** JSON encoded data
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database reports a an error status code)
 ```
 {
-	"error": boolean
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
 
-createBooking */api/bookings[?bookingId=&timeStamp=&date=&startTime=&endTime=&cityId=&sportCenterId=&courtId=&playerId=]*
+POST */api/bookings*
 ---
-**URL encoded keys**
-+ `bookingId` an alphanumeric characters sequence, represents the unique identifier of the booking.
-+ `timeStamp` the date when the booking is created, formatted as `YYYY:MM:DD HH:MM:SS`.
-+ `date` the date when player booked to play, formatted as `HH:mm:ss`.
-+ `startTime` the time that the booking starts, formatted as `HH:MM:SS`.
-+ `endTime` the time that the booking starts, formatted as `HH:MM:SS`.
-+ `cityId` an alphanumeric characters sequence, represents the unique identifier of the city. 
-+ `sportCenterId` an alphanumeric characters sequence that uniquely identifies the sport center.
-+ `courtId` an alphanumeric characters sequence, represents the the identifier of the court.
-+ `playerId` an alphanumeric characters sequence, represents the unique identifier of the player.
+Create a booking from the given data
 
-**On scuccess:** JSON encoded data
-```
-[
-	{
-		"bookingId": "alphanumericCharSequence",
-		"createdAt": "yyyy-MM-dd HH:mm:ss",
-		"bookingDate": "yyyy-MM-dd",
-		"bookingStartTime": "HH:mm:ss",
-		"bookingEndTime": "HH:mm:ss",
-		"isPaid": boolean,
-		"cityId": "alphanumericCharSequence",
-		"sportCenterId": "alphanumericCharSequence",
-		"courtId": "alphanumericCharSequence",
-		"playerId": "alphanumericCharSequence"
-]
-```
-**On failure:** JSON encoded data
+**Request body:** (JSON encoded)
 ```
 {
-	"error": boolean
+	"bookingDate": "yyyy-MM-dd",
+	"bookingStartTime": "HH:mm:ss",
+	"bookingEndTime": "HH:mm:ss",
+	"cityId": "alphanumericCharSequence",
+	"sportCenterId": "alphanumericCharSequence",
+	"courtId": "alphanumericCharSequence",
+	"playerId": "alphanumericCharSequence"
+}
+```
+
+**Posible responses:**
++ `201 - CREATED`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database returns an error status code)
+```
+{
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
 
-updateBookingStatus */api/bookings[?status=?bookingId=?cityId=?sportCenterId=?staffId=]*
+PUT */api/bookings[?status=?bookingId=?cityId=?sportCenterId=?staffId=]*
 ---
-**URL encoded keys**
-+ `status` boolean True or False, stands for isPaid or isNotPaid.
+Update the status of the booking
+
+**Request query**
++ `status` a boolean.
 + `bookingId` an alphanumeric characters sequence, represents the unique identifier of the booking.
-+ `cityId` an alphanumeric characters sequence, represents the unique identifier of the city. 
++ `cityId` an alphanumeric characters sequence, represents the unique identifier of the city.
 + `sportCenterId` an alphanumeric characters sequence that uniquely identifies the sport center.
 + `staffId` an alphanumeric characters sequence that uniquely identifies the staff.
 
-**On scuccess:** JSON encoded data
-```
-[
-	{
-		"bookingId": "alphanumericCharSequence",
-		"createdAt": "yyyy-MM-dd HH:mm:ss",
-		"bookingDate": "yyyy-MM-dd",
-		"bookingStartTime": "HH:mm:ss",
-		"bookingEndTime": "HH:mm:ss",
-		"isPaid": boolean,
-		"cityId": "alphanumericCharSequence",
-		"sportCenterId": "alphanumericCharSequence",
-		"courtId": "alphanumericCharSequence",
-		"playerId": "alphanumericCharSequence"
-	}
-]
-```
-**On failure:** JSON encoded data
+**Posible responses:**
++ `202 - ACCEPTED`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database returns an error status code)
 ```
 {
-	"error": boolean
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
 
-cancelBooking */api/bookings[?bookingId=&playerId=]*
+DELETE */api/bookings[?bookingId=&playerId=]*
 ---
-**URL encoded keys**
+Remove the booking from the data
+
+**Request query**
 + `bookingId` an alphanumeric characters sequence, represents the unique identifier of the booking.
 + `playerId` an alphanumeric characters sequence that uniquely identifies the player.
 
-**On scuccess:** JSON encoded data
-```
-[
-	{
-		
-	}
-]
-```
-**On failure:** JSON encoded data
+**Posible responses:**
++ `202 - ACCEPTED`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database returns an error status code)
 ```
 {
-	"error": boolean
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
 
-getCities */api/city[?=]*
+GET */api/cities*
 ---
-**URL encoded keys**
+Get all cities exist in the database
 
-**On scuccess:** JSON encoded data
-```
-[
-	{
-		"cityId": "alphanumericCharSequence",
-	}
-]
-```
-**On failure:** JSON encoded data
-```
-{
-	"error": boolean
-	"message": "Error message"
-}
-```
-
-createCity */api/city[?cityId=]*
----
-**URL encoded keys**
-+ `cityId` is an alphanumeric characters sequence that uniquely identifies the city.
-
-**On scuccess:** JSON encoded data
+**Response body:** JSON encoded data
 ```
 [
 	{
 		"cityId": "alphanumericCharSequence",
 	}
+	...
 ]
 ```
-**On failure:** JSON encoded data
+
+**Posible responses:**
++ `200 - OK`
++ `401 - UNAUTHORIZED`
+
+POST */api/cities*
+---
+Create a city from the given data
+
+**Request body** (JSON encoded)
 ```
 {
-	"error": boolean
+	"cityId": "alphanumericCharSequence",
+}
+```
+
+**Posible responses:**
++ `202 - ACCEPTED`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database returns an error status code)
+```
+{
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
 
-getCityCourt */api/court[?cityId=]*
+GET */api/courts[?cityId=]*
 ---
-**URL encoded keys**
+Get all the courts exist in the given city
+
+**Request query**
 + `cityId` is an alphanumeric characters sequence that uniquely identifies the city.
-  
-**On scuccess:** JSON encoded data
+
+**Response body:** JSON encoded data
 ```
 [
 	{
@@ -275,23 +304,33 @@ getCityCourt */api/court[?cityId=]*
 		"cityId": "alphanumericCharSequence",
 		"sportCenterId": "alphanumericCharSequence"
 	}
+	...
 ]
 ```
-**On failure:** JSON encoded data
+
+**Posible responses:**
++ `200 - OK`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database returns an error status code)
 ```
 {
-	"error": boolean
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
 
-getSportCenterCourt */api/court[?sportCenterId=&cityId=]*
+GET */api/courts[?sportCenterId=&cityId=]*
 ---
-**URL encoded keys**
+Get all the courts exist in the given sport center
+
+**Request query**
 + `sportCenterId` is an alphanumeric characters sequence that uniquely identifies the sport center.
 + `cityId` is an alphanumeric characters sequence that uniquely identifies the city.
-  
-**On scuccess:** JSON encoded data
+
+**Response body:** JSON encoded data
 ```
 [
 	{
@@ -299,228 +338,250 @@ getSportCenterCourt */api/court[?sportCenterId=&cityId=]*
 		"cityId": "alphanumericCharSequence",
 		"sportCenterId": "alphanumericCharSequence"
 	}
+	...
 ]
 ```
-**On failure:** JSON encoded data
+
+**Posible responses:**
++ `200 - OK`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database returns an error status code)
 ```
 {
-	"error": boolean
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
 
-createCityCenterCourt */api/court[?courtId=&cityId&=sportCenterId=]*
+POST */api/courts*
 ---
-**URL encoded keys**
-+ `courtId` is an alphanumeric characters sequence that uniquely identifies the court.
-+ `sportCenterId` is an alphanumeric characters sequence that uniquely identifies the sport center.
-+ `cityId` is an alphanumeric characters sequence that uniquely identifies the city.
-  
-**On scuccess:** JSON encoded data
-```
-[
-	{
-		"courtId": "alphanumericCharacterSequence",
-		"cityId": "alphanumericCharSequence",
-		"sportCenterId": "alphanumericCharSequence"
-	}
-]
-```
-**On failure:** JSON encoded data
+Create a court with the given data
+
+**Request body**
 ```
 {
-	"error": boolean
+	"courtId": "alphanumericCharacterSequence",
+	"cityId": "alphanumericCharSequence",
+	"sportCenterId": "alphanumericCharSequence"
+}
+```
+
+**Posible responses:**
++ `201 - CREATED`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database returns an error status code)
+```
+{
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
-updateCourtId */api/court[?newCourtId=&oldCourtId=&cityId=&sportCenterId=]*
+
+PUT */api/court[?newCourtId=&oldCourtId=&cityId=&sportCenterId=]*
 ---
-**URL encoded keys**
+Update the ID of the given court
+
+**Request query**
 + `newCourtId`is an alphanumeric characters sequence that uniquely identifies the court
 + `oldCourtId` is an alphanumeric characters sequence that uniquely identifies the court.
 + `cityId` is an alphanumeric characters sequence that uniquely identifies the city.
 + `sportCenterId` is an alphanumeric characters sequence that uniquely identifies the sport center.
 
-**On scuccess:** JSON encoded data
-```
-[
-	{
-		"newCourtId": "alphanumericCharacterSequence",
-		"cityId": "alphanumericCharSequence",
-		"sportCenterId": "alphanumericCharSequence"
-	}
-]
-```
-**On failure:** JSON encoded data
+**Posible responses:**
++ `202 - ACCEPTED`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database returns an error status code)
 ```
 {
-	"error": boolean
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
 
-createPlayer */api/player[?playerId=]*
+POST */api/players*
 ---
-**URL encoded keys**
-+ `playerId` is an alphanumeric characters sequence that uniquely identifies the player.
+Create a player from the given data
 
-**On scuccess:** JSON encoded data
-```
-[
-	{
-		"playerId": "alphanumericCharacterSequence"
-	}
-]
-```
-**On failure:** JSON encoded data
+**Request body** (JSON encoded)
 ```
 {
-	"error": boolean
+	"playerId": "alphanumericCharSequence",
+}
+```
+
+**Posible responses:**
++ `202 - ACCEPTED`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database returns an error status code)
+```
+{
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
 
-updatePlayerId */api/player[?newPlayerId=&oldPlayerId=]*
+PUT */api/players[?newPlayerId=&oldPlayerId=]*
 ---
-**URL encoded keys**
+Update the ID of the given player
+
+**Request query**
 + `newPlayerId` is an alphanumeric characters sequence that uniquely identifies the player.
 + `oldPlayerId` is an alphanumeric characters sequence that uniquely identifies the player.
 
-**On scuccess:** JSON encoded data
-```
-[
-	{
-		"newPlayerId": "alphanumericCharacterSequence"
-	}
-]
-```
-**On failure:** JSON encoded data
+**Posible responses:**
++ `202 - ACCEPTED`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database returns an error status code)
 ```
 {
-	"error": boolean
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
 
-getCitySportCenter */api/sportCenter[?cityId=]*
+GET */api/centers[?cityId=]*
 ---
-**URL encoded keys**
+Get all sport centers from the given city
+
+**Request query**
 + `cityId` is an alphanumeric characters sequence that uniquely identifies the city.
-  
-**On scuccess:** JSON encoded data
+
+**Response body:** JSON encoded data
 ```
 [
 	{
 		"sportCenterId": "alphanumericCharacterSequence",
 		"cityid": "alphanumericCharacterSequence"
 	}
+	...
 ]
 ```
-**On failure:** JSON encoded data
+
+**Posible responses:**
++ `200 - OK`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database returns an error status code)
 ```
 {
-	"error": boolean
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
 
-createCityCenter */api/sportCenter[?sportCenterId=&citId=]*
+POST */api/centers[?sportCenterId=&cityId=]*
 ---
-**URL encoded keys**
-+ `sportCenterId` is an alphanumeric characters sequence that uniquely identifies the sport center.
-+ `cityId` is an alphanumeric characters sequence that uniquely identifies the city.
-  
-**On scuccess:** JSON encoded data
-```
-[
-	{
-		"sportCenterId": "alphanumericCharacterSequence",
-		"cityid": "alphanumericCharacterSequence"
-	}
-]
-```
-**On failure:** JSON encoded data
+Create a sport center from the given data
+
+**Request body** (JSON encoded)
 ```
 {
-	"error": boolean
+	"sportCenterId": "alphanumericCharacterSequence",
+	"cityid": "alphanumericCharacterSequence"
+}
+```
+
+**Posible responses:**
++ `201 - CREATED`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database returns an error status code)
+```
+{
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
 
-updateSportCenterId */api/sportCenter[?newSportCenterId=&oldSportCenterId=&cityId]*
+PUT */api/centers[?newSportCenterId=&oldSportCenterId=&cityId]*
 ---
-**URL encoded keys**
+Update the ID of the given sport center
+
+**Request query**
 + `newSportCenterId` is an alphanumeric characters sequence that uniquely identifies the sport center.
 + `oldSportCenterId` is an alphanumeric characters sequence that uniquely identifies the sport center.
 + `cityId` is an alphanumeric characters sequence that uniquely identifies the city.
-  
-**On scuccess:** JSON encoded data
-```
-[
-	{
-		"newSportCenterId": "alphanumericCharacterSequence",
-		"cityid": "alphanumericCharacterSequence"
-	}
-]
-```
-**On failure:** JSON encoded data
+
+**Posible responses:**
++ `202 - ACCEPTED`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database returns an error status code)
 ```
 {
-	"error": boolean
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
 
-createStaff */api/staff[?staffId=&cityId=&sportCenterId=]*
+POST */api/staffs*
 ---
-**URL encoded keys**
-+ `staffId` is an alphanumeric characters sequence that uniquely identifies the staff.
-+ `sportCenterId` is an alphanumeric characters sequence that uniquely identifies the sport center.
-+ `cityId` is an alphanumeric characters sequence that uniquely identifies the city.
-  
-**On scuccess:** JSON encoded data
-```
-[
-	{
-		"staffId": "alphanumericCharacterSequence",
-		"cityid": "alphanumericCharacterSequence"
-		"sportCenterId": "alphanumericCharacterSequence"
-	}
-]
-```
-**On failure:** JSON encoded data
+Create a staff from the given data
+
+**Request body** (JSON encoded)
 ```
 {
-	"error": boolean
+	"staffId": "alphanumericCharacterSequence".
+	"sportCenterId": "alphanumericCharacterSequence",
+	"cityid": "alphanumericCharacterSequence"
+}
+```
+
+**Posible responses:**
++ `201 - CREATED`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database returns an error status code)
+```
+{
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
 
-updateStaffId */api/staff[?newStaffId=&oldStaffId=&cityId=&sportCenterId=]*
+PUT */api/staff[?newStaffId=&oldStaffId=&cityId=&sportCenterId=]*
 ---
-**URL encoded keys**
+Update the ID of the given staff
+
+**Request query**
 + `newStaffId` is an alphanumeric characters sequence that uniquely identifies the staff.
 + `oldStaffId` is an alphanumeric characters sequence that uniquely identifies the staff.
 + `sportCenterId` is an alphanumeric characters sequence that uniquely identifies the sport center.
 + `cityId` is an alphanumeric characters sequence that uniquely identifies the city.
-  
-**On scuccess:** JSON encoded data
-```
-[
-	{
-		"newStaffId": "alphanumericCharacterSequence",
-		"cityid": "alphanumericCharacterSequence"
-		"sportCenterId": "alphanumericCharacterSequence"
-	}
-]
-```
-**On failure:** JSON encoded data
+
+**Posible responses:**
++ `202 - ACCEPTED`
++ `400 - BAD REQUEST`
++ `401 - UNAUTHORIZED`
+
+**Response body (400 - BAD REQUEST):** (JSON encoded, only included when the database returns an error status code)
 ```
 {
-	"error": boolean
+	"error": boolean,
+	"statusCode": integer,
 	"message": "Error message"
 }
 ```
-
-
-
