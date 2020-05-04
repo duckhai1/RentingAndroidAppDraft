@@ -33,7 +33,7 @@ testGePlayertBookingsInCitySucessfullyCase02
 
 testGetPlayerBookingsInCityNoBookingInGivenDate
 ---
-+ _Objective__: Test the stored procedure sets the correct status code and returns the correct relation
++ _Objective__: Test the stored procedure sets the correct status code
 + _Preconditions_:
 	+ Player with id `"Alice"` has 2 bookings in the same date in city with id `"HCM"`
 	+ `inCityId` is set to `"HCM"`
@@ -45,7 +45,7 @@ testGetPlayerBookingsInCityNoBookingInGivenDate
 
 testGetPlayerBookingsInCityInvalidCityId
 ---
-+ _Objective__: Test the stored procedure sets the correct status code and returns the correct relation
++ _Objective__: Test if the request is rejected when provided an invalid city id
 + _Preconditions_:
 	+ `inCityId` does not uniquely identify a row in `city` relation
 	+ `inPlayerId` is an alphanumeric characters sequence and uniquely identifies a row in `player` relation
@@ -55,7 +55,7 @@ testGetPlayerBookingsInCityInvalidCityId
 
 testGetPlayerBookingsInCityInvalidPlayerId
 ---
-+ _Objective__: Test the stored procedure sets the correct status code and returns the correct relation
++ _Objective__: Test if the request is rejected when provided an invalid player id
 + _Preconditions_:
 	+ `inCityId` is an alphanumeric characters sequence and uniquely identifies a row in `city` relation
 	+ `inPlayerId` does not uniquely identify a row in `player` relation
