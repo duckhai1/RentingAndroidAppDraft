@@ -49,8 +49,8 @@ class CreateBookingAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
 
     override fun jobUnrecognized() {
         val builder = AlertDialog.Builder(activity)
-        builder.setTitle("Invalid chosen slot")
-        builder.setMessage("These slots are already booked. Please choose another time")
+        builder.setTitle("Invalid action")
+        builder.setMessage("Some problems have occur when try to book selected slot. Please choose another time")
         builder.setPositiveButton("OK"){dialog, which ->
         }
         val dialog: AlertDialog = builder.create()
