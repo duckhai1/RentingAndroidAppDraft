@@ -6,6 +6,7 @@ import android.app.ProgressDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.AsyncTask
+import android.util.Log
 import android.widget.Toast
 import com.example.Type.MyBookingModel
 import com.example.book2play.MyApplication
@@ -43,12 +44,18 @@ abstract class MyGeneralAsyncTask (activity: Activity) : AsyncTask<String?, Stri
             dialog.dismiss();
         }
 
-        // Bad request to server
-        if (Integer.parseInt(result.toString()) in 400..500){
-            jobUnrecognized()
+        // bad request get error code
+        try {
+            val statusCode = Integer.parseInt(result.toString())
+            if (statusCode in 400..500){
+                jobUnrecognized()
+            }
+        } catch (e: Exception) {
+            Log.d("server_connect: ", e.message)
         }
+
         // if connect successful
-        else if (error == null) {
+        if (error == null) {
             jobSuccess()
         }
         // can not connect to server
