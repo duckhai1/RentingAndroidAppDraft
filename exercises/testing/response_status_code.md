@@ -17,7 +17,7 @@ Coding conventions:
 | 404 | COURT ID ALREADY EXISTS |  Provided court id already exists |
 | 405 | PLAYER ID ALREADY EXISTS | Provided player id already exists |
 | 406 | STAFF ID ALREADY EXISTS | Provided staff id already exists |
-| 407 | BOOKING ID ALREADY EXISTS |  Provided booking id already exists |
+| 407 | BOOKING ALREADY EXISTS |  Provided booking already exists |
 | 410 | BOOKINGS LIMIT REACHED | The player has reached the maximum number of allowed bookings |
 | 411 | BOOKING CANCELLATION REJECTED | The cancellation request was made in less the 24 hours before the start time of the booking |
 | 412 | UNPAID BOOKING FOUND | There exists a previous booking that has not been paid |
