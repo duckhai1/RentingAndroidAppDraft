@@ -37,18 +37,28 @@ public class PlayerHandler extends AbstractHandler {
 
     private void execPost(HttpExchange exchange) throws IOException {
         var token = exchange.getRequestHeaders().get("Token");
-        if (token == null || token.size() != 1) {
+        var tokenType = exchange.getRequestHeaders().get("TokenType");
+        if ((token == null || token.size() != 1)
+                || (tokenType == null || tokenType.size() != 1)
+        ) {
             LOG.warning("Request was unsuccessful token not found");
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
-        var id = auth.getId(token.get(0));
+
+        String id = null;
+        try {
+            id = auth.getId(token.get(0), tokenType.get(0));
+        } catch (MySQLException e) {
+            LOG.warning("Request was unsuccessful " + e.getMessage());
+            responseErrorAsJson(exchange, HTTPStatus.BAD_REQUEST, e);
+        }
         if (id == null) {
+            LOG.warning("Request was unsuccessful invalid token");
             exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
             return;
         }
-
         try {
             model.createPlayer(id);
             exchange.sendResponseHeaders(HTTPStatus.CREATED, -1);

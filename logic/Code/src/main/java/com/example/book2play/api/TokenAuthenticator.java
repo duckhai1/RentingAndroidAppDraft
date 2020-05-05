@@ -10,7 +10,7 @@ public interface TokenAuthenticator {
      * @param token player facebook access token
      * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
-    String validatePlayer(String token);
+    String validatePlayer(String token, String tokenType);
 
     /**
      * Confirm whether a given token is belonged to a staff
@@ -20,7 +20,13 @@ public interface TokenAuthenticator {
      * @param sportCenterId the unique identifier, in the city, of the sport center
      * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
      */
-    String validateStaff(String token, String cityId, String sportCenterId);
+    String validateStaff(String token, String tokenType, String cityId, String sportCenterId);
 
-    String getId(String token);
+    /**
+     * Get the playerId from given token
+     *
+     * @param token the unique identifier to be confirmed
+     * @throws MySQLException if an access or connections error happened with the data source, or the status code returned by the stored procedure indicates an error happened
+     */
+    String getId(String token, String tokenType) throws MySQLException;
 }

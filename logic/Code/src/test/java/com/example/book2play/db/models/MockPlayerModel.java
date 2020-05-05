@@ -43,6 +43,26 @@ public class MockPlayerModel extends MockModel implements PlayerModel {
         return ds.getPlayers().contains(new Player(playerId));
     }
 
+    @Override
+    public String getPlayerId(String token) throws MySQLException {
+        return null;
+    }
+
+    @Override
+    public void signupPlayer(String playerId, String password) throws MySQLException {
+
+    }
+
+    @Override
+    public String loginPlayer(String playerId, String password) throws MySQLException {
+        return null;
+    }
+
+    @Override
+    public void logoutPlayer(String token) throws MySQLException {
+
+    }
+
     public void clearPlayers() {
         ds.getPlayers().clear();
     }

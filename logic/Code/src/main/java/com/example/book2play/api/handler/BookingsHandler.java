@@ -47,12 +47,15 @@ public class BookingsHandler extends AbstractHandler {
     private void execGet(HttpExchange exchange) throws IOException {
         var token = exchange.getRequestHeaders().get("Token");
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
+        var tokenType = exchange.getRequestHeaders().get("TokenType");
+
         var date = params.get("date");
         var cityId = params.get("cityId");
         var sportCenterId = params.get("sportCenterId");
         var courtId = params.get("courtId");
 
         if ((token == null || token.size() != 1)
+                || (tokenType == null || tokenType.size() != 1)
                 || (date != null && date.size() != 1)
                 || (cityId != null && cityId.size() != 1)
                 || (sportCenterId != null && sportCenterId.size() != 1)
@@ -65,26 +68,27 @@ public class BookingsHandler extends AbstractHandler {
         try {
             Collection<Booking> bookings;
             if (cityId != null && sportCenterId != null && courtId != null && date != null) {
-                if (auth.validateStaff(token.get(0), cityId.get(0), sportCenterId.get(0)) == null) {
+                if (auth.validateStaff(token.get(0),tokenType.get(0),  cityId.get(0), sportCenterId.get(0)) == null) {
                     exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
                     return;
                 }
                 bookings = model.getCourtBookings(courtId.get(0), cityId.get(0), sportCenterId.get(0), Date.valueOf(date.get(0)));
             } else if (cityId != null && sportCenterId != null && courtId == null && date != null) {
-                if (auth.validateStaff(token.get(0), cityId.get(0), sportCenterId.get(0)) == null) {
+                if (auth.validateStaff(token.get(0),tokenType.get(0), cityId.get(0), sportCenterId.get(0)) == null) {
                     exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
                     return;
                 }
                 bookings = model.getSportCenterBookings(sportCenterId.get(0), cityId.get(0), Date.valueOf(date.get(0)));
             } else if (cityId != null && sportCenterId == null && courtId == null && date != null) {
-                var id = auth.validatePlayer(token.get(0));
+                var id = auth.validatePlayer(token.get(0), tokenType.get(0));
+
                 if (id == null) {
                     exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
                     return;
                 }
                 bookings = model.getPlayerBookingsInCity(id, cityId.get(0), Date.valueOf(date.get(0)));
             } else if (cityId == null && sportCenterId == null && courtId == null && date == null) {
-                var id = auth.validatePlayer(token.get(0));
+                var id = auth.validatePlayer(token.get(0), tokenType.get(0));
                 if (id == null) {
                     exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
                     return;
@@ -103,14 +107,18 @@ public class BookingsHandler extends AbstractHandler {
     }
 
     private void execPost(HttpExchange exchange) throws IOException {
+
+
         var token = exchange.getRequestHeaders().get("Token");
-        if (token == null || token.size() != 1) {
-            LOG.warning("Request was unsuccessful, invalid query");
+        var tokenType = exchange.getRequestHeaders().get("TokenType");
+        if ((token == null || token.size() != 1)
+                || (tokenType == null || tokenType.size() != 1)
+        ){
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
-        var id = auth.validatePlayer(token.get(0));
+        var id = auth.validatePlayer(token.get(0), tokenType.get(0));
         if (id == null) {
             exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
             return;
@@ -157,6 +165,7 @@ public class BookingsHandler extends AbstractHandler {
 
     private void execPut(HttpExchange exchange) throws IOException {
         var token = exchange.getRequestHeaders().get("Token");
+        var tokenType = exchange.getRequestHeaders().get("TokenType");
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
         var bookingStatus = params.get("status");
         var bookingId = params.get("bookingId");
@@ -164,6 +173,7 @@ public class BookingsHandler extends AbstractHandler {
         var sportCenterId = params.get("sportCenterId");
 
         if ((token == null || token.size() != 1)
+                || (tokenType == null || tokenType.size() != 1)
                 || (bookingId != null && bookingId.size() != 1)
                 || (bookingStatus != null && bookingStatus.size() != 1)
                 || (cityId != null && cityId.size() != 1)
@@ -179,7 +189,7 @@ public class BookingsHandler extends AbstractHandler {
             return;
         }
 
-        var id = auth.validateStaff(token.get(0), cityId.get(0), sportCenterId.get(0));
+        var id = auth.validateStaff(token.get(0), tokenType.get(0), cityId.get(0), sportCenterId.get(0));
         if (id == null) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
@@ -202,16 +212,20 @@ public class BookingsHandler extends AbstractHandler {
 
     private void execDelete(HttpExchange exchange) throws IOException {
         var token = exchange.getRequestHeaders().get("Token");
+        var tokenType = exchange.getRequestHeaders().get("TokenType");
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
         var bookingId = params.get("bookingId");
 
         if ((token == null || token.size() != 1)
-                || (bookingId != null && bookingId.size() != 1)) {
+                || (tokenType == null || tokenType.size() != 1)
+                || (bookingId != null && bookingId.size() != 1)
+        ) {
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
-        var id = auth.validatePlayer(token.get(0));
+
+        var id = auth.validatePlayer(token.get(0), tokenType.get(0));
         if (id == null) {
             exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
             return;

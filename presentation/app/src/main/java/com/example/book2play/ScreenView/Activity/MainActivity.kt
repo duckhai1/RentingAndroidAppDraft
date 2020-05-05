@@ -3,10 +3,13 @@ package com.example.book2play.ScreenView.Activity
 import android.os.Bundle
 import android.text.Html
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.FragmentTransaction
+import com.example.LogicConnection.Handler.AuthenHandler
+import com.example.book2play.MyApplication
 import com.example.book2play.R
 import com.example.book2play.ScreenView.Fragment.BookingHistoryScreen
 import com.example.book2play.ScreenView.Fragment.ChooseCityScreen
@@ -87,16 +90,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     .commit()
             }
             R.id.setting_menu -> {
-                fragment1 =
-                    HomeScreen()  // TODO --> change this one
-                supportFragmentManager
-                    .beginTransaction()
-                    .replace(R.id.frame_layout, fragment1)
-                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                    .commit()
+                // TODO Create setting for app in next update
+                Toast.makeText(this, "Current version is not supporting thi feature", Toast.LENGTH_SHORT).show()
             }
             R.id.logout_menu -> {
-                LoginManager.getInstance().logOut()
+                if ((this.application as MyApplication).getTokenType() == "FB") {
+                    LoginManager.getInstance().logOut()
+                } else {
+                    AuthenHandler.logoutPlayer(this)
+                }
                 logoutFragment =
                     LogoutScreen()
                 supportFragmentManager

@@ -18,7 +18,8 @@ class GetBookingOfPlayerInCityAsync (activity: Activity) : MyGeneralAsyncTask(ac
             result = ConnectionHandler.sendGet(
                 BASEURL + "/bookings",
                 requestData,
-                Token
+                Token,
+                TokenType
             )
         } catch (e : Exception){
             error = e

@@ -39,13 +39,17 @@ public class CityHandler extends AbstractHandler {
 
     private void execGet(HttpExchange exchange) throws IOException {
         var token = exchange.getRequestHeaders().get("Token");
-        if (token == null || token.size() != 1) {
+        var tokenType = exchange.getRequestHeaders().get("TokenType");
+        if ((token == null || token.size() != 1)
+                || (tokenType == null || tokenType.size() != 1)
+        ) {
             LOG.warning("Request was unsuccessful, invalid query");
             exchange.sendResponseHeaders(HTTPStatus.BAD_REQUEST, -1);
             return;
         }
 
-        if (auth.validatePlayer(token.get(0)) == null) {
+
+        if (auth.validatePlayer(token.get(0), tokenType.get(0)) == null) {
             exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
             return;
         }

@@ -16,7 +16,8 @@ class CancelBookingAsync(activity: Activity) : MyGeneralAsyncTask(activity)  {
             result = ConnectionHandler.sendDelete(
                 BASEURL + "/bookings",
                 requestData,
-                Token
+                Token,
+                TokenType
             )
         } catch (e : Exception){
             error = e

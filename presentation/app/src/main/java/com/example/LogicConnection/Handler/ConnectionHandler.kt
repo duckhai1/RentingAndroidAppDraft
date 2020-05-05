@@ -18,13 +18,13 @@ class ConnectionHandler {
         val gson = GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
 
         // GET method request
-        fun sendGet(url: String?, postDataParams: String, token : String): String {
+        fun sendGet(url: String?, postDataParams: String, token : String, tokenType: String): String {
             // handle request
             val fullUrl = url+"?"+postDataParams
             Log.d("server_connect", "GET url: "+fullUrl)
 
             // setup connection
-            val conn = setupConnection(fullUrl, "GET", token)
+            val conn = setupConnection(fullUrl, "GET", token, tokenType)
 
             // handle response
             val responseCode = conn.responseCode
@@ -45,9 +45,9 @@ class ConnectionHandler {
         }
 
         // POST method request
-        fun sendPost(url: String?, requestData: String, token: String): String? {
+        fun sendPost(url: String?, requestData: String, token: String, tokenType: String): String? {
             // setup connection
-            val conn = setupConnection(url, "POST", token)
+            val conn = setupConnection(url, "POST", token, tokenType)
 
             // handle request
             val os = conn.outputStream
@@ -85,14 +85,48 @@ class ConnectionHandler {
             return HttpURLConnection.HTTP_BAD_REQUEST.toString()
         }
 
+        // PUT method request
+        fun sendPut(url: String?, requestData: String, token: String, tokenType: String): String? {
+            // setup connection
+            val conn = setupConnection(url, "PUT", token, tokenType)
+
+            // handle request
+            val os = conn.outputStream
+            val writer = BufferedWriter(OutputStreamWriter(os, "UTF-8"))
+            Log.d("server_connect", "requestJson: $requestData")
+            writer.write(requestData)
+            writer.flush()
+            writer.close()
+            os.close()
+
+            // handle response
+            val responseCode = conn.responseCode
+            // check if request success
+            return if (responseCode == HttpURLConnection.HTTP_OK) { // connection ok
+                Log.d("server_connect", "Successful connect")
+                val input = BufferedReader(InputStreamReader(conn.inputStream))
+
+                var inputLine: String?
+                val response = StringBuffer()
+                while (input.readLine().also { inputLine = it } != null) {
+                    response.append(inputLine)
+                }
+                input.close()
+                response.toString()
+            } else {
+                HttpURLConnection.HTTP_BAD_REQUEST.toString()
+            }
+        }
+
+
         // DELETE method request
-        fun sendDelete(url: String?, postDataParams: String, token : String): String {
+        fun sendDelete(url: String?, postDataParams: String, token : String, tokenType: String): String {
             // handle request
             val fullUrl = url+"?"+postDataParams
             Log.d("server_connect", "DELETE url: "+fullUrl)
 
             // setup connection
-            val conn = setupConnection(fullUrl, "DELETE", token)
+            val conn = setupConnection(fullUrl, "DELETE", token, tokenType)
 
             // handle response
             val responseCode = conn.responseCode
@@ -103,8 +137,9 @@ class ConnectionHandler {
                 HttpURLConnection.HTTP_BAD_REQUEST.toString()
             }
         }
-        fun checkTokenStatus(url: String?, token: String) : String?{
-            val conn = setupConnection(url, "GET", token)
+
+        fun checkTokenStatus(url: String?, token: String, tokenType: String) : String?{
+            val conn = setupConnection(url, "GET", token, tokenType)
             return conn.responseCode.toString()
         }
 
@@ -122,17 +157,19 @@ class ConnectionHandler {
             return result.toString()
         }
 
-        private fun setupConnection(url: String?, method: String, token: String) : HttpURLConnection{
+        private fun setupConnection(url: String?, method: String, token: String, tokenType: String) : HttpURLConnection{
             val url = URL(url)
             val conn = url.openConnection() as HttpURLConnection
             conn.readTimeout = 10000
             conn.connectTimeout = 10000
             conn.requestMethod = method
             conn.setRequestProperty("Token", token)
+            conn.setRequestProperty("TokenType", tokenType)
             Log.d("Token ", "Token in connection: " +token)
-            if (method == "GET" || method == "DELETE"){
+            Log.d("Token ", "TokenType in connection: " +tokenType)
+            if (method == "GET" || method == "PUT" || method == "DELETE"){
                 conn.doInput = true
-            } else {
+            } else if (method == "POST" || method == "PUT") {
                 conn.doOutput = true
             }
             setupAuthorize(conn)

@@ -5,13 +5,12 @@ import android.util.Log
 import com.example.LogicConnection.Handler.ConnectionHandler
 import java.lang.Exception
 
-class GetCitiesAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
-
+class LogoutPlayerAsync(activity: Activity) : MyGeneralAsyncTask(activity) {
     override fun doInBackground(vararg params: String?): String? {
         var result : String? = null
         try {
-            result = ConnectionHandler.sendGet(
-                BASEURL + "/cities",
+            result = ConnectionHandler.sendDelete(
+                BASEURL + "/authen",
                 "",
                 Token,
                 TokenType

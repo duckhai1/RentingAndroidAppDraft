@@ -2,7 +2,7 @@ package com.example.book2play.api;
 
 
 import com.example.book2play.api.handler.*;
-import com.example.book2play.api.utils.FbTokenValidator;
+import com.example.book2play.api.utils.TokenValidator;
 import com.example.book2play.db.*;
 import com.example.book2play.db.models.*;
 import com.sun.net.httpserver.HttpServer;
@@ -16,6 +16,7 @@ import java.util.concurrent.Executor;
  */
 public class Server {
 
+    public static String AUTHEN_BASE_URL = "/api/authen";
     public static String BOOKING_BASE_URL = "/api/bookings";
     public static String SPORT_CENTER_BASE_URL = "/api/centers";
     public static String COURT_BASE_URL = "/api/courts";
@@ -46,7 +47,7 @@ public class Server {
         playerModel = new MySQLPlayer(ds);
         sportCenterModel = new MySQLSportCenter(ds);
         staffModel = new MySQLStaff(ds);
-        authModel = new FbTokenValidator(playerModel, staffModel);
+        authModel = new TokenValidator(playerModel, staffModel);
     }
 
     /**
@@ -65,6 +66,8 @@ public class Server {
     }
 
     private void setRoutes() {
+
+        srv.createContext(AUTHEN_BASE_URL, new AuthenHandler(playerModel, staffModel, authModel));
         srv.createContext(BOOKING_BASE_URL, new BookingsHandler(bookingModel, authModel));
         srv.createContext(SPORT_CENTER_BASE_URL, new SportCentersHandler(sportCenterModel, authModel));
         srv.createContext(CITY_BASE_URL, new CityHandler(cityModel, authModel));

@@ -15,7 +15,7 @@ public class MockAuthenticator implements TokenAuthenticator {
     }
 
     @Override
-    public String validatePlayer(String token) {
+    public String validatePlayer(String token, String tokenType) {
         if (playerModel.isPlayerExist(token)) {
             return token;
         }
@@ -24,7 +24,7 @@ public class MockAuthenticator implements TokenAuthenticator {
     }
 
     @Override
-    public String validateStaff(String token, String cityId, String sportCenterId) {
+    public String validateStaff(String token, String tokenType, String cityId, String sportCenterId) {
         if (staffModel.isStaffExist(token, cityId, sportCenterId)) {
             return token;
         }
@@ -33,7 +33,7 @@ public class MockAuthenticator implements TokenAuthenticator {
     }
 
     @Override
-    public String getId(String token) {
+    public String getId(String token, String tokenType) {
         return token;
     }
 }

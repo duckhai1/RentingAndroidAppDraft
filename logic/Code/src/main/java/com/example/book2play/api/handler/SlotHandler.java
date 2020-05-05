@@ -44,6 +44,7 @@ public class SlotHandler extends AbstractHandler {
 
     private void execGet(HttpExchange exchange) throws IOException {
         var token = exchange.getRequestHeaders().get("Token");
+        var tokenType = exchange.getRequestHeaders().get("TokenType");
         var params = splitQuery(exchange.getRequestURI().getRawQuery());
         var courtId = params.get("courtId");
         var sportCenterId = params.get("sportCenterId");
@@ -51,6 +52,7 @@ public class SlotHandler extends AbstractHandler {
         var date = params.get("date");
 
         if ((token == null || token.size() != 1)
+                || (tokenType == null || tokenType.size() != 1)
                 || (courtId != null && courtId.size() != 1)
                 || (sportCenterId != null && sportCenterId.size() != 1)
                 || (cityId != null && cityId.size() != 1)
@@ -60,7 +62,8 @@ public class SlotHandler extends AbstractHandler {
             return;
         }
 
-        if (auth.validatePlayer(token.get(0)) == null) {
+
+        if (auth.validatePlayer(token.get(0), tokenType.get(0)) == null) {
             exchange.sendResponseHeaders(HTTPStatus.UNAUTHORIZED, -1);
             return;
         }
