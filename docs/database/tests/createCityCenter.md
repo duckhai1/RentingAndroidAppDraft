@@ -16,9 +16,9 @@ testCreateCityCenterWithDuplicate
 ---
 + _Objective_:  test if the request is rejected when `inSportCenterId` has already been created.
 + _Precondition_:
-    + `inSportCenterId` is an alphanumeric characters sequence.
+    + `inSportCenterId` is an alphanumeric characters sequence and `inSportCenterId` already exists in database.
     + `inCityId`is an alphanumeric characters sequence and uniquely identifies a row in `city` relation.
-+ _Step_: Call the stored procedures twice with data that sastifies the preconditions
++ _Step_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass condition_:
     + `statusCode` equals to *403 - SPORTCENTER ID ALREADY EXISTS*
 
@@ -29,7 +29,7 @@ testCreateCityCenterWithInvalidCityId
 + _Objective_:  test if the request is rejected when `inCityId` is invalid
 + _Precondition_:
     + `inSportCenterId` is an alphanumeric characters sequence.
-    + `inCityId`is not an alphanumeric characters sequence and uniquely identifies a row in `city` relation.
+    + `inCityId` does not exist in the database.
 + _Step_: Call the stored procedures once with data that sastifies the preconditions.
 + _Pass condition_:
     + `statusCode` equals to *460 - INVALID CITY ID*
@@ -39,7 +39,7 @@ testCreateCityCenterInvalidCenterId
 ---
 + _Objective_: test if the request is rejected when `inSportCenterId` is invalid
 + _Precondition_:
-    + `inSportCenterId` is not an alphanumeric characters sequence.
+    + `inSportCenterId`  is not an alphanumeric characters sequence.
     + `inCityId`is an alphanumeric characters sequence and uniquely identifies a row in `city` relation.
 + _Step_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass condition_:

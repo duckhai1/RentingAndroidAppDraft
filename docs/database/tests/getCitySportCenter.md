@@ -14,7 +14,7 @@ testGetCityCentersSuccess
 testGetCityInvalidCityId
 ---
 + _Objective_: test if the request is rejected when `inCityId` is invalid.
-    + `inCityId` is not an alphanumeric characters sequence and uniquely identifies a row in `city` relation.
+    + `inCityId` does not exist in the database.
 + _Precondition_:
 + _Step_: Call the stored procedures once with data that sastifies the preconditions
 + _Pass condition_:

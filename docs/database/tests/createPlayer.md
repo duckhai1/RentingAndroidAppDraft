@@ -24,8 +24,8 @@ testCreatePlayerWithDuplicateId
 ---
 + _Objective_: test if the request is rejected when `inPlayerId` is duplicated.
 + _Precondition_:
-    + `inPlayerId` is an alphanumeric characters sequence.
-+ _Step_: Call the stored procedures twice with data that sastifies the preconditions.
+    + `inPlayerId` is an alphanumeric characters sequence and `inPlayerId` already exists in database.
++ _Step_: Call the stored procedures once with data that sastifies the preconditions.
 + _Pass condition_:
     + `statusCode` is equal to *405 - PLAYER ID ALREADY EXISTS*
 
