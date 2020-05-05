@@ -42,7 +42,7 @@ abstract class MyGeneralAsyncTask (activity: Activity) : AsyncTask<String?, Stri
         }
 
         // Bad request to server
-        if (result == HttpURLConnection.HTTP_BAD_REQUEST.toString()){
+        if (Integer.parseInt(result.toString()) in 400..500){
             jobUnrecognized()
         }
         // if connect successful
