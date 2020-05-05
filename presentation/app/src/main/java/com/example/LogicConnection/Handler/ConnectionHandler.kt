@@ -5,6 +5,7 @@ import android.util.Log
 import com.example.Type.MyDataModel
 import com.example.book2play.MyApplication
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.google.gson.JsonObject
 import java.io.*
 import java.lang.Exception
@@ -14,6 +15,8 @@ import java.net.URLEncoder
 
 class ConnectionHandler {
     companion object{
+        val gson = GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()
+
         // GET method request
         fun sendGet(url: String?, postDataParams: String, token : String): String {
             // handle request
@@ -61,6 +64,23 @@ class ConnectionHandler {
             if (responseCode == HttpURLConnection.HTTP_CREATED) {
                 Log.d("server_connect", "Successful connect")
                 return HttpURLConnection.HTTP_CREATED.toString()
+            // check if request was error
+            } else if (responseCode == HttpURLConnection.HTTP_BAD_REQUEST){
+                Log.d("server_connect", "Bad Request with status code")
+                val input = BufferedReader(InputStreamReader(conn.errorStream))
+
+                var inputLine: String?
+                val response = StringBuffer()
+                while (input.readLine().also { inputLine = it } != null) {
+                    response.append(inputLine)
+                }
+                input.close()
+                val errorJson = response.toString()
+                Log.d("server_connect", "Error of request: " + errorJson)
+                val errorResult = gson.fromJson(errorJson, JsonObject::class.java)
+                val errorCode = errorResult.get("statusCode").asInt.toString()
+                Log.d("server_connect", "Error " + errorCode)
+                return errorCode
             }
             return HttpURLConnection.HTTP_BAD_REQUEST.toString()
         }
