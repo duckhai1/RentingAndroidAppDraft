@@ -1,4 +1,2 @@
-# teamcpe2020
-Team C Programming Exercises 2020
-
-Discussion : https://trello.com/b/7gSX0I6f/pe-c
+# RentingAndroidAppDraft
+Reup my school project about android app since the old repo is lost

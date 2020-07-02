@@ -1,4 +1,30 @@
+<<<<<<< HEAD
 .vscode/
 logic/Code/target/classes/mysql_database.properties
 logic/Code/src/main/resources/mysql_database.properties
 *.ini
+=======
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+>>>>>>> 6da0066330c4015028a9cf5f74c96e49f0c3217f
